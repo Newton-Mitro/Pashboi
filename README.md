@@ -43,28 +43,3 @@ Built with **Flutter**, this app is optimized for both iOS and Android devices, 
    git clone https://github.com/your-repo/credit-union-mobile-app.git
    cd credit-union-mobile-app
    ```
-
-## Contributors
-
-Thanks to these amazing people:
-
-<table>
-  <tr>
-    <td align="center" style="border: none;">
-      <a href="https://github.com/Newton-Mitro">
-        <img src="https://avatars.githubusercontent.com/u/72614232?v=4" width="100" style="border-radius: 50%;" alt="Newton Mitro"/><br />
-        <sub><b>Newton Mitro</b></sub>
-      </a>
-    </td>
-    <td align="center" style="border: none;">
-      <a href="https://github.com/Israfil6347">
-        <img src="https://avatars.githubusercontent.com/u/77684046?v=4" width="100" style="border-radius: 50%;" alt="Another Contributor"/><br />
-        <sub><b>Another Contributor</b></sub>
-      </a>
-    </td>
-  </tr>
-</table>
-
----
-
-_Want to contribute? Check out [CONTRIBUTING.md](CONTRIBUTING.md)!_
