@@ -4,25 +4,25 @@ import 'package:pashboi/app_configs/values/colors/app_colors.dart';
 class AppColorsLight extends AppColors {
   // Primary colors
   @override
-  Color get primary => const Color.fromARGB(255, 0, 16, 41); // UPDATED
+  Color get primary => const Color.fromARGB(255, 37, 77, 45); // UPDATED ✅
   @override
-  Color get primaryVariant => const Color(0xFF002b35);
+  Color get primaryVariant => const Color(0xFF255530); // Darker green shade
   @override
-  Color get onPrimary => const Color.fromARGB(255, 151, 193, 211);
+  Color get onPrimary => Colors.white; // White text on dark green looks better
   @override
-  Color get primaryContainer => const Color(0xFFCCE7F0);
+  Color get primaryContainer => const Color(0xFFA9D6AD); // Soft green background
   @override
-  Color get onPrimaryContainer => Colors.black;
+  Color get onPrimaryContainer => const Color(0xFF00210F); // Very dark green text
   @override
-  Color get primaryFixed => const Color(0xFFCCE7F0);
+  Color get primaryFixed => const Color(0xFFC8E6C9); // Light green
   @override
-  Color get primaryFixedDim => const Color(0xFF99D0DD);
+  Color get primaryFixedDim => const Color(0xFF81C784); // Dimmed light green
   @override
   Color get onPrimaryFixed => Colors.black;
   @override
-  Color get onPrimaryFixedVariant => const Color(0xFF004D5C);
+  Color get onPrimaryFixedVariant => const Color(0xFF1B5E20); // Deep green
 
-  // Secondary colors
+  // Secondary colors (same)
   @override
   Color get secondary => Colors.green;
   @override
@@ -42,7 +42,7 @@ class AppColorsLight extends AppColors {
   @override
   Color get onSecondaryFixedVariant => const Color(0xFF388E3C);
 
-  // Tertiary colors
+  // Tertiary colors (same)
   @override
   Color get tertiary => const Color(0xFFFFB300);
   @override
@@ -60,7 +60,7 @@ class AppColorsLight extends AppColors {
   @override
   Color get onTertiaryFixedVariant => const Color(0xFFFFA000);
 
-  // Error colors
+  // Error colors (same)
   @override
   Color get error => Colors.red;
   @override
@@ -70,7 +70,7 @@ class AppColorsLight extends AppColors {
   @override
   Color get onErrorContainer => Colors.black;
 
-  // Background & Surface
+  // Background & Surface (same)
   @override
   Color get background => const Color(0xFFD7EEFA);
   @override
@@ -98,9 +98,9 @@ class AppColorsLight extends AppColors {
   @override
   Color get onSurfaceVariant => const Color(0xFFECEFF1);
   @override
-  Color get surfaceTint => primary; // This stays correct
+  Color get surfaceTint => primary; // ✅ still correct
 
-  // Outline & Shadow
+  // Outline & Shadow (same)
   @override
   Color get outline => const Color(0xFF757575);
   @override
@@ -110,15 +110,15 @@ class AppColorsLight extends AppColors {
   @override
   Color get scrim => Colors.black.withOpacity(0.5);
 
-  // Inverse Colors
+  // Inverse Colors (optional to tweak)
   @override
   Color get inverseSurface => const Color(0xFF303030);
   @override
   Color get onInverseSurface => Colors.white;
   @override
-  Color get inversePrimary => const Color(0xFF64B5F6);
+  Color get inversePrimary => const Color(0xFF64B5F6); // optional to change later
 
-  // Additional UI Colors
+  // Additional UI Colors (same)
   @override
   Color get selected => const Color(0xFF0277BD);
   @override
@@ -126,7 +126,7 @@ class AppColorsLight extends AppColors {
   @override
   Color get disabled => Colors.grey[400]!;
 
-  // Grayscale Material Color
+  // Grayscale Material Color (same)
   @override
   MaterialColor get gray => const MaterialColor(50, {
     50: Color(0xFFFAFAFA),

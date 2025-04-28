@@ -40,7 +40,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Container(
                 width: double.infinity,
                 height: double.infinity,
-                color: const Color.fromARGB(80, 0, 0, 0),
+                color: const Color.fromARGB(169, 1, 0, 5),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -55,7 +55,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: context.theme.colorScheme.onSurface,
+                        color: Colors.white,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -63,10 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Text(
                       onboardingItems[index].description,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.white),
                     ),
                     const SizedBox(height: 50),
                     isLastPage
