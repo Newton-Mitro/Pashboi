@@ -1,0 +1,32 @@
+import 'package:pashboi/core/resources/response_state.dart';
+import 'package:pashboi/core/usecases/usecase.dart';
+import 'package:pashboi/features/user/domain/entities/user_entity.dart';
+import 'package:pashboi/features/user/domain/repositories/user_profile_repository.dart';
+
+final class GetFollowingUsersParams {
+  final int targetUserId;
+  final int startRecord;
+  final int pageSize;
+
+  GetFollowingUsersParams({
+    required this.targetUserId,
+    required this.startRecord,
+    required this.pageSize,
+  });
+}
+
+class GetFollowingUsersUseCase
+    extends UseCase<DataState<List<UserEntity>>, GetFollowingUsersParams> {
+  final UserRepository userRepository;
+
+  GetFollowingUsersUseCase({required this.userRepository});
+
+  @override
+  Future<DataState<List<UserEntity>>> call({GetFollowingUsersParams? params}) {
+    return userRepository.getFollowingUsers(
+      params?.targetUserId ?? 0,
+      params?.startRecord ?? 0,
+      params?.pageSize ?? 10,
+    );
+  }
+}
