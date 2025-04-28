@@ -57,8 +57,8 @@ Thanks to these amazing people:
       </a>
     </td>
     <td align="center" style="border: none;">
-      <a href="https://github.com/another-username">
-        <img src="https://github.com/another-username.png?size=100" width="100" style="border-radius: 50%;" alt="Another Contributor"/><br />
+      <a href="https://github.com/Israfil6347">
+        <img src="https://avatars.githubusercontent.com/u/77684046?v=4" width="100" style="border-radius: 50%;" alt="Another Contributor"/><br />
         <sub><b>Another Contributor</b></sub>
       </a>
     </td>
