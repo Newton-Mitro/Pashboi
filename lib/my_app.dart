@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +9,7 @@ import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
 import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
 import 'package:pashboi/features/landing/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/views/onboarding_screen.dart';
+import 'package:pashboi/features/under_maintanance/under_maintanance_page.dart';
 import 'package:pashboi/routes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -15,6 +17,12 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   final bool onBoarding;
   const MyApp({super.key, required this.onBoarding});
+
+  // Simulate an API call to check construction status
+  Future<bool> isUnderConstruction() async {
+    await Future.delayed(Duration(seconds: 2)); // Simulate delay
+    return false; // Set this to true to simulate "under construction"
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +41,40 @@ class MyApp extends StatelessWidget {
                   themeState is LightThemeState
                       ? ThemeMode.light
                       : ThemeMode.dark,
-              localizationsDelegates: [
+              localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              supportedLocales: [Locale('en'), Locale('bn')],
+              supportedLocales: const [Locale('en'), Locale('bn')],
               locale: Locale(languageState.language),
-              home: onBoarding ? OnboardingScreen() : LandingPage(),
+              home: FutureBuilder<bool>(
+                future: isUnderConstruction(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Scaffold(
+                      body: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
+                  if (snapshot.hasError) {
+                    return Scaffold(
+                      body: Center(child: Text("Something went wrong")),
+                    );
+                  }
+
+                  final underConstruction = snapshot.data ?? false;
+
+                  if (underConstruction) {
+                    return UnderMaintenancePage();
+                  }
+
+                  return onBoarding
+                      ? const OnboardingScreen()
+                      : const LandingPage();
+                },
+              ),
               onGenerateRoute: AppRoutes().onGenerateRoutes,
             );
           },
