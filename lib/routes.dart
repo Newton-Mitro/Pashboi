@@ -4,6 +4,7 @@ import 'package:pashboi/features/auth/presentation/views/login_screen/views/logi
 import 'package:pashboi/features/auth/presentation/views/registration_screen/views/register_screen.dart';
 import 'package:pashboi/features/home/presentation/home_screen/view/home_screen.dart';
 import 'package:pashboi/features/landing/landing_page.dart';
+import 'package:pashboi/features/mobile_verification/mobile_verification_page.dart';
 import 'package:pashboi/features/public_home/pages/public_home.dart';
 import 'package:pashboi/features/user/domain/entities/user_entity.dart';
 import 'package:pashboi/features/user/presentation/user_profile_screen/view/user_profile_screen.dart';
@@ -27,6 +28,18 @@ class AppRoutes {
 
       case RoutesName.registerPage:
         return _materialRoute(const RegistrationScreen());
+
+      case RoutesName.mobileVerificationPage:
+        // Correctly extract the route name from arguments
+        if (args is Map<String, String>) {
+          final routeName =
+              args['routeName'] ?? ''; // Extract the routeName from the map
+          return _materialRoute(MobileVerificationPage(routeName: routeName));
+        } else {
+          return _materialRoute(
+            const MobileVerificationPage(routeName: ''),
+          ); // Default route name if no arguments
+        }
 
       case RoutesName.userProfilePage:
         return _materialRoute(UserProfileScreen(user: args as UserEntity));

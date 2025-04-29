@@ -6,6 +6,7 @@ final class RoutesName {
   static const String forgotPasswordPage = 'forgotPasswordPage';
   static const String registerPage = 'registerPage';
   static const String userProfilePage = 'userProfilePage';
+  static const String mobileVerificationPage = 'mobileVerificationPage';
 
   static const String publicHomePage = 'publicHomePage';
 }

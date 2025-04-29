@@ -3,6 +3,7 @@ import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/index.dart';
 import 'package:pashboi/core/widgets/language_selector/language_selector.dart';
 import 'package:pashboi/core/widgets/theme_switcher/theme_switcher.dart';
+import 'package:pashboi/features/terms_and_condition/terms_and_conditions_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -63,7 +64,12 @@ class LandingPage extends StatelessWidget {
                   context,
                   label: context.appLocalizations.register,
                   onPressed: () {
-                    Navigator.pushNamed(context, RoutesName.registerPage);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TermsAndConditionsPage(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 20),
