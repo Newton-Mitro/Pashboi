@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pashboi/app_configs/animations/fade_slide_transition.dart';
 import 'package:pashboi/app_configs/values/colors/dark_colors.dart';
 import 'package:pashboi/app_configs/values/colors/light_colors.dart';
 
@@ -222,8 +223,8 @@ class AppTheme {
 
   final PageTransitionsTheme _pageTransitionsTheme = PageTransitionsTheme(
     builders: {
-      TargetPlatform.android: ZoomPageTransitionsBuilder(),
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: FadeSlideTransitionBuilder(),
+      TargetPlatform.iOS: FadeSlideTransitionBuilder(),
     },
   );
 }
