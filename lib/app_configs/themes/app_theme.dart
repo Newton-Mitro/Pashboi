@@ -38,11 +38,6 @@ class AppTheme {
       inversePrimary: _darkColors.inversePrimary,
       surfaceTint: _darkColors.surfaceTint,
     ),
-    filledButtonTheme: FilledButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(_darkColors.secondary),
-      ),
-    ),
     popupMenuTheme: PopupMenuThemeData(color: _darkColors.surface),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(_darkColors.primary),
@@ -68,6 +63,23 @@ class AppTheme {
     ),
     pageTransitionsTheme: _pageTransitionsTheme,
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            30,
+          ), // also slightly tighter curve
+          side: BorderSide(color: _darkColors.secondary),
+        ),
+        backgroundColor: _darkColors.primary,
+        foregroundColor: _darkColors.onPrimary,
+        textStyle: const TextStyle(
+          fontSize: 16, // slightly smaller text
+          fontWeight: FontWeight.w600,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+      ),
+    ),
   );
 
   ThemeData get light => ThemeData(
@@ -121,6 +133,23 @@ class AppTheme {
     ),
     pageTransitionsTheme: _pageTransitionsTheme,
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            30,
+          ), // also slightly tighter curve
+          side: BorderSide(color: _lightColors.secondary),
+        ),
+        backgroundColor: _lightColors.primary,
+        foregroundColor: _lightColors.onPrimary,
+        textStyle: const TextStyle(
+          fontSize: 16, // slightly smaller text
+          fontWeight: FontWeight.w600,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+      ),
+    ),
   );
 
   TextTheme _buildTextTheme(Color color) {

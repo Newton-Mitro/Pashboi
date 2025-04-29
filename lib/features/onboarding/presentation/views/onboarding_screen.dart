@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/constants/constants.dart';
 import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/widgets/language_selector/language_selector.dart';
+import 'package:pashboi/core/widgets/theme_switcher/theme_switcher.dart';
 import 'package:pashboi/features/onboarding/data/constants/onboarding_list_items.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -42,6 +44,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 height: double.infinity,
                 color: const Color.fromARGB(169, 1, 0, 5),
               ),
+              Positioned(
+                top: 16,
+                left: 16,
+                child: SafeArea(child: LanguageSelector()),
+              ),
+
+              // Top Right: Theme Switcher
+              Positioned(
+                top: 16,
+                right: 16,
+                child: SafeArea(child: ThemeSwitcher()),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 20,
@@ -78,16 +92,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       MediaQuery.of(context).size.width * 0.1,
                                   vertical: 10,
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  side: BorderSide(
-                                    color: context.theme.colorScheme.secondary,
-                                  ),
-                                ),
-                                backgroundColor:
-                                    context.theme.colorScheme.primary,
-                                foregroundColor:
-                                    context.theme.colorScheme.onPrimary,
                               ),
                               onPressed: () {
                                 if ((_pageController.page ?? 0).round() > 0) {
@@ -123,16 +127,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       MediaQuery.of(context).size.width * 0.1,
                                   vertical: 10,
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  side: BorderSide(
-                                    color: context.theme.colorScheme.secondary,
-                                  ),
-                                ),
-                                backgroundColor:
-                                    context.theme.colorScheme.primary,
-                                foregroundColor:
-                                    context.theme.colorScheme.onPrimary,
                               ),
                               onPressed: () {
                                 if ((_pageController.page ?? 0).round() <

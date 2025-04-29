@@ -32,10 +32,12 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         state is LightThemeState
             ? const DarkThemeState()
             : const LightThemeState();
-    emit(newState);
+
     await localStorage.saveString(
       Constants.themeKey,
       newState is LightThemeState ? 'light' : 'dark',
     );
+
+    emit(newState);
   }
 }
