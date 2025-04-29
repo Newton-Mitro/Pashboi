@@ -176,7 +176,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     context.theme.colorScheme.onSecondary,
                               ),
                               child: Text(
-                                context.appLocalizations.register,
+                                context.appLocalizations.createAccount,
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onPrimary,
                                 ),

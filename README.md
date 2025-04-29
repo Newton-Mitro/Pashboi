@@ -43,3 +43,41 @@ Built with **Flutter**, this app is optimized for both iOS and Android devices, 
    git clone https://github.com/your-repo/credit-union-mobile-app.git
    cd credit-union-mobile-app
    ```
+
+## Getting Started
+
+## Splash Screen Generate
+
+```
+dart run flutter_native_splash:create --path=./splash/flutter_native_splash-acceptance.yaml
+dart run flutter_native_splash:remove
+dart run flutter_native_splash:remove --path=./splash/flutter_native_splash-acceptance.yaml
+```
+
+## Generate Launcher Icon
+
+```
+flutter pub run flutter_launcher_icons:main
+```
+
+## Build Variants (Optional)
+
+```
+- flutter build apk
+- flutter build apk --release
+- flutter build apk --debug
+- flutter build apk --profile
+```
+
+## APK Location
+
+build/app/outputs/flutter-apk/app-release.apk # For release build
+build/app/outputs/flutter-apk/app-debug.apk # For debug build
+
+## Generate android folder
+
+```
+- rm -rf android
+- flutter create .
+
+```

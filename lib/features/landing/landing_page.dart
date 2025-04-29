@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/index.dart';
-import 'package:pashboi/core/widgets/my_tool_bar/custom_app_bar.dart';
+import 'package:pashboi/core/widgets/language_selector/language_selector.dart';
+import 'package:pashboi/core/widgets/theme_switcher/theme_switcher.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -9,104 +10,126 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [LanguageSelector(), ThemeSwitcher()],
+      ),
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Padding(
-              padding: EdgeInsets.all(constraints.maxWidth * 0.04),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppLogo(width: 200, height: 200),
-                  Text(
-                    context.appLocalizations.welcome,
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: context.theme.colorScheme.onPrimary,
-                    ),
-                    textAlign: TextAlign.center,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                AppLogo(width: 200, height: 200),
+                Text(
+                  context.appLocalizations.welcome,
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: context.theme.colorScheme.onSurface,
                   ),
-                  SizedBox(height: constraints.maxHeight * 0.06),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.8,
-                    height: constraints.maxHeight * 0.06,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          side: BorderSide(
-                            color: context.theme.colorScheme.secondary,
-                          ),
-                        ),
-                        backgroundColor: context.theme.colorScheme.primary,
-                        foregroundColor: context.theme.colorScheme.onPrimary,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, RoutesName.loginPage);
-                      },
-                      child: Text(context.appLocalizations.login),
-                    ),
-                  ),
-                  SizedBox(height: constraints.maxHeight * 0.02),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.8,
-                    height: constraints.maxHeight * 0.06,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          side: BorderSide(
-                            color: context.theme.colorScheme.secondary,
-                          ),
-                        ),
-                        backgroundColor: context.theme.colorScheme.primary,
-                        foregroundColor: context.theme.colorScheme.onPrimary,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, RoutesName.registerPage);
-                      },
-                      child: Text(context.appLocalizations.register),
-                    ),
-                  ),
-                  SizedBox(height: constraints.maxHeight * 0.02),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.8,
-                    height: constraints.maxHeight * 0.06,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          side: BorderSide(
-                            color: context.theme.colorScheme.secondary,
-                          ),
-                        ),
-                        backgroundColor: context.theme.colorScheme.primary,
-                        foregroundColor: context.theme.colorScheme.onPrimary,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, RoutesName.publicHomePage);
-                      },
-                      child: Text(context.appLocalizations.productAndService),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
+
+                // Text before Login Button
+                _buildInfoText(
+                  context,
+                  context.appLocalizations.loginInstruction,
+                ),
+                const SizedBox(height: 12),
+
+                // Login Button
+                _buildButton(
+                  context,
+                  label: context.appLocalizations.login,
+                  onPressed: () {
+                    Navigator.pushNamed(context, RoutesName.loginPage);
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                // Text before Register Button
+                _buildInfoText(
+                  context,
+                  context.appLocalizations.registerInstruction,
+                ),
+                const SizedBox(height: 12),
+
+                // Register Button
+                _buildButton(
+                  context,
+                  label: context.appLocalizations.register,
+                  onPressed: () {
+                    Navigator.pushNamed(context, RoutesName.registerPage);
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                // Text before Product & Service Button
+                _buildInfoText(
+                  context,
+                  context.appLocalizations.productAndServiceInstruction,
+                ),
+                const SizedBox(height: 12),
+
+                // Product & Service Button
+                _buildButton(
+                  context,
+                  label: context.appLocalizations.productAndService,
+                  onPressed: () {
+                    Navigator.pushNamed(context, RoutesName.publicHomePage);
+                  },
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildButton(
+    BuildContext context, {
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 44, // made smaller (was 56)
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              30,
+            ), // also slightly tighter curve
+            side: BorderSide(color: context.theme.colorScheme.secondary),
+          ),
+          backgroundColor: context.theme.colorScheme.primary,
+          foregroundColor: context.theme.colorScheme.onPrimary,
+          textStyle: const TextStyle(
+            fontSize: 16, // slightly smaller text
+            fontWeight: FontWeight.w600,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+        ),
+        onPressed: onPressed,
+        child: Text(label),
+      ),
+    );
+  }
+
+  Widget _buildInfoText(BuildContext context, String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 14,
+        color: context.theme.colorScheme.onSurface,
+      ),
+      textAlign: TextAlign.center,
     );
   }
 }

@@ -43,5 +43,10 @@
   "lbl_confirm_password": "Confirm Password",
   "lbl_name": "Name",
   "lbl_email": "Email",
-  "alreadyHaveAccount": "Already have an account?"
+  "alreadyHaveAccount": "Already have an account?",
+  "loginInstruction": "If you are a member of Dhaka Credit and already have a user account, then login.",
+  "registerInstruction": "If you are a member and registered for online service but don't have a user account, then Register now.",
+  "productAndServiceInstruction": "If you want to learn about our products and services, then visit Product & Service.",
+  "underMaintenanceTitle": "We are Under Maintenance",
+  "underMaintenanceMessage": "We are currently upgrading our system to serve you better.\n\nPlease check back shortly!"
 }

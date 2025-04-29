@@ -1,145 +1,145 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/app_configs/values/colors/app_colors.dart';
 
-class AppColorsLight extends AppColors {
+class AppColorsLight implements AppColors {
   // Primary colors
   @override
-  Color get primary => const Color.fromARGB(255, 37, 77, 45); // UPDATED ✅
+  Color get primary => const Color(0xFF66BB6A); // Light Green
   @override
-  Color get primaryVariant => const Color(0xFF255530); // Darker green shade
+  Color get primaryVariant => const Color(0xFF388E3C); // Dark Green
   @override
-  Color get onPrimary => Colors.white; // White text on dark green looks better
+  Color get onPrimary => Colors.white; // White text on primary
   @override
-  Color get primaryContainer => const Color(0xFFA9D6AD); // Soft green background
+  Color get primaryContainer => const Color(0xFFC8E6C9); // Light Green Container
   @override
-  Color get onPrimaryContainer => const Color(0xFF00210F); // Very dark green text
+  Color get onPrimaryContainer => const Color(0xFF004D40); // Dark Green on container
   @override
-  Color get primaryFixed => const Color(0xFFC8E6C9); // Light green
+  Color get primaryFixed => const Color(0xFF66BB6A); // Same as primary
   @override
-  Color get primaryFixedDim => const Color(0xFF81C784); // Dimmed light green
+  Color get primaryFixedDim => const Color(0xFF388E3C); // Dimmed green
   @override
-  Color get onPrimaryFixed => Colors.black;
+  Color get onPrimaryFixed => Colors.white; // White text on fixed primary
   @override
-  Color get onPrimaryFixedVariant => const Color(0xFF1B5E20); // Deep green
+  Color get onPrimaryFixedVariant => const Color(0xFF004D40); // Dark Green on fixed variant
 
-  // Secondary colors (same)
+  // Secondary colors
   @override
-  Color get secondary => Colors.green;
+  Color get secondary => const Color(0xFF81C784); // Light Green
   @override
-  Color get secondaryVariant => Colors.greenAccent;
+  Color get secondaryVariant => const Color(0xFF4CAF50); // Green
   @override
-  Color get onSecondary => Colors.black;
+  Color get onSecondary => Colors.white; // White text on secondary
   @override
-  Color get secondaryContainer => const Color(0xFFC8E6C9);
+  Color get secondaryContainer => const Color(0xFFDCE775); // Light Yellow-Green
   @override
-  Color get onSecondaryContainer => Colors.black;
+  Color get onSecondaryContainer => const Color(0xFF33691E); // Dark Green text on container
   @override
-  Color get secondaryFixed => const Color(0xFFA5D6A7);
+  Color get secondaryFixed => const Color(0xFF81C784); // Same as secondary
   @override
-  Color get secondaryFixedDim => const Color(0xFF81C784);
+  Color get secondaryFixedDim => const Color(0xFF4CAF50); // Dimmed green
   @override
-  Color get onSecondaryFixed => Colors.black;
+  Color get onSecondaryFixed => Colors.white; // White text on fixed secondary
   @override
-  Color get onSecondaryFixedVariant => const Color(0xFF388E3C);
+  Color get onSecondaryFixedVariant => const Color(0xFF33691E); // Dark Green text on fixed variant
 
-  // Tertiary colors (same)
+  // Tertiary colors
   @override
-  Color get tertiary => const Color(0xFFFFB300);
+  Color get tertiary => const Color(0xFF4CAF50); // Green
   @override
-  Color get onTertiary => Colors.black;
+  Color get onTertiary => Colors.white; // White text on tertiary
   @override
-  Color get tertiaryContainer => const Color(0xFFFFE082);
+  Color get tertiaryContainer => const Color(0xFFE8F5E9); // Light Green container
   @override
-  Color get onTertiaryContainer => Colors.black;
+  Color get onTertiaryContainer => const Color(0xFF1B5E20); // Dark Green text on container
   @override
-  Color get tertiaryFixed => const Color(0xFFFFD54F);
+  Color get tertiaryFixed => const Color(0xFF4CAF50); // Same as tertiary
   @override
-  Color get tertiaryFixedDim => const Color(0xFFFFC107);
+  Color get tertiaryFixedDim => const Color(0xFF388E3C); // Dimmed green
   @override
-  Color get onTertiaryFixed => Colors.black;
+  Color get onTertiaryFixed => Colors.white; // White text on fixed tertiary
   @override
-  Color get onTertiaryFixedVariant => const Color(0xFFFFA000);
+  Color get onTertiaryFixedVariant => const Color(0xFF1B5E20); // Dark Green on fixed variant
 
-  // Error colors (same)
+  // Error colors
   @override
-  Color get error => Colors.red;
+  Color get error => const Color(0xFFD32F2F); // Red
   @override
-  Color get onError => Colors.white;
+  Color get onError => Colors.white; // White text on error
   @override
-  Color get errorContainer => const Color(0xFFFCE4EC);
+  Color get errorContainer => const Color(0xFFF8D7DA); // Light Red
   @override
-  Color get onErrorContainer => Colors.black;
+  Color get onErrorContainer => const Color(0xFF9C1C1C); // Dark Red text
 
-  // Background & Surface (same)
+  // Background & Surface
   @override
-  Color get background => const Color(0xFFD7EEFA);
+  Color get background => const Color(0xFFF1F8E9); // Light Green background
   @override
-  Color get onBackground => Colors.black;
+  Color get onBackground => const Color(0xFF212121); // Dark text on background
   @override
-  Color get surface => Colors.grey[100]!;
+  Color get surface => const Color(0xFFC8E6C9); // Light Green surface
   @override
-  Color get onSurface => Colors.black;
+  Color get onSurface => const Color(0xFF212121); // Dark text on surface
   @override
-  Color get surfaceDim => const Color(0xFFEEEEEE);
+  Color get surfaceDim => const Color(0xFFE8F5E9); // Dimmed light green
   @override
-  Color get surfaceBright => const Color(0xFFFFFFFF);
+  Color get surfaceBright => const Color(0xFFC8E6C9); // Bright surface
   @override
-  Color get surfaceContainerLowest => const Color(0xFFFAFAFA);
+  Color get surfaceContainerLowest => const Color(0xFFDCE775); // Light Yellow-Green container
   @override
-  Color get surfaceContainerLow => const Color(0xFFF5F5F5);
+  Color get surfaceContainerLow => const Color(0xFFE8F5E9); // Soft green container
   @override
-  Color get surfaceContainer => const Color(0xFFE0E0E0);
+  Color get surfaceContainer => const Color(0xFFC8E6C9); // Standard surface container
   @override
-  Color get surfaceContainerHigh => const Color(0xFFBDBDBD);
+  Color get surfaceContainerHigh => const Color(0xFFE8F5E9); // High contrast container
   @override
-  Color get surfaceContainerHighest => const Color(0xFF9E9E9E);
+  Color get surfaceContainerHighest => const Color(0xFF4CAF50); // Green container
   @override
-  Color get surfaceVariant => const Color(0xFFECEFF1);
+  Color get surfaceVariant => const Color(0xFFE8F5E9); // Soft green variant
   @override
-  Color get onSurfaceVariant => const Color(0xFFECEFF1);
+  Color get onSurfaceVariant => const Color(0xFF212121); // Dark text on surface variant
   @override
-  Color get surfaceTint => primary; // ✅ still correct
+  Color get surfaceTint => const Color(0xFF66BB6A); // Tint with primary color
 
-  // Outline & Shadow (same)
+  // Outline & Shadow
   @override
-  Color get outline => const Color(0xFF757575);
+  Color get outline => const Color(0xFFBDBDBD); // Light outline
   @override
-  Color get outlineVariant => const Color(0xFFBDBDBD);
+  Color get outlineVariant => const Color(0xFF9E9E9E); // Slightly darker outline
   @override
-  Color get shadow => Colors.black;
+  Color get shadow => const Color(0xFF9E9E9E); // Soft shadow gray
   @override
-  Color get scrim => Colors.black.withOpacity(0.5);
+  Color get scrim => const Color(0xFFE0E0E0); // Soft scrim overlay
 
-  // Inverse Colors (optional to tweak)
+  // Inverse Colors
   @override
-  Color get inverseSurface => const Color(0xFF303030);
+  Color get inverseSurface => const Color(0xFF212121); // Dark surface inverse
   @override
-  Color get onInverseSurface => Colors.white;
+  Color get onInverseSurface => const Color(0xFFFFFFFF); // Light text on inverse surface
   @override
-  Color get inversePrimary => const Color(0xFF64B5F6); // optional to change later
+  Color get inversePrimary => const Color(0xFF388E3C); // Dark Green inverse
 
-  // Additional UI Colors (same)
+  // Additional UI Colors
   @override
-  Color get selected => const Color(0xFF0277BD);
+  Color get selected => const Color(0xFF4CAF50); // Green for selected items
   @override
-  Color get unSelected => const Color(0xFF7EA8BD);
+  Color get unSelected => const Color(0xFF757575); // Light gray for unselected
   @override
-  Color get disabled => Colors.grey[400]!;
+  Color get disabled => const Color(0xFFB0B0B0); // Disabled gray
 
-  // Grayscale Material Color (same)
+  // Grayscale Material Color
   @override
   MaterialColor get gray => const MaterialColor(50, {
-    50: Color(0xFFFAFAFA),
-    100: Color(0xFFF5F5F5),
-    200: Color(0xFFEEEEEE),
-    300: Color(0xFFE0E0E0),
-    350: Color(0xFFD6D6D6),
-    400: Color(0xFFBDBDBD),
-    500: Color(0xFF9E9E9E),
-    600: Color(0xFF757575),
-    700: Color(0xFF616161),
-    800: Color(0xFF424242),
-    850: Color(0xFF303030),
-    900: Color(0xFF212121),
+    50: Color(0xFFF5F5F5),
+    100: Color(0xFFE0E0E0),
+    200: Color(0xFFD0D0D0),
+    300: Color(0xFFC0C0C0),
+    350: Color(0xFFB0B0B0),
+    400: Color(0xFFA0A0A0),
+    500: Color(0xFF909090),
+    600: Color(0xFF808080),
+    700: Color(0xFF707070),
+    800: Color(0xFF606060),
+    850: Color(0xFF505050),
+    900: Color(0xFF404040),
   });
 }
