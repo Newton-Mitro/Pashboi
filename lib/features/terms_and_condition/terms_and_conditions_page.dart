@@ -73,10 +73,10 @@ class TermsAndConditionsPage extends StatelessWidget {
                       // Reject action (Go back to the previous page or close the app)
                       Navigator.pop(context);
                     },
-                    child: const Text("Reject"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Reject button color
                     ),
+                    child: const Text("Reject"),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -87,10 +87,10 @@ class TermsAndConditionsPage extends StatelessWidget {
                         arguments: {'routeName': RoutesName.registerPage},
                       );
                     },
-                    child: const Text("Accept"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green, // Accept button color
                     ),
+                    child: const Text("Accept"),
                   ),
                 ],
               ),
