@@ -18,7 +18,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'  # Change to your Flutter version
+          flutter-version: "3.29.0" # Change to your Flutter version
 
       - name: Install dependencies
         run: flutter pub get
@@ -30,12 +30,13 @@ jobs:
         run: flutter test
 
       - name: Build APK (optional)
-        run: flutter build apk --debug  # Or use --release for release mode
+        run: flutter build apk --debug # Or use --release for release mode
+
 
       # Optional: Upload APK as artifact
-      - name: Upload APK
-        if: success()
-        uses: actions/upload-artifact@v3
-        with:
-          name: debug-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
+      # - name: Upload APK
+      #   if: success()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: debug-apk
+      #     path: build/app/outputs/flutter-apk/app-debug.apk
