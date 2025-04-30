@@ -8,7 +8,7 @@ import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
 import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
 import 'package:pashboi/pages/public/landing_page/views/landing_page.dart';
-import 'package:pashboi/pages/public/onboarding_page/presentation/views/onboarding_page.dart';
+import 'package:pashboi/pages/public/onboarding_page/views/onboarding_page.dart';
 import 'package:pashboi/pages/public/under_maintanance_page/views/under_maintanance_page.dart';
 import 'package:pashboi/routes.dart';
 
