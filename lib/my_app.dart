@@ -16,12 +16,16 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   final bool onBoarding;
-  const MyApp({super.key, required this.onBoarding});
+  final Future<bool> Function()? isUnderConstructionFn;
 
-  // Simulate an API call to check construction status
+  const MyApp({
+    super.key,
+    required this.onBoarding,
+    this.isUnderConstructionFn,
+  });
+
   Future<bool> isUnderConstruction() async {
-    await Future.delayed(Duration(seconds: 2)); // Simulate delay
-    return false; // Set this to true to simulate "under construction"
+    return await (isUnderConstructionFn?.call() ?? Future.value(false));
   }
 
   @override

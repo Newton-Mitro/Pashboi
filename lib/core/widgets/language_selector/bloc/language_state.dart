@@ -1,6 +1,6 @@
 part of 'language_bloc.dart';
 
-final class LanguageState extends Equatable {
+class LanguageState extends Equatable {
   final String language;
   const LanguageState({this.language = 'en'});
 
