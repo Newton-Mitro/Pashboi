@@ -1,10 +1,10 @@
 import 'package:pashboi/core/index.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/auth/presentation/views/login_screen/bloc/login_screen_bloc.dart';
-import 'package:pashboi/features/auth/presentation/views/registration_screen/bloc/registration_screen_bloc.dart';
+import 'package:pashboi/pages/authenticated/home/bloc/auth_bloc.dart';
+import 'package:pashboi/pages/public/login_page/bloc/login_screen_bloc.dart';
+import 'package:pashboi/pages/public/register_page/bloc/registration_screen_bloc.dart';
 import 'data/index.dart';
 import 'domain/index.dart';
-import 'presentation/index.dart';
 
 void registerAuthModule() {
   // Register Data Sources

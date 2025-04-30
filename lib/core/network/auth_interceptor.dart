@@ -7,6 +7,7 @@ import 'package:pashboi/core/constants/api_config.dart';
 import 'package:pashboi/core/constants/constants.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/auth/auth_module.dart';
+import 'package:pashboi/pages/authenticated/home/bloc/auth_bloc.dart';
 import 'package:pashboi/my_app.dart';
 
 class AuthInterceptor extends Interceptor {

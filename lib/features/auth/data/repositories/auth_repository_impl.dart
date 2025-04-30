@@ -5,7 +5,7 @@ import 'package:pashboi/core/index.dart';
 import 'package:pashboi/features/auth/data/index.dart';
 import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
-import 'package:pashboi/features/home/presentation/notifier/notifiers.dart';
+import 'package:pashboi/pages/authenticated/home/notifier/notifiers.dart';
 import 'package:pashboi/features/user/data/models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {

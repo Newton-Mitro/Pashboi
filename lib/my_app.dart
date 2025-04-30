@@ -7,9 +7,9 @@ import 'package:pashboi/app_configs/themes/app_theme.dart';
 import 'package:pashboi/core/index.dart';
 import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
 import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
-import 'package:pashboi/features/landing/landing_page.dart';
-import 'package:pashboi/features/onboarding/presentation/views/onboarding_screen.dart';
-import 'package:pashboi/features/under_maintanance/under_maintanance_page.dart';
+import 'package:pashboi/pages/public/landing_page/views/landing_page.dart';
+import 'package:pashboi/pages/public/onboarding_page/presentation/views/onboarding_page.dart';
+import 'package:pashboi/pages/public/under_maintanance_page/views/under_maintanance_page.dart';
 import 'package:pashboi/routes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
                   }
 
                   return onBoarding
-                      ? const OnboardingScreen()
+                      ? const OnboardingPage()
                       : const LandingPage();
                 },
               ),
