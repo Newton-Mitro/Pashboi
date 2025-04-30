@@ -1,4 +1,4 @@
-name: Flutter CI
+name: Flutter Build, Test, Analyze, Build APK, and Deploy APK
 
 on:
   push:
@@ -20,8 +20,26 @@ jobs:
         with:
           flutter-version: "3.29.0" # Change to your Flutter version
 
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-flutter-pub-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-pub-
+
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Cache Flutter build outputs
+        uses: actions/cache@v3
+        with:
+          path: |
+            .dart_tool
+            build
+          key: ${{ runner.os }}-flutter-build-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-build-
 
       - name: Analyze project
         run: flutter analyze || true
