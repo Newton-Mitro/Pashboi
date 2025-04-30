@@ -1,109 +1,118 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+
 import 'package:pashboi/my_app.dart';
 import 'package:pashboi/pages/public/landing_page/views/landing_page.dart';
-import 'package:pashboi/pages/public/under_maintanance_page/views/under_maintanance_page.dart';
 import 'package:pashboi/pages/public/onboarding_page/views/onboarding_page.dart';
+import 'package:pashboi/pages/public/under_maintanance_page/views/under_maintanance_page.dart';
 import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
 import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
+import 'package:pashboi/core/utils/local_storage.dart';
 
-class MockLanguageBloc extends Mock implements LanguageBloc {}
+// Mock the LocalStorage class
+class MockLocalStorage extends Mock implements LocalStorage {}
 
-class FakeLanguageState extends Fake implements LanguageState {}
+class MockMyService extends Mock {
+  // Mocking the isUnderConstructionFn callback (nullable function)
+  Future<bool> Function()? isUnderConstructionFn;
 
-class MockThemeBloc extends Mock implements ThemeBloc {}
-
-class FakeThemeState extends Fake implements ThemeState {}
+  // Mocking the isUnderConstruction method
+  Future<bool> isUnderConstruction() async {
+    return await (isUnderConstructionFn?.call() ?? Future.value(false));
+  }
+}
 
 void main() {
-  setUpAll(() {
-    registerFallbackValue(FakeLanguageState());
-    registerFallbackValue(FakeThemeState());
+  late MockLocalStorage mockLocalStorage;
+  late MockMyService mockService;
+
+  setUp(() {
+    mockLocalStorage = MockLocalStorage();
+    when(() => mockLocalStorage.getString(any())).thenAnswer((_) async => 'en');
+    mockService = MockMyService();
   });
 
-  // testWidgets(
-  //   'Shows LandingPage when not under construction and onboarding is false',
-  //   (WidgetTester tester) async {
-  //     final languageBloc = MockLanguageBloc();
-  //     final themeBloc = MockThemeBloc();
+  Widget wrapApp(Widget child) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LanguageBloc>(
+          create:
+              (_) =>
+                  LanguageBloc(localStorage: mockLocalStorage)
+                    ..add(LoadLocaleEvent()),
+        ),
+        BlocProvider<ThemeBloc>(
+          create:
+              (_) =>
+                  ThemeBloc(localStorage: mockLocalStorage)
+                    ..add(LoadThemeEvent()),
+        ),
+      ],
+      child: child,
+    );
+  }
 
-  //     when(() => languageBloc.state).thenReturn(LanguageState(language: 'en'));
-  //     when(() => themeBloc.state).thenReturn(LightThemeState());
+  testWidgets(
+    'shows LandingPage when not under construction and not onboarding',
+    (tester) async {
+      // Mock the under construction function to return false
+      mockService.isUnderConstructionFn = () async => false;
 
-  //     await tester.pumpWidget(
-  //       MultiBlocProvider(
-  //         providers: [
-  //           BlocProvider<LanguageBloc>.value(value: languageBloc),
-  //           BlocProvider<ThemeBloc>.value(value: themeBloc),
-  //         ],
-  //         child: MyApp(
-  //           onBoarding: false,
-  //           isUnderConstructionFn: () async => false,
-  //         ),
-  //       ),
-  //     );
+      await tester.pumpWidget(
+        wrapApp(
+          MyApp(
+            onBoarding: false,
+            isUnderConstructionFn: mockService.isUnderConstructionFn,
+          ),
+        ),
+      );
 
-  //     await tester.pump(); // Start future
-  //     await tester.pump(const Duration(seconds: 2)); // Wait for FutureBuilder
+      await tester.pumpAndSettle();
 
-  //     expect(find.byType(LandingPage), findsOneWidget);
-  //   },
-  // );
+      expect(find.byType(LandingPage), findsOneWidget);
+    },
+  );
 
-  // testWidgets('Shows UnderMaintenancePage when under construction is true', (
-  //   WidgetTester tester,
-  // ) async {
-  //   final languageBloc = MockLanguageBloc();
-  //   final themeBloc = MockThemeBloc();
+  testWidgets(
+    'shows OnboardingPage when not under construction and onboarding is true',
+    (tester) async {
+      // Mock the under construction function to return false
+      mockService.isUnderConstructionFn = () async => false;
 
-  //   when(() => languageBloc.state).thenReturn(LanguageState(language: 'en'));
-  //   when(() => themeBloc.state).thenReturn(LightThemeState());
+      await tester.pumpWidget(
+        wrapApp(
+          MyApp(
+            onBoarding: true,
+            isUnderConstructionFn: mockService.isUnderConstructionFn,
+          ),
+        ),
+      );
 
-  //   await tester.pumpWidget(
-  //     MultiBlocProvider(
-  //       providers: [
-  //         BlocProvider<LanguageBloc>.value(value: languageBloc),
-  //         BlocProvider<ThemeBloc>.value(value: themeBloc),
-  //       ],
-  //       child: MyApp(
-  //         onBoarding: false,
-  //         isUnderConstructionFn: () async => true,
-  //       ),
-  //     ),
-  //   );
+      await tester.pumpAndSettle();
 
-  //   await tester.pump();
-  //   await tester.pump(const Duration(seconds: 2));
+      expect(find.byType(OnboardingPage), findsOneWidget);
+    },
+  );
 
-  //   expect(find.byType(UnderMaintenancePage), findsOneWidget);
-  // });
+  testWidgets('shows UnderMaintenancePage when under construction', (
+    tester,
+  ) async {
+    // Mock the under construction function to return true
+    mockService.isUnderConstructionFn = () async => true;
 
-  // testWidgets('Shows OnboardingPage when onboarding is true', (
-  //   WidgetTester tester,
-  // ) async {
-  //   final languageBloc = MockLanguageBloc();
-  //   final themeBloc = MockThemeBloc();
+    await tester.pumpWidget(
+      wrapApp(
+        MyApp(
+          onBoarding: false,
+          isUnderConstructionFn: mockService.isUnderConstructionFn,
+        ),
+      ),
+    );
 
-  //   when(() => languageBloc.state).thenReturn(LanguageState(language: 'en'));
-  //   when(() => themeBloc.state).thenReturn(LightThemeState());
+    await tester.pumpAndSettle();
 
-  //   await tester.pumpWidget(
-  //     MultiBlocProvider(
-  //       providers: [
-  //         BlocProvider<LanguageBloc>.value(value: languageBloc),
-  //         BlocProvider<ThemeBloc>.value(value: themeBloc),
-  //       ],
-  //       child: MyApp(
-  //         onBoarding: true,
-  //         isUnderConstructionFn: () async => false,
-  //       ),
-  //     ),
-  //   );
-
-  //   await tester.pump();
-  //   await tester.pump(const Duration(seconds: 5));
-
-  //   expect(find.byType(OnboardingPage), findsOneWidget);
-  // });
+    expect(find.byType(UnderMaintenancePage), findsOneWidget);
+  });
 }
