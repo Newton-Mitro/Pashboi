@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/constants/constants.dart';
-import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/core/utils/app_context.dart';
+import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/core/widgets/language_selector/language_selector.dart';
 import 'package:pashboi/core/widgets/theme_switcher/theme_switcher.dart';
 import 'package:pashboi/pages/public/onboarding_page/data/constants/onboarding_list_items.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/pages/public/onboarding_page/data/models/onboarding_info.dart';
 
 class OnboardingListItems {

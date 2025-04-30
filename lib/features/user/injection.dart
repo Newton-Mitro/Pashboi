@@ -1,4 +1,6 @@
-import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/core/network/api_service.dart';
+import 'package:pashboi/core/network/network_info.dart';
 import 'package:pashboi/pages/authenticated/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/pages/authenticated/profile_page/widgets/user_tile/bloc/user_tile_bloc.dart';
 import 'data/index.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pashboi/app_configs/themes/app_theme.dart';
-import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
 import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
 import 'package:pashboi/pages/public/landing_page/views/landing_page.dart';

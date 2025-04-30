@@ -1,7 +1,7 @@
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
 
 class LanguageSelector extends StatelessWidget {

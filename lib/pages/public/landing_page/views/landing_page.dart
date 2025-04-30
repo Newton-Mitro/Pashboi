@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
-import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/utils/app_context.dart';
+import 'package:pashboi/core/widgets/app_logo.dart';
 import 'package:pashboi/core/widgets/language_selector/language_selector.dart';
 import 'package:pashboi/core/widgets/theme_switcher/theme_switcher.dart';
 import 'package:pashboi/pages/public/terms_and_condition_page/views/terms_and_conditions_page.dart';

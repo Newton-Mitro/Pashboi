@@ -81,7 +81,7 @@ class TermsAndConditionsPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // Accept action (Navigate to the next page or accept the terms)
-                      Navigator.pushNamed(
+                      Navigator.pushReplacementNamed(
                         context,
                         RoutesName.mobileVerificationPage,
                         arguments: {'routeName': RoutesName.registerPage},
