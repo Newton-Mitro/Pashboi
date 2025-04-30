@@ -1,6 +1,6 @@
 part of 'theme_bloc.dart';
 
-sealed class ThemeState extends Equatable {
+class ThemeState extends Equatable {
   final ThemeMode themeMode;
   const ThemeState(this.themeMode);
 

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/constants/constants.dart';
-import 'package:pashboi/core/index.dart';
+import 'package:pashboi/core/utils/local_storage.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';
