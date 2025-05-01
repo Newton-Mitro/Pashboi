@@ -1,8 +1,3 @@
-import 'package:pashboi/core/resources/response_state.dart';
-import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/user/domain/entities/user_entity.dart';
-import 'package:pashboi/features/user/domain/repositories/user_profile_repository.dart';
-
 final class FetchProfileParams {
   final int userId;
   final int startRecord;
@@ -15,19 +10,19 @@ final class FetchProfileParams {
   });
 }
 
-class FetchProfileUseCase
-    extends UseCase<DataState<List<UserEntity>>, FetchProfileParams> {
-  final UserRepository userRepository;
+// class FetchProfileUseCase
+//     extends UseCase<DataState<List<UserEntity>>, FetchProfileParams> {
+//   final UserRepository userRepository;
 
-  FetchProfileUseCase({required this.userRepository});
+//   FetchProfileUseCase({required this.userRepository});
 
-  @override
-  Future<DataState<List<UserEntity>>> call({FetchProfileParams? params}) async {
-    final userProfile = await userRepository.fetchProfile(
-      params?.userId ?? 0,
-      params?.startRecord ?? 0,
-      params?.pageSize ?? 10,
-    );
-    return userProfile;
-  }
-}
+//   @override
+//   Future<DataState<List<UserEntity>>> call({FetchProfileParams? params}) async {
+//     final userProfile = await userRepository.fetchProfile(
+//       params?.userId ?? 0,
+//       params?.startRecord ?? 0,
+//       params?.pageSize ?? 10,
+//     );
+//     return userProfile;
+//   }
+// }

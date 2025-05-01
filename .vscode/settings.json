@@ -1,3 +1,4 @@
 {
-  "tabby.config.telemetry": true
+  "tabby.config.telemetry": true,
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

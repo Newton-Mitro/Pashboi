@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
+import 'package:pashboi/core/entities/entity.dart';
 
-class UserEntity extends Equatable {
-  final int id;
+class UserEntity extends Entity {
   final String name;
   final String userName;
   final String email;
@@ -14,8 +13,8 @@ class UserEntity extends Equatable {
   final bool isFollowing;
   final int friendshipStatus;
 
-  const UserEntity({
-    required this.id,
+  UserEntity({
+    super.id,
     required this.name,
     required this.userName,
     required this.email,
@@ -30,7 +29,7 @@ class UserEntity extends Equatable {
   });
 
   UserEntity copyWith({
-    int? id,
+    String? id,
     String? name,
     String? userName,
     String? email,

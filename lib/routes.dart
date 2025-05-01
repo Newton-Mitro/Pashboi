@@ -6,8 +6,6 @@ import 'package:pashboi/pages/authenticated/home/views/authenticated_home.dart';
 import 'package:pashboi/pages/public/landing_page/views/landing_page.dart';
 import 'package:pashboi/pages/public/mobile_verification_page/views/mobile_verification_page.dart';
 import 'package:pashboi/pages/public/home/views/public_home.dart';
-import 'package:pashboi/features/user/domain/entities/user_entity.dart';
-import 'package:pashboi/pages/authenticated/profile_page/views/profile_page.dart';
 
 class AppRoutes {
   Route<dynamic> onGenerateRoutes(RouteSettings settings) {
@@ -40,9 +38,6 @@ class AppRoutes {
             const MobileVerificationPage(routeName: ''),
           ); // Default route name if no arguments
         }
-
-      case RoutesName.userProfilePage:
-        return _materialRoute(ProfilePage(user: args as UserEntity));
 
       default:
         return _materialRoute(const AuthenticatedHome());
