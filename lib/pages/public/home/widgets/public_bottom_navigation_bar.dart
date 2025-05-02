@@ -58,6 +58,12 @@ class PublicBottomNavigationBar extends StatelessWidget {
                 icon: FaIcon(FontAwesomeIcons.bell), // Icon color for Search
                 label: context.appLocalizations.notices,
               ),
+              BottomNavigationBarItem(
+                icon: FaIcon(
+                  FontAwesomeIcons.locationDot,
+                ), // Icon color for Search
+                label: "Serv. Centers",
+              ),
             ],
           ),
         );

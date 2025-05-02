@@ -10,6 +10,9 @@ class NoticesPage extends StatefulWidget {
 class _NoticesPageState extends State<NoticesPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Notices Page"));
+    return Scaffold(
+      appBar: AppBar(title: Text('Notices')),
+      body: Center(child: Text('Notices Page')),
+    );
   }
 }

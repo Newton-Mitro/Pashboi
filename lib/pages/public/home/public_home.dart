@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/pages/public/deposits_page/views/deposits_page.dart';
-import 'package:pashboi/pages/public/loans_page/views/loans_page.dart';
+import 'package:pashboi/pages/public/deposit_policies_page/views/deposit_policies_page.dart';
+import 'package:pashboi/pages/public/loan_policies_page/views/loan_policies_page.dart';
 import 'package:pashboi/pages/public/notices_page/views/notices_page.dart';
 import 'package:pashboi/pages/public/services_page/views/services_page.dart';
 import 'package:pashboi/pages/public/home/widgets/public_bottom_navigation_bar.dart';
@@ -30,8 +30,8 @@ class _PublicHomeState extends State<PublicHome> {
 
   Widget _getScreen(int selectedPage) {
     final List<Widget> screens = [
-      DepositsPae(),
-      LoansPage(),
+      DepositPoliciesPae(),
+      LoanPoliciesPage(),
       ServicesPage(),
       NoticesPage(),
     ];

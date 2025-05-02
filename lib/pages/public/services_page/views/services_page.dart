@@ -10,6 +10,9 @@ class ServicesPage extends StatefulWidget {
 class _ServicesPageState extends State<ServicesPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Services Page"));
+    return Scaffold(
+      appBar: AppBar(title: Text('Services')),
+      body: Center(child: Text('Services Page')),
+    );
   }
 }
