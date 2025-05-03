@@ -18,14 +18,14 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     LoadLocaleEvent event,
     Emitter<LanguageState> emit,
   ) async {
-    final locale = await localStorage.getString(Constants.localeKey) ?? 'en';
+    final locale = await localStorage.getString(Constants.keyLocale) ?? 'en';
     emit(LanguageState(language: locale));
   }
 
   // Method to handle language change event
   void _changeLanguage(LanguageEvent event, Emitter<LanguageState> emit) async {
     if (event is LanguageSelected) {
-      await localStorage.saveString(Constants.localeKey, event.language);
+      await localStorage.saveString(Constants.keyLocale, event.language);
       emit(state.copyWith(language: event.language));
     }
   }

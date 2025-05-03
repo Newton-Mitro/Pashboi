@@ -14,7 +14,7 @@ void main() async {
   final localStorage = sl<LocalStorage>();
 
   final bool onBoarding =
-      await localStorage.getBool(Constants.onboardingKey) ?? true;
+      await localStorage.getBool(Constants.keyOnboarding) ?? true;
 
   runApp(
     MultiBlocProvider(

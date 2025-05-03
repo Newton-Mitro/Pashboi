@@ -1,14 +1,14 @@
 import 'package:pashboi/core/resources/response_state.dart';
-import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 
 abstract class AuthRepository {
-  Future<DataState<AuthUserEntity>> register(
+  Future<DataState<UserEntity>> register(
     String name,
     String email,
     String password,
     String confirmPassword,
   );
-  Future<DataState<AuthUserEntity>> login(String? email, String? password);
+  Future<DataState<UserEntity>> login(String? email, String? password);
   Future<DataState<void>> logout();
-  Future<DataState<AuthUserEntity>> getAuthUser();
+  Future<DataState<UserEntity>> getAuthUser();
 }

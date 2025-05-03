@@ -12,7 +12,7 @@ class LoginInitialState extends LoginScreenState {}
 class LoginLoadingState extends LoginScreenState {}
 
 class LoginSuccessState extends LoginScreenState {
-  final AuthUserEntity authUser;
+  final UserEntity authUser;
   const LoginSuccessState(this.authUser);
 }
 

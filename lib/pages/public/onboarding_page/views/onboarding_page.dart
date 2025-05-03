@@ -176,7 +176,7 @@ Widget getStartedButton(BuildContext context) {
     ),
     onPressed: () {
       final localStorage = sl<LocalStorage>();
-      localStorage.saveBool(Constants.onboardingKey, false);
+      localStorage.saveBool(Constants.keyOnboarding, false);
       Navigator.popAndPushNamed(context, RoutesName.landingPage);
     },
     child: Text(

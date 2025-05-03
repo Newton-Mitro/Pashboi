@@ -4,7 +4,7 @@ import 'package:pashboi/core/constants/constants.dart';
 import 'package:pashboi/core/network/api_service.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_data_source.dart';
-import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
+import 'package:pashboi/features/auth/data/models/user_model.dart';
 
 class AuthRemoteDataSourceImpl implements AuthDataSource {
   final ApiService apiService;
@@ -16,7 +16,7 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   });
 
   @override
-  Future<AuthUserModel> login(String? email, String? password) async {
+  Future<UserModel> login(String? email, String? password) async {
     try {
       final response = await apiService.post(
         '/auth/login',
@@ -24,25 +24,19 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final data = response.data!['data'];
-        AuthUserModel res = AuthUserModel.fromJson(data);
+        final data = response.data?['data'];
+        if (data == null) throw Exception('Invalid response format');
 
-        await localStorage.saveString(
-          Constants.accessTokenKey,
-          res.accessToken,
-        );
-        await localStorage.saveString(
-          Constants.refreshTokenKey,
-          res.refreshToken,
-        );
-        await localStorage.saveString(
-          Constants.authUserKey,
-          res.user.toString(),
-        );
+        final token = response.headers['authorization']?.first;
+        // Or use: response.data?['token'] if your token comes in body
 
-        return res;
+        if (token != null) {
+          await localStorage.saveString(Constants.keyAccessToken, token);
+        }
+
+        return UserModel.fromJson(data);
       } else {
-        throw Exception('Login failed');
+        throw Exception('Login failed with status ${response.statusCode}');
       }
     } catch (e) {
       rethrow;
@@ -50,7 +44,7 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   }
 
   @override
-  Future<AuthUserModel> register(
+  Future<UserModel> register(
     String name,
     String email,
     String password,
@@ -68,10 +62,14 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
       );
 
       if (response.statusCode == HttpStatus.created) {
-        final data = response.data!['message'];
-        return data;
+        final data = response.data?['data'];
+        if (data == null) throw Exception('Invalid response format');
+
+        return UserModel.fromJson(data);
       } else {
-        throw Exception('Failed to register');
+        throw Exception(
+          'Registration failed with status ${response.statusCode}',
+        );
       }
     } catch (e) {
       rethrow;
@@ -80,6 +78,11 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
 
   @override
   Future<void> logout() async {
-    await apiService.get('/auth/logout');
+    try {
+      await apiService.get('/auth/logout');
+      await localStorage.remove(Constants.keyAccessToken);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

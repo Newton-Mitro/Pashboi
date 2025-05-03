@@ -7,11 +7,10 @@ import 'package:pashboi/core/network/network_info.dart';
 import 'package:pashboi/core/resources/response_state.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_data_source.dart';
-import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
-import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:pashboi/features/auth/data/models/user_model.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 import 'package:pashboi/pages/authenticated/home/notifier/notifiers.dart';
-import 'package:pashboi/features/user/data/models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource authDataSource;
@@ -25,10 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<DataState<AuthUserModel>> login(
-    String? email,
-    String? password,
-  ) async {
+  Future<DataState<UserModel>> login(String? email, String? password) async {
     if (await networkInfo.isConnected == true) {
       try {
         final result = await authDataSource.login(email, password);
@@ -50,7 +46,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<AuthUserModel>> register(
+  Future<DataState<UserModel>> register(
     String name,
     String email,
     String password,
@@ -98,9 +94,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   Future<DataState<void>> _clearToken() async {
     try {
-      await localStorage.remove(Constants.accessTokenKey);
-      await localStorage.remove(Constants.refreshTokenKey);
-      await localStorage.remove(Constants.authUserKey);
+      await localStorage.remove(Constants.keyAccessToken);
+      await localStorage.remove(Constants.keyAuthUser);
       authUserNotifier.value = null;
       accessTokenNotifier.value = null;
       selectedPageNotifier.value = 0;
@@ -111,23 +106,34 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<AuthUserEntity>> getAuthUser() async {
+  Future<DataState<UserEntity>> getAuthUser() async {
     try {
-      final authToken = await localStorage.getString(Constants.accessTokenKey);
-      final refreshToken = await localStorage.getString(
-        Constants.refreshTokenKey,
-      );
-      final stringUser = await localStorage.getString(Constants.authUserKey);
+      final authToken = await localStorage.getString(Constants.keyAccessToken);
 
-      if (stringUser != null && authToken != null && refreshToken != null) {
+      final stringUser = await localStorage.getString(Constants.keyAuthUser);
+
+      if (stringUser != null && authToken != null) {
         final user = UserModel.fromJson(jsonDecode(stringUser));
         accessTokenNotifier.value = authToken;
         authUserNotifier.value = user;
 
-        final AuthUserEntity authUserEntity = AuthUserEntity(
-          accessToken: authToken,
-          refreshToken: refreshToken,
-          user: user,
+        final UserEntity authUserEntity = UserEntity(
+          id: user.id,
+          userId: user.userId,
+          personId: user.personId,
+          loginEmail: user.loginEmail,
+          roleId: user.roleId,
+          roleName: user.roleName,
+          userName: user.userName,
+          userPicture: user.userPicture,
+          branchCode: user.branchCode,
+          regMobile: user.regMobile,
+          address: user.address,
+          organizationCode: user.organizationCode,
+          deviceId: user.deviceId,
+          employeeCode: user.employeeCode,
+          isNewMenu: user.isNewMenu,
+          rolePermissions: user.rolePermissions,
         );
 
         return SuccessData(authUserEntity);

@@ -12,7 +12,7 @@ final class RegistrationInitialState extends RegistrationState {}
 final class RegistrationLoadingState extends RegistrationState {}
 
 final class RegistrationSuccessState extends RegistrationState {
-  final AuthUserEntity authUser;
+  final UserEntity authUser;
   const RegistrationSuccessState(this.authUser);
 }
 

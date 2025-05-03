@@ -1,6 +1,6 @@
 import 'package:pashboi/core/resources/response_state.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 
 final class RegistrationParams {
@@ -18,13 +18,13 @@ final class RegistrationParams {
 }
 
 class RegistrationUseCase
-    extends UseCase<DataState<AuthUserEntity>, RegistrationParams> {
+    extends UseCase<DataState<UserEntity>, RegistrationParams> {
   final AuthRepository authRepository;
 
   RegistrationUseCase({required this.authRepository});
 
   @override
-  Future<DataState<AuthUserEntity>> call({RegistrationParams? params}) async {
+  Future<DataState<UserEntity>> call({RegistrationParams? params}) async {
     final authUser = await authRepository.register(
       params?.name ?? '',
       params?.email ?? '',

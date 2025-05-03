@@ -5,11 +5,14 @@ import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_data_source.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:pashboi/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
+import 'package:pashboi/features/auth/domain/usecases/login_usecase.dart';
+import 'package:pashboi/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:pashboi/features/auth/domain/usecases/registration_usecase.dart';
 import 'package:pashboi/pages/authenticated/home/bloc/auth_bloc.dart';
 import 'package:pashboi/pages/public/login_page/bloc/login_screen_bloc.dart';
 import 'package:pashboi/pages/public/register_page/bloc/registration_screen_bloc.dart';
-import 'domain/index.dart';
 
 void registerAuthModule() {
   // Register Data Sources

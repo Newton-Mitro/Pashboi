@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/resources/response_state.dart';
-import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/usecases/registration_usecase.dart';
 
 part 'registration_screen_event.dart';

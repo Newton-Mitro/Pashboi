@@ -19,7 +19,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     LoadThemeEvent event,
     Emitter<ThemeState> emit,
   ) async {
-    final theme = await localStorage.getString(Constants.themeKey) ?? 'light';
+    final theme = await localStorage.getString(Constants.keyTheme) ?? 'light';
     emit(theme == 'light' ? LightThemeState() : DarkThemeState());
   }
 
@@ -34,7 +34,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
             : const LightThemeState();
 
     await localStorage.saveString(
-      Constants.themeKey,
+      Constants.keyTheme,
       newState is LightThemeState ? 'light' : 'dark',
     );
 
