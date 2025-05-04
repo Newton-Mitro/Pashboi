@@ -5,10 +5,35 @@ import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/app_logo.dart';
 import 'package:pashboi/core/widgets/language_selector/language_selector.dart';
 import 'package:pashboi/core/widgets/theme_switcher/theme_switcher.dart';
+import 'package:pashboi/my_app.dart';
 import 'package:pashboi/pages/public/terms_and_condition_page/views/terms_and_conditions_page.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> with RouteAware {
+  final GlobalKey<AppLogoState> _logoKey = GlobalKey<AppLogoState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    _logoKey.currentState?.replayAnimation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,81 +44,67 @@ class LandingPage extends StatelessWidget {
         actions: [LanguageSelector(), ThemeSwitcher()],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AppLogo(width: 200, height: 200),
-                Text(
-                  Locales.string(context, 'welcome'),
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: context.theme.colorScheme.onSurface,
-                  ),
-                  textAlign: TextAlign.center,
+        child: Padding(
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AppLogo(key: _logoKey, width: 150, height: 150),
+              Text(
+                Locales.string(context, 'welcome'),
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.colorScheme.onSurface,
                 ),
-                const SizedBox(height: 32),
-
-                // Text before Login Button
-                _buildInfoText(
-                  context,
-                  Locales.string(context, 'login_instruction'),
-                ),
-                const SizedBox(height: 12),
-
-                // Login Button
-                _buildButton(
-                  context,
-                  label: Locales.string(context, 'login'),
-                  onPressed: () {
-                    Navigator.pushNamed(context, RoutesName.loginPage);
-                  },
-                ),
-                const SizedBox(height: 20),
-
-                // Text before Register Button
-                _buildInfoText(
-                  context,
-                  Locales.string(context, 'register_instruction'),
-                ),
-                const SizedBox(height: 12),
-
-                // Register Button
-                _buildButton(
-                  context,
-                  label: Locales.string(context, 'register'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TermsAndConditionsPage(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 20),
-
-                // Text before Product & Service Button
-                _buildInfoText(
-                  context,
-                  Locales.string(context, 'product_and_service_instruction'),
-                ),
-                const SizedBox(height: 12),
-
-                // Product & Service Button
-                _buildButton(
-                  context,
-                  label: Locales.string(context, 'product_and_service'),
-                  onPressed: () {
-                    Navigator.pushNamed(context, RoutesName.publicHomePage);
-                  },
-                ),
-                const SizedBox(height: 32),
-              ],
-            ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              _buildInfoText(
+                context,
+                Locales.string(context, 'login_instruction'),
+              ),
+              const SizedBox(height: 12),
+              _buildButton(
+                context,
+                label: Locales.string(context, 'login'),
+                onPressed: () {
+                  Navigator.pushNamed(context, RoutesName.loginPage);
+                },
+              ),
+              const SizedBox(height: 20),
+              _buildInfoText(
+                context,
+                Locales.string(context, 'register_instruction'),
+              ),
+              const SizedBox(height: 12),
+              _buildButton(
+                context,
+                label: Locales.string(context, 'register'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TermsAndConditionsPage(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              _buildInfoText(
+                context,
+                Locales.string(context, 'product_and_service_instruction'),
+              ),
+              const SizedBox(height: 12),
+              _buildButton(
+                context,
+                label: Locales.string(context, 'product_and_service'),
+                onPressed: () {
+                  Navigator.pushNamed(context, RoutesName.publicHomePage);
+                },
+              ),
+              const SizedBox(height: 32),
+            ],
           ),
         ),
       ),
@@ -107,21 +118,16 @@ class LandingPage extends StatelessWidget {
   }) {
     return SizedBox(
       width: double.infinity,
-      height: 44, // made smaller (was 56)
+      height: 44,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              30,
-            ), // also slightly tighter curve
+            borderRadius: BorderRadius.circular(30),
             side: BorderSide(color: context.theme.colorScheme.secondary),
           ),
           backgroundColor: context.theme.colorScheme.primary,
           foregroundColor: context.theme.colorScheme.onPrimary,
-          textStyle: const TextStyle(
-            fontSize: 16, // slightly smaller text
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
         onPressed: onPressed,

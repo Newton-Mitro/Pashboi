@@ -11,6 +11,8 @@ import 'package:pashboi/pages/public/under_maintanance_page/views/under_maintana
 import 'package:pashboi/routes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
 
 class MyApp extends StatelessWidget {
   final bool onBoarding;
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
               supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
               localizationsDelegates: Locales.delegates,
               locale: Locale(languageState.language, 'bn'),
+              navigatorObservers: [routeObserver],
               home: FutureBuilder<bool>(
                 future: isUnderConstruction(),
                 builder: (context, snapshot) {
