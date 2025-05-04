@@ -1,7 +1,5 @@
 {
   "app_name": "Pashboi",
-  "about": "About",
-  "contact": "Contact",
   "loan_management": "Loan",
   "deposit_management": "Deposit",
   "transfer_money": "Transfer",
@@ -27,7 +25,6 @@
   "onboarding_description_3": "Easily apply for loans, track your loan status, and manage your payments. We make it easy for you to take control of your financial future.",
   "onboarding_title_4": "Get Started with Pashboi Today!",
   "onboarding_description_4": "To register, you must already be a member of Dhaka Credit. Please have your registered mobile number ready. If you are not yet a member, please visit your nearest Dhaka Credit Service Center to register for membership and activate online services.",
-  "home": "Home",
   "accounts": "Accounts",
   "loans": "Loans",
   "deposits": "Deposits",
@@ -36,8 +33,8 @@
   "profile": "Profile",
   "settings": "Settings",
   "notices": "Notices",
-  "help": "Help",
   "services": "Services",
+  "service_centers": "Service Centers",
   "lbl_user_name": "User Name",
   "lbl_password": "Password",
   "lbl_confirm_password": "Confirm Password",
@@ -48,5 +45,13 @@
   "register_instruction": "If you are a member and registered for online service but don't have a user account, then Register now.",
   "product_and_service_instruction": "If you want to learn about our products and services, then visit Product & Service.",
   "under_maintenance_title": "We are Under Maintenance",
-  "under_maintenance_message": "We are currently upgrading our system to serve you better.\n\nPlease check back shortly!"
+  "under_maintenance_message": "We are currently upgrading our system to serve you better.\n\nPlease check back shortly!",
+  "terms_and_conditions": "Terms & Conditions",
+  "accept": "Accept",
+  "decline": "Decline",
+  "mobile_verification": "Mobile Verification",
+  "mobile_number": "Mobile Number",
+  "send_otp": "Send OTP",
+  "reseend_otp": "Resend OTP",
+  "verify_otp": "Verify OTP"
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pashboi/core/utils/app_context.dart';
@@ -850,7 +851,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
   ];
 
   LatLng _currentCenter = LatLng(23.7806, 90.4043);
-  double _currentZoom = 12.0;
+  double _currentZoom = 11.0;
 
   void _showDetailsDialog(BuildContext context, Map<String, dynamic> center) {
     showDialog(
@@ -862,10 +863,14 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (center['address'] != null) Text("📍 ${center['address']}"),
-                if (center['phone'] != null) Text("📞 ${center['phone']}"),
-                if (center['email'] != null) Text("✉️ ${center['email']}"),
-                if (center['time'] != null) Text("⏰ ${center['time']}"),
+                if (center['address']?.toString().trim().isNotEmpty ?? false)
+                  Text("📍 ${center['address']}"),
+                if (center['phone']?.toString().trim().isNotEmpty ?? false)
+                  Text("📞 ${center['phone']}"),
+                if (center['email']?.toString().trim().isNotEmpty ?? false)
+                  Text("✉️ ${center['email']}"),
+                if (center['time']?.toString().trim().isNotEmpty ?? false)
+                  Text("⏰ ${center['time']}"),
                 if (center['incharge_infos'] != null &&
                     center['incharge_infos'].isNotEmpty) ...[
                   const SizedBox(height: 8),
@@ -874,9 +879,16 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   for (var person in center['incharge_infos']) ...[
-                    Text("👤 ${person['name']} (${person['designation']})"),
-                    Text("📞 ${person['contactNumber']}"),
-                    Text("✉️ ${person['email']}"),
+                    if ((person['name']?.toString().trim().isNotEmpty ??
+                            false) &&
+                        (person['designation']?.toString().trim().isNotEmpty ??
+                            false))
+                      Text("👤 ${person['name']} (${person['designation']})"),
+                    if (person['contactNumber']?.toString().trim().isNotEmpty ??
+                        false)
+                      Text("📞 ${person['contactNumber']}"),
+                    if (person['email']?.toString().trim().isNotEmpty ?? false)
+                      Text("✉️ ${person['email']}"),
                   ],
                 ],
               ],
@@ -916,7 +928,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Service Centers')),
+      appBar: AppBar(title: Text(Locales.string(context, 'service_centers'))),
       body: Stack(
         children: [
           Container(
@@ -934,7 +946,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
                 initialZoom: _currentZoom,
                 onPositionChanged: (position, hasGesture) {
                   setState(() {
-                    _currentCenter = position.center!;
+                    _currentCenter = position.center;
                   });
                 },
               ),

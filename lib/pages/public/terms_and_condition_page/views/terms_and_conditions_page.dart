@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/widgets/app_logo.dart';
 
@@ -8,7 +9,9 @@ class TermsAndConditionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Terms and Conditions")),
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'terms_and_conditions')),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SingleChildScrollView(
@@ -76,7 +79,7 @@ class TermsAndConditionsPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Reject button color
                     ),
-                    child: const Text("Reject"),
+                    child: Text(Locales.string(context, 'decline')),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -90,7 +93,7 @@ class TermsAndConditionsPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green, // Accept button color
                     ),
-                    child: const Text("Accept"),
+                    child: Text(Locales.string(context, 'accept')),
                   ),
                 ],
               ),

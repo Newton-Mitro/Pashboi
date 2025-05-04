@@ -63,7 +63,7 @@ class PublicBottomNavigationBar extends StatelessWidget {
                 icon: FaIcon(
                   FontAwesomeIcons.locationDot,
                 ), // Icon color for Search
-                label: "Serv. Centers",
+                label: Locales.string(context, 'service_centers'),
               ),
             ],
           ),

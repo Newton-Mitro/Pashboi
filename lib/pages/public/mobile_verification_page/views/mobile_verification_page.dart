@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/widgets/app_logo.dart';
 
 class MobileVerificationPage extends StatefulWidget {
@@ -133,7 +134,9 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Mobile Verification")),
+      appBar: AppBar(
+        title: Text(Locales.string(context, "mobile_verification")),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -147,8 +150,8 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
             TextField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                labelText: 'Mobile Number',
+              decoration: InputDecoration(
+                labelText: Locales.string(context, "mobile_number"),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -192,17 +195,17 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                       _clearOtpFields();
                       _sendOtp();
                     },
-                    child: const Text('Resend OTP'),
+                    child: Text(Locales.string(context, "resend_otp")),
                   ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _verifyOtp,
-                child: const Text("Verify"),
+                child: Text(Locales.string(context, "verify_otp")),
               ),
             ] else
               ElevatedButton(
                 onPressed: _sendOtp,
-                child: const Text("Send OTP"),
+                child: Text(Locales.string(context, "send_otp")),
               ),
           ],
         ),
