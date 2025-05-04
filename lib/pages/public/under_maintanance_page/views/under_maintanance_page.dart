@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/app_logo.dart';
 
@@ -24,7 +25,7 @@ class UnderMaintenancePage extends StatelessWidget {
 
                 // Title
                 Text(
-                  context.appLocalizations.underMaintenanceTitle,
+                  Locales.string(context, 'under_maintenance_title'),
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -37,7 +38,7 @@ class UnderMaintenancePage extends StatelessWidget {
 
                 // Description
                 Text(
-                  context.appLocalizations.underMaintenanceMessage,
+                  Locales.string(context, 'under_maintenance_message'),
                   style: TextStyle(
                     fontSize: 16,
                     color: context.theme.colorScheme.onSurface.withOpacity(0.7),

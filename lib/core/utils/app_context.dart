@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:pashboi/app_configs/styles/app_text_style.dart';
 import 'package:pashboi/app_configs/styles/large_text_style.dart';
@@ -52,13 +51,4 @@ extension AppContext on BuildContext {
   }
 
   ThemeData get theme => Theme.of(this);
-
-  AppLocalizations get appLocalizations {
-    final localizations = AppLocalizations.of(this);
-    if (localizations == null) {
-      // Fallback in case localization isn't available (e.g., early context access)
-      return lookupAppLocalizations(const Locale('en'));
-    }
-    return localizations;
-  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/core/utils/app_context.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/widgets/language_selector/language_selector.dart';
 import 'package:pashboi/core/widgets/theme_switcher/theme_switcher.dart';
 
@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: preferredSize,
       child: AppBar(
-        title: Text(context.appLocalizations.appName),
+        title: Text(Locales.string(context, 'app_name')),
         backgroundColor: Colors.transparent,
         elevation: 0, // Remove default shadow
         actions: [

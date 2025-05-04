@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/pages/authenticated/home/notifier/notifiers.dart';
@@ -51,25 +52,25 @@ class AppBottomNavigationBar extends StatelessWidget {
                 icon: FaIcon(
                   FontAwesomeIcons.chartSimple,
                 ), // Icon color for Home
-                label: context.appLocalizations.info,
+                label: Locales.string(context, 'info'),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(
                   FontAwesomeIcons.umbrella,
                 ), // Icon color for Profile
-                label: context.appLocalizations.accounts,
+                label: Locales.string(context, 'accounts'),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(
                   FontAwesomeIcons.piggyBank,
                 ), // Icon color for Notifications
-                label: context.appLocalizations.depositManagement,
+                label: Locales.string(context, 'deposit_management'),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(
                   FontAwesomeIcons.moneyBillTransfer,
                 ), // Icon color for Search
-                label: context.appLocalizations.transferMoney,
+                label: Locales.string(context, 'transfer_money'),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(

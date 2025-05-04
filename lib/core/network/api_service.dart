@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:pashboi/core/constants/api_config.dart';
 import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/logging/logger_service.dart';
-import 'package:pashboi/core/network/auth_interceptor.dart';
 import 'package:pashboi/core/network/logger_interceptor.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 
@@ -20,10 +19,7 @@ class ApiService {
       connectTimeout: const Duration(seconds: 50),
       receiveTimeout: const Duration(seconds: 50),
     );
-    _dio.interceptors.addAll([
-      AuthInterceptor(dio: _dio, localStorage: localStorage),
-      LoggerInterceptor(loggerService: loggerService),
-    ]);
+    _dio.interceptors.addAll([LoggerInterceptor(loggerService: loggerService)]);
   }
 
   Future<Response> get(
