@@ -25,10 +25,10 @@ class LanguageSelector extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flag.fromCode(
-                isEnglish ? FlagsCode.US : FlagsCode.BD,
-                width: 24,
-                height: 16,
+              Icon(
+                Icons.language,
+                size: 20,
+                color: context.theme.colorScheme.onSurface,
               ),
               const SizedBox(width: 8),
               Text(
