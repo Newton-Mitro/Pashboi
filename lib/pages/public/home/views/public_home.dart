@@ -31,7 +31,7 @@ class _PublicHomeState extends State<PublicHome> {
 
   Widget _getScreen(int selectedPage) {
     final List<Widget> screens = [
-      DepositPoliciesPae(),
+      DepositPoliciesPage(),
       LoanPoliciesPage(),
       ServicesPage(),
       NoticesPage(),

@@ -53,7 +53,7 @@ class PublicBottomNavigationBar extends StatelessWidget {
                 icon: FaIcon(
                   FontAwesomeIcons.userNurse,
                 ), // Icon color for Notifications
-                label: Locales.string(context, 'services'),
+                label: Locales.string(context, 'services_and_projects'),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.bell), // Icon color for Search
