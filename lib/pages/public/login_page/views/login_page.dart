@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/app_context.dart';
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocProvider(
       create: (context) => sl<LoginScreenBloc>(),
       child: Scaffold(
-        appBar: AppBar(title: Text(context.appLocalizations.login)),
+        appBar: AppBar(title: Text(Locales.string(context, 'login'))),
         body: BlocListener<LoginScreenBloc, LoginScreenState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
@@ -67,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           AppTextInput(
                             controller: usernameController,
-                            label: context.appLocalizations.lbl_user_name,
+                            label: Locales.string(context, 'lbl_user_name'),
                             errorText:
                                 state is LoginValidationErrorState
                                     ? state.errors['email']?.isNotEmpty == true
@@ -82,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(height: 12),
                           AppTextInput(
                             controller: passwordController,
-                            label: context.appLocalizations.lbl_password,
+                            label: Locales.string(context, 'lbl_password'),
                             obscureText: true,
                             errorText:
                                 state is LoginValidationErrorState
@@ -107,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               },
                               child: Text(
-                                context.appLocalizations.forgotPassword,
+                                Locales.string(context, 'forgot_password'),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                   decoration: TextDecoration.underline,
@@ -146,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context.theme.colorScheme.onPrimary,
                               ),
                               child: Text(
-                                context.appLocalizations.login,
+                                Locales.string(context, 'login'),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onPrimary,
                                 ),
@@ -157,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                context.appLocalizations.dontHaveAccount,
+                                Locales.string(context, 'dont_have_account'),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                 ),
@@ -170,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                 },
                                 child: Text(
-                                  context.appLocalizations.createAccount,
+                                  Locales.string(context, 'create_account'),
                                   style: TextStyle(
                                     color: context.theme.colorScheme.onSurface,
                                     fontWeight: FontWeight.bold,

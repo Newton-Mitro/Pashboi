@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/constants/constants.dart';
 import 'package:pashboi/core/injection.dart';
@@ -104,7 +105,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                 }
                               },
                               child: Text(
-                                'Previous',
+                                Locales.string(context, 'previous'),
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: context.theme.colorScheme.onPrimary,
@@ -140,7 +141,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                 }
                               },
                               child: Text(
-                                'Next',
+                                Locales.string(context, 'next'),
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: context.theme.colorScheme.onPrimary,
@@ -180,7 +181,7 @@ Widget getStartedButton(BuildContext context) {
       Navigator.popAndPushNamed(context, RoutesName.landingPage);
     },
     child: Text(
-      'Get Started',
+      Locales.string(context, 'get_started'),
       style: TextStyle(
         fontSize: 14,
         color: context.theme.colorScheme.onPrimary,

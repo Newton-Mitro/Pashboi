@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/app_configs/themes/app_theme.dart';
 import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
@@ -45,14 +44,9 @@ class MyApp extends StatelessWidget {
                   themeState is LightThemeState
                       ? ThemeMode.light
                       : ThemeMode.dark,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [Locale('en'), Locale('bn')],
-              locale: Locale(languageState.language),
+              supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
+              localizationsDelegates: Locales.delegates,
+              locale: Locale(languageState.language, 'bn'),
               home: FutureBuilder<bool>(
                 future: isUnderConstruction(),
                 builder: (context, snapshot) {

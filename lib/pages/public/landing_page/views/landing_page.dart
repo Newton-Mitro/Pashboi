@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/app_logo.dart';
@@ -26,7 +27,7 @@ class LandingPage extends StatelessWidget {
               children: [
                 AppLogo(width: 200, height: 200),
                 Text(
-                  context.appLocalizations.welcome,
+                  Locales.string(context, 'welcome'),
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -39,14 +40,14 @@ class LandingPage extends StatelessWidget {
                 // Text before Login Button
                 _buildInfoText(
                   context,
-                  context.appLocalizations.loginInstruction,
+                  Locales.string(context, 'login_instruction'),
                 ),
                 const SizedBox(height: 12),
 
                 // Login Button
                 _buildButton(
                   context,
-                  label: context.appLocalizations.login,
+                  label: Locales.string(context, 'login'),
                   onPressed: () {
                     Navigator.pushNamed(context, RoutesName.loginPage);
                   },
@@ -56,14 +57,14 @@ class LandingPage extends StatelessWidget {
                 // Text before Register Button
                 _buildInfoText(
                   context,
-                  context.appLocalizations.registerInstruction,
+                  Locales.string(context, 'register_instruction'),
                 ),
                 const SizedBox(height: 12),
 
                 // Register Button
                 _buildButton(
                   context,
-                  label: context.appLocalizations.register,
+                  label: Locales.string(context, 'register'),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -78,14 +79,14 @@ class LandingPage extends StatelessWidget {
                 // Text before Product & Service Button
                 _buildInfoText(
                   context,
-                  context.appLocalizations.productAndServiceInstruction,
+                  Locales.string(context, 'product_and_service_instruction'),
                 ),
                 const SizedBox(height: 12),
 
                 // Product & Service Button
                 _buildButton(
                   context,
-                  label: context.appLocalizations.productAndService,
+                  label: Locales.string(context, 'product_and_service'),
                   onPressed: () {
                     Navigator.pushNamed(context, RoutesName.publicHomePage);
                   },

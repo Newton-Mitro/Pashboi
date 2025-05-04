@@ -1,3 +1,0 @@
-arb-dir: lib/app_configs/values/strings
-template-arb-file: app_en.arb
-output-localization-file: app_localizations.dart

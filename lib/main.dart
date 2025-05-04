@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/constants/constants.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
@@ -10,6 +11,7 @@ import 'package:pashboi/my_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Locales.init(['en', 'bn']);
   await setupDependencies(); // Register dependencies
   final localStorage = sl<LocalStorage>();
 

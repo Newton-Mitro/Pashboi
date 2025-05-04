@@ -40,6 +40,7 @@ dependencies:
   uuid: ^4.5.1
   visibility_detector: ^0.4.0+2
   youtube_player_flutter: ^9.1.1
+  flutter_locales:
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,7 @@ flutter:
     - assets/images/brand/
     - assets/images/onboarding/
     - assets/images/misc/
+    - assets/locales/
 
   fonts:
     - family: Roboto
@@ -84,7 +86,3 @@ flutter_icons:
   image_path: "assets/images/brand/app_icon.png"
   adaptive_icon_background: "#ffffff"
   adaptive_icon_foreground: "assets/images/brand/app_icon.png"
-
-flutter_gen:
-  output: lib/gen/
-  synthetic-package: false

@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/app_configs/routes/route_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/app_context.dart';
@@ -33,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            context.appLocalizations.register,
+            Locales.string(context, 'register'),
             style: TextStyle(color: context.theme.colorScheme.onPrimary),
           ),
         ),
@@ -80,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         AppLogo(width: 150, height: 150),
                         AppTextInput(
                           controller: nameController,
-                          label: context.appLocalizations.lbl_name,
+                          label: Locales.string(context, 'lbl_name'),
                           errorText:
                               state is RegistrationValidationErrorState
                                   ? state.errors['name']?.isNotEmpty == true
@@ -94,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         AppTextInput(
                           controller: emailController,
-                          label: context.appLocalizations.lbl_email,
+                          label: Locales.string(context, 'lbl_email'),
                           errorText:
                               state is RegistrationValidationErrorState
                                   ? state.errors['email']?.isNotEmpty == true
@@ -109,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         AppTextInput(
                           controller: passwordController,
-                          label: context.appLocalizations.lbl_password,
+                          label: Locales.string(context, 'lbl_password'),
                           errorText:
                               state is RegistrationValidationErrorState
                                   ? state.errors['password']?.isNotEmpty == true
@@ -124,7 +125,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         AppTextInput(
                           controller: confirmPasswordController,
-                          label: context.appLocalizations.lbl_confirm_password,
+                          label: Locales.string(
+                            context,
+                            'lbl_confirm_password',
+                          ),
                           errorText:
                               state is RegistrationValidationErrorState
                                   ? state
@@ -176,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     context.theme.colorScheme.onSecondary,
                               ),
                               child: Text(
-                                context.appLocalizations.createAccount,
+                                Locales.string(context, 'create_account'),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onPrimary,
                                 ),
@@ -188,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              context.appLocalizations.alreadyHaveAccount,
+                              Locales.string(context, 'already_have_account'),
                               style: TextStyle(
                                 color: context.theme.colorScheme.onSurface,
                               ),
@@ -201,7 +205,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
                               },
                               child: Text(
-                                context.appLocalizations.login,
+                                Locales.string(context, 'login'),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                 ),
