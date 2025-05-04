@@ -20,142 +20,153 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
   bool isLastPage = false;
+  int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
     final onboardingItems = OnboardingListItems.getListItems(context);
-    return Scaffold(
-      body: PageView.builder(
-        itemCount: onboardingItems.length,
-        onPageChanged:
-            (value) => setState(() {
-              isLastPage = value == onboardingItems.length - 1;
-            }),
-        controller: _pageController,
-        itemBuilder: (context, index) {
-          return Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Image.asset(
-                onboardingItems[index].imagePath,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: const Color.fromARGB(169, 1, 0, 5),
-              ),
-              Positioned(
-                top: 16,
-                left: 16,
-                child: SafeArea(child: LanguageSelector()),
-              ),
 
-              // Top Right: Theme Switcher
-              Positioned(
-                top: 16,
-                right: 16,
-                child: SafeArea(child: ThemeSwitcher()),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 10,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      onboardingItems[index].title,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
+    return Scaffold(
+      body: Stack(
+        children: [
+          PageView.builder(
+            itemCount: onboardingItems.length,
+            controller: _pageController,
+            onPageChanged: (value) {
+              setState(() {
+                currentPage = value;
+                isLastPage = value == onboardingItems.length - 1;
+              });
+            },
+            itemBuilder: (context, index) {
+              return Stack(
+                children: [
+                  Image.asset(
+                    onboardingItems[index].imagePath,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: const Color.fromARGB(169, 1, 0, 5),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 80,
+                      horizontal: 20,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      onboardingItems[index].description,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: Colors.white),
-                    ),
-                    const SizedBox(height: 50),
-                    isLastPage
-                        ? getStartedButton(context)
-                        : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            FilledButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  vertical: 10,
-                                ),
-                              ),
-                              onPressed: () {
-                                if ((_pageController.page ?? 0).round() > 0) {
-                                  _pageController.previousPage(
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeIn,
-                                  );
-                                }
-                              },
-                              child: Text(
-                                Locales.string(context, 'previous'),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: context.theme.colorScheme.onPrimary,
-                                ),
-                              ),
-                            ),
-                            SmoothPageIndicator(
-                              controller: _pageController,
-                              count: onboardingItems.length,
-                              effect: ExpandingDotsEffect(
-                                dotColor: context.theme.colorScheme.primary,
-                                activeDotColor: context.theme.colorScheme.error,
-                                dotHeight: 10,
-                                dotWidth: 10,
-                                spacing: 5,
-                              ),
-                            ),
-                            FilledButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  vertical: 10,
-                                ),
-                              ),
-                              onPressed: () {
-                                if ((_pageController.page ?? 0).round() <
-                                    onboardingItems.length - 1) {
-                                  _pageController.nextPage(
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeIn,
-                                  );
-                                }
-                              },
-                              child: Text(
-                                Locales.string(context, 'next'),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: context.theme.colorScheme.onPrimary,
-                                ),
-                              ),
-                            ),
-                          ],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          onboardingItems[index].title,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                  ],
-                ),
+                        const SizedBox(height: 10),
+                        Text(
+                          onboardingItems[index].description,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+
+          Positioned(
+            top: 16,
+            left: 16,
+            child: SafeArea(child: LanguageSelector()),
+          ),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: SafeArea(child: ThemeSwitcher()),
+          ),
+
+          /// Bottom Buttons Outside PageView
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.transparent,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Show "Previous" only if not on first page
+                  if (currentPage > 0)
+                    FilledButton(
+                      onPressed: () {
+                        _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                        );
+                      },
+                      child: Text(
+                        Locales.string(context, 'previous'),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.theme.colorScheme.onPrimary,
+                        ),
+                      ),
+                    )
+                  else
+                    const SizedBox(width: 88), // reserve space
+                  // Smooth Page Indicator in the center
+                  SmoothPageIndicator(
+                    controller: _pageController,
+                    count: onboardingItems.length,
+                    effect: ExpandingDotsEffect(
+                      dotColor: context.theme.colorScheme.primary,
+                      activeDotColor: context.theme.colorScheme.error,
+                      dotHeight: 10,
+                      dotWidth: 10,
+                      spacing: 5,
+                    ),
+                  ),
+
+                  // Right button (Next or Get Started)
+                  isLastPage
+                      ? getStartedButton(context)
+                      : FilledButton(
+                        onPressed: () {
+                          if (currentPage < onboardingItems.length - 1) {
+                            _pageController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeIn,
+                            );
+                          }
+                        },
+                        child: Text(
+                          Locales.string(context, 'next'),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.theme.colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                ],
               ),
-            ],
-          );
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -164,10 +175,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 Widget getStartedButton(BuildContext context) {
   return FilledButton(
     style: ElevatedButton.styleFrom(
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.1,
-        vertical: 10,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
         side: BorderSide(color: context.theme.colorScheme.secondary),
@@ -183,7 +191,7 @@ Widget getStartedButton(BuildContext context) {
     child: Text(
       Locales.string(context, 'get_started'),
       style: TextStyle(
-        fontSize: 14,
+        fontSize: 12,
         color: context.theme.colorScheme.onPrimary,
       ),
     ),

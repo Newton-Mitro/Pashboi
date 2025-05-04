@@ -35,7 +35,7 @@ class LanguageSelector extends StatelessWidget {
                 isEnglish ? 'en' : 'bn',
                 style: TextStyle(
                   fontSize: 16,
-                  color: context.theme.colorScheme.onPrimary,
+                  color: context.theme.colorScheme.onSurface,
                 ),
               ),
             ],
