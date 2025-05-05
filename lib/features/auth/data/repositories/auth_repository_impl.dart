@@ -24,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<DataState<UserModel>> login(String? email, String? password) async {
+  Future<DataState<UserEntity>> login(String? email, String? password) async {
     if (await networkInfo.isConnected == true) {
       try {
         final result = await authRemoteDataSource.login(email, password);
@@ -46,7 +46,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DataState<UserModel>> register(
+  Future<DataState<UserEntity>> register(
     String name,
     String email,
     String password,

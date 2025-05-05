@@ -30,7 +30,7 @@
   "login_page_password_label": "পাসওয়ার্ড",
   "login_page_forgot_password_button": "পাসওয়ার্ড ভুলে গেছেন?",
   "login_page_login_button": "লগইন",
-  "login_page_dont_have_account_text": "আপনার অ্যাকাউন্ট নেই?",
+  "login_page_dont_have_account_text": "অ্যাকাউন্ট নেই?",
   "login_page_create_account_button": "অ্যাকাউন্ট তৈরি করুন",
 
   "terms_and_conditions_page_title": "শর্তাবলী",
