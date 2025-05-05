@@ -71,7 +71,9 @@ class _ServicesPageState extends State<ServicesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Locales.string(context, 'services_and_projects')),
+        title: Text(
+          Locales.string(context, 'public_services_and_projects_page_title'),
+        ),
       ),
       body: ListView.builder(
         itemCount: services.length,

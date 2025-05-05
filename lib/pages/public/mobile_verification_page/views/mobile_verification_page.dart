@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/core/utils/app_context.dart';
 import 'package:pashboi/core/widgets/app_logo.dart';
 
 class MobileVerificationPage extends StatefulWidget {
@@ -135,7 +136,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Locales.string(context, "mobile_verification")),
+        title: Text(Locales.string(context, "mobile_verification_page_title")),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -151,7 +152,10 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
               controller: _phoneController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                labelText: Locales.string(context, "mobile_number"),
+                labelText: Locales.string(
+                  context,
+                  "mobile_verification_page_mobile_number_label",
+                ),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -189,23 +193,44 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
               ),
               const SizedBox(height: 10),
               _isWaiting
-                  ? Text('Resend in $_secondsRemaining seconds')
+                  ? Text(
+                    '${Locales.string(context, "mobile_verification_page_otp_expired_in_text")} $_secondsRemaining seconds',
+                  )
                   : TextButton(
                     onPressed: () {
                       _clearOtpFields();
                       _sendOtp();
                     },
-                    child: Text(Locales.string(context, "resend_otp")),
+                    child: Text(
+                      Locales.string(
+                        context,
+                        "mobile_verification_page_reseend_otp_button",
+                      ),
+                      style: TextStyle(
+                        color: context.theme.colorScheme.onPrimary,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _verifyOtp,
-                child: Text(Locales.string(context, "verify_otp")),
+                child: Text(
+                  Locales.string(
+                    context,
+                    "mobile_verification_page_verify_otp_button",
+                  ),
+                ),
               ),
             ] else
               ElevatedButton(
                 onPressed: _sendOtp,
-                child: Text(Locales.string(context, "send_otp")),
+                child: Text(
+                  Locales.string(
+                    context,
+                    "mobile_verification_page_send_otp_button",
+                  ),
+                ),
               ),
           ],
         ),

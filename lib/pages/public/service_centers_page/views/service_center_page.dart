@@ -28,7 +28,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "collection": "Head Office",
       "time": "10Am-6.30pm",
       "address":
-          "Rev. Fr. Charles J. Young Bhaban 173\/1\/A, East Tejturi Bazar,Tejgaon, Dhaka-1215.",
+          "Rev. Fr. Charles J. Young Bhaban 173/1/A, East Tejturi Bazar,Tejgaon, Dhaka-1215.",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -64,7 +64,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "location": LatLng(23.75740653691872, 90.38737219204839),
       "collection": "",
       "time": "10Am-6.30pm",
-      "address": "8\/ka, East Razabazar, (SadhanPara)",
+      "address": "8/ka, East Razabazar, (SadhanPara)",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -97,7 +97,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "location": LatLng(23.762532467978236, 90.384061646396),
       "collection": "",
       "time": "10Am-6.30pm",
-      "address": "88\/5, MonipuriPara, Dhaka.",
+      "address": "88/5, MonipuriPara, Dhaka.",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -130,7 +130,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "location": LatLng(23.80454288030815, 90.3666196825531),
       "collection": "",
       "time": "10Am-6.30pm",
-      "address": "32\/5, Senpara Porbota,Mirpur-10, Dhaka-1216.",
+      "address": "32/5, Senpara Porbota,Mirpur-10, Dhaka-1216.",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -197,7 +197,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "collection": "",
       "time": "10Am-6.30pm",
       "address":
-          "Nirmol Rozario Complex, B 45\/11 East Rajason, Berulia Road, Savar",
+          "Nirmol Rozario Complex, B 45/11 East Rajason, Berulia Road, Savar",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -230,7 +230,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "location": LatLng(23.813484414636275, 90.41766775909133),
       "collection": "",
       "time": "10Am-6.30pm",
-      "address": "Ka-23\/3\/B, Joar Shahara Nadda, Dhaka-1212.",
+      "address": "Ka-23/3/B, Joar Shahara Nadda, Dhaka-1212.",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -263,8 +263,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "location": LatLng(23.707985489497695, 90.41637858237475),
       "collection": "",
       "time": "10Am-6.30pm",
-      "address":
-          "61\/1, Subash Bose Avenue,Community Center Bhaban,Luxmibazar.",
+      "address": "61/1, Subash Bose Avenue,Community Center Bhaban,Luxmibazar.",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -297,7 +296,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "location": LatLng(23.774608158353267, 90.40321585766975),
       "collection": "",
       "time": "10Am-6.30pm",
-      "address": "118\/12, South Mohakhali,Gulshan, Dhaka.1212",
+      "address": "118/12, South Mohakhali,Gulshan, Dhaka.1212",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -353,7 +352,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
     },
     {
       "id": "32cfad2e-2b80-4b98-9e38-1c5fe667356a",
-      "name": "Hasnabad Service Center\/Bandura",
+      "name": "Hasnabad Service Center/Bandura",
       "slug": "hasnabad-service-centerbandura",
       "order": 12,
       "email": "",
@@ -713,7 +712,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
       "collection": "Every Saturday, Sunday Last day of Month",
       "time": "Time: (10:30am \u2013 4pm) & (Saturday:3.30-6pm)",
       "address":
-          "Oblet Delegation House, 24\/A, Asad Avenue, Mohammadpur, Dhaka",
+          "Oblet Delegation House, 24/A, Asad Avenue, Mohammadpur, Dhaka",
       "publish_status": "Published",
       "created_at": "2025-03-20T10:30:03.000000Z",
       "updated_at": "2025-03-20T10:30:03.000000Z",
@@ -928,7 +927,11 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(Locales.string(context, 'service_centers'))),
+      appBar: AppBar(
+        title: Text(
+          Locales.string(context, 'public_service_centers_page_title'),
+        ),
+      ),
       body: Stack(
         children: [
           Container(

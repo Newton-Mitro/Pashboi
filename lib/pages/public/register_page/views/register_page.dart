@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            Locales.string(context, 'register'),
+            Locales.string(context, 'register_page_title'),
             style: TextStyle(color: context.theme.colorScheme.onPrimary),
           ),
         ),
@@ -81,7 +81,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         AppLogo(width: 150, height: 150),
                         AppTextInput(
                           controller: nameController,
-                          label: Locales.string(context, 'lbl_name'),
+                          label: Locales.string(
+                            context,
+                            'register_page_name_label',
+                          ),
                           errorText:
                               state is RegistrationValidationErrorState
                                   ? state.errors['name']?.isNotEmpty == true
@@ -95,7 +98,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         AppTextInput(
                           controller: emailController,
-                          label: Locales.string(context, 'lbl_email'),
+                          label: Locales.string(
+                            context,
+                            'register_page_email_label',
+                          ),
                           errorText:
                               state is RegistrationValidationErrorState
                                   ? state.errors['email']?.isNotEmpty == true
@@ -110,7 +116,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         AppTextInput(
                           controller: passwordController,
-                          label: Locales.string(context, 'lbl_password'),
+                          label: Locales.string(
+                            context,
+                            'register_page_password_label',
+                          ),
                           errorText:
                               state is RegistrationValidationErrorState
                                   ? state.errors['password']?.isNotEmpty == true
@@ -127,7 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller: confirmPasswordController,
                           label: Locales.string(
                             context,
-                            'lbl_confirm_password',
+                            'register_page_confirm_password_label',
                           ),
                           errorText:
                               state is RegistrationValidationErrorState
@@ -180,7 +189,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                     context.theme.colorScheme.onSecondary,
                               ),
                               child: Text(
-                                Locales.string(context, 'create_account'),
+                                Locales.string(
+                                  context,
+                                  'register_page_create_account_button',
+                                ),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onPrimary,
                                 ),
@@ -192,7 +204,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              Locales.string(context, 'already_have_account'),
+                              Locales.string(
+                                context,
+                                'register_page_already_have_account_text',
+                              ),
                               style: TextStyle(
                                 color: context.theme.colorScheme.onSurface,
                               ),
@@ -205,7 +220,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
                               },
                               child: Text(
-                                Locales.string(context, 'login'),
+                                Locales.string(
+                                  context,
+                                  'register_page_login_button',
+                                ),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                 ),

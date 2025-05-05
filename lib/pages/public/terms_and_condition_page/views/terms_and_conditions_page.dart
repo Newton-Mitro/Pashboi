@@ -10,7 +10,7 @@ class TermsAndConditionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Locales.string(context, 'terms_and_conditions')),
+        title: Text(Locales.string(context, 'terms_and_conditions_page_title')),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -79,7 +79,12 @@ class TermsAndConditionsPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Reject button color
                     ),
-                    child: Text(Locales.string(context, 'decline')),
+                    child: Text(
+                      Locales.string(
+                        context,
+                        'terms_and_conditions_page_decline_button',
+                      ),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -93,7 +98,12 @@ class TermsAndConditionsPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green, // Accept button color
                     ),
-                    child: Text(Locales.string(context, 'accept')),
+                    child: Text(
+                      Locales.string(
+                        context,
+                        'terms_and_conditions_page_accept_button',
+                      ),
+                    ),
                   ),
                 ],
               ),

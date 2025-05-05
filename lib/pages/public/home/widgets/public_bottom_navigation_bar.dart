@@ -41,29 +41,41 @@ class PublicBottomNavigationBar extends StatelessWidget {
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.piggyBank), // Icon color for Home
-                label: Locales.string(context, 'savings'),
+                label: Locales.string(
+                  context,
+                  'public_bottom_nav_menu_savings',
+                ),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(
                   FontAwesomeIcons.sackDollar,
                 ), // Icon color for Profile
-                label: Locales.string(context, 'loans'),
+                label: Locales.string(context, 'public_bottom_nav_menu_loans'),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(
                   FontAwesomeIcons.userNurse,
                 ), // Icon color for Notifications
-                label: Locales.string(context, 'services_and_projects'),
+                label: Locales.string(
+                  context,
+                  'public_bottom_nav_menu_services_and_projects',
+                ),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.bell), // Icon color for Search
-                label: Locales.string(context, 'notices'),
+                label: Locales.string(
+                  context,
+                  'public_bottom_nav_menu_notices',
+                ),
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(
                   FontAwesomeIcons.locationDot,
                 ), // Icon color for Search
-                label: Locales.string(context, 'service_centers'),
+                label: Locales.string(
+                  context,
+                  'public_bottom_nav_menu_service_centers',
+                ),
               ),
             ],
           ),

@@ -26,7 +26,9 @@ class _LoginPageState extends State<LoginPage> {
     return BlocProvider(
       create: (context) => sl<LoginScreenBloc>(),
       child: Scaffold(
-        appBar: AppBar(title: Text(Locales.string(context, 'login'))),
+        appBar: AppBar(
+          title: Text(Locales.string(context, 'login_page_title')),
+        ),
         body: BlocListener<LoginScreenBloc, LoginScreenState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
@@ -68,7 +70,10 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           AppTextInput(
                             controller: usernameController,
-                            label: Locales.string(context, 'lbl_user_name'),
+                            label: Locales.string(
+                              context,
+                              'login_page_user_name_label',
+                            ),
                             errorText:
                                 state is LoginValidationErrorState
                                     ? state.errors['email']?.isNotEmpty == true
@@ -83,7 +88,10 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(height: 12),
                           AppTextInput(
                             controller: passwordController,
-                            label: Locales.string(context, 'lbl_password'),
+                            label: Locales.string(
+                              context,
+                              'login_page_password_label',
+                            ),
                             obscureText: true,
                             errorText:
                                 state is LoginValidationErrorState
@@ -108,7 +116,10 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               },
                               child: Text(
-                                Locales.string(context, 'forgot_password'),
+                                Locales.string(
+                                  context,
+                                  'login_page_forgot_password_button',
+                                ),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                   decoration: TextDecoration.underline,
@@ -147,7 +158,10 @@ class _LoginPageState extends State<LoginPage> {
                                     context.theme.colorScheme.onPrimary,
                               ),
                               child: Text(
-                                Locales.string(context, 'login'),
+                                Locales.string(
+                                  context,
+                                  'login_page_login_button',
+                                ),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onPrimary,
                                 ),
@@ -158,7 +172,10 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                Locales.string(context, 'dont_have_account'),
+                                Locales.string(
+                                  context,
+                                  'login_page_dont_have_account_text',
+                                ),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                 ),
@@ -171,7 +188,10 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                 },
                                 child: Text(
-                                  Locales.string(context, 'create_account'),
+                                  Locales.string(
+                                    context,
+                                    'login_page_create_account_button',
+                                  ),
                                   style: TextStyle(
                                     color: context.theme.colorScheme.onSurface,
                                     fontWeight: FontWeight.bold,

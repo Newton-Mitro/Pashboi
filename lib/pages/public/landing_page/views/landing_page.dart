@@ -51,7 +51,7 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
             children: [
               AppLogo(key: _logoKey, width: 150, height: 150),
               Text(
-                Locales.string(context, 'welcome'),
+                Locales.string(context, 'landing_page_welcome_text'),
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -62,12 +62,12 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
               const SizedBox(height: 16),
               _buildInfoText(
                 context,
-                Locales.string(context, 'login_instruction'),
+                Locales.string(context, 'landing_page_login_instruction'),
               ),
               const SizedBox(height: 12),
               _buildButton(
                 context,
-                label: Locales.string(context, 'login'),
+                label: Locales.string(context, 'landing_page_login_button'),
                 onPressed: () {
                   Navigator.pushNamed(context, RoutesName.loginPage);
                 },
@@ -75,12 +75,12 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
               const SizedBox(height: 20),
               _buildInfoText(
                 context,
-                Locales.string(context, 'register_instruction'),
+                Locales.string(context, 'landing_page_register_instruction'),
               ),
               const SizedBox(height: 12),
               _buildButton(
                 context,
-                label: Locales.string(context, 'register'),
+                label: Locales.string(context, 'landing_page_register_button'),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -93,12 +93,18 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
               const SizedBox(height: 20),
               _buildInfoText(
                 context,
-                Locales.string(context, 'product_and_service_instruction'),
+                Locales.string(
+                  context,
+                  'landing_page_product_and_service_instruction',
+                ),
               ),
               const SizedBox(height: 12),
               _buildButton(
                 context,
-                label: Locales.string(context, 'product_and_service'),
+                label: Locales.string(
+                  context,
+                  'landing_page_product_and_service_button',
+                ),
                 onPressed: () {
                   Navigator.pushNamed(context, RoutesName.publicHomePage);
                 },

@@ -120,7 +120,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         );
                       },
                       child: Text(
-                        Locales.string(context, 'previous'),
+                        Locales.string(context, 'onboarding_previous_button'),
                         style: TextStyle(
                           fontSize: 12,
                           color: context.theme.colorScheme.onPrimary,
@@ -155,7 +155,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           }
                         },
                         child: Text(
-                          Locales.string(context, 'next'),
+                          Locales.string(context, 'onboarding_next_button'),
                           style: TextStyle(
                             fontSize: 12,
                             color: context.theme.colorScheme.onPrimary,
@@ -189,7 +189,7 @@ Widget getStartedButton(BuildContext context) {
       Navigator.popAndPushNamed(context, RoutesName.landingPage);
     },
     child: Text(
-      Locales.string(context, 'get_started'),
+      Locales.string(context, 'onboarding_get_started_button'),
       style: TextStyle(
         fontSize: 12,
         color: context.theme.colorScheme.onPrimary,

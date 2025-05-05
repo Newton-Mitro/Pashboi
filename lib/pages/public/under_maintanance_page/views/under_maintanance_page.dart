@@ -24,7 +24,7 @@ class UnderMaintenancePage extends StatelessWidget {
 
                 // Title
                 Text(
-                  Locales.string(context, 'under_maintenance_title'),
+                  Locales.string(context, 'under_maintenance_page_title'),
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -37,7 +37,7 @@ class UnderMaintenancePage extends StatelessWidget {
 
                 // Description
                 Text(
-                  Locales.string(context, 'under_maintenance_message'),
+                  Locales.string(context, 'under_maintenance_page_message'),
                   style: TextStyle(
                     fontSize: 16,
                     color: context.theme.colorScheme.onSurface.withOpacity(0.7),
@@ -63,7 +63,9 @@ class UnderMaintenancePage extends StatelessWidget {
                   onPressed: () {
                     exit(0); // <-- Exit the app
                   },
-                  child: const Text('Exit'),
+                  child: Text(
+                    Locales.string(context, "under_maintenance_page_button"),
+                  ),
                 ),
               ],
             ),
