@@ -128,23 +128,35 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
     required String label,
     required VoidCallback onPressed,
   }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 44,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-            side: BorderSide(color: context.theme.colorScheme.secondary),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 36,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+                side: BorderSide(color: context.theme.colorScheme.secondary),
+              ),
+              backgroundColor: context.theme.colorScheme.primary,
+              foregroundColor: context.theme.colorScheme.onPrimary,
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+            onPressed: onPressed,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+              ), // Adjust as needed
+              child: Text(label),
+            ),
           ),
-          backgroundColor: context.theme.colorScheme.primary,
-          foregroundColor: context.theme.colorScheme.onPrimary,
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
-        onPressed: onPressed,
-        child: Text(label),
-      ),
+      ],
     );
   }
 
