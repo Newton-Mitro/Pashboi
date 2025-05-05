@@ -129,8 +129,8 @@ class AppTheme {
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: _lightColors.primary,
-      selectedItemColor: _lightColors.secondary,
-      unselectedItemColor: _lightColors.onPrimary,
+      selectedItemColor: _lightColors.selected,
+      unselectedItemColor: _lightColors.unSelected,
     ),
     pageTransitionsTheme: _pageTransitionsTheme,
     visualDensity: VisualDensity.adaptivePlatformDensity,

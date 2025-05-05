@@ -120,9 +120,9 @@ class AppColorsLight implements AppColors {
 
   // Additional UI Colors
   @override
-  Color get selected => const Color(0xFF4CAF50); // Green for selected items
+  Color get selected => const Color.fromARGB(255, 250, 253, 250); // Green for selected items
   @override
-  Color get unSelected => const Color(0xFF757575); // Light gray for unselected
+  Color get unSelected => const Color.fromARGB(255, 202, 250, 213); // Light gray for unselected
   @override
   Color get disabled => const Color(0xFFB0B0B0); // Disabled gray
 
