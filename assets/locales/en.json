@@ -20,8 +20,8 @@
   "landing_page_welcome_text": "Welcome to Pashboi",
   "landing_page_login_instruction": "If you are a member of Dhaka Credit and already have a user account, then login.",
   "landing_page_login_button": "Login",
-  "landing_page_register_instruction": "If you are a member and registered for online service but don't have a user account, then Register now.",
-  "landing_page_register_button": "Register",
+  "landing_page_create_account_instruction": "If you are a member and registered for online service but don't have a user account, then create user account now.",
+  "landing_page_create_account_button": "Create User Account",
   "landing_page_product_and_service_instruction": "If you want to learn about our products and services, then visit Product & Service.",
   "landing_page_product_and_service_button": "Product & Service",
 
@@ -45,7 +45,7 @@
   "mobile_verification_page_otp_expired_in_text": "OTP Expired in",
   "mobile_verification_page_otp_expire_in_time_text": "seconds",
 
-  "register_page_title": "Register",
+  "register_page_title": "Create User Account",
   "register_page_name_label": "Name",
   "register_page_email_label": "Email",
   "register_page_password_label": "Password",

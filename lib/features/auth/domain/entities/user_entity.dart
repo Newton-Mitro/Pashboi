@@ -1,4 +1,4 @@
-import 'package:pashboi/core/entities/entity.dart';
+import 'package:pashboi/shared/entities/entity.dart';
 import 'package:pashboi/features/auth/domain/entities/role_permission_entity.dart';
 
 class UserEntity extends Entity {

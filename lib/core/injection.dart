@@ -6,8 +6,8 @@ import 'package:pashboi/core/network/network_info.dart';
 import 'package:pashboi/core/network/network_info_impl.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/core/utils/local_storage_impl.dart';
-import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
-import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
+import 'package:pashboi/shared/widgets/language_selector/bloc/language_bloc.dart';
+import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
 import 'network/api_service.dart';
 
 final sl = GetIt.instance;

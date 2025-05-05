@@ -14,6 +14,13 @@
       "Address": "MIRPUR,KAFRUL,DHAKA",
       "OrganizationCode": "001",
       "LedgerId": 0,
+      "DeviceId": 33980,
+      "IsSuperPermission": false,
+      "EmployeeCode": "1180",
+      "TellerBranchCode": null,
+      "PunchInBranchCode": null,
+      "IsNewMenu": false,
+      "InvestigationArea": "Monipuripara",
       "RolePermissionModelList": [
         {
           "MenuId": 445,
@@ -4295,14 +4302,7 @@
           "PermissinEndDate": null,
           "IsNewMenu": false
         }
-      ],
-      "DeviceId": 33980,
-      "IsSuperPermission": false,
-      "EmployeeCode": "1180",
-      "TellerBranchCode": null,
-      "PunchInBranchCode": null,
-      "IsNewMenu": false,
-      "InvestigationArea": "Monipuripara"
+      ]
     }
   ],
   "Status": "success",

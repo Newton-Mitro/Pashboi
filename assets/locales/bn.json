@@ -20,8 +20,8 @@
   "landing_page_welcome_text": "পাশবই-এ স্বাগতম",
   "landing_page_login_instruction": "আপনি যদি ঢাকা ক্রেডিট-এর সদস্য হয়ে থাকেন এবং একটি ব্যবহারকারী অ্যাকাউন্ট থাকে, তাহলে লগইন করুন।",
   "landing_page_login_button": "লগইন",
-  "landing_page_register_instruction": "আপনি যদি সদস্য হন এবং অনলাইন সেবার জন্য নিবন্ধিত থাকেন কিন্তু ব্যবহারকারী অ্যাকাউন্ট না থাকে, তাহলে এখনই নিবন্ধন করুন।",
-  "landing_page_register_button": "নিবন্ধন",
+  "landing_page_create_account_instruction": "আপনি যদি সদস্য হন এবং অনলাইন সেবার জন্য নিবন্ধিত থাকেন কিন্তু ব্যবহারকারী অ্যাকাউন্ট না থাকে, তাহলে এখনই অ্যাকাউন্ট তৈরি করুন।",
+  "landing_page_create_account_button": "অ্যাকাউন্ট তৈরি করুন",
   "landing_page_product_and_service_instruction": "আপনি যদি আমাদের পণ্য ও সেবা সম্পর্কে জানতে চান, তাহলে পণ্য ও সেবা-তে যান।",
   "landing_page_product_and_service_button": "পণ্য ও সেবা",
 
@@ -45,7 +45,7 @@
   "mobile_verification_page_otp_expired_in_text": "ওটিপি মেয়াদ শেষ হবে",
   "mobile_verification_page_otp_expire_in_time_text": "সেকেন্ড",
 
-  "register_page_title": "নিবন্ধন",
+  "register_page_title": "অ্যাকাউন্ট তৈরি করুন",
   "register_page_name_label": "নাম",
   "register_page_email_label": "ইমেইল",
   "register_page_password_label": "পাসওয়ার্ড",

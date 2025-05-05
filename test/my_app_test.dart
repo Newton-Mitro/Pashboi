@@ -4,11 +4,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:pashboi/my_app.dart';
-import 'package:pashboi/pages/public/landing_page/views/landing_page.dart';
-import 'package:pashboi/pages/public/onboarding_page/views/onboarding_page.dart';
-import 'package:pashboi/pages/public/under_maintanance_page/views/under_maintanance_page.dart';
-import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
-import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
+import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
+import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:pashboi/features/under_maintanance/presentation/pages/under_maintanance_page.dart';
+import 'package:pashboi/shared/widgets/language_selector/bloc/language_bloc.dart';
+import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 
 // Mock the LocalStorage class

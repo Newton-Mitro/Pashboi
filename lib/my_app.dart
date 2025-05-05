@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:pashboi/app_configs/themes/app_theme.dart';
-import 'package:pashboi/core/widgets/language_selector/bloc/language_bloc.dart';
-import 'package:pashboi/core/widgets/theme_switcher/bloc/theme_bloc.dart';
-import 'package:pashboi/pages/public/landing_page/views/landing_page.dart';
-import 'package:pashboi/pages/public/onboarding_page/views/onboarding_page.dart';
-import 'package:pashboi/pages/public/under_maintanance_page/views/under_maintanance_page.dart';
-import 'package:pashboi/routes.dart';
+import 'package:pashboi/core/themes/app_theme.dart';
+import 'package:pashboi/shared/widgets/language_selector/bloc/language_bloc.dart';
+import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
+import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
+import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:pashboi/features/under_maintanance/presentation/pages/under_maintanance_page.dart';
+import 'package:pashboi/routes/routes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =

@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-import 'package:pashboi/core/constants/constants.dart';
+import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/network/network_info.dart';
 import 'package:pashboi/core/resources/response_state.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
-import 'package:pashboi/features/auth/data/data_sources/auth_data_source.dart';
+import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
-import 'package:pashboi/pages/authenticated/home/notifier/notifiers.dart';
+import 'package:pashboi/features/authenticated_home/notifier/notifiers.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthDataSource authDataSource;
+  final AuthRemoteDataSource authRemoteDataSource;
   final NetworkInfo networkInfo;
   final LocalStorage localStorage;
 
   AuthRepositoryImpl({
-    required this.authDataSource,
+    required this.authRemoteDataSource,
     required this.networkInfo,
     required this.localStorage,
   });
@@ -27,7 +27,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<DataState<UserModel>> login(String? email, String? password) async {
     if (await networkInfo.isConnected == true) {
       try {
-        final result = await authDataSource.login(email, password);
+        final result = await authRemoteDataSource.login(email, password);
         return SuccessData(result);
       } catch (e) {
         if (e is ValidationException) {
@@ -54,7 +54,7 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     if (await networkInfo.isConnected == true) {
       try {
-        final result = await authDataSource.register(
+        final result = await authRemoteDataSource.register(
           name,
           email,
           password,
@@ -81,7 +81,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<DataState<void>> logout() async {
     if (await networkInfo.isConnected == true) {
       try {
-        final result = await authDataSource.logout();
+        final result = await authRemoteDataSource.logout();
         await _clearToken();
         return SuccessData(result);
       } catch (e) {
@@ -94,8 +94,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   Future<DataState<void>> _clearToken() async {
     try {
-      await localStorage.remove(Constants.keyAccessToken);
-      await localStorage.remove(Constants.keyAuthUser);
+      await localStorage.remove(StorageKey.keyAccessToken);
+      await localStorage.remove(StorageKey.keyAuthUser);
       authUserNotifier.value = null;
       accessTokenNotifier.value = null;
       selectedPageNotifier.value = 0;
@@ -108,9 +108,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<DataState<UserEntity>> getAuthUser() async {
     try {
-      final authToken = await localStorage.getString(Constants.keyAccessToken);
+      final authToken = await localStorage.getString(StorageKey.keyAccessToken);
 
-      final stringUser = await localStorage.getString(Constants.keyAuthUser);
+      final stringUser = await localStorage.getString(StorageKey.keyAuthUser);
 
       if (stringUser != null && authToken != null) {
         final user = UserModel.fromJson(jsonDecode(stringUser));

@@ -1,4 +1,4 @@
-import '../../../../core/entities/entity.dart';
+import '../../../../shared/entities/entity.dart';
 
 class RolePermissionEntity extends Entity {
   final int menuId;

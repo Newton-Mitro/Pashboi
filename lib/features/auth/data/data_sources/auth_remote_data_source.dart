@@ -1,12 +1,22 @@
 import 'dart:io';
 
-import 'package:pashboi/core/constants/constants.dart';
+import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/network/api_service.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
-import 'package:pashboi/features/auth/data/data_sources/auth_data_source.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 
-class AuthRemoteDataSourceImpl implements AuthDataSource {
+abstract class AuthRemoteDataSource {
+  Future<UserModel> login(String? email, String? password);
+  Future<UserModel> register(
+    String name,
+    String email,
+    String password,
+    String confirmPassword,
+  );
+  Future<void> logout();
+}
+
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiService apiService;
   final LocalStorage localStorage;
 
@@ -31,7 +41,7 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
         // Or use: response.data?['token'] if your token comes in body
 
         if (token != null) {
-          await localStorage.saveString(Constants.keyAccessToken, token);
+          await localStorage.saveString(StorageKey.keyAccessToken, token);
         }
 
         return UserModel.fromJson(data);
@@ -80,7 +90,7 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   Future<void> logout() async {
     try {
       await apiService.get('/auth/logout');
-      await localStorage.remove(Constants.keyAccessToken);
+      await localStorage.remove(StorageKey.keyAccessToken);
     } catch (e) {
       rethrow;
     }
