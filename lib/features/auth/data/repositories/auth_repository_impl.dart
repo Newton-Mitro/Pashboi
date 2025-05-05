@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/network/network_info.dart';
 import 'package:pashboi/core/resources/response_state.dart';
+import 'package:pashboi/core/types/typedef.dart';
+import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
@@ -24,24 +27,12 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<DataState<UserEntity>> login(String? email, String? password) async {
-    if (await networkInfo.isConnected == true) {
-      try {
-        final result = await authRemoteDataSource.login(email, password);
-        return SuccessData(result);
-      } catch (e) {
-        if (e is ValidationException) {
-          return ValidationFailedData(ValidationFailure(e.errors));
-        }
-
-        if (e is UnauthorizedException) {
-          return FailedData(UnauthorizedFailure());
-        }
-
-        return FailedData(ServerFailure());
-      }
-    } else {
-      return FailedData(NetworkFailure());
+  ResultFuture<UserEntity> login(String? email, String? password) async {
+    try {
+      final result = await authRemoteDataSource.login(email, password);
+      return;
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
     }
   }
 
@@ -63,7 +54,7 @@ class AuthRepositoryImpl implements AuthRepository {
         return SuccessData(result);
       } catch (e) {
         if (e is ValidationException) {
-          return ValidationFailedData(ValidationFailure(e.errors));
+          return ValidationFailedData(ValidationFailure(errors: e.errors));
         }
 
         if (e is UnauthorizedException) {

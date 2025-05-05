@@ -6,4 +6,6 @@ final class ErrorMessage {
       "Unauthorized: Please check your credentials.";
   static const String forbidden = "Forbidden: Access is denied.";
   static const String validationError = "Validation error occurred";
+  static const String timeout = "Request timed out";
+  static const String requestCancelled = "Request was cancelled.";
 }
