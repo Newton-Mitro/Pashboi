@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const AppLogo(width: 150, height: 150),
+                  const AppLogo(width: 150),
                   const SizedBox(height: 50),
                   BlocBuilder<LoginPageBloc, LoginPageState>(
                     builder: (context, state) {

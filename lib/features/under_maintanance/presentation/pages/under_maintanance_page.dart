@@ -18,7 +18,7 @@ class UnderMaintenancePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AppLogo(width: 150, height: 150),
+                AppLogo(width: 150),
 
                 const SizedBox(height: 32),
 

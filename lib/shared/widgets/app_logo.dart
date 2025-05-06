@@ -5,8 +5,7 @@ import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
 
 class AppLogo extends StatefulWidget {
   final double width;
-  final double height;
-  const AppLogo({super.key, this.width = 30, this.height = 30});
+  const AppLogo({super.key, this.width = 30});
 
   @override
   State<AppLogo> createState() => AppLogoState();
@@ -73,7 +72,6 @@ class AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin {
           child: Image.asset(
             state is LightThemeState ? AppImages.logo : AppImages.logoDark,
             width: widget.width,
-            height: widget.height,
           ),
         );
       },

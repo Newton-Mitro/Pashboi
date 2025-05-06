@@ -42,9 +42,15 @@ class AppTheme {
     popupMenuTheme: PopupMenuThemeData(color: _darkColors.surface),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
-        color: _darkColors.onBackground,
+        color: _darkColors.surface, // Background color
         borderRadius: BorderRadius.circular(8),
       ),
+      textStyle: TextStyle(
+        color: _darkColors.onSurface, // Foreground (text) color
+        fontSize: 14,
+      ),
+      waitDuration: Duration(milliseconds: 500),
+      showDuration: Duration(seconds: 2),
     ),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(_darkColors.primary),
@@ -123,9 +129,15 @@ class AppTheme {
     popupMenuTheme: PopupMenuThemeData(color: _lightColors.surface),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
-        color: _lightColors.onBackground,
+        color: _lightColors.surface, // Background color
         borderRadius: BorderRadius.circular(8),
       ),
+      textStyle: TextStyle(
+        color: _lightColors.onSurface, // Foreground (text) color
+        fontSize: 14,
+      ),
+      waitDuration: Duration(milliseconds: 500),
+      showDuration: Duration(seconds: 2),
     ),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(_lightColors.primary),

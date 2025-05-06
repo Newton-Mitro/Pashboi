@@ -81,7 +81,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       spacing: 10,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        AppLogo(width: 150, height: 150),
+                        AppLogo(width: 150),
                         AppTextInput(
                           controller: nameController,
                           label: Locales.string(

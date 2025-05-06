@@ -37,7 +37,7 @@ class CustomBottomSheet extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
             ),
           ),
-          const AppLogo(width: 100, height: 100),
+          const AppLogo(width: 100),
           const SizedBox(height: 50),
           CustomButton(context, 'Login', PublicRoutesName.loginPage),
           const SizedBox(height: 10),

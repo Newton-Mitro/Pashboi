@@ -52,15 +52,13 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Center content at the top
+              AppLogo(key: _logoKey, width: 150),
               Column(
                 children: [
-                  AppLogo(key: _logoKey, width: 150, height: 150),
-                  const SizedBox(height: 36),
                   Text(
                     Locales.string(context, 'landing_page_welcome_text'),
                     style: TextStyle(
@@ -178,12 +176,8 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
                 ],
               ),
-              // Spacer to push Product and Service to the bottom
-              Spacer(),
-              // Product and Service at the bottom
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -225,7 +219,6 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                   ),
                 ],
               ),
-              const SizedBox(height: 32),
             ],
           ),
         ),

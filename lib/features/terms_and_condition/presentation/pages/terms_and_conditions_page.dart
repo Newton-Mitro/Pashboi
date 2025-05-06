@@ -19,7 +19,7 @@ class TermsAndConditionsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Center the logo
-              Center(child: AppLogo(width: 150, height: 150)),
+              Center(child: AppLogo(width: 150)),
               const SizedBox(height: 20),
               const Text(
                 'Terms and Conditions',
