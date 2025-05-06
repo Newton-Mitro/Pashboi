@@ -1,15 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pashboi/core/constants/storage_key.dart';
-import 'package:pashboi/core/utils/local_storage.dart';
+import 'package:pashboi/shared/widgets/theme_switcher/services/theme_service.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
-  final LocalStorage localStorage;
-  ThemeBloc({required this.localStorage}) : super(LightThemeState()) {
+  final ThemeService themeService;
+  ThemeBloc({required this.themeService}) : super(LightThemeState()) {
     on<LoadThemeEvent>(_loadTheme);
     on<ToggleThemeEvent>(_toggleTheme);
   }
@@ -19,7 +18,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     LoadThemeEvent event,
     Emitter<ThemeState> emit,
   ) async {
-    final theme = await localStorage.getString(StorageKey.keyTheme) ?? 'light';
+    final theme = await themeService.getTheme();
     emit(theme == 'light' ? LightThemeState() : DarkThemeState());
   }
 
@@ -33,10 +32,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
             ? const DarkThemeState()
             : const LightThemeState();
 
-    await localStorage.saveString(
-      StorageKey.keyTheme,
-      newState is LightThemeState ? 'light' : 'dark',
-    );
+    await themeService.setTheme(newState is LightThemeState ? 'light' : 'dark');
 
     emit(newState);
   }

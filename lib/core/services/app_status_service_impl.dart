@@ -1,10 +1,14 @@
+import 'package:dartz/dartz.dart';
+import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/services/app_status_service.dart';
+import 'package:pashboi/core/types/typedef.dart';
 
 class AppStatusServiceImpl implements AppStatusService {
   @override
-  Future<bool> isUnderConstruction() async {
+  ResultFuture<bool> isUnderConstruction() async {
     // Call your real API here.
-    await Future.delayed(const Duration(milliseconds: 500));
-    return false; // example
+    return Left(NetworkFailure(statusCode: -1));
+    // await Future.delayed(const Duration(milliseconds: 500));
+    // return false; // example
   }
 }

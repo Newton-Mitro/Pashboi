@@ -28,67 +28,67 @@ void main() {
     // registerFallbackValue(LoadThemeEvent());
   });
 
-  setUp(() {
-    mockAppStatusService = MockAppStatusService();
-    mockLocalStorage = MockLocalStorage();
-  });
+  // setUp(() {
+  //   mockAppStatusService = MockAppStatusService();
+  //   mockLocalStorage = MockLocalStorage();
+  // });
 
-  Future<void> pumpApp(
-    WidgetTester tester, {
-    required bool isUnderConstruction,
-    bool? onboardingValue,
-    bool throwError = false,
-  }) async {
-    if (throwError) {
-      when(
-        () => mockAppStatusService.isUnderConstruction(),
-      ).thenThrow(Exception());
-      when(() => mockLocalStorage.getBool(any())).thenThrow(Exception());
-    } else {
-      when(
-        () => mockAppStatusService.isUnderConstruction(),
-      ).thenAnswer((_) async => isUnderConstruction);
-      when(
-        () => mockLocalStorage.getBool(StorageKey.keyOnboarding),
-      ).thenAnswer((_) async => onboardingValue);
-      when(
-        () => mockLocalStorage.getString(StorageKey.keyLocale),
-      ).thenAnswer((_) async => 'en');
-      when(
-        () => mockLocalStorage.getString(StorageKey.keyTheme),
-      ).thenAnswer((_) async => 'light');
-    }
+  // Future<void> pumpApp(
+  //   WidgetTester tester, {
+  //   required bool isUnderConstruction,
+  //   bool? onboardingValue,
+  //   bool throwError = false,
+  // }) async {
+  //   if (throwError) {
+  //     when(
+  //       () => mockAppStatusService.isUnderConstruction(),
+  //     ).thenThrow(Exception());
+  //     when(() => mockLocalStorage.getBool(any())).thenThrow(Exception());
+  //   } else {
+  //     when(
+  //       () => mockAppStatusService.isUnderConstruction(),
+  //     ).thenAnswer((_) async => isUnderConstruction);
+  //     when(
+  //       () => mockLocalStorage.getBool(StorageKey.keyOnboarding),
+  //     ).thenAnswer((_) async => onboardingValue);
+  //     when(
+  //       () => mockLocalStorage.getString(StorageKey.keyLocale),
+  //     ).thenAnswer((_) async => 'en');
+  //     when(
+  //       () => mockLocalStorage.getString(StorageKey.keyTheme),
+  //     ).thenAnswer((_) async => 'light');
+  //   }
 
-    await tester.pumpWidget(
-      MultiBlocProvider(
-        providers: [
-          BlocProvider<LanguageBloc>(
-            create:
-                (_) =>
-                    LanguageBloc(localStorage: mockLocalStorage)
-                      ..add(LoadLocaleEvent()),
-          ),
-          BlocProvider<ThemeBloc>(
-            create:
-                (_) =>
-                    ThemeBloc(localStorage: mockLocalStorage)
-                      ..add(LoadThemeEvent()),
-          ),
-        ],
-        child: MaterialApp(
-          supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
-          localizationsDelegates: Locales.delegates,
-          home: Builder(
-            builder: (context) {
-              sl.registerSingleton<AppStatusService>(mockAppStatusService);
-              sl.registerSingleton<LocalStorage>(mockLocalStorage);
-              return const MyApp();
-            },
-          ),
-        ),
-      ),
-    );
-  }
+  //   await tester.pumpWidget(
+  //     MultiBlocProvider(
+  //       providers: [
+  //         BlocProvider<LanguageBloc>(
+  //           create:
+  //               (_) =>
+  //                   LanguageBloc(localeService: mockLocalStorage)
+  //                     ..add(LoadLocaleEvent()),
+  //         ),
+  //         BlocProvider<ThemeBloc>(
+  //           create:
+  //               (_) =>
+  //                   ThemeBloc(localStorage: mockLocalStorage)
+  //                     ..add(LoadThemeEvent()),
+  //         ),
+  //       ],
+  //       child: MaterialApp(
+  //         supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
+  //         localizationsDelegates: Locales.delegates,
+  //         home: Builder(
+  //           builder: (context) {
+  //             sl.registerSingleton<AppStatusService>(mockAppStatusService);
+  //             sl.registerSingleton<LocalStorage>(mockLocalStorage);
+  //             return const MyApp();
+  //           },
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   // testWidgets('shows Loading screen initially', (tester) async {
   //   when(

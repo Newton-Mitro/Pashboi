@@ -30,7 +30,7 @@ class LanguageSelector extends StatelessWidget {
                       .onSurface, // Switch background set to white
               border: Border.all(
                 color: context.theme.colorScheme.primary,
-                width: 1,
+                width: 2,
               ),
             ),
             child: Stack(

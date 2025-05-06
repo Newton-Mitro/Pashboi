@@ -12,4 +12,9 @@ class ThemeServiceImpl implements ThemeService {
     final theme = await localStorage.getString(StorageKey.keyTheme);
     return theme ?? 'light';
   }
+
+  @override
+  Future<void> setTheme(String theme) async {
+    await localStorage.saveString(StorageKey.keyTheme, theme);
+  }
 }

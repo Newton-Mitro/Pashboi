@@ -1,3 +1,5 @@
+import 'package:pashboi/core/types/typedef.dart';
+
 abstract class AppStatusService {
-  Future<bool> isUnderConstruction();
+  ResultFuture<bool> isUnderConstruction();
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pashboi/main.dart';
+import 'package:pashboi/features/my_app/presentation/pages/my_app.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
@@ -42,7 +41,14 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [ThemeSwitcher(), LanguageSelector()],
+        actions: [
+          ThemeSwitcher(),
+          const SizedBox(width: 10),
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: LanguageSelector(),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -69,7 +75,10 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Already have an account? ",
+                        Locales.string(
+                          context,
+                          'landing_page_already_have_account_text',
+                        ),
                         style: TextStyle(fontSize: 16),
                       ),
                       Tooltip(
@@ -100,7 +109,10 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account? ",
+                        Locales.string(
+                          context,
+                          'landing_page_dont_have_account_text',
+                        ),
                         style: TextStyle(fontSize: 16),
                       ),
                       Tooltip(
@@ -133,9 +145,9 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                               ),
                             ),
                             backgroundColor:
-                                context.theme.colorScheme.secondary,
+                                context.theme.colorScheme.secondaryFixed,
                             foregroundColor:
-                                context.theme.colorScheme.onSecondary,
+                                context.theme.colorScheme.onSecondaryFixed,
                             textStyle: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
