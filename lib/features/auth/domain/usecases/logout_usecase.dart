@@ -1,3 +1,4 @@
+import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 
@@ -9,7 +10,7 @@ class LogoutUsecase extends UseCase<void, LogoutParams> {
   LogoutUsecase({required this.authRepository});
 
   @override
-  Future<void> call({LogoutParams? params}) async {
-    await authRepository.logout();
+  ResultFuture<void> call({LogoutParams? params}) {
+    return authRepository.logout();
   }
 }

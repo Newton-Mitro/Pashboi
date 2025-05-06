@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pashboi/core/resources/response_state.dart';
 import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/logout_usecase.dart';
@@ -16,15 +15,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     : super(AuthInitial()) {
     on<IsAuthenticatedEvent>((event, emit) async {
       emit(AuthLoading());
-      final authUserState = await getAuthUserUseCase.call();
+      final result = await getAuthUserUseCase.call();
 
-      if (authUserState is SuccessData) {
-        emit(Authenticated(authUserState.data!));
-      }
-
-      if (authUserState is FailedData) {
-        emit(Unauthenticated());
-      }
+      result.fold(
+        (failure) => emit(Unauthenticated()),
+        (user) => emit(Authenticated(user)),
+      );
     });
 
     on<LogoutEvent>((event, emit) async {

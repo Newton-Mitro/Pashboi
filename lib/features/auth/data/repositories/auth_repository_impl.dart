@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:pashboi/core/constants/storage_key.dart';
-import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/network/network_info.dart';
-import 'package:pashboi/core/resources/response_state.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
@@ -30,74 +28,58 @@ class AuthRepositoryImpl implements AuthRepository {
   ResultFuture<UserEntity> login(String? email, String? password) async {
     try {
       final result = await authRemoteDataSource.login(email, password);
-      return;
+      return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));
     }
   }
 
   @override
-  Future<DataState<UserEntity>> register(
+  ResultFuture<UserEntity> register(
     String name,
     String email,
     String password,
     String confirmPassword,
   ) async {
-    if (await networkInfo.isConnected == true) {
-      try {
-        final result = await authRemoteDataSource.register(
-          name,
-          email,
-          password,
-          confirmPassword,
-        );
-        return SuccessData(result);
-      } catch (e) {
-        if (e is ValidationException) {
-          return ValidationFailedData(ValidationFailure(errors: e.errors));
-        }
-
-        if (e is UnauthorizedException) {
-          return FailedData(UnauthorizedFailure());
-        }
-
-        return FailedData(ServerFailure());
-      }
-    } else {
-      return FailedData(NetworkFailure());
+    try {
+      final result = await authRemoteDataSource.register(
+        name,
+        email,
+        password,
+        confirmPassword,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
     }
   }
 
   @override
-  Future<DataState<void>> logout() async {
-    if (await networkInfo.isConnected == true) {
-      try {
-        final result = await authRemoteDataSource.logout();
-        await _clearToken();
-        return SuccessData(result);
-      } catch (e) {
-        return FailedData(ServerFailure());
-      }
-    } else {
-      return FailedData(NetworkFailure());
+  ResultVoid logout() async {
+    try {
+      final result = await authRemoteDataSource.logout();
+      await _clearToken();
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
     }
   }
 
-  Future<DataState<void>> _clearToken() async {
+  ResultVoid _clearToken() async {
     try {
       await localStorage.remove(StorageKey.keyAccessToken);
       await localStorage.remove(StorageKey.keyAuthUser);
       authUserNotifier.value = null;
       accessTokenNotifier.value = null;
       selectedPageNotifier.value = 0;
-      return SuccessData(null);
+      return Right(null);
     } catch (e) {
-      return FailedData(ServerFailure());
+      return Left(FailureMapper.fromException(e));
     }
   }
 
   @override
-  Future<DataState<UserEntity>> getAuthUser() async {
+  ResultFuture<UserEntity> getAuthUser() async {
     try {
       final authToken = await localStorage.getString(StorageKey.keyAccessToken);
 
@@ -127,11 +109,11 @@ class AuthRepositoryImpl implements AuthRepository {
           rolePermissions: user.rolePermissions,
         );
 
-        return SuccessData(authUserEntity);
+        return Right(authUserEntity);
       }
-      return FailedData(UnauthorizedFailure());
+      return Left(FailureMapper.fromException(CacheFailure()));
     } catch (e) {
-      return FailedData(ServerFailure());
+      return Left(FailureMapper.fromException(e));
     }
   }
 }

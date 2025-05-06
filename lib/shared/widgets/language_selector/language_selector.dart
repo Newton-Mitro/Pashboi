@@ -12,32 +12,87 @@ class LanguageSelector extends StatelessWidget {
       builder: (context, state) {
         final isEnglish = state.language == 'en';
 
-        return TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          ),
-          onPressed: () {
+        return GestureDetector(
+          onTap: () {
             context.read<LanguageBloc>().add(
               LanguageSelected(language: isEnglish ? 'bn' : 'en'),
             );
           },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.language,
-                size: 20,
-                color: context.theme.colorScheme.onSurface,
+          child: Container(
+            width: 60,
+            height: 30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color:
+                  context
+                      .theme
+                      .colorScheme
+                      .onSurface, // Switch background set to white
+              border: Border.all(
+                color: context.theme.colorScheme.primary,
+                width: 1,
               ),
-              const SizedBox(width: 8),
-              Text(
-                isEnglish ? 'en' : 'bn',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: context.theme.colorScheme.onSurface,
+            ),
+            child: Stack(
+              children: [
+                // Rectangular thumb
+                AnimatedAlign(
+                  alignment:
+                      isEnglish ? Alignment.centerLeft : Alignment.centerRight,
+                  duration: const Duration(milliseconds: 300),
+                  child: Container(
+                    width: 28,
+                    height: 30,
+                    margin: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(),
+                      color: context.theme.colorScheme.primary,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                // "ENG" text
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'EN',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              isEnglish
+                                  ? context.theme.colorScheme.onPrimary
+                                  : context.theme.colorScheme.onError,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // "বাংলা" text
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'BN',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              isEnglish
+                                  ? context.theme.colorScheme.onError
+                                  : context.theme.colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

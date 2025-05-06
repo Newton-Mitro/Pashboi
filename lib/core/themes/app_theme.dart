@@ -40,6 +40,12 @@ class AppTheme {
       surfaceTint: _darkColors.surfaceTint,
     ),
     popupMenuTheme: PopupMenuThemeData(color: _darkColors.surface),
+    tooltipTheme: TooltipThemeData(
+      decoration: BoxDecoration(
+        color: _darkColors.onBackground,
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(_darkColors.primary),
       trackColor: WidgetStateProperty.all(_darkColors.onSurface),
@@ -115,6 +121,12 @@ class AppTheme {
       surfaceTint: _lightColors.surfaceTint,
     ),
     popupMenuTheme: PopupMenuThemeData(color: _lightColors.surface),
+    tooltipTheme: TooltipThemeData(
+      decoration: BoxDecoration(
+        color: _lightColors.onBackground,
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(_lightColors.primary),
       trackColor: WidgetStateProperty.all(_lightColors.onSurface),
