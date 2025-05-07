@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
+import 'package:pashboi/shared/widgets/buttons/app_error_button.dart';
+import 'package:pashboi/shared/widgets/buttons/app_warning_button.dart';
 
 class TermsAndConditionsPage extends StatelessWidget {
   const TermsAndConditionsPage({super.key});
@@ -71,39 +73,30 @@ class TermsAndConditionsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
+                  AppErrorButton(
+                    label: Locales.string(
+                      context,
+                      'terms_and_conditions_page_decline_button',
+                    ),
                     onPressed: () {
-                      // Reject action (Go back to the previous page or close the app)
                       Navigator.pop(context);
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Reject button color
-                    ),
-                    child: Text(
-                      Locales.string(
-                        context,
-                        'terms_and_conditions_page_decline_button',
-                      ),
-                    ),
+                    iconBefore: Icon(Icons.close, color: Colors.red),
                   ),
-                  ElevatedButton(
+
+                  AppWarningButton(
+                    label: Locales.string(
+                      context,
+                      'terms_and_conditions_page_accept_button',
+                    ),
                     onPressed: () {
-                      // Accept action (Navigate to the next page or accept the terms)
                       Navigator.pushReplacementNamed(
                         context,
                         PublicRoutesName.mobileVerificationPage,
                         arguments: {'routeName': PublicRoutesName.registerPage},
                       );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, // Accept button color
-                    ),
-                    child: Text(
-                      Locales.string(
-                        context,
-                        'terms_and_conditions_page_accept_button',
-                      ),
-                    ),
+                    iconBefore: Icon(Icons.check, color: Colors.green),
                   ),
                 ],
               ),

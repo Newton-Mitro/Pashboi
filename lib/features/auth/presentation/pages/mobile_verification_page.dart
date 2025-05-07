@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
+import 'package:pashboi/shared/widgets/app_text_input.dart';
 
 class MobileVerificationPage extends StatefulWidget {
   final String routeName;
@@ -66,7 +68,16 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
   void _sendOtp() {
     if (_phoneController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter your mobile number")),
+        SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Info',
+            message: 'Please enter your mobile number',
+            contentType: ContentType.failure,
+          ),
+        ),
       );
       return;
     }
@@ -78,7 +89,16 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
     _startResendCountdown();
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('OTP sent to ${_phoneController.text}')),
+      SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: 'Info',
+          message: 'OTP sent to ${_phoneController.text}',
+          contentType: ContentType.success,
+        ),
+      ),
     );
   }
 
@@ -88,9 +108,18 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
       // On successful verification, navigate using the passed routeName
       Navigator.pushReplacementNamed(context, widget.routeName);
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Invalid OTP")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'On Snap',
+            message: "Invalid OTP",
+            contentType: ContentType.failure,
+          ),
+        ),
+      );
     }
   }
 
@@ -145,24 +174,23 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
             // Logo at the top
             Align(alignment: Alignment.center, child: AppLogo(width: 150)),
             const SizedBox(height: 30),
-            TextField(
+            AppTextInput(
               controller: _phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                labelText: Locales.string(
-                  context,
-                  "mobile_verification_page_mobile_number_label",
-                ),
-                border: OutlineInputBorder(),
+              label: Locales.string(
+                context,
+                "mobile_verification_page_mobile_number_label",
               ),
+              keyboardType: TextInputType.phone,
+              prefixIcon: const Icon(Icons.phone),
             ),
+
             const SizedBox(height: 16),
             if (_otpSent) ...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(6, (index) {
                   return SizedBox(
-                    width: 50, // Set width of each OTP input box
+                    width: 50,
                     child: TextField(
                       controller: _otpControllers[index],
                       focusNode: _focusNodes[index],
@@ -171,8 +199,28 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                       keyboardType: TextInputType.number,
                       maxLength: 1,
                       decoration: InputDecoration(
+                        filled: true,
                         counterText: '',
-                        border: OutlineInputBorder(),
+                        fillColor: Colors.transparent,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            color: context.theme.colorScheme.secondary,
+                            width: 2.0,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            color: context.theme.colorScheme.secondary,
+                            width: 1.0,
+                          ),
+                        ),
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 10,
+                        ),
                       ),
                       onChanged: (value) {
                         // Ensure only one digit is entered (replace previous digit)

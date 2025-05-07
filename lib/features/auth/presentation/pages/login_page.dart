@@ -5,6 +5,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/network_error_dialog.dart';
@@ -135,7 +136,11 @@ class _LoginPageState extends State<LoginPage> {
                           if (state is LoginLoadingState)
                             const CircularProgressIndicator()
                           else
-                            ElevatedButton(
+                            AppPrimaryButton(
+                              label: Locales.string(
+                                context,
+                                'login_page_login_button',
+                              ),
                               onPressed: () {
                                 context.read<LoginPageBloc>().add(
                                   LoginEvent(
@@ -144,33 +149,12 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                               },
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  vertical: 10,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  side: BorderSide(
-                                    color: context.theme.colorScheme.secondary,
-                                  ),
-                                ),
-                                backgroundColor:
-                                    context.theme.colorScheme.primary,
-                                foregroundColor:
-                                    context.theme.colorScheme.onPrimary,
-                              ),
-                              child: Text(
-                                Locales.string(
-                                  context,
-                                  'login_page_login_button',
-                                ),
-                                style: TextStyle(
-                                  color: context.theme.colorScheme.onPrimary,
-                                ),
+                              iconBefore: Icon(
+                                Icons.login,
+                                color: context.theme.colorScheme.onPrimary,
                               ),
                             ),
+
                           const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

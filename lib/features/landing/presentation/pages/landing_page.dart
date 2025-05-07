@@ -3,6 +3,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/my_app/presentation/pages/my_app.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/language_selector/language_selector.dart';
 import 'package:pashboi/shared/widgets/theme_switcher/theme_switcher.dart';
@@ -95,13 +96,17 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  _buildButton(
-                    context,
+                  AppPrimaryButton(
                     label: Locales.string(context, 'landing_page_login_button'),
                     onPressed: () {
                       Navigator.pushNamed(context, PublicRoutesName.loginPage);
                     },
+                    iconBefore: Icon(
+                      Icons.login,
+                      color: context.theme.colorScheme.onPrimary,
+                    ),
                   ),
+
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -129,52 +134,23 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 36,
-                        child: FilledButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              side: BorderSide(
-                                color: context.theme.colorScheme.secondary,
-                              ),
-                            ),
-                            backgroundColor:
-                                context.theme.colorScheme.secondaryFixed,
-                            foregroundColor:
-                                context.theme.colorScheme.onSecondaryFixed,
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => const TermsAndConditionsPage(),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 30.0,
-                            ), // Adjust as needed
-                            child: Text(
-                              Locales.string(
-                                context,
-                                'landing_page_create_account_button',
-                              ),
-                            ),
-                          ),
+                  AppPrimaryButton(
+                    label: Locales.string(
+                      context,
+                      'landing_page_create_account_button',
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TermsAndConditionsPage(),
                         ),
-                      ),
-                    ],
+                      );
+                    },
+                    iconBefore: Icon(
+                      Icons.person_add,
+                      color: context.theme.colorScheme.onPrimary,
+                    ),
                   ),
                 ],
               ),
@@ -223,43 +199,6 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildButton(
-    BuildContext context, {
-    required String label,
-    required VoidCallback onPressed,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 36,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: BorderSide(color: context.theme.colorScheme.secondary),
-              ),
-              backgroundColor: context.theme.colorScheme.primary,
-              foregroundColor: context.theme.colorScheme.onPrimary,
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-            ),
-            onPressed: onPressed,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30.0,
-              ), // Adjust as needed
-              child: Text(label),
-            ),
-          ),
-        ),
-      ],
     );
   }
 

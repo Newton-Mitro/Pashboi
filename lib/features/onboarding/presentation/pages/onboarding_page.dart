@@ -5,6 +5,7 @@ import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/language_selector/language_selector.dart';
 import 'package:pashboi/shared/widgets/theme_switcher/theme_switcher.dart';
 import 'package:pashboi/features/onboarding/data/constants/onboarding_list_items.dart';
@@ -112,20 +113,22 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 children: [
                   // Show "Previous" only if not on first page
                   if (currentPage > 0)
-                    FilledButton(
+                    AppPrimaryButton(
+                      label: Locales.string(
+                        context,
+                        'onboarding_previous_button',
+                      ),
                       onPressed: () {
                         _pageController.previousPage(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeIn,
                         );
                       },
-                      child: Text(
-                        Locales.string(context, 'onboarding_previous_button'),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: context.theme.colorScheme.onPrimary,
-                        ),
+                      iconBefore: Icon(
+                        Icons.arrow_back,
+                        color: context.theme.colorScheme.onPrimary,
                       ),
+                      horizontalPadding: 0,
                     )
                   else
                     const SizedBox(width: 88), // reserve space
@@ -144,8 +147,33 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
                   // Right button (Next or Get Started)
                   isLastPage
-                      ? getStartedButton(context)
-                      : FilledButton(
+                      ? AppPrimaryButton(
+                        label: Locales.string(
+                          context,
+                          'onboarding_get_started_button',
+                        ),
+                        onPressed: () {
+                          final localStorage = sl<LocalStorage>();
+                          localStorage.saveBool(
+                            StorageKey.keyOnboarding,
+                            false,
+                          );
+                          Navigator.popAndPushNamed(
+                            context,
+                            PublicRoutesName.landingPage,
+                          );
+                        },
+                        iconAfter: Icon(
+                          Icons.rocket_launch,
+                          color: context.theme.colorScheme.onPrimary,
+                        ),
+                        horizontalPadding: 0,
+                      )
+                      : AppPrimaryButton(
+                        label: Locales.string(
+                          context,
+                          'onboarding_next_button',
+                        ),
                         onPressed: () {
                           if (currentPage < onboardingItems.length - 1) {
                             _pageController.nextPage(
@@ -154,13 +182,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             );
                           }
                         },
-                        child: Text(
-                          Locales.string(context, 'onboarding_next_button'),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: context.theme.colorScheme.onPrimary,
-                          ),
+                        iconAfter: Icon(
+                          Icons.arrow_forward,
+                          color: context.theme.colorScheme.onPrimary,
                         ),
+                        horizontalPadding: 0,
                       ),
                 ],
               ),
@@ -170,30 +196,4 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
     );
   }
-}
-
-Widget getStartedButton(BuildContext context) {
-  return FilledButton(
-    style: ElevatedButton.styleFrom(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
-        side: BorderSide(color: context.theme.colorScheme.secondary),
-      ),
-      backgroundColor: context.theme.colorScheme.primary,
-      foregroundColor: context.theme.colorScheme.onPrimary,
-    ),
-    onPressed: () {
-      final localStorage = sl<LocalStorage>();
-      localStorage.saveBool(StorageKey.keyOnboarding, false);
-      Navigator.popAndPushNamed(context, PublicRoutesName.landingPage);
-    },
-    child: Text(
-      Locales.string(context, 'onboarding_get_started_button'),
-      style: TextStyle(
-        fontSize: 12,
-        color: context.theme.colorScheme.onPrimary,
-      ),
-    ),
-  );
 }

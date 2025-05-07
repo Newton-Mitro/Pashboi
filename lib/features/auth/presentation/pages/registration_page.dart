@@ -7,6 +7,7 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/network_error_dialog.dart';
 import 'package:pashboi/features/auth/presentation/bloc/registration_page_bloc/registration_page_bloc.dart';
 
@@ -165,7 +166,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             if (state is RegistrationLoadingState) {
                               return CircularProgressIndicator();
                             }
-                            return ElevatedButton(
+                            return AppPrimaryButton(
+                              label: Locales.string(
+                                context,
+                                'register_page_create_account_button',
+                              ),
+                              iconBefore: Icon(
+                                Icons.person_add,
+                                color: context.theme.colorScheme.onPrimary,
+                              ),
                               onPressed: () {
                                 context.read<RegistrationPageBloc>().add(
                                   RegisterEvent(
@@ -177,32 +186,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   ),
                                 );
                               },
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  vertical: 10,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  side: BorderSide(
-                                    color: context.theme.colorScheme.secondary,
-                                  ),
-                                ),
-                                backgroundColor:
-                                    context.theme.colorScheme.primary,
-                                foregroundColor:
-                                    context.theme.colorScheme.onSecondary,
-                              ),
-                              child: Text(
-                                Locales.string(
-                                  context,
-                                  'register_page_create_account_button',
-                                ),
-                                style: TextStyle(
-                                  color: context.theme.colorScheme.onPrimary,
-                                ),
-                              ),
                             );
                           },
                         ),
