@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:pashboi/core/styles/app_text_style.dart';
-import 'package:pashboi/core/styles/large_text_style.dart';
-import 'package:pashboi/core/styles/medium_text_style.dart';
-import 'package:pashboi/core/styles/small_text_style.dart';
+import 'package:pashboi/shared/styles/app_text_style.dart';
+import 'package:pashboi/shared/styles/large_text_style.dart';
+import 'package:pashboi/shared/styles/medium_text_style.dart';
+import 'package:pashboi/shared/styles/small_text_style.dart';
 
-import 'package:pashboi/core/values/dimensions/app_dimensions.dart';
-import 'package:pashboi/core/values/dimensions/large_app_dimensions.dart';
-import 'package:pashboi/core/values/dimensions/medium_app_dimensions.dart';
-import 'package:pashboi/core/values/dimensions/small_app_dimensions.dart';
+import 'package:pashboi/shared/values/dimensions/app_dimensions.dart';
+import 'package:pashboi/shared/values/dimensions/large_app_dimensions.dart';
+import 'package:pashboi/shared/values/dimensions/medium_app_dimensions.dart';
+import 'package:pashboi/shared/values/dimensions/small_app_dimensions.dart';
 
 enum DeviceType { Mobile, Tablet, Desktop }
 

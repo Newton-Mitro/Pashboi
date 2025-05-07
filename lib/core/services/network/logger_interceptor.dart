@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:pashboi/core/logging/logger_service.dart';
+import 'package:pashboi/core/services/logging/logger_service.dart';
 
 class LoggerInterceptor extends Interceptor {
   final LoggerService loggerService;

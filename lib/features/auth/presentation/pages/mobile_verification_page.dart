@@ -5,6 +5,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
 class MobileVerificationPage extends StatefulWidget {
   final String routeName;
@@ -28,7 +29,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
 
   bool _otpSent = false;
   bool _isWaiting = false;
-  int _secondsRemaining = 180; // 3 minutes countdown
+  int _secondsRemaining = 60; // 3 minutes countdown
   Timer? _resendTimer;
 
   @override
@@ -47,7 +48,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
   void _startResendCountdown() {
     setState(() {
       _isWaiting = true;
-      _secondsRemaining = 180; // Set to 3 minutes (180 seconds)
+      _secondsRemaining = 60; // Set to 3 minutes (180 seconds)
     });
 
     _resendTimer?.cancel();
@@ -143,7 +144,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
     }
     setState(() {
       _isWaiting = false;
-      _secondsRemaining = 180; // Reset to 3 minutes
+      _secondsRemaining = 60; // Reset to 3 minutes
     });
   }
 
@@ -170,6 +171,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo at the top
             Align(alignment: Alignment.center, child: AppLogo(width: 150)),
@@ -258,23 +260,27 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                     ),
                   ),
               const SizedBox(height: 10),
-              ElevatedButton(
+              AppPrimaryButton(
+                label: Locales.string(
+                  context,
+                  "mobile_verification_page_verify_otp_button",
+                ),
                 onPressed: _verifyOtp,
-                child: Text(
-                  Locales.string(
-                    context,
-                    "mobile_verification_page_verify_otp_button",
-                  ),
+                iconBefore: Icon(
+                  Icons.check_circle,
+                  color: context.theme.colorScheme.onPrimary,
                 ),
               ),
             ] else
-              ElevatedButton(
+              AppPrimaryButton(
+                label: Locales.string(
+                  context,
+                  "mobile_verification_page_send_otp_button",
+                ),
                 onPressed: _sendOtp,
-                child: Text(
-                  Locales.string(
-                    context,
-                    "mobile_verification_page_send_otp_button",
-                  ),
+                iconBefore: Icon(
+                  Icons.send,
+                  color: context.theme.colorScheme.onPrimary,
                 ),
               ),
           ],

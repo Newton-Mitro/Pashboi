@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:pashboi/core/constants/app_icons.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
 class ServiceCenterPage extends StatefulWidget {
@@ -970,7 +971,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
                             child: Column(
                               children: [
                                 Image.asset(
-                                  'assets/icons/pin.png',
+                                  AppIcons.pathPinIcon,
                                   width: 40,
                                   height: 40,
                                 ),

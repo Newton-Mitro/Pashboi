@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/errors/failures.dart';
-import 'package:pashboi/core/network/network_info.dart';
+import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/core/utils/local_storage.dart';

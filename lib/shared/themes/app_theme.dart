@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/core/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/values/colors/dark_colors.dart';
-import 'package:pashboi/core/values/colors/light_colors.dart';
+import 'package:pashboi/shared/animations/fade_slide_transition.dart';
+import 'package:pashboi/shared/values/colors/dark_colors.dart';
+import 'package:pashboi/shared/values/colors/light_colors.dart';
 
 class AppTheme {
   final _darkColors = AppColorsDark();

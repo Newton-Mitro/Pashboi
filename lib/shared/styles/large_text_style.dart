@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:pashboi/core/styles/app_text_style.dart';
+import 'package:pashboi/shared/styles/app_text_style.dart';
 
 class LargeTextStyle extends AppTextStyle {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/core/values/colors/app_colors.dart';
+import 'package:pashboi/shared/values/colors/app_colors.dart';
 
 class AppColorsDark extends AppColors {
   // Primary Colors

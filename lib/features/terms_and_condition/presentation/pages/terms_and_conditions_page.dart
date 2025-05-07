@@ -82,6 +82,7 @@ class TermsAndConditionsPage extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     iconBefore: Icon(Icons.close, color: Colors.red),
+                    horizontalPadding: 0,
                   ),
 
                   AppWarningButton(
@@ -97,6 +98,7 @@ class TermsAndConditionsPage extends StatelessWidget {
                       );
                     },
                     iconBefore: Icon(Icons.check, color: Colors.green),
+                    horizontalPadding: 0,
                   ),
                 ],
               ),

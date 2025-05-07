@@ -1,9 +1,24 @@
 class AppImages {
   static const String rootPath = 'assets/images/';
-  static const String logo = '${rootPath}brand/logo.png';
-  static const String logoDark = '${rootPath}brand/logo_dark.png';
-  static const String splash = '${rootPath}brand/splash.png';
-  static const String splashDark = '${rootPath}brand/splash_dark.png';
-  static const String appIcon = '${rootPath}brand/app_icon.png';
-  static const String appIconDark = '${rootPath}brand/app_icon_dark.png';
+
+  //brand
+  static const String pathLogo = '${rootPath}brand/logo.png';
+  static const String pathLogoDark = '${rootPath}brand/logo_dark.png';
+  static const String pathSplash = '${rootPath}brand/splash.png';
+  static const String pathSplashDark = '${rootPath}brand/splash_dark.png';
+  static const String pathAppIcon = '${rootPath}brand/app_icon.png';
+  static const String pathAppIconDark = '${rootPath}brand/app_icon_dark.png';
+
+  //onboarding
+  static const String pathOnboarding1 =
+      '${rootPath}onboarding/onboarding_one.jpg';
+  static const String pathOnboarding2 =
+      '${rootPath}onboarding/onboarding_two.jpg';
+  static const String pathOnboarding3 =
+      '${rootPath}onboarding/onboarding_three.jpg';
+  static const String pathOnboarding4 =
+      '${rootPath}onboarding/onboarding_four.jpg';
+
+  //icons
+  static const String pathPinIcon = '${rootPath}icons/pin.png';
 }

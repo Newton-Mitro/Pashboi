@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/core/services/app_status_service.dart';
+import 'package:pashboi/core/services/app_status/app_status_service.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';

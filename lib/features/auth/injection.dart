@@ -1,6 +1,6 @@
 import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/core/network/api_service.dart';
-import 'package:pashboi/core/network/network_info.dart';
+import 'package:pashboi/core/services/network/api_service.dart';
+import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:pashboi/features/auth/data/repositories/auth_repository_impl.dart';

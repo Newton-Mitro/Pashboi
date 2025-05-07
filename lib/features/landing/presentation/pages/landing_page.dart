@@ -3,6 +3,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/my_app/presentation/pages/my_app.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/app_tooltip.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/language_selector/language_selector.dart';
@@ -80,18 +81,12 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                         ),
                         style: TextStyle(fontSize: 16),
                       ),
-                      Tooltip(
-                        waitDuration: Duration(microseconds: 1),
-                        message: Locales.string(
+                      TooltipComponent(
+                        tooltipMessage: Locales.string(
                           context,
                           'landing_page_login_instruction',
                         ),
-                        child: GestureDetector(
-                          onLongPress: () {
-                            // Do something
-                          },
-                          child: Icon(Icons.info),
-                        ),
+                        child: const Icon(Icons.info_outline),
                       ),
                     ],
                   ),
@@ -118,18 +113,13 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                         ),
                         style: TextStyle(fontSize: 16),
                       ),
-                      Tooltip(
-                        waitDuration: Duration(microseconds: 1),
-                        message: Locales.string(
+
+                      TooltipComponent(
+                        tooltipMessage: Locales.string(
                           context,
                           'landing_page_create_account_instruction',
                         ),
-                        child: GestureDetector(
-                          onLongPress: () {
-                            // Do something
-                          },
-                          child: Icon(Icons.info),
-                        ),
+                        child: const Icon(Icons.info_outline),
                       ),
                     ],
                   ),
