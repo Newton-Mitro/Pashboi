@@ -4,7 +4,7 @@ import 'package:pashboi/shared/values/colors/app_colors.dart';
 class AppColorsPrimaryDark extends AppColors {
   // Primary Colors
   @override
-  Color get primary => const Color.fromARGB(255, 0, 24, 61); // updated dark navy
+  Color get primary => const Color.fromARGB(255, 3, 38, 90); // updated dark navy
   @override
   Color get primaryVariant => const Color(0xFF00122E); // slightly darker variant
   @override
@@ -72,11 +72,11 @@ class AppColorsPrimaryDark extends AppColors {
 
   // Background & Surface
   @override
-  Color get background => const Color.fromARGB(255, 0, 12, 31); // darker navy background
+  Color get background => const Color.fromARGB(255, 0, 19, 49); // darker navy background
   @override
   Color get onBackground => Colors.white;
   @override
-  Color get surface => const Color(0xFF121212);
+  Color get surface => const Color.fromARGB(255, 32, 32, 32);
   @override
   Color get onSurface => Colors.white;
   @override

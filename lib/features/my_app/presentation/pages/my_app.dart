@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:pashboi/core/constants/storage_key.dart';
-import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/core/services/app_status/app_status_service.dart';
 import 'package:pashboi/shared/themes/app_theme.dart';
-import 'package:pashboi/core/utils/local_storage.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:pashboi/features/under_maintanance/presentation/pages/under_maintanance_page.dart';
@@ -37,14 +33,6 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _loadStartupStatus() async {
     try {
-      final appStatusService = sl<AppStatusService>();
-      final localStorage = sl<LocalStorage>();
-
-      final results = await Future.wait([
-        appStatusService.isUnderConstruction(),
-        localStorage.getBool(StorageKey.keyOnboarding),
-      ]);
-
       setState(() {
         isUnderConstructionValue = false;
         onBoardingValue = true;

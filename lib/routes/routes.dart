@@ -20,26 +20,25 @@ class AppRoutes {
         return _materialRoute(PublicHome());
 
       case PublicRoutesName.homePage:
-        return _materialRoute(const AuthenticatedHome());
+        return _materialRoute(AuthenticatedHome());
 
       case PublicRoutesName.loginPage:
-        return _materialRoute(const LoginPage());
+        return _materialRoute(LoginPage());
 
       case PublicRoutesName.registerPage:
-        return _materialRoute(const RegistrationPage());
+        return _materialRoute(RegistrationPage());
 
       case PublicRoutesName.resetPasswordPage:
         return _materialRoute(ResetPasswordPage());
 
       case PublicRoutesName.mobileVerificationPage:
-        // Correctly extract the route name from arguments
         if (args is Map<String, String>) {
           final routeName =
               args['routeName'] ?? ''; // Extract the routeName from the map
           return _materialRoute(MobileVerificationPage(routeName: routeName));
         } else {
           return _materialRoute(
-            const MobileVerificationPage(routeName: ''),
+            const MobileVerificationPage(routeName: PublicRoutesName.loginPage),
           ); // Default route name if no arguments
         }
 

@@ -11,7 +11,7 @@ class AppColorsPrimaryLight implements AppColors {
   Color get primary => _primary;
 
   @override
-  Color get primaryVariant => Color(0xFF002F5F); // darker shade
+  Color get primaryVariant => Color(0xFF002F5F);
   @override
   Color get onPrimary => Colors.white;
   @override
@@ -119,9 +119,9 @@ class AppColorsPrimaryLight implements AppColors {
   Color get inversePrimary => Color(0xFFB6CFFF);
 
   @override
-  Color get selected => _primary;
+  Color get selected => const Color.fromARGB(255, 205, 216, 233);
   @override
-  Color get unSelected => Color(0xFFBDBDBD);
+  Color get unSelected => Color.fromARGB(255, 137, 157, 172);
   @override
   Color get disabled => Color(0xFFBDBDBD);
 }

@@ -23,11 +23,7 @@ class LanguageSelector extends StatelessWidget {
             height: 30,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              color:
-                  context
-                      .theme
-                      .colorScheme
-                      .onSurface, // Switch background set to white
+              color: context.theme.colorScheme.surface,
               border: Border.all(
                 color: context.theme.colorScheme.primary,
                 width: 2,
@@ -65,7 +61,7 @@ class LanguageSelector extends StatelessWidget {
                           color:
                               isEnglish
                                   ? context.theme.colorScheme.onPrimary
-                                  : context.theme.colorScheme.onError,
+                                  : context.theme.colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -84,7 +80,7 @@ class LanguageSelector extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color:
                               isEnglish
-                                  ? context.theme.colorScheme.onError
+                                  ? context.theme.colorScheme.onSurface
                                   : context.theme.colorScheme.onPrimary,
                         ),
                       ),
