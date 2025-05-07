@@ -56,6 +56,12 @@
   "register_page_already_have_account_text": "Already have an account?",
   "register_page_login_button": "Login",
 
+  "reset_password_page_title": "Reset Password",
+  "reset_password_page_email_label": "Email",
+  "reset_password_page_password_label": "Password",
+  "reset_password_page_confirm_password_label": "Confirm Password",
+  "reset_password_page_reset_password_button": "Reset Password",
+
   "public_bottom_nav_menu_savings": "Saving Policies",
   "public_bottom_nav_menu_loans": "Loan Policies",
   "public_bottom_nav_menu_services_and_projects": "Services & Projects",

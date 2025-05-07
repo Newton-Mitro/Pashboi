@@ -1,78 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/shared/animations/fade_slide_transition.dart';
-import 'package:pashboi/shared/values/colors/dark_colors.dart';
-import 'package:pashboi/shared/values/colors/light_colors.dart';
+import 'package:pashboi/shared/values/colors/app_colors_green_light.dart';
+import 'package:pashboi/shared/values/colors/app_colors_primary_dark.dart';
+import 'package:pashboi/shared/values/colors/app_colors_primary_light.dart';
 
 class AppTheme {
-  final _darkColors = AppColorsDark();
-  final _lightColors = AppColorsLight();
+  final _darkPrimaryColors = AppColorsPrimaryDark();
+  final _lightPrimaryColors = AppColorsPrimaryLight();
+  final _lightGreenColors = AppColorsGreenLight();
 
-  ThemeData get dark => ThemeData(
+  ThemeData get darkPrimary => ThemeData(
     useMaterial3: true,
-    scaffoldBackgroundColor: _darkColors.background,
+    scaffoldBackgroundColor: _darkPrimaryColors.background,
     colorScheme: ColorScheme.dark(
       brightness: Brightness.dark,
-      primary: _darkColors.primary,
-      onPrimary: _darkColors.onPrimary,
-      primaryContainer: _darkColors.primaryContainer,
-      onPrimaryContainer: _darkColors.onPrimaryContainer,
-      secondary: _darkColors.secondary,
-      onSecondary: _darkColors.onSecondary,
-      secondaryContainer: _darkColors.secondaryContainer,
-      onSecondaryContainer: _darkColors.onSecondaryContainer,
-      tertiary: _darkColors.tertiary,
-      onTertiary: _darkColors.onTertiary,
-      tertiaryContainer: _darkColors.tertiaryContainer,
-      onTertiaryContainer: _darkColors.onTertiaryContainer,
-      error: _darkColors.error,
-      onError: _darkColors.onError,
-      errorContainer: _darkColors.errorContainer,
-      onErrorContainer: _darkColors.onErrorContainer,
-      surface: _darkColors.surface,
-      onSurface: _darkColors.onSurface,
-      surfaceContainerHighest: _darkColors.surfaceContainer,
-      onSurfaceVariant: _darkColors.onSurfaceVariant,
-      outline: _darkColors.outline,
-      shadow: _darkColors.shadow,
-      inverseSurface: _darkColors.inverseSurface,
-      onInverseSurface: _darkColors.onInverseSurface,
-      inversePrimary: _darkColors.inversePrimary,
-      surfaceTint: _darkColors.surfaceTint,
+      primary: _darkPrimaryColors.primary,
+      onPrimary: _darkPrimaryColors.onPrimary,
+      primaryContainer: _darkPrimaryColors.primaryContainer,
+      onPrimaryContainer: _darkPrimaryColors.onPrimaryContainer,
+      secondary: _darkPrimaryColors.secondary,
+      onSecondary: _darkPrimaryColors.onSecondary,
+      secondaryContainer: _darkPrimaryColors.secondaryContainer,
+      onSecondaryContainer: _darkPrimaryColors.onSecondaryContainer,
+      tertiary: _darkPrimaryColors.tertiary,
+      onTertiary: _darkPrimaryColors.onTertiary,
+      tertiaryContainer: _darkPrimaryColors.tertiaryContainer,
+      onTertiaryContainer: _darkPrimaryColors.onTertiaryContainer,
+      error: _darkPrimaryColors.error,
+      onError: _darkPrimaryColors.onError,
+      errorContainer: _darkPrimaryColors.errorContainer,
+      onErrorContainer: _darkPrimaryColors.onErrorContainer,
+      surface: _darkPrimaryColors.surface,
+      onSurface: _darkPrimaryColors.onSurface,
+      surfaceContainerHighest: _darkPrimaryColors.surfaceContainer,
+      onSurfaceVariant: _darkPrimaryColors.onSurfaceVariant,
+      outline: _darkPrimaryColors.outline,
+      shadow: _darkPrimaryColors.shadow,
+      inverseSurface: _darkPrimaryColors.inverseSurface,
+      onInverseSurface: _darkPrimaryColors.onInverseSurface,
+      inversePrimary: _darkPrimaryColors.inversePrimary,
+      surfaceTint: _darkPrimaryColors.surfaceTint,
     ),
-    popupMenuTheme: PopupMenuThemeData(color: _darkColors.surface),
+    popupMenuTheme: PopupMenuThemeData(color: _darkPrimaryColors.surface),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
-        color: _darkColors.surface, // Background color
+        color: _darkPrimaryColors.surface, // Background color
         borderRadius: BorderRadius.circular(8),
       ),
       textStyle: TextStyle(
-        color: _darkColors.onSurface, // Foreground (text) color
+        color: _darkPrimaryColors.onSurface, // Foreground (text) color
         fontSize: 14,
       ),
       waitDuration: Duration(milliseconds: 500),
       showDuration: Duration(seconds: 2),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.all(_darkColors.primary),
-      trackColor: WidgetStateProperty.all(_darkColors.onSurface),
+      thumbColor: WidgetStateProperty.all(_darkPrimaryColors.primary),
+      trackColor: WidgetStateProperty.all(_darkPrimaryColors.onSurface),
     ),
-    textTheme: _buildTextTheme(_darkColors.onSurface),
+    textTheme: _buildTextTheme(_darkPrimaryColors.onSurface),
     fontFamily: 'Roboto',
     appBarTheme: AppBarTheme(
-      titleTextStyle: TextStyle(fontSize: 18, color: _darkColors.onPrimary),
-      backgroundColor: _darkColors.primary,
+      titleTextStyle: TextStyle(
+        fontSize: 18,
+        color: _darkPrimaryColors.onPrimary,
+      ),
+      backgroundColor: _darkPrimaryColors.primary,
       elevation: 0,
-      iconTheme: IconThemeData(color: _darkColors.onPrimary),
+      iconTheme: IconThemeData(color: _darkPrimaryColors.onPrimary),
     ),
     tabBarTheme: TabBarTheme(
-      indicatorColor: _darkColors.error,
-      labelColor: _darkColors.selected,
-      unselectedLabelColor: _darkColors.unSelected,
+      indicatorColor: _darkPrimaryColors.error,
+      labelColor: _darkPrimaryColors.selected,
+      unselectedLabelColor: _darkPrimaryColors.unSelected,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: _darkColors.primary,
-      selectedItemColor: _darkColors.selected,
-      unselectedItemColor: _darkColors.unSelected,
+      backgroundColor: _darkPrimaryColors.primary,
+      selectedItemColor: _darkPrimaryColors.selected,
+      unselectedItemColor: _darkPrimaryColors.unSelected,
     ),
     pageTransitionsTheme: _pageTransitionsTheme,
     visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -82,10 +87,10 @@ class AppTheme {
           borderRadius: BorderRadius.circular(
             30,
           ), // also slightly tighter curve
-          side: BorderSide(color: _darkColors.secondary),
+          side: BorderSide(color: _darkPrimaryColors.secondary),
         ),
-        backgroundColor: _darkColors.primary,
-        foregroundColor: _darkColors.onPrimary,
+        backgroundColor: _darkPrimaryColors.primary,
+        foregroundColor: _darkPrimaryColors.onPrimary,
         textStyle: const TextStyle(
           fontSize: 16, // slightly smaller text
           fontWeight: FontWeight.w600,
@@ -95,66 +100,69 @@ class AppTheme {
     ),
   );
 
-  ThemeData get light => ThemeData(
+  ThemeData get lightPrimary => ThemeData(
     useMaterial3: true,
-    scaffoldBackgroundColor: _lightColors.background,
+    scaffoldBackgroundColor: _lightPrimaryColors.background,
     colorScheme: ColorScheme.light(
-      primary: _lightColors.primary,
-      onPrimary: _lightColors.onPrimary,
-      primaryContainer: _lightColors.primaryContainer,
-      onPrimaryContainer: _lightColors.onPrimaryContainer,
-      secondary: _lightColors.secondary,
-      onSecondary: _lightColors.onSecondary,
-      secondaryContainer: _lightColors.secondaryContainer,
-      onSecondaryContainer: _lightColors.onSecondaryContainer,
-      tertiary: _lightColors.tertiary,
-      onTertiary: _lightColors.onTertiary,
-      tertiaryContainer: _lightColors.tertiaryContainer,
-      onTertiaryContainer: _lightColors.onTertiaryContainer,
-      error: _lightColors.error,
-      onError: _lightColors.onError,
-      errorContainer: _lightColors.errorContainer,
-      onErrorContainer: _lightColors.onErrorContainer,
-      surface: _lightColors.surface,
-      onSurface: _lightColors.onSurface,
-      surfaceContainerHighest: _lightColors.surfaceContainer,
-      onSurfaceVariant: _lightColors.onSurfaceVariant,
-      outline: _lightColors.outline,
-      shadow: _lightColors.shadow,
-      inverseSurface: _lightColors.inverseSurface,
-      onInverseSurface: _lightColors.onInverseSurface,
-      inversePrimary: _lightColors.inversePrimary,
-      surfaceTint: _lightColors.surfaceTint,
+      primary: _lightPrimaryColors.primary,
+      onPrimary: _lightPrimaryColors.onPrimary,
+      primaryContainer: _lightPrimaryColors.primaryContainer,
+      onPrimaryContainer: _lightPrimaryColors.onPrimaryContainer,
+      secondary: _lightPrimaryColors.secondary,
+      onSecondary: _lightPrimaryColors.onSecondary,
+      secondaryContainer: _lightPrimaryColors.secondaryContainer,
+      onSecondaryContainer: _lightPrimaryColors.onSecondaryContainer,
+      tertiary: _lightPrimaryColors.tertiary,
+      onTertiary: _lightPrimaryColors.onTertiary,
+      tertiaryContainer: _lightPrimaryColors.tertiaryContainer,
+      onTertiaryContainer: _lightPrimaryColors.onTertiaryContainer,
+      error: _lightPrimaryColors.error,
+      onError: _lightPrimaryColors.onError,
+      errorContainer: _lightPrimaryColors.errorContainer,
+      onErrorContainer: _lightPrimaryColors.onErrorContainer,
+      surface: _lightPrimaryColors.surface,
+      onSurface: _lightPrimaryColors.onSurface,
+      surfaceContainerHighest: _lightPrimaryColors.surfaceContainer,
+      onSurfaceVariant: _lightPrimaryColors.onSurfaceVariant,
+      outline: _lightPrimaryColors.outline,
+      shadow: _lightPrimaryColors.shadow,
+      inverseSurface: _lightPrimaryColors.inverseSurface,
+      onInverseSurface: _lightPrimaryColors.onInverseSurface,
+      inversePrimary: _lightPrimaryColors.inversePrimary,
+      surfaceTint: _lightPrimaryColors.surfaceTint,
     ),
-    popupMenuTheme: PopupMenuThemeData(color: _lightColors.surface),
+    popupMenuTheme: PopupMenuThemeData(color: _lightPrimaryColors.surface),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
-        color: _lightColors.surface, // Background color
+        color: _lightPrimaryColors.surface, // Background color
         borderRadius: BorderRadius.circular(8),
       ),
       textStyle: TextStyle(
-        color: _lightColors.onSurface, // Foreground (text) color
+        color: _lightPrimaryColors.onSurface, // Foreground (text) color
         fontSize: 14,
       ),
       waitDuration: Duration(milliseconds: 500),
       showDuration: Duration(seconds: 2),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.all(_lightColors.primary),
-      trackColor: WidgetStateProperty.all(_lightColors.onSurface),
+      thumbColor: WidgetStateProperty.all(_lightPrimaryColors.primary),
+      trackColor: WidgetStateProperty.all(_lightPrimaryColors.onSurface),
     ),
-    textTheme: _buildTextTheme(_lightColors.onSurface),
+    textTheme: _buildTextTheme(_lightPrimaryColors.onSurface),
     fontFamily: 'Roboto',
     appBarTheme: AppBarTheme(
-      titleTextStyle: TextStyle(fontSize: 18, color: _lightColors.onPrimary),
-      backgroundColor: _lightColors.primary,
+      titleTextStyle: TextStyle(
+        fontSize: 18,
+        color: _lightPrimaryColors.onPrimary,
+      ),
+      backgroundColor: _lightPrimaryColors.primary,
       elevation: 0,
-      iconTheme: IconThemeData(color: _lightColors.onPrimary),
+      iconTheme: IconThemeData(color: _lightPrimaryColors.onPrimary),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: _lightColors.primary,
-      selectedItemColor: _lightColors.selected,
-      unselectedItemColor: _lightColors.unSelected,
+      backgroundColor: _lightPrimaryColors.primary,
+      selectedItemColor: _lightPrimaryColors.selected,
+      unselectedItemColor: _lightPrimaryColors.unSelected,
     ),
     pageTransitionsTheme: _pageTransitionsTheme,
     visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -164,10 +172,95 @@ class AppTheme {
           borderRadius: BorderRadius.circular(
             30,
           ), // also slightly tighter curve
-          side: BorderSide(color: _lightColors.secondary),
+          side: BorderSide(color: _lightPrimaryColors.secondary),
         ),
-        backgroundColor: _lightColors.primary,
-        foregroundColor: _lightColors.onPrimary,
+        backgroundColor: _lightPrimaryColors.primary,
+        foregroundColor: _lightPrimaryColors.onPrimary,
+        textStyle: const TextStyle(
+          fontSize: 16, // slightly smaller text
+          fontWeight: FontWeight.w600,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+      ),
+    ),
+  );
+
+  ThemeData get lightGreen => ThemeData(
+    useMaterial3: true,
+    scaffoldBackgroundColor: _lightGreenColors.background,
+    colorScheme: ColorScheme.light(
+      primary: _lightGreenColors.primary,
+      onPrimary: _lightGreenColors.onPrimary,
+      primaryContainer: _lightGreenColors.primaryContainer,
+      onPrimaryContainer: _lightGreenColors.onPrimaryContainer,
+      secondary: _lightGreenColors.secondary,
+      onSecondary: _lightGreenColors.onSecondary,
+      secondaryContainer: _lightGreenColors.secondaryContainer,
+      onSecondaryContainer: _lightGreenColors.onSecondaryContainer,
+      tertiary: _lightGreenColors.tertiary,
+      onTertiary: _lightGreenColors.onTertiary,
+      tertiaryContainer: _lightGreenColors.tertiaryContainer,
+      onTertiaryContainer: _lightGreenColors.onTertiaryContainer,
+      error: _lightGreenColors.error,
+      onError: _lightGreenColors.onError,
+      errorContainer: _lightGreenColors.errorContainer,
+      onErrorContainer: _lightGreenColors.onErrorContainer,
+      surface: _lightGreenColors.surface,
+      onSurface: _lightGreenColors.onSurface,
+      surfaceContainerHighest: _lightGreenColors.surfaceContainer,
+      onSurfaceVariant: _lightGreenColors.onSurfaceVariant,
+      outline: _lightGreenColors.outline,
+      shadow: _lightGreenColors.shadow,
+      inverseSurface: _lightGreenColors.inverseSurface,
+      onInverseSurface: _lightGreenColors.onInverseSurface,
+      inversePrimary: _lightGreenColors.inversePrimary,
+      surfaceTint: _lightGreenColors.surfaceTint,
+    ),
+    popupMenuTheme: PopupMenuThemeData(color: _lightGreenColors.surface),
+    tooltipTheme: TooltipThemeData(
+      decoration: BoxDecoration(
+        color: _lightGreenColors.surface, // Background color
+        borderRadius: BorderRadius.circular(8),
+      ),
+      textStyle: TextStyle(
+        color: _lightGreenColors.onSurface, // Foreground (text) color
+        fontSize: 14,
+      ),
+      waitDuration: Duration(milliseconds: 500),
+      showDuration: Duration(seconds: 2),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: WidgetStateProperty.all(_lightGreenColors.primary),
+      trackColor: WidgetStateProperty.all(_lightGreenColors.onSurface),
+    ),
+    textTheme: _buildTextTheme(_lightGreenColors.onSurface),
+    fontFamily: 'Roboto',
+    appBarTheme: AppBarTheme(
+      titleTextStyle: TextStyle(
+        fontSize: 18,
+        color: _lightGreenColors.onPrimary,
+      ),
+      backgroundColor: _lightGreenColors.primary,
+      elevation: 0,
+      iconTheme: IconThemeData(color: _lightGreenColors.onPrimary),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: _lightGreenColors.primary,
+      selectedItemColor: _lightGreenColors.selected,
+      unselectedItemColor: _lightGreenColors.unSelected,
+    ),
+    pageTransitionsTheme: _pageTransitionsTheme,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            30,
+          ), // also slightly tighter curve
+          side: BorderSide(color: _lightGreenColors.secondary),
+        ),
+        backgroundColor: _lightGreenColors.primary,
+        foregroundColor: _lightGreenColors.onPrimary,
         textStyle: const TextStyle(
           fontSize: 16, // slightly smaller text
           fontWeight: FontWeight.w600,

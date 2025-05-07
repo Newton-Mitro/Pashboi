@@ -70,7 +70,4 @@ abstract class AppColors {
   Color get selected;
   Color get unSelected;
   Color get disabled;
-
-  // Grayscale Material Color
-  MaterialColor get gray;
 }

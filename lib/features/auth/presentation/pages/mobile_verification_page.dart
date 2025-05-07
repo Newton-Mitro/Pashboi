@@ -175,7 +175,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
           children: [
             // Logo at the top
             Align(alignment: Alignment.center, child: AppLogo(width: 150)),
-            const SizedBox(height: 30),
+            const SizedBox(height: 40),
             AppTextInput(
               controller: _phoneController,
               label: Locales.string(

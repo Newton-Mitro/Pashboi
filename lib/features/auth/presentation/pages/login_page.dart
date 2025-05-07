@@ -115,9 +115,13 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(
+                                Navigator.pushReplacementNamed(
                                   context,
-                                  PublicRoutesName.forgotPasswordPage,
+                                  PublicRoutesName.mobileVerificationPage,
+                                  arguments: {
+                                    'routeName':
+                                        PublicRoutesName.resetPasswordPage,
+                                  },
                                 );
                               },
                               child: Text(

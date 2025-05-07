@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/shared/values/colors/app_colors.dart';
+import 'app_colors.dart';
 
-class AppColorsLight implements AppColors {
+class AppColorsGreenLight implements AppColors {
   // Primary colors
   @override
-  Color get primary => const Color(0xFF66BB6A); // Light Green
+  Color get primary => const Color.fromARGB(255, 1, 34, 83);
   @override
   Color get primaryVariant => const Color(0xFF388E3C); // Dark Green
   @override
@@ -125,21 +125,4 @@ class AppColorsLight implements AppColors {
   Color get unSelected => const Color.fromARGB(255, 202, 250, 213); // Light gray for unselected
   @override
   Color get disabled => const Color(0xFFB0B0B0); // Disabled gray
-
-  // Grayscale Material Color
-  @override
-  MaterialColor get gray => const MaterialColor(50, {
-    50: Color(0xFFF5F5F5),
-    100: Color(0xFFE0E0E0),
-    200: Color(0xFFD0D0D0),
-    300: Color(0xFFC0C0C0),
-    350: Color(0xFFB0B0B0),
-    400: Color(0xFFA0A0A0),
-    500: Color(0xFF909090),
-    600: Color(0xFF808080),
-    700: Color(0xFF707070),
-    800: Color(0xFF606060),
-    850: Color(0xFF505050),
-    900: Color(0xFF404040),
-  });
 }

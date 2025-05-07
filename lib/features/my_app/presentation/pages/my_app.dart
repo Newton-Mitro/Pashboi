@@ -72,8 +72,8 @@ class _MyAppState extends State<MyApp> {
                   themeState is LightThemeState
                       ? ThemeMode.light
                       : ThemeMode.dark,
-              theme: appTheme.light,
-              darkTheme: appTheme.dark,
+              theme: appTheme.lightPrimary,
+              darkTheme: appTheme.darkPrimary,
               supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
               localizationsDelegates: Locales.delegates,
               locale:

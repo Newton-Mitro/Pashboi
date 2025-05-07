@@ -56,6 +56,12 @@
   "register_page_already_have_account_text": "আগেই অ্যাকাউন্ট আছে?",
   "register_page_login_button": "লগইন",
 
+  "reset_password_page_title": "পাসওয়ার্ড পুনরায় সেট করুন",
+  "reset_password_page_email_label": "ইমেইল",
+  "reset_password_page_password_label": "পাসওয়ার্ড",
+  "reset_password_page_confirm_password_label": "পাসওয়ার্ড নিশ্চিত করুন",
+  "reset_password_page_reset_password_button": "পাসওয়ার্ড পুনরায় সেট করুন",
+
   "public_bottom_nav_menu_savings": "সঞ্চয় নীতি",
   "public_bottom_nav_menu_loans": "ঋণ নীতি",
   "public_bottom_nav_menu_services_and_projects": "সেবা ও প্রকল্প",

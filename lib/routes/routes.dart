@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/features/auth/presentation/pages/login_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/registration_page.dart';
@@ -28,8 +28,8 @@ class AppRoutes {
       case PublicRoutesName.registerPage:
         return _materialRoute(const RegistrationPage());
 
-      case PublicRoutesName.forgotPasswordPage:
-        return _materialRoute(ForgotPasswordPage());
+      case PublicRoutesName.resetPasswordPage:
+        return _materialRoute(ResetPasswordPage());
 
       case PublicRoutesName.mobileVerificationPage:
         // Correctly extract the route name from arguments
