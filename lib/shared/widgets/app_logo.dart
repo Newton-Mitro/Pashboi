@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/constants/app_images.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
+import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
 
 class AppLogo extends StatefulWidget {
   final double width;
@@ -62,7 +62,7 @@ class AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
+    return BlocBuilder<ThemeSelectorBloc, ThemeSelectorState>(
       builder: (context, state) {
         return AnimatedBuilder(
           animation: _scaleAnimation,

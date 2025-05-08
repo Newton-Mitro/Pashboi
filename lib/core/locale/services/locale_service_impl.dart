@@ -10,7 +10,7 @@ class LocaleServiceImpl implements LocaleService {
   @override
   Future<String> getLocale() async {
     final locale = await localStorage.getString(StorageKey.keyLocale);
-    return locale ?? 'en';
+    return locale;
   }
 
   @override

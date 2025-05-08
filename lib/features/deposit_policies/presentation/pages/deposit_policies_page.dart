@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
 
 class DepositPoliciesPage extends StatefulWidget {
@@ -112,9 +111,6 @@ class _DepositPoliciesPageState extends State<DepositPoliciesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Locales.string(context, 'public_savings_page_title')),
-      ),
       body: ListView.builder(
         itemCount: depositProducts.length,
         itemBuilder: (context, index) {

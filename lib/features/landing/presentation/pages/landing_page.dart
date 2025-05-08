@@ -6,8 +6,8 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_tooltip.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
-import 'package:pashboi/shared/widgets/language_selector/language_selector.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/theme_switcher.dart';
+import 'package:pashboi/shared/widgets/language_switch/language_switch.dart';
+import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
 import 'package:pashboi/features/terms_and_condition/presentation/pages/terms_and_conditions_page.dart';
 
 class LandingPage extends StatefulWidget {
@@ -44,11 +44,11 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          LanguageSelector(),
+          LanguageSwitch(),
           const SizedBox(width: 10),
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
-            child: ThemeSwitcher(),
+            child: ThemeSelector(),
           ),
         ],
       ),

@@ -8,10 +8,10 @@ import 'package:pashboi/core/services/app_status/app_status_service.dart';
 import 'package:pashboi/core/services/app_status/app_status_service_impl.dart';
 import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/core/services/local_storage/local_storage_impl.dart';
-import 'package:pashboi/shared/widgets/language_selector/bloc/language_bloc.dart';
+import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
 import 'package:pashboi/core/locale/services/locale_service.dart';
 import 'package:pashboi/core/locale/services/locale_service_impl.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
+import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
 import 'package:pashboi/core/theme/services/theme_service.dart';
 import 'package:pashboi/core/theme/services/theme_service_impl.dart';
 import 'services/network/api_service.dart';
@@ -46,12 +46,12 @@ Future<void> registerCoreServices() async {
   );
 
   // Register Bloc
-  sl.registerFactory<LanguageBloc>(
-    () => LanguageBloc(localeService: sl<LocaleService>()),
+  sl.registerFactory<LanguageSwitchBloc>(
+    () => LanguageSwitchBloc(localeService: sl<LocaleService>()),
   );
 
-  sl.registerFactory<ThemeBloc>(
-    () => ThemeBloc(themeService: sl<ThemeService>()),
+  sl.registerFactory<ThemeSelectorBloc>(
+    () => ThemeSelectorBloc(themeService: sl<ThemeService>()),
   );
 
   sl.registerLazySingleton<AppStatusService>(() => AppStatusServiceImpl());

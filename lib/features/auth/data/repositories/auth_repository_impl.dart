@@ -85,7 +85,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final stringUser = await localStorage.getString(StorageKey.keyAuthUser);
 
-      if (stringUser != null && authToken != null) {
+      if (authToken.isNotEmpty) {
         final user = UserModel.fromJson(jsonDecode(stringUser));
         accessTokenNotifier.value = authToken;
         authUserNotifier.value = user;

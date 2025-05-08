@@ -40,7 +40,7 @@ class UnderMaintenancePage extends StatelessWidget {
                   Locales.string(context, 'under_maintenance_page_message'),
                   style: TextStyle(
                     fontSize: 16,
-                    color: context.theme.colorScheme.onSurface.withOpacity(0.7),
+                    color: context.theme.colorScheme.onSurface,
                   ),
                   textAlign: TextAlign.center,
                 ),

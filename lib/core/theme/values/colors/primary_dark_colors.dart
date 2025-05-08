@@ -108,7 +108,7 @@ class PrimaryDarkColors extends AppColors {
   @override
   Color get shadow => Colors.black;
   @override
-  Color get scrim => Colors.black.withOpacity(0.5);
+  Color get scrim => const Color.fromARGB(64, 0, 0, 0);
 
   // Inverse Colors
   @override

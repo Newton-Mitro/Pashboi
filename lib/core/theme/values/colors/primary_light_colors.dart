@@ -109,7 +109,7 @@ class PrimaryLightColors implements AppColors {
   @override
   Color get shadow => Colors.black;
   @override
-  Color get scrim => Colors.black.withOpacity(0.5);
+  Color get scrim => const Color.fromARGB(62, 0, 0, 0);
 
   @override
   Color get inverseSurface => Color(0xFF313033);

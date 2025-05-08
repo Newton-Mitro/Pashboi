@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 
 class LoanPoliciesPage extends StatefulWidget {
   const LoanPoliciesPage({super.key});
@@ -164,9 +163,6 @@ class _LoanPoliciesPageState extends State<LoanPoliciesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Locales.string(context, 'public_loans_page_title')),
-      ),
       body: ListView.builder(
         itemCount: loanPolicies.length,
         itemBuilder: (context, index) {

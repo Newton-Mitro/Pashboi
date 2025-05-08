@@ -3,20 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/app_theme.dart';
 import 'package:pashboi/core/theme/services/theme_service.dart';
 
-part 'theme_event.dart';
-part 'theme_state.dart';
+part 'theme_selector_event.dart';
+part 'theme_selector_state.dart';
 
-class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
+class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
   final ThemeService themeService;
 
-  ThemeBloc({required this.themeService}) : super(PrimaryLightThemeState()) {
+  ThemeSelectorBloc({required this.themeService})
+    : super(PrimaryLightThemeState()) {
     on<LoadTheme>(_onLoadTheme);
     on<SetPrimaryLightTheme>(_onSetPrimaryLightTheme);
     on<SetPrimaryDarkTheme>(_onSetPrimaryDarkTheme);
     on<SetForeverGreenLightTheme>(_onSetForeverGreenLightTheme);
   }
 
-  Future<void> _onLoadTheme(LoadTheme event, Emitter<ThemeState> emit) async {
+  Future<void> _onLoadTheme(
+    LoadTheme event,
+    Emitter<ThemeSelectorState> emit,
+  ) async {
     final theme = await themeService.getTheme();
 
     switch (theme) {
@@ -35,7 +39,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   Future<void> _onSetPrimaryLightTheme(
     SetPrimaryLightTheme event,
-    Emitter<ThemeState> emit,
+    Emitter<ThemeSelectorState> emit,
   ) async {
     await themeService.setTheme('light');
     emit(PrimaryLightThemeState());
@@ -43,7 +47,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   Future<void> _onSetPrimaryDarkTheme(
     SetPrimaryDarkTheme event,
-    Emitter<ThemeState> emit,
+    Emitter<ThemeSelectorState> emit,
   ) async {
     await themeService.setTheme('dark');
     emit(PrimaryDarkThemeState());
@@ -51,7 +55,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   Future<void> _onSetForeverGreenLightTheme(
     SetForeverGreenLightTheme event,
-    Emitter<ThemeState> emit,
+    Emitter<ThemeSelectorState> emit,
   ) async {
     await themeService.setTheme('forever_green');
     emit(ForeverGreenLightThemeState());

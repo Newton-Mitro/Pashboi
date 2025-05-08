@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pashboi/core/constants/app_icons.dart';
@@ -928,11 +927,6 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          Locales.string(context, 'public_service_centers_page_title'),
-        ),
-      ),
       body: Stack(
         children: [
           Container(

@@ -6,8 +6,8 @@ import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:pashboi/features/under_maintanance/presentation/pages/under_maintanance_page.dart';
 import 'package:pashboi/routes/routes.dart';
-import 'package:pashboi/shared/widgets/language_selector/bloc/language_bloc.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
+import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
+import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -46,9 +46,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LanguageBloc, LanguageState>(
+    return BlocBuilder<LanguageSwitchBloc, LanguageSwitchState>(
       builder: (context, languageState) {
-        return BlocBuilder<ThemeBloc, ThemeState>(
+        return BlocBuilder<ThemeSelectorBloc, ThemeSelectorState>(
           builder: (context, themeState) {
             return BlocBuilder<OnboardingPageBloc, OnboardingPageState>(
               builder: (context, onboardingState) {

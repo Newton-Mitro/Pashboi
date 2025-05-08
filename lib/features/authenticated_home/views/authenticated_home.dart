@@ -28,9 +28,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
   Future<void> _initializeUser() async {
     final localStorage = sl<LocalStorage>();
     final authUser = await localStorage.getString(StorageKey.keyAuthUser);
-    if (authUser != null) {
-      authUserNotifier.value = UserModel.fromJson(jsonDecode(authUser));
-    }
+    authUserNotifier.value = UserModel.fromJson(jsonDecode(authUser));
 
     final accessToken = await localStorage.getString(StorageKey.keyAccessToken);
     accessTokenNotifier.value = accessToken;

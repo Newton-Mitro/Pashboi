@@ -10,42 +10,42 @@ import 'package:pashboi/core/theme/values/dimensions/large_app_dimensions.dart';
 import 'package:pashboi/core/theme/values/dimensions/medium_app_dimensions.dart';
 import 'package:pashboi/core/theme/values/dimensions/small_app_dimensions.dart';
 
-enum DeviceType { Mobile, Tablet, Desktop }
+enum DeviceType { mobile, tablet, desktop }
 
 extension AppContext on BuildContext {
   DeviceType get deviceType {
     final double width = MediaQuery.of(this).size.width;
     if (width < 600) {
-      return DeviceType.Mobile;
+      return DeviceType.mobile;
     } else if (width < 1200) {
-      return DeviceType.Tablet;
+      return DeviceType.tablet;
     } else {
-      return DeviceType.Desktop;
+      return DeviceType.desktop;
     }
   }
 
-  bool get isMobile => deviceType == DeviceType.Mobile;
-  bool get isTablet => deviceType == DeviceType.Tablet;
-  bool get isDesktop => deviceType == DeviceType.Desktop;
+  bool get isMobile => deviceType == DeviceType.mobile;
+  bool get isTablet => deviceType == DeviceType.tablet;
+  bool get isDesktop => deviceType == DeviceType.desktop;
 
   AppTextStyle get textStyle {
     switch (deviceType) {
-      case DeviceType.Mobile:
+      case DeviceType.mobile:
         return SmallTextStyle();
-      case DeviceType.Tablet:
+      case DeviceType.tablet:
         return MediumTextStyle();
-      case DeviceType.Desktop:
+      case DeviceType.desktop:
         return LargeTextStyle();
     }
   }
 
   AppDimensions get appDimensions {
     switch (deviceType) {
-      case DeviceType.Mobile:
+      case DeviceType.mobile:
         return SmallAppDimensions();
-      case DeviceType.Tablet:
+      case DeviceType.tablet:
         return MediumAppDimensions();
-      case DeviceType.Desktop:
+      case DeviceType.desktop:
         return LargeAppDimensions();
     }
   }

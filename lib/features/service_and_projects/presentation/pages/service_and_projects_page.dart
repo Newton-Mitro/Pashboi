@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 
 class ServiceAndProjectsPage extends StatefulWidget {
   const ServiceAndProjectsPage({super.key});
@@ -70,11 +69,6 @@ class _ServiceAndProjectsPageState extends State<ServiceAndProjectsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          Locales.string(context, 'public_services_and_projects_page_title'),
-        ),
-      ),
       body: ListView.builder(
         itemCount: services.length,
         itemBuilder: (context, index) {

@@ -4,8 +4,8 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
-import 'package:pashboi/shared/widgets/language_selector/language_selector.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/theme_switcher.dart';
+import 'package:pashboi/shared/widgets/language_switch/language_switch.dart';
+import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
 import 'package:pashboi/features/onboarding/data/constants/onboarding_list_items.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
@@ -99,12 +99,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
               Positioned(
                 top: 16,
                 left: 16,
-                child: const SafeArea(child: LanguageSelector()),
+                child: const SafeArea(child: LanguageSwitch()),
               ),
               Positioned(
                 top: 16,
                 right: 16,
-                child: const SafeArea(child: ThemeSwitcher()),
+                child: const SafeArea(child: ThemeSelector()),
               ),
 
               Positioned(
