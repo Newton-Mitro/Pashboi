@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Locales.init(['en', 'bn']);
   await setupDependencies();
 

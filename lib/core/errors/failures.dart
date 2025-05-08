@@ -57,6 +57,13 @@ final class NetworkFailure extends Failure {
   });
 }
 
+final class NoInternetFailure extends Failure {
+  const NoInternetFailure({
+    super.statusCode = -1,
+    super.message = ErrorMessage.noInternet,
+  });
+}
+
 /// Unauthorized access (401)
 final class UnauthorizedFailure extends Failure {
   const UnauthorizedFailure({

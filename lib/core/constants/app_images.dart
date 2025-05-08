@@ -20,5 +20,5 @@ class AppImages {
       '${rootPath}onboarding/onboarding_four.jpg';
 
   //icons
-  static const String pathPinIcon = '${rootPath}icons/pin.png';
+  static const String pathBackgroundImage = '${rootPath}bg/bg.png';
 }
