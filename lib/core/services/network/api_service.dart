@@ -12,7 +12,7 @@ class ApiService {
   ApiService({required this.localStorage, required this.loggerService})
     : _dio = Dio() {
     _dio.options = BaseOptions(
-      baseUrl: AppConfig.apiKey,
+      baseUrl: AppConfig.apiUrl,
       connectTimeout: const Duration(seconds: 50),
       receiveTimeout: const Duration(seconds: 50),
     );

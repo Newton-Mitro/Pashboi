@@ -1,7 +1,8 @@
 import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
-import 'package:pashboi/core/services/local_storage/local_storage.dart';
+import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:pashboi/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
@@ -18,18 +19,18 @@ import 'package:pashboi/features/auth/presentation/bloc/registration_page_bloc/r
 void registerAuthModule() async {
   // Register Data Sources
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(
-      apiService: sl<ApiService>(),
-      localStorage: sl<LocalStorage>(),
-    ),
+    () => AuthRemoteDataSourceImpl(apiService: sl<ApiService>()),
+  );
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(localStorage: sl<LocalStorage>()),
   );
 
   // Register Repository
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       authRemoteDataSource: sl<AuthRemoteDataSource>(),
+      authLocalDataSource: sl<AuthLocalDataSource>(),
       networkInfo: sl<NetworkInfo>(),
-      localStorage: sl<LocalStorage>(),
     ),
   );
 

@@ -1,7 +1,21 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
-  static String get apiUrl => dotenv.env['API_URL'] ?? '';
-  static String get apiKey => dotenv.env['API_KEY'] ?? '';
-  static String get env => dotenv.env['FLUTTER_ENV'] ?? 'development';
+  static String get apiUrl {
+    final url = dotenv.env['API_URL'];
+    if (url == null || url.isEmpty) {
+      throw Exception('Missing API_URL in .env');
+    }
+    return url;
+  }
+
+  static String get apiKey {
+    final key = dotenv.env['API_KEY'];
+    if (key == null || key.isEmpty) {
+      throw Exception('Missing API_KEY in .env');
+    }
+    return key;
+  }
+
+  // Add other config values here as needed
 }

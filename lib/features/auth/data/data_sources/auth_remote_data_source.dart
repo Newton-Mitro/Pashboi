@@ -1,13 +1,10 @@
 import 'dart:io';
 
-import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
-import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(String? email, String? password);
-
   Future<UserModel> register(
     String name,
     String email,
@@ -19,33 +16,27 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiService apiService;
-  final LocalStorage localStorage;
 
-  AuthRemoteDataSourceImpl({
-    required this.apiService,
-    required this.localStorage,
-  });
+  AuthRemoteDataSourceImpl({required this.apiService});
 
   @override
   Future<UserModel> login(String? email, String? password) async {
     try {
       final response = await apiService.post(
-        '/auth/login',
+        'LoginAPI/Post_V2',
         data: {'email': email, 'password': password},
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final data = response.data?['data'];
+        final data = response.data?['data'][0];
         if (data == null) throw Exception('Invalid response format');
 
         final token = response.headers['authorization']?.first;
-        // Or use: response.data?['token'] if your token comes in body
 
-        if (token != null) {
-          await localStorage.saveString(StorageKey.keyAccessToken, token);
-        }
+        final userModel = UserModel.fromJson(data);
+        userModel.copyWith(accessToken: token);
 
-        return UserModel.fromJson(data);
+        return userModel;
       } else {
         throw Exception('Login failed with status ${response.statusCode}');
       }
@@ -63,7 +54,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        '/auth/register',
+        'Auth_V1/UserRegister',
         data: {
           'name': name,
           'email': email,
@@ -91,7 +82,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> logout() async {
     try {
       await apiService.get('/auth/logout');
-      await localStorage.remove(StorageKey.keyAccessToken);
     } catch (e) {
       rethrow;
     }

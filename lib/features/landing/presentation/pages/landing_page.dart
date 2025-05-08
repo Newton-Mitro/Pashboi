@@ -92,9 +92,10 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                               context,
                               'landing_page_already_have_account_text',
                             ),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: context.theme.colorScheme.onSurface,
                             ),
                           ),
                           TooltipComponent(
@@ -102,9 +103,9 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                               context,
                               'landing_page_login_instruction',
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.info_outline,
-                              color: Colors.white,
+                              color: context.theme.colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -135,9 +136,10 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                               context,
                               'landing_page_dont_have_account_text',
                             ),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: context.theme.colorScheme.onSurface,
                             ),
                           ),
                           TooltipComponent(
@@ -145,9 +147,9 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                               context,
                               'landing_page_create_account_instruction',
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.info_outline,
-                              color: Colors.white,
+                              color: context.theme.colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -201,7 +203,7 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                             child: Text(
                               style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.bold,
                                 color: context.theme.colorScheme.onSurface,
                                 decoration: TextDecoration.underline,
                               ),
@@ -227,7 +229,11 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
   Widget _buildInfoText(BuildContext context, String text) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 14, color: Colors.white),
+      style: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+        color: context.theme.colorScheme.onSurface,
+      ),
       textAlign: TextAlign.center,
     );
   }

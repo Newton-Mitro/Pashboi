@@ -16,6 +16,7 @@ class UserEntity extends Entity {
   final int deviceId;
   final String employeeCode;
   final bool isNewMenu;
+  final String? accessToken;
   final List<RolePermissionEntity> rolePermissions;
 
   UserEntity({
@@ -34,6 +35,7 @@ class UserEntity extends Entity {
     required this.deviceId,
     required this.employeeCode,
     required this.isNewMenu,
+    this.accessToken,
     required this.rolePermissions,
   });
 
@@ -55,6 +57,7 @@ class UserEntity extends Entity {
     String? organizationCode,
     int? deviceId,
     String? employeeCode,
+    String? accessToken,
     bool? isNewMenu,
     List<RolePermissionEntity>? rolePermissions,
   }) {
@@ -74,6 +77,7 @@ class UserEntity extends Entity {
       deviceId: deviceId ?? this.deviceId,
       employeeCode: employeeCode ?? this.employeeCode,
       isNewMenu: isNewMenu ?? this.isNewMenu,
+      accessToken: accessToken ?? this.accessToken,
       rolePermissions: rolePermissions ?? this.rolePermissions,
     );
   }
