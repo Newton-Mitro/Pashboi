@@ -203,7 +203,6 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                       decoration: InputDecoration(
                         filled: true,
                         counterText: '',
-                        fillColor: Colors.transparent,
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(

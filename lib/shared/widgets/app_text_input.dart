@@ -49,7 +49,6 @@ class _AppTextInputState extends State<AppTextInput> {
               labelStyle: TextStyle(color: context.theme.colorScheme.onSurface),
               prefixIcon: widget.prefixIcon,
               filled: true,
-              fillColor: Colors.transparent,
               hintStyle: TextStyle(color: context.theme.colorScheme.onSurface),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
