@@ -94,7 +94,6 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                             ),
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
                               color: context.theme.colorScheme.onSurface,
                             ),
                           ),
@@ -138,7 +137,6 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                             ),
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
                               color: context.theme.colorScheme.onSurface,
                             ),
                           ),
@@ -231,7 +229,6 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
       text,
       style: TextStyle(
         fontSize: 14,
-        fontWeight: FontWeight.bold,
         color: context.theme.colorScheme.onSurface,
       ),
       textAlign: TextAlign.center,
