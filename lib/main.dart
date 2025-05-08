@@ -17,7 +17,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<LanguageBloc>()..add(LoadLocaleEvent())),
-        BlocProvider(create: (_) => sl<ThemeBloc>()..add(LoadThemeEvent())),
+        BlocProvider(create: (_) => sl<ThemeBloc>()..add(LoadTheme())),
         BlocProvider(create: (_) => sl<OnboardingPageBloc>()),
       ],
       child: const MyApp(),

@@ -9,11 +9,11 @@ import 'package:pashboi/core/services/app_status/app_status_service_impl.dart';
 import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/core/services/local_storage/local_storage_impl.dart';
 import 'package:pashboi/shared/widgets/language_selector/bloc/language_bloc.dart';
-import 'package:pashboi/shared/widgets/language_selector/services/locale_service.dart';
-import 'package:pashboi/shared/widgets/language_selector/services/locale_service_impl.dart';
+import 'package:pashboi/core/locale/services/locale_service.dart';
+import 'package:pashboi/core/locale/services/locale_service_impl.dart';
 import 'package:pashboi/shared/widgets/theme_switcher/bloc/theme_bloc.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/services/theme_service.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/services/theme_service_impl.dart';
+import 'package:pashboi/core/theme/services/theme_service.dart';
+import 'package:pashboi/core/theme/services/theme_service_impl.dart';
 import 'services/network/api_service.dart';
 
 final sl = GetIt.instance;

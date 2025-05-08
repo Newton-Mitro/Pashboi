@@ -1,4 +1,4 @@
-import 'package:pashboi/shared/values/dimensions/app_dimensions.dart';
+import 'package:pashboi/core/theme/values/dimensions/app_dimensions.dart';
 
 class SmallAppDimensions implements AppDimensions {
   @override

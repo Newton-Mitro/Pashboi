@@ -1,39 +1,59 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pashboi/shared/widgets/theme_switcher/services/theme_service.dart';
+import 'package:pashboi/core/theme/app_theme.dart';
+import 'package:pashboi/core/theme/services/theme_service.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   final ThemeService themeService;
-  ThemeBloc({required this.themeService}) : super(LightThemeState()) {
-    on<LoadThemeEvent>(_loadTheme);
-    on<ToggleThemeEvent>(_toggleTheme);
+
+  ThemeBloc({required this.themeService}) : super(PrimaryLightThemeState()) {
+    on<LoadTheme>(_onLoadTheme);
+    on<SetPrimaryLightTheme>(_onSetPrimaryLightTheme);
+    on<SetPrimaryDarkTheme>(_onSetPrimaryDarkTheme);
+    on<SetForeverGreenLightTheme>(_onSetForeverGreenLightTheme);
   }
 
-  // This method handles the loading of the theme
-  Future<void> _loadTheme(
-    LoadThemeEvent event,
-    Emitter<ThemeState> emit,
-  ) async {
+  Future<void> _onLoadTheme(LoadTheme event, Emitter<ThemeState> emit) async {
     final theme = await themeService.getTheme();
-    emit(theme == 'light' ? LightThemeState() : DarkThemeState());
+
+    switch (theme) {
+      case 'dark':
+        emit(PrimaryDarkThemeState());
+        break;
+      case 'forever_green':
+        emit(ForeverGreenLightThemeState());
+        break;
+      case 'light':
+      default:
+        emit(PrimaryLightThemeState());
+        break;
+    }
   }
 
-  // This method handles theme toggling
-  Future<void> _toggleTheme(
-    ToggleThemeEvent event,
+  Future<void> _onSetPrimaryLightTheme(
+    SetPrimaryLightTheme event,
     Emitter<ThemeState> emit,
   ) async {
-    final newState =
-        state is LightThemeState
-            ? const DarkThemeState()
-            : const LightThemeState();
+    await themeService.setTheme('light');
+    emit(PrimaryLightThemeState());
+  }
 
-    await themeService.setTheme(newState is LightThemeState ? 'light' : 'dark');
+  Future<void> _onSetPrimaryDarkTheme(
+    SetPrimaryDarkTheme event,
+    Emitter<ThemeState> emit,
+  ) async {
+    await themeService.setTheme('dark');
+    emit(PrimaryDarkThemeState());
+  }
 
-    emit(newState);
+  Future<void> _onSetForeverGreenLightTheme(
+    SetForeverGreenLightTheme event,
+    Emitter<ThemeState> emit,
+  ) async {
+    await themeService.setTheme('forever_green');
+    emit(ForeverGreenLightThemeState());
   }
 }

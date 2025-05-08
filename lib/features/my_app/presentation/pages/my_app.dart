@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
-import 'package:pashboi/shared/themes/app_theme.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:pashboi/features/under_maintanance/presentation/pages/under_maintanance_page.dart';
@@ -47,8 +46,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final appTheme = AppTheme();
-
     return BlocBuilder<LanguageBloc, LanguageState>(
       builder: (context, languageState) {
         return BlocBuilder<ThemeBloc, ThemeState>(
@@ -59,12 +56,7 @@ class _MyAppState extends State<MyApp> {
                   debugShowCheckedModeBanner: false,
                   navigatorKey: navigatorKey,
                   navigatorObservers: [routeObserver],
-                  themeMode:
-                      themeState is LightThemeState
-                          ? ThemeMode.light
-                          : ThemeMode.dark,
-                  theme: appTheme.lightPrimary,
-                  darkTheme: appTheme.darkPrimary,
+                  theme: themeState.themeData,
                   supportedLocales: const [
                     Locale('en', 'US'),
                     Locale('bn', 'BD'),

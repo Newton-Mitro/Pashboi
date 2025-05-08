@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/services/app_status/app_status_service.dart';
-import 'package:pashboi/shared/widgets/language_selector/services/locale_service.dart';
+import 'package:pashboi/core/locale/services/locale_service.dart';
 
 part 'my_app_event.dart';
 part 'my_app_state.dart';

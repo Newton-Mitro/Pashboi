@@ -1,11 +1,11 @@
-import 'package:pashboi/shared/values/dimensions/app_dimensions.dart';
+import 'package:pashboi/core/theme/values/dimensions/app_dimensions.dart';
 
-class MediumAppDimensions implements AppDimensions {
+class LargeAppDimensions implements AppDimensions {
   @override
-  double get appBarHeight => 80;
+  double get appBarHeight => 100;
 
   @override
-  double get appBarSpacing => 15;
+  double get appBarSpacing => 20;
 
   @override
   double get borderRadius => throw UnimplementedError();
@@ -95,5 +95,5 @@ class MediumAppDimensions implements AppDimensions {
   double get inputPadding => throw UnimplementedError();
 
   @override
-  double get containerWidth => 768;
+  double get containerWidth => 1024;
 }

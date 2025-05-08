@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-class AppColorsGreenLight implements AppColors {
+class ForeverGreenLightColor implements AppColors {
   // Primary colors
   @override
-  Color get primary => const Color.fromARGB(255, 1, 34, 83);
+  Color get primary => const Color.fromARGB(255, 26, 124, 70);
   @override
   Color get primaryVariant => const Color(0xFF388E3C); // Dark Green
   @override

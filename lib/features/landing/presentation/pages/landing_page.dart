@@ -44,11 +44,11 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          ThemeSwitcher(),
+          LanguageSelector(),
           const SizedBox(width: 10),
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
-            child: LanguageSelector(),
+            child: ThemeSwitcher(),
           ),
         ],
       ),

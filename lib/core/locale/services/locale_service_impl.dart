@@ -1,6 +1,6 @@
 import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/services/local_storage/local_storage.dart';
-import 'package:pashboi/shared/widgets/language_selector/services/locale_service.dart';
+import 'package:pashboi/core/locale/services/locale_service.dart';
 
 class LocaleServiceImpl implements LocaleService {
   final LocalStorage localStorage;

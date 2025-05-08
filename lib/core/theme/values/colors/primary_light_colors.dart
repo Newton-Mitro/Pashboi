@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/shared/values/colors/app_colors.dart';
+import 'package:pashboi/core/theme/values/colors/app_colors.dart';
 
-class AppColorsPrimaryLight implements AppColors {
+class PrimaryLightColors implements AppColors {
   // Base Colors
   static const Color _primary = Color.fromARGB(255, 1, 34, 83);
   static const Color _secondary = Color(0xFF00639A);

@@ -70,9 +70,9 @@ class AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin {
             return Transform.scale(scale: _scaleAnimation.value, child: child);
           },
           child: Image.asset(
-            state is LightThemeState
-                ? AppImages.pathLogo
-                : AppImages.pathLogoDark,
+            state is PrimaryDarkThemeState
+                ? AppImages.pathLogoDark
+                : AppImages.pathLogo,
             width: widget.width,
           ),
         );

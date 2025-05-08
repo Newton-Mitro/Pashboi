@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/shared/values/colors/app_colors.dart';
+import 'package:pashboi/core/theme/values/colors/app_colors.dart';
 
-class AppColorsPrimaryDark extends AppColors {
+class PrimaryDarkColors extends AppColors {
   // Primary Colors
   @override
   Color get primary => const Color.fromARGB(255, 3, 38, 90); // updated dark navy
