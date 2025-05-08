@@ -11,7 +11,3 @@ sealed class MyAppEvent extends Equatable {
 sealed class LoadAppStatusEvent extends MyAppEvent {
   const LoadAppStatusEvent();
 }
-
-sealed class CheckOnBoardingEvent extends MyAppEvent {
-  const CheckOnBoardingEvent();
-}

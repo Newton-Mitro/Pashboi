@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/shared/themes/app_theme.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
@@ -28,6 +29,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    context.read<OnboardingPageBloc>().add(GetOnboardingSeenEvent());
     _loadStartupStatus();
   }
 
@@ -35,7 +37,6 @@ class _MyAppState extends State<MyApp> {
     try {
       setState(() {
         isUnderConstructionValue = false;
-        onBoardingValue = true;
       });
     } catch (_) {
       setState(() {
@@ -52,25 +53,35 @@ class _MyAppState extends State<MyApp> {
       builder: (context, languageState) {
         return BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, themeState) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              navigatorKey: navigatorKey,
-              navigatorObservers: [routeObserver],
-              themeMode:
-                  themeState is LightThemeState
-                      ? ThemeMode.light
-                      : ThemeMode.dark,
-              theme: appTheme.lightPrimary,
-              darkTheme: appTheme.darkPrimary,
-              supportedLocales: const [Locale('en', 'US'), Locale('bn', 'BD')],
-              localizationsDelegates: Locales.delegates,
-              locale:
-                  languageState.language == 'bn'
-                      ? const Locale('bn', 'BD')
-                      : const Locale('en', 'US'),
-              onGenerateRoute: AppRoutes().onGenerateRoutes,
-              initialRoute: '/',
-              home: _buildHome(),
+            return BlocBuilder<OnboardingPageBloc, OnboardingPageState>(
+              builder: (context, onboardingState) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  navigatorKey: navigatorKey,
+                  navigatorObservers: [routeObserver],
+                  themeMode:
+                      themeState is LightThemeState
+                          ? ThemeMode.light
+                          : ThemeMode.dark,
+                  theme: appTheme.lightPrimary,
+                  darkTheme: appTheme.darkPrimary,
+                  supportedLocales: const [
+                    Locale('en', 'US'),
+                    Locale('bn', 'BD'),
+                  ],
+                  localizationsDelegates: Locales.delegates,
+                  locale:
+                      languageState.language == 'bn'
+                          ? const Locale('bn', 'BD')
+                          : const Locale('en', 'US'),
+                  onGenerateRoute: AppRoutes().onGenerateRoutes,
+                  initialRoute: '/',
+                  home: _buildHome(
+                    onboardingState,
+                    isUnderConstructionValue ?? false,
+                  ),
+                );
+              },
             );
           },
         );
@@ -78,20 +89,26 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget _buildHome() {
-    if (hasError) {
-      return const _ErrorScreen(message: 'Something went wrong');
-    }
-
-    if (isUnderConstructionValue == null || onBoardingValue == null) {
-      return const _LoadingScreen();
-    }
-
-    if (isUnderConstructionValue!) {
+  Widget _buildHome(OnboardingPageState state, bool isUnderConstruction) {
+    if (isUnderConstruction) {
       return const UnderMaintenancePage();
     }
 
-    return onBoardingValue! ? const OnboardingPage() : const LandingPage();
+    if (state is OnboardingLoading || state is OnboardingPageInitial) {
+      return const _LoadingScreen();
+    }
+
+    if (state is OnboardingError) {
+      return _ErrorScreen(message: state.message);
+    }
+
+    if (state is OnboardingSeenLoaded) {
+      final bool onboardingSeen = state.seen;
+
+      return onboardingSeen ? const LandingPage() : const OnboardingPage();
+    }
+
+    return const _ErrorScreen(message: 'Unexpected state');
   }
 }
 

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/constants/storage_key.dart';
 import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/core/utils/local_storage.dart';
+import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 import 'package:pashboi/features/authenticated_home/bloc/auth_bloc.dart';
 import 'package:pashboi/features/authenticated_home/notifier/notifiers.dart';

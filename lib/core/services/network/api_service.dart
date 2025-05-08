@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pashboi/core/constants/api_config.dart';
 import 'package:pashboi/core/services/logging/logger_service.dart';
 import 'package:pashboi/core/services/network/logger_interceptor.dart';
-import 'package:pashboi/core/utils/local_storage.dart';
+import 'package:pashboi/core/services/local_storage/local_storage.dart';
 
 class ApiService {
   final Dio _dio;

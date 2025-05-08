@@ -6,7 +6,7 @@ import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
-import 'package:pashboi/core/utils/local_storage.dart';
+import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 import 'package:pashboi/features/auth/domain/entities/user_entity.dart';

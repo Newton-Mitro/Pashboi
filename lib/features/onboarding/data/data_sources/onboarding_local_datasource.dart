@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/features/onboarding/data/models/onboarding_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pashboi/core/constants/app_images.dart';
 
 abstract class OnboardingLocalDataSource {
@@ -11,20 +11,20 @@ abstract class OnboardingLocalDataSource {
 }
 
 class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
-  final SharedPreferences prefs;
+  final LocalStorage localStorage;
 
-  OnboardingLocalDataSourceImpl(this.prefs);
+  OnboardingLocalDataSourceImpl({required this.localStorage});
 
   static const _onboardingKey = 'onboarding_seen';
 
   @override
   Future<void> setOnboardingSeen(bool seen) async {
-    await prefs.setBool(_onboardingKey, seen);
+    await localStorage.saveBool(_onboardingKey, seen);
   }
 
   @override
   Future<bool> hasSeenOnboarding() async {
-    return prefs.getBool(_onboardingKey) ?? false;
+    return localStorage.getBool(_onboardingKey);
   }
 
   @override

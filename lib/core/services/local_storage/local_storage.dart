@@ -7,11 +7,11 @@ abstract class LocalStorage {
   Future<void> saveStringList(String key, List<String> value);
 
   // ✅ Get Data
-  Future<String?> getString(String key);
-  Future<int?> getInt(String key);
-  Future<bool?> getBool(String key);
-  Future<double?> getDouble(String key);
-  Future<List<String>?> getStringList(String key);
+  Future<String> getString(String key);
+  Future<int> getInt(String key);
+  Future<bool> getBool(String key);
+  Future<double> getDouble(String key);
+  Future<List<String>> getStringList(String key);
 
   // ✅ Remove & Check Key
   Future<void> remove(String key);

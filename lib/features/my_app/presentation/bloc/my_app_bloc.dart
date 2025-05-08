@@ -11,19 +11,10 @@ class MyAppBloc extends Bloc<MyAppEvent, MyAppState> {
   final AppStatusService appStatusService;
   MyAppBloc(this.localeService, this.appStatusService) : super(MyAppInitial()) {
     on<LoadAppStatusEvent>(_loadAppStatus);
-    on<CheckOnBoardingEvent>(_checkkOnBoarding);
   }
 
   Future<void> _loadAppStatus(
     LoadAppStatusEvent event,
-    Emitter<MyAppState> emit,
-  ) async {
-    final locale = await localeService.getLocale();
-    // emit();
-  }
-
-  Future<void> _checkkOnBoarding(
-    CheckOnBoardingEvent event,
     Emitter<MyAppState> emit,
   ) async {
     final locale = await localeService.getLocale();

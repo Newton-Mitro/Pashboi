@@ -6,8 +6,8 @@ import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/services/network/network_info_impl.dart';
 import 'package:pashboi/core/services/app_status/app_status_service.dart';
 import 'package:pashboi/core/services/app_status/app_status_service_impl.dart';
-import 'package:pashboi/core/utils/local_storage.dart';
-import 'package:pashboi/core/utils/local_storage_impl.dart';
+import 'package:pashboi/core/services/local_storage/local_storage.dart';
+import 'package:pashboi/core/services/local_storage/local_storage_impl.dart';
 import 'package:pashboi/shared/widgets/language_selector/bloc/language_bloc.dart';
 import 'package:pashboi/shared/widgets/language_selector/services/locale_service.dart';
 import 'package:pashboi/shared/widgets/language_selector/services/locale_service_impl.dart';
@@ -19,6 +19,9 @@ import 'services/network/api_service.dart';
 final sl = GetIt.instance;
 
 Future<void> registerCoreServices() async {
+  // final sharedPreferences = await SharedPreferences.getInstance();
+  // sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+
   sl.registerLazySingleton<LocalStorage>(() => LocalStorageImpl());
   sl.registerLazySingleton<ApiService>(
     () => ApiService(

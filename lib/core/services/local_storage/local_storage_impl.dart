@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pashboi/core/utils/local_storage.dart';
+import 'package:pashboi/core/services/local_storage/local_storage.dart';
 
 class LocalStorageImpl implements LocalStorage {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -37,33 +37,33 @@ class LocalStorageImpl implements LocalStorage {
 
   // ✅ Get Methods
   @override
-  Future<String?> getString(String key) async {
+  Future<String> getString(String key) async {
     final prefs = await _prefs;
-    return prefs.getString(key);
+    return prefs.getString(key) ?? '';
   }
 
   @override
-  Future<int?> getInt(String key) async {
+  Future<int> getInt(String key) async {
     final prefs = await _prefs;
-    return prefs.getInt(key);
+    return prefs.getInt(key) ?? 0;
   }
 
   @override
-  Future<bool?> getBool(String key) async {
+  Future<bool> getBool(String key) async {
     final prefs = await _prefs;
-    return prefs.getBool(key);
+    return prefs.getBool(key) ?? false;
   }
 
   @override
-  Future<double?> getDouble(String key) async {
+  Future<double> getDouble(String key) async {
     final prefs = await _prefs;
-    return prefs.getDouble(key);
+    return prefs.getDouble(key) ?? 0.0;
   }
 
   @override
-  Future<List<String>?> getStringList(String key) async {
+  Future<List<String>> getStringList(String key) async {
     final prefs = await _prefs;
-    return prefs.getStringList(key);
+    return prefs.getStringList(key) ?? [];
   }
 
   // ✅ Remove Key
