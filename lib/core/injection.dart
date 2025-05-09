@@ -4,8 +4,6 @@ import 'package:pashboi/core/services/logging/logger_service.dart';
 import 'package:pashboi/core/services/logging/logger_service_impl.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/services/network/network_info_impl.dart';
-import 'package:pashboi/core/services/app_status/app_status_service.dart';
-import 'package:pashboi/core/services/app_status/app_status_service_impl.dart';
 import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/core/services/local_storage/local_storage_impl.dart';
 import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
@@ -53,6 +51,4 @@ Future<void> registerCoreServices() async {
   sl.registerFactory<ThemeSelectorBloc>(
     () => ThemeSelectorBloc(themeService: sl<ThemeService>()),
   );
-
-  sl.registerLazySingleton<AppStatusService>(() => AppStatusServiceImpl());
 }

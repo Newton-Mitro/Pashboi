@@ -10,7 +10,7 @@ class LogoutUsecase extends UseCase<void, LogoutParams> {
   LogoutUsecase({required this.authRepository});
 
   @override
-  ResultFuture<void> call({LogoutParams? params}) {
+  ResultFuture<void> call(LogoutParams params) {
     return authRepository.logout();
   }
 }

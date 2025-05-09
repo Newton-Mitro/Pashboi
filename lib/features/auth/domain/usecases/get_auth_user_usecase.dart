@@ -11,7 +11,7 @@ class GetAuthUserUseCase extends UseCase<UserEntity, GetAuthUserParams> {
   GetAuthUserUseCase({required this.authRepository});
 
   @override
-  ResultFuture<UserEntity> call({GetAuthUserParams? params}) async {
+  ResultFuture<UserEntity> call(GetAuthUserParams? params) async {
     final loggedInUser = await authRepository.getAuthUser();
     return loggedInUser;
   }

@@ -1,15 +1,11 @@
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pashboi/core/services/app_status/app_status_service.dart';
 import 'package:pashboi/core/services/local_storage/local_storage.dart';
-
-class MockAppStatusService extends Mock implements AppStatusService {}
 
 class MockLocalStorage extends Mock implements LocalStorage {}
 
 void main() {
-  late MockAppStatusService mockAppStatusService;
   late MockLocalStorage mockLocalStorage;
 
   setUpAll(() async {

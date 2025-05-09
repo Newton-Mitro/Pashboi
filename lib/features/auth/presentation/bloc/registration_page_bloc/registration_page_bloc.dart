@@ -21,7 +21,7 @@ class RegistrationPageBloc
         password: event.password,
         confirmPassword: event.confirmPassword,
       );
-      final result = await registrationUseCase.call(params: registrationParams);
+      final result = await registrationUseCase.call(registrationParams);
 
       result.fold(
         (failure) {

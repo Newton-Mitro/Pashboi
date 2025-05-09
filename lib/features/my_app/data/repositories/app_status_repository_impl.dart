@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
-import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/features/my_app/data/data_source/app_status_remote_datasource.dart';
@@ -11,12 +10,10 @@ import 'package:pashboi/features/my_app/domain/repositories/app_status_repositor
 class AppStatusRepositoryImpl implements AppStatusRepository {
   final AppStatusRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
-  final LocalStorage localStorage;
 
   AppStatusRepositoryImpl({
     required this.remoteDataSource,
     required this.networkInfo,
-    required this.localStorage,
   });
 
   @override

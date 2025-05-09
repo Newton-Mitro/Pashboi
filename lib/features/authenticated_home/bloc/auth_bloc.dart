@@ -15,7 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     : super(AuthInitial()) {
     on<IsAuthenticatedEvent>((event, emit) async {
       emit(AuthLoading());
-      final result = await getAuthUserUseCase.call();
+      final result = await getAuthUserUseCase.call(null);
 
       result.fold(
         (failure) => emit(Unauthenticated()),
@@ -25,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LogoutEvent>((event, emit) async {
       emit(AuthLoading());
-      await logoutUseCase.call();
+      await logoutUseCase.call(LogoutParams());
       emit(Unauthenticated());
     });
   }

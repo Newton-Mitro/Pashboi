@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/injection.dart';
 import 'package:pashboi/features/my_app/presentation/pages/my_app.dart';
@@ -23,6 +24,9 @@ void main() async {
         ),
         BlocProvider(create: (_) => sl<ThemeSelectorBloc>()..add(LoadTheme())),
         BlocProvider(create: (_) => sl<OnboardingPageBloc>()),
+        // BlocProvider(
+        //   create: (_) => sl<AppStatusBloc>()..add(FetchAppStatusEvent()),
+        // ),
       ],
       child: const MyApp(),
     ),

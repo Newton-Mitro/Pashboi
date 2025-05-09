@@ -4,7 +4,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
-import 'package:pashboi/features/under_maintanance/presentation/pages/under_maintanance_page.dart';
+import 'package:pashboi/features/under_maintenance/presentation/pages/under_maintenance_page.dart';
 import 'package:pashboi/routes/routes.dart';
 import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
 import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
@@ -21,27 +21,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool? isUnderConstructionValue;
-  bool? onBoardingValue;
-  bool hasError = false;
-
   @override
   void initState() {
     super.initState();
     context.read<OnboardingPageBloc>().add(GetOnboardingSeenEvent());
-    _loadStartupStatus();
-  }
-
-  Future<void> _loadStartupStatus() async {
-    try {
-      setState(() {
-        isUnderConstructionValue = false;
-      });
-    } catch (_) {
-      setState(() {
-        hasError = true;
-      });
-    }
   }
 
   @override
@@ -68,10 +51,7 @@ class _MyAppState extends State<MyApp> {
                           : const Locale('en', 'US'),
                   onGenerateRoute: AppRoutes().onGenerateRoutes,
                   initialRoute: '/',
-                  home: _buildHome(
-                    onboardingState,
-                    isUnderConstructionValue ?? false,
-                  ),
+                  home: _buildHome(onboardingState, false),
                 );
               },
             );

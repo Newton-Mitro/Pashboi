@@ -23,12 +23,12 @@ class RegistrationUseCase extends UseCase<UserEntity, RegistrationParams> {
   RegistrationUseCase({required this.authRepository});
 
   @override
-  ResultFuture<UserEntity> call({RegistrationParams? params}) async {
+  ResultFuture<UserEntity> call(RegistrationParams params) async {
     final authUser = await authRepository.register(
-      params?.name ?? '',
-      params?.email ?? '',
-      params?.password ?? '',
-      params?.confirmPassword ?? '',
+      params.name,
+      params.email,
+      params.password,
+      params.confirmPassword,
     );
 
     return authUser;

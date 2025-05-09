@@ -15,7 +15,7 @@ class AppStatusRemoteDataSourceImpl implements AppStatusRemoteDataSource {
   @override
   Future<AppStatusModel> getAppStatus() async {
     try {
-      final response = await apiService.get('/LoginApi/MFSAppConfig');
+      final response = await apiService.post('LoginApi/MFSAppConfig', data: {});
 
       if (response.statusCode == HttpStatus.ok) {
         final data = response.data?['data'][0];

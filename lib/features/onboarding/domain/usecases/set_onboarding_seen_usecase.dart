@@ -14,7 +14,7 @@ class SetOnboardingSeenUseCase extends UseCase<void, SetOnboardingSeenParams> {
   SetOnboardingSeenUseCase({required this.repository});
 
   @override
-  ResultVoid call({SetOnboardingSeenParams? params}) {
+  ResultVoid call(SetOnboardingSeenParams? params) {
     return repository.setOnboardingSeen(params!.seen);
   }
 }

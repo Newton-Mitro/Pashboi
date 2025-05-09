@@ -17,7 +17,7 @@ class LoginPageBloc extends Bloc<LoginPageEvent, LoginPageState> {
         email: event.username,
         password: event.password,
       );
-      final result = await loginUseCase.call(params: loginParams);
+      final result = await loginUseCase.call(loginParams);
       result.fold(
         (failure) {
           if (failure is ValidationFailure) {
