@@ -15,15 +15,14 @@ class RolePermissionModel extends RolePermissionEntity {
 
   factory RolePermissionModel.fromJson(Map<String, dynamic> json) {
     return RolePermissionModel(
-      id: json['id']?.toString(),
-      menuId: json['menuId'],
-      parentMenuId: json['parentMenuId'],
-      menuName: json['menuName'],
-      sort: json['sort'],
-      chkStatus: json['chkStatus'],
+      menuId: json['menuId'] ?? 0,
+      parentMenuId: json['parentMenuId'] ?? 0,
+      menuName: json['menuName'] ?? '',
+      sort: json['sort'] ?? 0,
+      chkStatus: json['chkStatus'] ?? false,
       mfsIcon: json['mfsIcon'],
-      rolePermissionIds: json['rolePermissionIds'],
-      isNewMenu: json['isNewMenu'],
+      rolePermissionIds: json['rolePermissionIds'] ?? '',
+      isNewMenu: json['isNewMenu'] ?? false,
     );
   }
 

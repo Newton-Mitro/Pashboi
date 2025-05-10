@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
@@ -19,7 +22,7 @@ class LoginUseCase extends UseCase<UserEntity, LoginParams> {
   ResultFuture<UserEntity> call(LoginParams params) async {
     final loggedInUser = await authRepository.login(
       params.email,
-      params.password,
+      md5.convert(utf8.encode(params.password)).toString(),
     );
 
     return loggedInUser;

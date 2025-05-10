@@ -27,11 +27,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final response = await apiService.post(
         'Auth_V2/UserLogin',
-        data: {
-          "UserName": email,
-          "Password": md5.convert(utf8.encode(password)).toString(),
-          "RequestFrom": "Web",
-        },
+        data: {"UserName": email, "Password": password, "RequestFrom": "Web"},
       );
 
       if (response.statusCode == HttpStatus.ok) {

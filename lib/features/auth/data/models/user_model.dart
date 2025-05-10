@@ -23,11 +23,10 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['userid'] ?? '',
-      userId: json['userid'] ?? '',
-      personId: json['personid'] ?? '',
+      userId: json['userid'] ?? 0,
+      personId: json['personid'] ?? 0,
       loginEmail: json['loginemail'] ?? '',
-      roleId: json['RoleId'] ?? '',
+      roleId: json['RoleId'] ?? 0,
       roleName: json['RoleName'] ?? '',
       userName: json['UserName'] ?? '',
       userPicture: json['UserPicture'] ?? '',
@@ -35,9 +34,9 @@ class UserModel extends UserEntity {
       regMobile: json['RegMobile'] ?? '',
       address: json['Address'] ?? '',
       organizationCode: json['OrganizationCode'] ?? '',
-      deviceId: json['DeviceId'] ?? '',
+      deviceId: json['DeviceId'] ?? 0,
       employeeCode: json['EmployeeCode'] ?? '',
-      isNewMenu: json['IsNewMenu'] ?? '',
+      isNewMenu: json['IsNewMenu'] ?? false,
       rolePermissions:
           (json['RolePermissionModelList'] as List<dynamic>)
               .map((e) => RolePermissionModel.fromJson(e))
