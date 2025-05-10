@@ -17,13 +17,13 @@ class AppStatusRepositoryImpl implements AppStatusRepository {
   });
 
   @override
-  ResultFuture<AppStatusEntity> fetchAppStatus() async {
+  ResultFuture<AppStatusEntity> fetchAppStatus(int varsion) async {
     try {
       if (!await networkInfo.isConnected) {
         return Left(FailureMapper.fromException(NoInternetFailure()));
       }
 
-      final result = await remoteDataSource.getAppStatus();
+      final result = await remoteDataSource.getAppStatus(varsion);
 
       return Right(result);
     } catch (e) {

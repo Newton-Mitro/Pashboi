@@ -11,13 +11,24 @@ class AppStatusInitial extends AppStatusState {}
 
 class AppStatusLoading extends AppStatusState {}
 
-class AppStatusLoaded extends AppStatusState {
-  final AppStatusEntity status;
-
-  const AppStatusLoaded(this.status);
+class NewVersionAvailable extends AppStatusState {
+  final String message;
+  const NewVersionAvailable(this.message);
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [message];
+}
+
+class UnderMaintenance extends AppStatusState {
+  final String message;
+  const UnderMaintenance(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class AppIsHealthy extends AppStatusState {
+  const AppIsHealthy();
 }
 
 class AppStatusError extends AppStatusState {

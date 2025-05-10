@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
+import 'package:pashboi/features/my_app/presentation/pages/app_error_page.dart';
+import 'package:pashboi/features/my_app/presentation/pages/new_version_required_page.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
@@ -25,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     context.read<OnboardingPageBloc>().add(GetOnboardingSeenEvent());
+    context.read<AppStatusBloc>().add(FetchAppStatusEvent());
   }
 
   @override
@@ -33,25 +37,29 @@ class _MyAppState extends State<MyApp> {
       builder: (context, languageState) {
         return BlocBuilder<ThemeSelectorBloc, ThemeSelectorState>(
           builder: (context, themeState) {
-            return BlocBuilder<OnboardingPageBloc, OnboardingPageState>(
-              builder: (context, onboardingState) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  navigatorKey: navigatorKey,
-                  navigatorObservers: [routeObserver],
-                  theme: themeState.themeData,
-                  supportedLocales: const [
-                    Locale('en', 'US'),
-                    Locale('bn', 'BD'),
-                  ],
-                  localizationsDelegates: Locales.delegates,
-                  locale:
-                      languageState.language == 'bn'
-                          ? const Locale('bn', 'BD')
-                          : const Locale('en', 'US'),
-                  onGenerateRoute: AppRoutes().onGenerateRoutes,
-                  initialRoute: '/',
-                  home: _buildHome(onboardingState, false),
+            return BlocBuilder<AppStatusBloc, AppStatusState>(
+              builder: (context, appStatusState) {
+                return BlocBuilder<OnboardingPageBloc, OnboardingPageState>(
+                  builder: (context, onboardingState) {
+                    return MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      navigatorKey: navigatorKey,
+                      navigatorObservers: [routeObserver],
+                      theme: themeState.themeData,
+                      supportedLocales: const [
+                        Locale('en', 'US'),
+                        Locale('bn', 'BD'),
+                      ],
+                      localizationsDelegates: Locales.delegates,
+                      locale:
+                          languageState.language == 'bn'
+                              ? const Locale('bn', 'BD')
+                              : const Locale('en', 'US'),
+                      onGenerateRoute: AppRoutes().onGenerateRoutes,
+                      initialRoute: '/',
+                      home: _buildHome(appStatusState, onboardingState),
+                    );
+                  },
                 );
               },
             );
@@ -61,26 +69,46 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget _buildHome(OnboardingPageState state, bool isUnderConstruction) {
-    if (isUnderConstruction) {
-      return const UnderMaintenancePage();
-    }
-
-    if (state is OnboardingLoading || state is OnboardingPageInitial) {
+  Widget _buildHome(
+    AppStatusState appStatusState,
+    OnboardingPageState onboardingState,
+  ) {
+    if (appStatusState is AppStatusLoading ||
+        appStatusState is AppStatusInitial) {
       return const _LoadingScreen();
     }
 
-    if (state is OnboardingError) {
-      return _ErrorScreen(message: state.message);
+    if (appStatusState is AppStatusError) {
+      return AppErrorPage(message: appStatusState.message);
     }
 
-    if (state is OnboardingSeenLoaded) {
-      final bool onboardingSeen = state.seen;
-
-      return onboardingSeen ? const LandingPage() : const OnboardingPage();
+    if (appStatusState is UnderMaintenance) {
+      return const UnderMaintenancePage();
     }
 
-    return const _ErrorScreen(message: 'Unexpected state');
+    if (appStatusState is NewVersionAvailable) {
+      return NewVersionRequiredPage(message: appStatusState.message);
+    }
+
+    if (appStatusState is AppIsHealthy) {
+      if (onboardingState is OnboardingLoading ||
+          onboardingState is OnboardingPageInitial) {
+        return const _LoadingScreen();
+      }
+
+      if (onboardingState is OnboardingError) {
+        return AppErrorPage(message: onboardingState.message);
+      }
+
+      if (onboardingState is OnboardingSeenLoaded) {
+        final bool onboardingSeen = onboardingState.seen;
+        return onboardingSeen ? const LandingPage() : const OnboardingPage();
+      }
+
+      return const AppErrorPage(message: 'Unexpected onboarding state');
+    }
+
+    return const AppErrorPage(message: 'Unexpected app status state');
   }
 }
 
@@ -90,19 +118,5 @@ class _LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(body: Center(child: CircularProgressIndicator()));
-  }
-}
-
-class _ErrorScreen extends StatelessWidget {
-  final String message;
-  const _ErrorScreen({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(message, style: Theme.of(context).textTheme.titleMedium),
-      ),
-    );
   }
 }

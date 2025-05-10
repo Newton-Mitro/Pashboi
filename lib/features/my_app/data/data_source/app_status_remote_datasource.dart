@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:pashboi/core/services/network/api_service.dart';
+import 'package:pashboi/core/utils/json_util.dart';
 import 'package:pashboi/features/my_app/data/models/app_status_model.dart';
 
 abstract class AppStatusRemoteDataSource {
-  Future<AppStatusModel> getAppStatus();
+  Future<AppStatusModel> getAppStatus(int version);
 }
 
 class AppStatusRemoteDataSourceImpl implements AppStatusRemoteDataSource {
@@ -13,15 +14,20 @@ class AppStatusRemoteDataSourceImpl implements AppStatusRemoteDataSource {
   AppStatusRemoteDataSourceImpl({required this.apiService});
 
   @override
-  Future<AppStatusModel> getAppStatus() async {
+  Future<AppStatusModel> getAppStatus(int version) async {
     try {
-      final response = await apiService.post('LoginApi/MFSAppConfig', data: {});
+      final response = await apiService.post(
+        'LoginApi/MFSAppConfig',
+        data: {"Data": version},
+      );
 
       if (response.statusCode == HttpStatus.ok) {
-        final data = response.data?['data'][0];
-        if (data == null) throw Exception('Invalid response format');
+        final dataString = response.data?['Data'];
 
-        return AppStatusModel.fromJson(data);
+        if (dataString == null) throw Exception('Invalid response format');
+        final jsonResponse = JsonUtil.decodeModelList(dataString);
+        final model = AppStatusModel.fromJson(jsonResponse[0]);
+        return model;
       } else {
         throw Exception(
           'Failed to fetch app status with status ${response.statusCode}',

@@ -24,9 +24,7 @@ void main() async {
         ),
         BlocProvider(create: (_) => sl<ThemeSelectorBloc>()..add(LoadTheme())),
         BlocProvider(create: (_) => sl<OnboardingPageBloc>()),
-        // BlocProvider(
-        //   create: (_) => sl<AppStatusBloc>()..add(FetchAppStatusEvent()),
-        // ),
+        BlocProvider(create: (_) => sl<AppStatusBloc>()),
       ],
       child: const MyApp(),
     ),

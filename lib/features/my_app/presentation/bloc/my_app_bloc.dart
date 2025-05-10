@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/my_app/domain/entities/app_status_entity.dart';
 import 'package:pashboi/features/my_app/domain/usecases/fetch_app_status_usecase.dart';
 
@@ -14,12 +13,19 @@ class AppStatusBloc extends Bloc<AppStatusEvent, AppStatusState> {
     on<FetchAppStatusEvent>((event, emit) async {
       emit(AppStatusLoading());
 
-      final result = await fetchAppStatusUseCase.call(NoParams());
-
-      result.fold(
-        (failure) => emit(AppStatusError(failure.message)),
-        (status) => emit(AppStatusLoaded(status)),
+      final result = await fetchAppStatusUseCase.call(
+        FetchAppStatusPrams(version: 63),
       );
+
+      result.fold((failure) => emit(AppStatusError(failure.message)), (status) {
+        if (status.isMaintenance == true) {
+          emit(UnderMaintenance(status.maintenanceMessage));
+        } else if (status.isUpdated == false) {
+          emit(NewVersionAvailable(status.updateMessage));
+        } else {
+          emit(const AppIsHealthy());
+        }
+      });
     });
   }
 }
