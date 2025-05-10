@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:url_launcher/url_launcher.dart';

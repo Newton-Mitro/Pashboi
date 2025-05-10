@@ -23,21 +23,21 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['userid']?.toString(),
-      userId: json['userid'],
-      personId: json['personid'],
-      loginEmail: json['loginemail'],
-      roleId: json['RoleId'],
-      roleName: json['RoleName'],
-      userName: json['UserName'],
-      userPicture: json['UserPicture'],
-      branchCode: json['BranchCode'],
-      regMobile: json['RegMobile'],
-      address: json['Address'],
-      organizationCode: json['OrganizationCode'],
-      deviceId: json['DeviceId'],
-      employeeCode: json['EmployeeCode'],
-      isNewMenu: json['IsNewMenu'],
+      id: json['userid'] ?? '',
+      userId: json['userid'] ?? '',
+      personId: json['personid'] ?? '',
+      loginEmail: json['loginemail'] ?? '',
+      roleId: json['RoleId'] ?? '',
+      roleName: json['RoleName'] ?? '',
+      userName: json['UserName'] ?? '',
+      userPicture: json['UserPicture'] ?? '',
+      branchCode: json['BranchCode'] ?? '',
+      regMobile: json['RegMobile'] ?? '',
+      address: json['Address'] ?? '',
+      organizationCode: json['OrganizationCode'] ?? '',
+      deviceId: json['DeviceId'] ?? '',
+      employeeCode: json['EmployeeCode'] ?? '',
+      isNewMenu: json['IsNewMenu'] ?? '',
       rolePermissions:
           (json['RolePermissionModelList'] as List<dynamic>)
               .map((e) => RolePermissionModel.fromJson(e))

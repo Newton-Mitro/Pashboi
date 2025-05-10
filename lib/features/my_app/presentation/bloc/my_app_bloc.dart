@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pashboi/features/my_app/domain/entities/app_status_entity.dart';
 import 'package:pashboi/features/my_app/domain/usecases/fetch_app_status_usecase.dart';
 
 part 'my_app_event.dart';

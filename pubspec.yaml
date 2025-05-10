@@ -37,6 +37,7 @@ dependencies:
   super_tooltip: ^2.0.9
   flutter_widget_from_html: ^0.16.0
   flutter_dotenv: ^5.2.1
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:

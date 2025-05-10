@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
+import 'package:pashboi/core/utils/json_util.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> login(String? email, String? password);
+  Future<UserModel> login(String email, String password);
   Future<UserModel> register(
     String name,
     String email,
@@ -20,20 +23,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.apiService});
 
   @override
-  Future<UserModel> login(String? email, String? password) async {
+  Future<UserModel> login(String email, String password) async {
     try {
       final response = await apiService.post(
-        'LoginAPI/Post_V2',
-        data: {'email': email, 'password': password},
+        'Auth_V2/UserLogin',
+        data: {
+          "UserName": email,
+          "Password": md5.convert(utf8.encode(password)).toString(),
+          "RequestFrom": "Web",
+        },
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final data = response.data?['data'][0];
-        if (data == null) throw Exception('Invalid response format');
+        final dataString = response.data?['Data'];
+        if (dataString == null) throw Exception('Invalid response format');
 
-        final token = response.headers['authorization']?.first;
+        final token = response.headers['token']?.first;
 
-        final userModel = UserModel.fromJson(data);
+        final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+        final userModel = UserModel.fromJson(jsonResponse[0]);
         userModel.copyWith(accessToken: token);
 
         return userModel;
