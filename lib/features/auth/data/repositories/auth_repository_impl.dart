@@ -22,6 +22,7 @@ class AuthRepositoryImpl implements AuthRepository {
   ResultFuture<UserEntity> login(String email, String password) async {
     try {
       final result = await authRemoteDataSource.login(email, password);
+      await authLocalDataSource.setAuthUser(result);
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));
@@ -61,7 +62,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   ResultFuture<UserEntity> getAuthUser() async {
     try {
-      final user = await authLocalDataSource.getUser();
+      final user = await authLocalDataSource.getAuthUser();
 
       return Right(user);
     } catch (e) {

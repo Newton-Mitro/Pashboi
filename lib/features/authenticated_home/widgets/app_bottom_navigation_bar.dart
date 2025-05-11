@@ -1,87 +1,152 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated_home/notifier/notifiers.dart';
-import 'package:pashboi/features/authenticated_home/widgets/bottom_sheet.dart';
 
-class AppBottomNavigationBar extends StatelessWidget {
-  const AppBottomNavigationBar({super.key});
+class CustomBottomNav extends StatefulWidget {
+  final int selectedIndex;
+  final Function(int) onTap;
+
+  const CustomBottomNav({
+    super.key,
+    required this.selectedIndex,
+    required this.onTap,
+  });
+
+  @override
+  State<CustomBottomNav> createState() => _CustomBottomNavState();
+}
+
+class _CustomBottomNavState extends State<CustomBottomNav> {
+  bool isExpanded = false;
+
+  final List<Map<String, dynamic>> menuItems = [
+    {"icon": FontAwesomeIcons.chartSimple, "label": "Info"},
+    {"icon": FontAwesomeIcons.umbrella, "label": "Accounts"},
+    {"icon": FontAwesomeIcons.piggyBank, "label": "Deposits"},
+    {"icon": FontAwesomeIcons.moneyBillTransfer, "label": "Transfer"},
+    {"icon": FontAwesomeIcons.sackDollar, "label": "Acc. Mgmt"},
+    {"icon": FontAwesomeIcons.gear, "label": "Settings"},
+    {"icon": FontAwesomeIcons.wallet, "label": "Wallet"},
+    {"icon": FontAwesomeIcons.receipt, "label": "Statements"},
+    {"icon": FontAwesomeIcons.chartPie, "label": "Analytics"},
+    {"icon": FontAwesomeIcons.lifeRing, "label": "Support"},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: selectedPageNotifier,
-      builder: (context, selectedPage, child) {
-        return Container(
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.topCenter,
+      children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          padding: const EdgeInsets.only(
+            top: 16,
+            left: 12,
+            right: 12,
+            bottom: 8,
+          ),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                context.theme.colorScheme.primary,
-                context.theme.colorScheme.primary,
-              ],
-            ),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(0),
-              topRight: Radius.circular(0),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(50),
-                blurRadius: 1.0,
-                spreadRadius: 1.0,
+            color: context.theme.colorScheme.primary,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // First row
+              Row(
+                children: List.generate(5, (i) => Expanded(child: _navItem(i))),
+              ),
+
+              // Second row (expandable)
+              AnimatedCrossFade(
+                firstChild: const SizedBox.shrink(),
+                secondChild: Row(
+                  children: List.generate(
+                    5,
+                    (i) => Expanded(child: _navItem(i + 5)),
+                  ),
+                ),
+                crossFadeState:
+                    isExpanded
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                duration: const Duration(milliseconds: 300),
               ),
             ],
           ),
-          child: BottomNavigationBar(
-            currentIndex: selectedPage,
-            type: BottomNavigationBarType.fixed,
-            onTap: (value) {
-              if (value > 0) {
-                if (accessTokenNotifier.value != null) {
-                  selectedPageNotifier.value = value;
-                } else {
-                  showCustomBottomSheet(context);
-                }
-              } else {
-                selectedPageNotifier.value = value;
-              }
+        ),
+
+        // Positioned Expand/Collapse Icon
+        Positioned(
+          top: -16,
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                isExpanded = !isExpanded;
+              });
             },
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.chartSimple,
-                ), // Icon color for Home
-                label: Locales.string(context, 'info'),
+            child: Container(
+              height: 36, // Increase the height for larger clickable area
+              width: 36, // Make it a circle with width same as height
+              decoration: BoxDecoration(
+                color: context.theme.colorScheme.primary,
+                shape: BoxShape.circle,
+                boxShadow: const [
+                  BoxShadow(color: Colors.black26, blurRadius: 6),
+                ],
+                border: Border.all(
+                  color: context.theme.colorScheme.primary,
+                  width: 1,
+                ),
               ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.umbrella,
-                ), // Icon color for Profile
-                label: Locales.string(context, 'accounts'),
+              child: Icon(
+                isExpanded
+                    ? Icons.keyboard_arrow_down
+                    : Icons.keyboard_arrow_up,
+                size: 32,
+                color: Colors.grey.shade700,
               ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.piggyBank,
-                ), // Icon color for Notifications
-                label: Locales.string(context, 'deposit_management'),
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.moneyBillTransfer,
-                ), // Icon color for Search
-                label: Locales.string(context, 'transfer_money'),
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.sackDollar,
-                ), // Icon color for Settings
-                label: "Acc. Mgmt.",
-              ),
-            ],
+            ),
           ),
-        );
-      },
+        ),
+      ],
+    );
+  }
+
+  Widget _navItem(int index) {
+    final item = menuItems[index];
+    final selected = index == widget.selectedIndex;
+
+    return GestureDetector(
+      onTap: () => widget.onTap(index),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FaIcon(
+              item['icon'],
+              size: 20,
+              color:
+                  selected ? context.theme.colorScheme.onPrimary : Colors.grey,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              item['label'],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                color:
+                    selected
+                        ? context.theme.colorScheme.onPrimary
+                        : Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
