@@ -5,6 +5,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/app_background.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
@@ -72,157 +73,163 @@ class _RegistrationPageState extends State<RegistrationPage> {
               );
             }
           },
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: BlocBuilder<RegistrationPageBloc, RegistrationPageState>(
-                  builder: (context, state) {
-                    return Column(
-                      spacing: 10,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AppLogo(width: 150),
-                        AppTextInput(
-                          controller: nameController,
-                          label: Locales.string(
-                            context,
-                            'register_page_name_label',
-                          ),
-                          errorText:
-                              state is RegistrationValidationErrorState
-                                  ? state.errors['name']?.isNotEmpty == true
-                                      ? state.errors['name']![0]
-                                      : null
-                                  : null,
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                        ),
-                        AppTextInput(
-                          controller: emailController,
-                          label: Locales.string(
-                            context,
-                            'register_page_email_label',
-                          ),
-                          errorText:
-                              state is RegistrationValidationErrorState
-                                  ? state.errors['email']?.isNotEmpty == true
-                                      ? state.errors['email']![0]
-                                      : null
-                                  : null,
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        AppTextInput(
-                          controller: passwordController,
-                          label: Locales.string(
-                            context,
-                            'register_page_password_label',
-                          ),
-                          errorText:
-                              state is RegistrationValidationErrorState
-                                  ? state.errors['password']?.isNotEmpty == true
-                                      ? state.errors['password']![0]
-                                      : null
-                                  : null,
-                          obscureText: true,
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                        ),
-                        AppTextInput(
-                          controller: confirmPasswordController,
-                          label: Locales.string(
-                            context,
-                            'register_page_confirm_password_label',
-                          ),
-                          errorText:
-                              state is RegistrationValidationErrorState
-                                  ? state
-                                              .errors['confirm_password']
-                                              ?.isNotEmpty ==
-                                          true
-                                      ? state.errors['confirm_password']![0]
-                                      : null
-                                  : null,
-                          obscureText: true,
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        BlocBuilder<
-                          RegistrationPageBloc,
-                          RegistrationPageState
-                        >(
-                          builder: (context, state) {
-                            if (state is RegistrationLoadingState) {
-                              return CircularProgressIndicator();
-                            }
-                            return AppPrimaryButton(
-                              label: Locales.string(
-                                context,
-                                'register_page_create_account_button',
-                              ),
-                              iconBefore: Icon(
-                                Icons.person_add,
-                                color: context.theme.colorScheme.onPrimary,
-                              ),
-                              onPressed: () {
-                                context.read<RegistrationPageBloc>().add(
-                                  RegisterEvent(
-                                    name: nameController.text,
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    confirmPassword:
-                                        confirmPasswordController.text,
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              Locales.string(
-                                context,
-                                'register_page_already_have_account_text',
-                              ),
-                              style: TextStyle(
-                                color: context.theme.colorScheme.onSurface,
-                              ),
+          child: AppBackground(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: BlocBuilder<
+                    RegistrationPageBloc,
+                    RegistrationPageState
+                  >(
+                    builder: (context, state) {
+                      return Column(
+                        spacing: 10,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppLogo(width: 150),
+                          AppTextInput(
+                            controller: nameController,
+                            label: Locales.string(
+                              context,
+                              'register_page_name_label',
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
+                            errorText:
+                                state is RegistrationValidationErrorState
+                                    ? state.errors['name']?.isNotEmpty == true
+                                        ? state.errors['name']![0]
+                                        : null
+                                    : null,
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          AppTextInput(
+                            controller: emailController,
+                            label: Locales.string(
+                              context,
+                              'register_page_email_label',
+                            ),
+                            errorText:
+                                state is RegistrationValidationErrorState
+                                    ? state.errors['email']?.isNotEmpty == true
+                                        ? state.errors['email']![0]
+                                        : null
+                                    : null,
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          AppTextInput(
+                            controller: passwordController,
+                            label: Locales.string(
+                              context,
+                              'register_page_password_label',
+                            ),
+                            errorText:
+                                state is RegistrationValidationErrorState
+                                    ? state.errors['password']?.isNotEmpty ==
+                                            true
+                                        ? state.errors['password']![0]
+                                        : null
+                                    : null,
+                            obscureText: true,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          AppTextInput(
+                            controller: confirmPasswordController,
+                            label: Locales.string(
+                              context,
+                              'register_page_confirm_password_label',
+                            ),
+                            errorText:
+                                state is RegistrationValidationErrorState
+                                    ? state
+                                                .errors['confirm_password']
+                                                ?.isNotEmpty ==
+                                            true
+                                        ? state.errors['confirm_password']![0]
+                                        : null
+                                    : null,
+                            obscureText: true,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          BlocBuilder<
+                            RegistrationPageBloc,
+                            RegistrationPageState
+                          >(
+                            builder: (context, state) {
+                              if (state is RegistrationLoadingState) {
+                                return CircularProgressIndicator();
+                              }
+                              return AppPrimaryButton(
+                                label: Locales.string(
                                   context,
-                                  PublicRoutesName.loginPage,
-                                );
-                              },
-                              child: Text(
+                                  'register_page_create_account_button',
+                                ),
+                                iconBefore: Icon(
+                                  Icons.person_add,
+                                  color: context.theme.colorScheme.onPrimary,
+                                ),
+                                onPressed: () {
+                                  context.read<RegistrationPageBloc>().add(
+                                    RegisterEvent(
+                                      name: nameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      confirmPassword:
+                                          confirmPasswordController.text,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
                                 Locales.string(
                                   context,
-                                  'register_page_login_button',
+                                  'register_page_already_have_account_text',
                                 ),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    PublicRoutesName.loginPage,
+                                  );
+                                },
+                                child: Text(
+                                  Locales.string(
+                                    context,
+                                    'register_page_login_button',
+                                  ),
+                                  style: TextStyle(
+                                    color: context.theme.colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
+import 'package:pashboi/shared/widgets/app_background.dart';
 import 'package:pashboi/shared/widgets/buttons/app_error_button.dart';
 import 'package:pashboi/shared/widgets/buttons/app_warning_button.dart';
 
@@ -14,16 +15,17 @@ class TermsAndConditionsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(Locales.string(context, 'terms_and_conditions_page_title')),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              // Display the terms and conditions content inside a scrollable view
-              HtmlWidget(
-                '''
+      body: AppBackground(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                // Display the terms and conditions content inside a scrollable view
+                HtmlWidget(
+                  '''
                 <h2>Terms and Conditions</h2>
 
                 <p>Welcome to <strong>Pashboi</strong>! By using our app, you agree to the following terms and conditions:</p>
@@ -47,51 +49,54 @@ class TermsAndConditionsPage extends StatelessWidget {
 
                 <p><em>Last updated: May 7, 2025</em></p>
                 ''',
-                customStylesBuilder: (element) {
-                  if (element.classes.contains('foo')) {
-                    return {'color': 'red'};
-                  }
-                  return null;
-                },
-                renderMode: RenderMode.column,
-                textStyle: TextStyle(fontSize: 14),
-              ),
-              // Add more terms here
-              const SizedBox(height: 20), // Space before buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  AppErrorButton(
-                    label: Locales.string(
-                      context,
-                      'terms_and_conditions_page_decline_button',
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    iconBefore: Icon(Icons.close, color: Colors.red),
-                    horizontalPadding: 0,
-                  ),
-
-                  AppWarningButton(
-                    label: Locales.string(
-                      context,
-                      'terms_and_conditions_page_accept_button',
-                    ),
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
+                  customStylesBuilder: (element) {
+                    if (element.classes.contains('foo')) {
+                      return {'color': 'red'};
+                    }
+                    return null;
+                  },
+                  renderMode: RenderMode.column,
+                  textStyle: TextStyle(fontSize: 14),
+                ),
+                // Add more terms here
+                const SizedBox(height: 20), // Space before buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    AppErrorButton(
+                      label: Locales.string(
                         context,
-                        PublicRoutesName.mobileVerificationPage,
-                        arguments: {'routeName': PublicRoutesName.registerPage},
-                      );
-                    },
-                    iconBefore: Icon(Icons.check, color: Colors.green),
-                    horizontalPadding: 0,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 50), // Space before buttons
-            ],
+                        'terms_and_conditions_page_decline_button',
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      iconBefore: Icon(Icons.close, color: Colors.red),
+                      horizontalPadding: 0,
+                    ),
+
+                    AppWarningButton(
+                      label: Locales.string(
+                        context,
+                        'terms_and_conditions_page_accept_button',
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          PublicRoutesName.mobileVerificationPage,
+                          arguments: {
+                            'routeName': PublicRoutesName.registerPage,
+                          },
+                        );
+                      },
+                      iconBefore: Icon(Icons.check, color: Colors.green),
+                      horizontalPadding: 0,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50), // Space before buttons
+              ],
+            ),
           ),
         ),
       ),

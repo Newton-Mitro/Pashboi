@@ -18,6 +18,7 @@ class UserModel extends UserEntity {
     required super.deviceId,
     required super.employeeCode,
     required super.isNewMenu,
+    super.accessToken,
     required super.rolePermissions,
   });
 
@@ -26,10 +27,10 @@ class UserModel extends UserEntity {
       userId: json['userid'] ?? 0,
       personId: json['personid'] ?? 0,
       loginEmail: json['loginemail'] ?? '',
-      roleId: json['RoleId'] ?? 0,
+      roleId: json['RoleId'] ?? '',
       roleName: json['RoleName'] ?? '',
       userName: json['UserName'] ?? '',
-      userPicture: json['UserPicture'] ?? '',
+      userPicture: json['UserPicture'],
       branchCode: json['BranchCode'] ?? '',
       regMobile: json['RegMobile'] ?? '',
       address: json['Address'] ?? '',
@@ -37,6 +38,7 @@ class UserModel extends UserEntity {
       deviceId: json['DeviceId'] ?? 0,
       employeeCode: json['EmployeeCode'] ?? '',
       isNewMenu: json['IsNewMenu'] ?? false,
+      accessToken: json['accessToken'],
       rolePermissions:
           (json['RolePermissionModelList'] as List<dynamic>)
               .map((e) => RolePermissionModel.fromJson(e))
@@ -61,6 +63,7 @@ class UserModel extends UserEntity {
       'DeviceId': deviceId,
       'EmployeeCode': employeeCode,
       'IsNewMenu': isNewMenu,
+      'accessToken': accessToken,
       'RolePermissionModelList':
           rolePermissions
               .map((e) => (e as RolePermissionModel).toJson())
