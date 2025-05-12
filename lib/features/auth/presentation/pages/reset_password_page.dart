@@ -94,9 +94,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         'reset_password_page_reset_password_button',
                       ),
                     ),
-                    onPressed: () {
-                      // TODO: Add reset logic
-                    },
+                    onPressed: () {},
                   ),
                   const SizedBox(height: 20),
                 ],

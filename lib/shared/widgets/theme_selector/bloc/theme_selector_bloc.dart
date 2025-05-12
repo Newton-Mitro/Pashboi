@@ -6,6 +6,22 @@ import 'package:pashboi/core/theme/services/theme_service.dart';
 part 'theme_selector_event.dart';
 part 'theme_selector_state.dart';
 
+enum ThemeName {
+  primaryDark('primary_dark'),
+  primaryLight('primary_light'),
+  foreverGreenLight('forever_green');
+
+  final String themeKey;
+  const ThemeName(this.themeKey);
+
+  static ThemeName fromKey(String key) {
+    return ThemeName.values.firstWhere(
+      (e) => e.themeKey == key,
+      orElse: () => ThemeName.primaryLight,
+    );
+  }
+}
+
 class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
   final ThemeService themeService;
 
@@ -21,17 +37,17 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     LoadTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    final theme = await themeService.getTheme();
+    final storedKey = await themeService.getTheme(); // string like 'dark'
+    final theme = ThemeName.fromKey(storedKey);
 
     switch (theme) {
-      case 'dark':
+      case ThemeName.primaryDark:
         emit(PrimaryDarkThemeState());
         break;
-      case 'forever_green':
+      case ThemeName.foreverGreenLight:
         emit(ForeverGreenLightThemeState());
         break;
-      case 'light':
-      default:
+      case ThemeName.primaryLight:
         emit(PrimaryLightThemeState());
         break;
     }
@@ -41,7 +57,7 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     SetPrimaryLightTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme('light');
+    await themeService.setTheme(ThemeName.primaryLight.themeKey);
     emit(PrimaryLightThemeState());
   }
 
@@ -49,7 +65,7 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     SetPrimaryDarkTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme('dark');
+    await themeService.setTheme(ThemeName.primaryDark.themeKey);
     emit(PrimaryDarkThemeState());
   }
 
@@ -57,7 +73,7 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     SetForeverGreenLightTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme('forever_green');
+    await themeService.setTheme(ThemeName.foreverGreenLight.themeKey);
     emit(ForeverGreenLightThemeState());
   }
 }

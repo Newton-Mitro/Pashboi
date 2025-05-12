@@ -20,5 +20,10 @@ class AppImages {
       '${rootPath}onboarding/onboarding_four.jpg';
 
   //icons
-  static const String pathBackgroundImage = '${rootPath}bg/bg.png';
+  static const String pathPrimaryDarkBgImage =
+      '${rootPath}bg/primary_dark_bg.png';
+  static const String pathPrimaryLightBgImage =
+      '${rootPath}bg/primary_light_bg.png';
+  static const String pathForeverGreenLightBgImage =
+      '${rootPath}bg/ever_green_bg.png';
 }

@@ -6,7 +6,7 @@ import 'package:pashboi/core/services/local_storage/local_storage.dart';
 class MockLocalStorage extends Mock implements LocalStorage {}
 
 void main() {
-  late MockLocalStorage mockLocalStorage;
+  // late MockLocalStorage mockLocalStorage;
 
   setUpAll(() async {
     await Locales.init(['en', 'bn']);

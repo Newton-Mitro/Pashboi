@@ -41,8 +41,6 @@ jobs:
       - name: Override .env values from GitHub Secrets
         run: |
           echo "Overriding .env with GitHub Secrets"
-          echo "API_URL=${{ secrets.API_URL }}" >> .env
-          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
 
       - name: Cache Flutter build outputs
         uses: actions/cache@v3
