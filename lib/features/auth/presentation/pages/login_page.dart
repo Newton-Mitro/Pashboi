@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                                   state is LoginValidationErrorState
                                       ? state.errors['email']?.isNotEmpty ==
                                               true
-                                          ? state.errors['email']![0]
+                                          ? state.errors['email']
                                           : null
                                       : null,
                               prefixIcon: Icon(
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                   state is LoginValidationErrorState
                                       ? state.errors['password']?.isNotEmpty ==
                                               true
-                                          ? state.errors['password']![0]
+                                          ? state.errors['password']
                                           : null
                                       : null,
                               prefixIcon: Icon(
