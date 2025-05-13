@@ -53,7 +53,7 @@ void main() {
 
       when(
         () => mockLocalStorage.saveString(any(), any()),
-      ).thenAnswer((_) async => null);
+      ).thenAnswer((_) async {});
 
       await dataSource.setAuthUser(testUser);
 
@@ -87,9 +87,7 @@ void main() {
 
   group('clearAuthUser', () {
     test('should remove user from local storage', () async {
-      when(
-        () => mockLocalStorage.remove('auth_user'),
-      ).thenAnswer((_) async => null);
+      when(() => mockLocalStorage.remove('auth_user')).thenAnswer((_) async {});
 
       await dataSource.clearAuthUser();
 
