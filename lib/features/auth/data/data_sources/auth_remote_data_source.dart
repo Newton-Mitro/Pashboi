@@ -36,8 +36,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
         final jsonResponse = JsonUtil.decodeModelList(dataString);
 
-        final userModel = UserModel.fromJson(jsonResponse[0]);
-        userModel.copyWith(accessToken: token);
+        final userModel = UserModel.fromJson({
+          ...jsonResponse[0],
+          "accessToken": token,
+        });
 
         return userModel;
       } else {
@@ -67,10 +69,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == HttpStatus.created) {
-        final data = response.data?['data'];
+        final data = response.data?['Data'];
         if (data == null) throw Exception('Invalid response format');
 
-        return UserModel.fromJson(data);
+        final jsonResponse = JsonUtil.decodeModelList(data);
+
+        final userModel = UserModel.fromJson(jsonResponse[0]);
+
+        return userModel;
       } else {
         throw Exception(
           'Registration failed with status ${response.statusCode}',

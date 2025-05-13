@@ -1,18 +1,18 @@
 import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:pashboi/features/auth/data/models/role_permission_model.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 
-import '../../../../main_test.dart';
+import '../../../../mock.helper/mock.helper.dart';
 
 void main() {
   late MockLocalStorage mockLocalStorage;
   late AuthLocalDataSourceImpl dataSource;
 
   final testUser = UserModel(
+    id: '350b89e4-ec4f-457b-af12-376b5430a931',
     userId: 1,
     personId: 101,
     loginEmail: 'test@example.com',
@@ -47,47 +47,53 @@ void main() {
     dataSource = AuthLocalDataSourceImpl(localStorage: mockLocalStorage);
   });
 
-  // group('setAuthUser', () {
-  //   test('should store UserModel as JSON string in local storage', () async {
-  //     final expectedJson = jsonEncode(testUser.toJson());
+  group('setAuthUser', () {
+    test('should store UserModel as JSON string in local storage', () async {
+      final expectedJson = jsonEncode(testUser.toJson());
 
-  //     when(() => mockLocalStorage.saveString(any(), any<String>()));
+      when(
+        () => mockLocalStorage.saveString(any(), any()),
+      ).thenAnswer((_) async => null);
 
-  //     await dataSource.setAuthUser(testUser);
+      await dataSource.setAuthUser(testUser);
 
-  //     verify(
-  //       () => mockLocalStorage.saveString('auth_user', expectedJson),
-  //     ).called(1);
-  //   });
-  // });
+      verify(
+        () => mockLocalStorage.saveString('auth_user', expectedJson),
+      ).called(1);
+    });
+  });
 
-  // group('getAuthUser', () {
-  //   test('should return UserModel when valid JSON is found', () async {
-  //     final userJson = jsonEncode(testUser.toJson());
+  group('getAuthUser', () {
+    test('should return UserModel when valid JSON is found', () async {
+      final userJson = jsonEncode(testUser.toJson());
 
-  //     when(
-  //       mockLocalStorage.getString('auth_user'),
-  //     ).thenAnswer((_) async => userJson);
+      when(
+        () => mockLocalStorage.getString('auth_user'),
+      ).thenAnswer((_) async => userJson);
 
-  //     final result = await dataSource.getAuthUser();
+      final result = await dataSource.getAuthUser();
 
-  //     expect(result, equals(testUser));
-  //   });
+      expect(result, equals(testUser));
+    });
 
-  //   test('should throw Exception when user not found', () async {
-  //     when(mockLocalStorage.getString('auth_user')).thenAnswer((_) async => '');
+    test('should throw Exception when user not found', () async {
+      when(
+        () => mockLocalStorage.getString('auth_user'),
+      ).thenAnswer((_) async => '');
 
-  //     expect(() => dataSource.getAuthUser(), throwsException);
-  //   });
-  // });
+      expect(() => dataSource.getAuthUser(), throwsException);
+    });
+  });
 
-  // group('clearAuthUser', () {
-  //   test('should remove user from local storage', () async {
-  //     when(mockLocalStorage.remove('auth_user')).thenAnswer((_) async => {});
+  group('clearAuthUser', () {
+    test('should remove user from local storage', () async {
+      when(
+        () => mockLocalStorage.remove('auth_user'),
+      ).thenAnswer((_) async => null);
 
-  //     await dataSource.clearAuthUser();
+      await dataSource.clearAuthUser();
 
-  //     verify(mockLocalStorage.remove('auth_user'));
-  //   });
-  // });
+      verify(() => mockLocalStorage.remove('auth_user')).called(1);
+    });
+  });
 }

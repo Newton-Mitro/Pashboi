@@ -1,8 +1,7 @@
-import 'package:dio/dio.dart';
-import 'package:mockito/annotations.dart';
-import 'package:pashboi/core/services/network/logger_interceptor.dart';
-import 'package:pashboi/core/services/network/network_info.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/core/services/local_storage/local_storage.dart';
+import 'package:pashboi/core/services/network/api_service.dart';
 
-@GenerateMocks([NetworkInfo, Dio, LocalStorage, LoggerInterceptor])
-void main() {}
+class MockLocalStorage extends Mock implements LocalStorage {}
+
+class MockApiService extends Mock implements ApiService {}

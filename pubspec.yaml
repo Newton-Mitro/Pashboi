@@ -48,9 +48,6 @@ dev_dependencies:
   bloc_test:
   mocktail:
 
-  mockito:
-  build_runner:
-
 flutter:
   generate: true
   uses-material-design: true
