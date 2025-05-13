@@ -1,0 +1,107 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Duration Amounts Request
+# @name getDurationAmounts
+POST {{host}}/Accounts_V1/getDurationAmounts
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "UID": "{{ByUserId}}",
+  "ByUserId": "{{ByUserId}}",
+  "RolePermissionId": "6,1,1210,57053",
+  "PersonId": "{{PersonId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "MobileNo": "{{MobileNumber}}",
+  "Duration": 72,
+  "ProductCode": "19",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#   "Data": [
+#     {
+#       "DurationId": 10,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 500
+#     },
+#     {
+#       "DurationId": 19,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 1000
+#     },
+#     {
+#       "DurationId": 28,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 2000
+#     },
+#     {
+#       "DurationId": 37,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 3000
+#     },
+#     {
+#       "DurationId": 46,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 4000
+#     },
+#     {
+#       "DurationId": 55,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 5000
+#     },
+#     {
+#       "DurationId": 64,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 10000
+#     },
+#     {
+#       "DurationId": 73,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 15000
+#     },
+#     {
+#       "DurationId": 82,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 20000
+#     },
+#     {
+#       "DurationId": 91,
+#       "DurationName": "6 Years",
+#       "DurationInMonths": 72,
+#       "DepositAmount": 25000
+#     }
+#   ],
+#   "Status": "success",
+#   "Message": null
+# }

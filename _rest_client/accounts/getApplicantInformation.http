@@ -1,0 +1,110 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Application Information Request
+# @name getApplicantInformation
+POST {{host}}/Accounts_V1/getApplicantInformation
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "UID": "{{ByUserId}}",
+  "ByUserId": "{{ByUserId}}",
+  "RolePermissionId": "6,1,1210",
+  "PersonId": "{{PersonId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "MobileNo": "{{MobileNumber}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#   "Data": [
+#     {
+#       "FullName": "NEWTON MITRA",
+#       "PermanentAddressLine1": "BANIARCHOR",
+#       "PermanentAddressLine2": "JALIRPAR",
+#       "PermanentAddressLine3": "MUKSUDPUR",
+#       "PermanentAddressLine4": "GOPALGANJ",
+#       "PresentAddressLine1": "429,1-A,MONIR MONJIL,SENPARA,PARBOTA",
+#       "PresentAddressLine2": "MIRPUR",
+#       "PresentAddressLine3": "KAFRUL",
+#       "PresentAddressLine4": "DHAKA",
+#       "Email": "newtonmitro@gmail.com",
+#       "FathersName": "DAVID MOHENDRA MISTRI  ",
+#       "MothersName": "",
+#       "PersonId": 63786,
+#       "SpouseName": "ADLINE CECILIA CRUZE  ",
+#       "BloodGroup": "B (+)",
+#       "Gender": "Male",
+#       "MaritalStatus": "Married",
+#       "MobileNumber": "01704687376",
+#       "Religion": "Christianity",
+#       "Nationality": null,
+#       "NID": "3523202112030",
+#       "PersonPhoto": "",
+#       "PersonWorkDetails": [
+#         {
+#           "WorkId": 0,
+#           "WorkplaceName": "The Christian Co-operative Credit Union Ltd., Dhaka.",
+#           "WorkPlaceAddress": "",
+#           "Designation": "ASST.OFFICER",
+#           "MobileNo": "1709815406",
+#           "Salary": 23990,
+#           "JoiningDate": "2019-12-01T00:00:00",
+#           "ResignationDate": "1900-01-01T00:00:00",
+#           "Occupation": "SERVICE"
+#         }
+#       ],
+#       "OwnMembershipNo": "0050725       ",
+#       "FatherMembershipNo": "0004963",
+#       "MotherMembershipNo": "",
+#       "SpouseMembershipNo": "0022865",
+#       "SavingsBookNo": "T-0063366       ",
+#       "FullNameBengali": "NEWTON MITRA",
+#       "SpouseAddress": " DHARENDA, SAVAR, SAVAR, DHAKA, DHAKA",
+#       "SpouseSavingsACNo": "T-0028172",
+#       "MotherSavingsACNo": "",
+#       "FatherSavingsACNo": "T-0012868",
+#       "BirthPlace": "GOPALGANJ",
+#       "PresentAddressLine5": "MIRPUR SECTION-13 (BL-B)",
+#       "PresentAddressLine6": null,
+#       "PermanentAddressLine5": "BANIAR CHAR",
+#       "PermanentAddressLine6": "",
+#       "PrevMembershipNo": "0050725       ",
+#       "EmployeeCode": "EmployeeCode",
+#       "PresentDivision": "DHAKA",
+#       "PermanentDivision": "DHAKA",
+#       "Occupation": "SERVICE",
+#       "OwnSavingsACNo": "T-0063366       ",
+#       "SpouseAge": "35.5",
+#       "RelationWithSpouse": "Wife",
+#       "ParishName": "",
+#       "CustName": "Other",
+#       "IsLate": false,
+#       "DateOfBirth": "1988-03-13T00:00:00",
+#       "IsBloodDonor": false
+#     }
+#   ],
+#   "Status": "success",
+#   "Message": null
+# }

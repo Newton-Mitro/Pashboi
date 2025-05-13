@@ -1,0 +1,61 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Payment Services
+# @name getPaymentServices
+POST {{host}}/payments_v1/getPaymentServices
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "UID": "{{ByUserId}}",
+  "ByUserId": "{{ByUserId}}",
+  "RolePermissionId": "6,1,1210",
+  "PersonId": "{{PersonId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "MobileNo": "{{MobileNumber}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#   "Data": [
+#     {
+#       "ServiceId": 3,
+#       "ServiceCode": "03",
+#       "ServiceName": "Dhaka Credit School",
+#       "ServiceAccount": "T-0058497",
+#       "ServiceIcon": "",
+#       "ServiceType": "Internal",
+#       "NotifyPerson": [
+#         {
+#           "PersonId": 20528,
+#           "FullName": "CRYSTAL CRUZE",
+#           "MobileNumber": "+880-1683670118",
+#         }
+#       ],
+#       "Remarks": "Student ID"
+#     }
+#   ],
+#   "Status": "success",
+#   "Message": null
+# }

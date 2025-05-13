@@ -1,0 +1,139 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Submit Deposit Now Request
+# @name submitDepositNow
+POST {{host}}/deposits_V1/submitDepositNow
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "AccountHolderName": "REBECCA CHRISTINA CRUZE",
+  "AccountId": "18165",
+  "AccountType": "Savings Account",
+  "CardNo": "0010101700205227",
+  "DepositDate": "Jan 11, 2024 5:07:02 PM",
+  "FromAccountNo": "L-0001356",
+  "LedgerId": 1493,
+  "Remarks": "",
+  "RepeatMonths": 0,
+  "SecretKey": "008bd5ad93b754d500338c253d9c1770",
+  "ServiceCharge": 0.0,
+  "TotalAmount": 0.0,
+  "TotalDepositAmount": 2900.0,
+  "TransactionMethod": "12",
+  "TransactionModels": [
+    {
+      "AccountId": 133974,
+      "AccountNo": "0021519",
+      "AccountType": "Share Account",
+      "Amount": 10.0,
+      "IsDefaulter": false,
+      "IsLps": false,
+      "IsMultiplier": false,
+      "IsNotEditable": false,
+      "IsRefundBased": false,
+      "IsSubLedger": false,
+      "LedgerId": 1486,
+      "PlType": 1
+    },
+    {
+      "AccountId": 96096,
+      "AccountNo": "G2022111298567",
+      "AccountType": "Members General Loan",
+      "Amount": 2780.0,
+      "IsDefaulter": false,
+      "IsLps": false,
+      "IsMultiplier": false,
+      "IsNotEditable": false,
+      "IsRefundBased": false,
+      "IsSubLedger": false,
+      "LedgerId": 1720,
+      "PlType": 2
+    },
+    {
+      "AccountId": 35499,
+      "AccountNo": "L-0001355",
+      "AccountType": "Savings Account",
+      "Amount": 10.0,
+      "IsDefaulter": false,
+      "IsLps": false,
+      "IsMultiplier": false,
+      "IsNotEditable": false,
+      "IsRefundBased": false,
+      "IsSubLedger": false,
+      "LedgerId": 1493,
+      "PlType": 1
+    },
+    {
+      "AccountId": 280531,
+      "AccountNo": "HDS-1439554",
+      "AccountType": "Housing Deposit Scheme",
+      "Amount": 50.0,
+      "IsDefaulter": false,
+      "IsLps": false,
+      "IsMultiplier": false,
+      "IsNotEditable": false,
+      "IsRefundBased": false,
+      "IsSubLedger": false,
+      "LedgerId": 1492,
+      "PlType": 1
+    },
+    {
+      "AccountId": 267944,
+      "AccountNo": "HCS-2566329",
+      "AccountType": "Health Care Scheme",
+      "Amount": 50.0,
+      "IsDefaulter": false,
+      "IsLps": false,
+      "IsMultiplier": false,
+      "IsNotEditable": false,
+      "IsRefundBased": false,
+      "IsSubLedger": false,
+      "LedgerId": 1525,
+      "PlType": 1
+    }
+  ],
+  "TransactionType": "DepositRequest",
+  "AccountNo": "L-0001356",
+  "Gender": "M",
+  "IncludeSelf": false,
+  "ByUserId": 14,
+  "DeviceRegId": "16659",
+  "EmployeeCode": "1224",
+  "IMEI": "5b991844dc0b8968 - 9940ef34-d131-428c-a5a2-18c0a1071977",
+  "MobileNo": "+880-1683670118",
+  "MobileNumber": "+880-1683670118",
+  "OTPRegId": "92012",
+  "OTPValue": "121212",
+  "PersonId": 20528,
+  "RequestFrom": "MMS",
+  "RequestTime": "Jan 11, 2024 5:06:53 PM",
+  "RolePermissionId": " 56227",
+  "UID": "14",
+  "UserName": "crystal.cruze@cccul.com"
+}
+
+### Response
+# {
+#     "Data": "Your transaction has been completed successfully.",
+#     "Status": "success",
+#     "Message": null
+# }

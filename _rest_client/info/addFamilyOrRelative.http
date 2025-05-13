@@ -1,0 +1,50 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Add Family Or Relative Request
+# @name add_family_or_relative
+POST {{host}}/info_V1/addFamilyOrRelative
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "Age": 0,
+  "ChildPersonId": 64025,
+  "RelationTypeCode": "05",
+  "ByUserId": 14,
+  "DeviceRegId": "16659",
+  "EmployeeCode": "1224",
+  "IMEI": "5b991844dc0b8968 - 9940ef34-d131-428c-a5a2-18c0a1071977",
+  "MobileNo": "+880-1683670118",
+  "MobileNumber": "+880-1683670118",
+  "PersonId": 64025,
+  "RequestFrom": "MMS",
+  "RequestTime": "Jan 10, 2024 5:38:17 PM",
+  "RolePermissionId": " 56209",
+  "UID": "14",
+  "UserName": "crystal.cruze@cccul.com"
+}
+
+### Response
+# {
+#     "Data": "Selected person will be added in your "Family and Relatives" after confirmation from authority.",
+#     "Status": "success",
+#     "Message": null
+# }

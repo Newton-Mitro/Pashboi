@@ -1,0 +1,158 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Interest On Against Loan Request
+# @name getInterestOnAgainstLoan
+POST {{host}}/Loans_V1/GetLoanApplicantDetails
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+    "UserName": "{{UserName}}",
+    "UID": "{{ByUserId}}",
+    "ByUserId": "{{ByUserId}}",
+    "PersonId": "{{PersonId}}",
+    "EmployeeCode": "{{EmployeeCode}}",
+    "MobileNumber": "{{MobileNumber}}",
+    "MobileNo": "{{MobileNumber}}",
+    "RolePermissionId": "6,1,1210",
+    "RequestFrom":"{{RequestFrom}}",
+    "ProductCode": "03",
+    "ShareAmountFromMonthsAgo": "1"
+}
+
+
+# Response
+# {
+#   "Data": [
+#     {
+#       "FullName": "BAPPY BESRA",
+#       "PermanentAddressLine1": " BELPUKUR, BELBARI, 5200, DINAJPUR SADAR, DINAJPUR",
+#       "PresentAddressLine1": " GP,GHA-193/2, MONIPURI PARA, 1215, TEJGAON, DHAKA",
+#       "Email": "bappy.ece@gmail.com",
+#       "FathersName": "",
+#       "MothersName": "",
+#       "PersonId": 64025,
+#       "SpouseName": "",
+#       "BloodGroup": null,
+#       "Gender": null,
+#       "MaritalStatus": null,
+#       "MobileNumber": "01815458842",
+#       "Religion": "Christianity",
+#       "Nationality": null,
+#       "NID": "5551928160",
+#       "PersonPhoto": "/9j/4SWfRXhpZgAATU0AKgAAAAgAEgALAAIAAAAmAA//Z",
+#       "OwnMembershipNo": null,
+#       "FatherMembershipNo": " ",
+#       "MotherMembershipNo": " ",
+#       "SpouseMembershipNo": " ",
+#       "Parish": "",
+#       "DateOfBirth": "1993-10-15T00:00:00",
+#       "RequestFrom": null,
+#       "PersonWorkDetails": [
+#         {
+#           "WorkId": 0,
+#           "WorkplaceName": "The Christian Co-operative Credit Union Ltd., Dhaka.",
+#           "WorkPlaceAddress": "Dhaka",
+#           "Designation": "Network engineer ",
+#           "MobileNo": "1709815406",
+#           "Salary": 70000.0,
+#           "JoiningDate": "2021-01-01T00:00:00",
+#           "ResignationDate": "1900-01-01T00:00:00",
+#           "Occupation": "SERVICE",
+#           "Workplace": "The Christian Co-operative Credit Union Ltd., Dhaka., Dhaka, 1709815406",
+#           "FullName": "BAPPY BESRA",
+#           "PersonId": 64025
+#         }
+#       ],
+#       "PersonAccountsDetails": [
+#         {
+#           "DepositAmount": 20206.0,
+#           "DepositAccountNo": "HDS-0064072",
+#           "AccTypeCode": "14",
+#           "SuretyTypeCode": "16",
+#           "AccountTypeName": "HDS",
+#           "IsSuretyAccount": false,
+#           "WithdrawableBalance": 0.0,
+#           "AccountId": 225303,
+#           "InterestRate": 5.0,
+#           "IsDefaulter": false,
+#           "IsUdity": false,
+#           "RelationTypeCode": "25",
+#           "RelationName": "Self",
+#           "IsTimesPercentageEligable": false,
+#           "FullName": "BAPPY BESRA",
+#           "PersonId": 64025,
+#           "RegisteredMobile": "1815458842     "
+#         }
+#       ],
+#       "PersonLoanDetails": [
+#         {
+#           "LoanType": "General Loan-2",
+#           "IssuedDate": "2023-11-09T00:00:00",
+#           "IssuedAmt": 300000.0,
+#           "InterestRate": 12.0,
+#           "LastPaidDate": "2023-11-09T00:00:00",
+#           "Balance": 600000.0,
+#           "Installment": 96,
+#           "LoanRefundAmount": 96.0,
+#           "LoanStatus": "Operativern",
+#           "LoanAccountId": 94003,
+#           "MonthlyInstallment": 3130.0,
+#           "OrganaizationId": "001",
+#           "ProductTypeId": 2,
+#           "LoanApplicationId": 106629,
+#           "AccountNo": "",
+#           "RfidCardNo": "",
+#           "PersonId": 64025,
+#           "LoanId": "G20231109106629"
+#         }
+#       ],
+#       "PersonFamilyLoanDetails": [
+#         {
+#           "LoanType": "Double General Loan Against Deposit",
+#           "IssuedDate": "2023-06-11T00:00:00",
+#           "IssuedAmt": 200000.0,
+#           "InterestRate": 12.0,
+#           "LastPaidDate": "1900-01-01T00:00:00",
+#           "Balance": 200000.0,
+#           "Installment": 120,
+#           "LoanRefundAmount": 120.0,
+#           "LoanStatus": "Operativern",
+#           "LoanAccountId": 93988,
+#           "MonthlyInstallment": 1670.0,
+#           "OrganaizationId": "001",
+#           "RelationName": "Brother",
+#           "ProductTypeId": 56,
+#           "LoanApplicationId": 96387,
+#           "AccountNo": "",
+#           "RfidCardNo": "",
+#           "FullName": "SUJAN DOMINIC GOMES",
+#           "PersonId": 13821,
+#           "LoanId": "C2022090696387"
+#         }
+#       ],
+#       "PersonAttachments": null
+#     }
+#   ],
+#   "Status": "success",
+#   "Message": null
+# }
+

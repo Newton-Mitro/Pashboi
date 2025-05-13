@@ -1,0 +1,46 @@
+### Login Request
+# @name login
+POST https://staging.cccul.com/api/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Profile Request
+# @name get_profile
+POST {{host}}/info_V1/getUserProfile
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "AccountNo": "Not found.",
+  "Gender": "M",
+  "MobileNo": "{{MobileNumber}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "RolePermissionId": "6,1,1209,1210",
+  "ByUserId": 10,
+  "UID": "{{ByUserId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "PersonId": 12345,
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#     "Data": "find_out",
+#     "Status": "success",
+#     "Message": null
+# }

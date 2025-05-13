@@ -1,0 +1,52 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Verify Recepient Request
+# @name verifyRecepient
+POST {{host}}/transfers_v2/verifyRecepient_v2
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "UID": "{{ByUserId}}",
+  "ByUserId": "{{ByUserId}}",
+  "RolePermissionId": "6,1,1210",
+  "PersonId": "{{PersonId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "MobileNo": "{{MobileNumber}}",
+  "AccNo": "T-0063599",
+  "AccType": "16",
+  "CardNo": "0010102700635993",
+  "NameOnCard": "BAPPY BESRA",
+  "Amount": 1,
+  "TransferToAcc": "T-0043713",
+  "RecipientName": "SHUBRO THEOPHIL D COSTA",
+  "SecretKey": "1458e7509aa5f47ecfb92536e7dd1dc7",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#     "Data": "SHUBRO THEOPHIL D COSTA",
+#     "Status": "success",
+#     "Message": null
+# }

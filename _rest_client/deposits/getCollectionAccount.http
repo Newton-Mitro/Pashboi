@@ -1,0 +1,223 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Collection Ledgers Request
+# @name getCollectionAccount
+POST {{host}}/deposits_V1/getCollectionAccount
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "UID": "{{ByUserId}}",
+  "ByUserId": "{{ByUserId}}",
+  "RolePermissionId": "6,1,1210",
+  "ModuleCode": "16",
+  "PersonId": "{{PersonId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "MobileNo": "{{MobileNumber}}",
+  "SearchText": "0050725",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#   "Data": {
+#     "AccountInfoList": [
+#       {
+#         "AccountNo": "0050725       ",
+#         "AccountName": "NEWTON MITRA",
+#         "AccountType": "Share Account",
+#         "LedgerId": 1486,
+#         "Amount": 10,
+#         "Balance": 0,
+#         "AccountId": 234265,
+#         "IsDefaulter": false,
+#         "IsSubLedger": false,
+#         "IsMultiplier": true,
+#         "IsNotEditable": false,
+#         "AccountTypeCode": "10",
+#         "PlType": 1,
+#         "IsLps": false,
+#         "LoanBalance": 0,
+#         "InterestRate": 0,
+#         "LastPaidDate": "1900-01-01T00:00:00",
+#         "IsRefundBased": false,
+#         "LoanCollectionType": "dms_balance",
+#         "AccountFor": "Individual"
+#       },
+#       {
+#         "AccountNo": "T-0063366",
+#         "AccountName": "NEWTON MITRA",
+#         "AccountType": "Savings Account",
+#         "LedgerId": 1493,
+#         "Amount": 10,
+#         "Balance": 0,
+#         "AccountId": 61759,
+#         "LoanAccountList": null,
+#         "IsDefaulter": false,
+#         "IsSubLedger": false,
+#         "IsMultiplier": false,
+#         "IsNotEditable": false,
+#         "AccountTypeCode": "16",
+#         "PlType": 1,
+#         "Sort": 0,
+#         "IsLps": false,
+#         "LoanBalance": 0,
+#         "InterestRate": 0,
+#         "LastPaidDate": "1900-01-01T00:00:00",
+#         "IsRefundBased": false,
+#         "LoanCollectionType": "dms_balance",
+#         "AccountFor": "Individual"
+#       }
+#       {
+#         "AccountNo": "D20230517106521",
+#         "AccountName": "-",
+#         "AccountType": "Int on Millionaire Deposit Loan",
+#         "LedgerId": 1990,
+#         "Amount": 658,
+#         "Balance": 0,
+#         "AccountId": 93934,
+#         "IsDefaulter": false,
+#         "IsSubLedger": true,
+#         "IsMultiplier": false,
+#         "IsNotEditable": true,
+#         "AccountTypeCode": "25",
+#         "PlType": 2,
+#         "Sort": 0,
+#         "IsLps": false,
+#         "LoanBalance": 10000,
+#         "InterestRate": 11.5,
+#         "LastPaidDate": "2023-05-22T00:00:00",
+#         "IsRefundBased": false,
+#         "LoanCollectionType": "loan_int",
+#         "AccountFor": "-"
+#       },
+#       {
+#         "AccountNo": "D20230517106522",
+#         "AccountName": "-",
+#         "AccountType": "Int on Millionaire Deposit Loan",
+#         "LedgerId": 1990,
+#         "Amount": 636,
+#         "Balance": 0,
+#         "AccountId": 93935,
+#         "IsDefaulter": false,
+#         "IsSubLedger": true,
+#         "IsMultiplier": false,
+#         "IsNotEditable": true,
+#         "AccountTypeCode": "25",
+#         "PlType": 2,
+#         "Sort": 0,
+#         "IsLps": false,
+#         "ServiceId": 0,
+#         "LoanBalance": 9660,
+#         "InterestRate": 11.5,
+#         "LastPaidDate": "2023-05-22T00:00:00",
+#         "IsRefundBased": false,
+#         "LoanCollectionType": "loan_int",
+#         "AccountFor": "-"
+#       },
+#       {
+#         "AccountNo": "D20230515106513",
+#         "AccountName": "-",
+#         "AccountType": "Fines on Millionaire Deposit Loan",
+#         "LedgerId": 2026,
+#         "Amount": 30,
+#         "Balance": 0,
+#         "AccountId": 93927,
+#         "LoanAccountList": null,
+#         "IsDefaulter": true,
+#         "IsSubLedger": true,
+#         "IsMultiplier": false,
+#         "IsNotEditable": false,
+#         "AccountTypeCode": "25",
+#         "PlType": 2,
+#         "Sort": 0,
+#         "IsLps": false,
+#         "LoanBalance": 2000,
+#         "InterestRate": 11.5,
+#         "LastPaidDate": "2023-05-22T00:00:00",
+#         "IsRefundBased": false,
+#         "LoanCollectionType": "loan_fine",
+#         "AccountFor": "-"
+#       },
+#       {
+#         "AccountNo": "MSP-0068436",
+#         "AccountName": "NEWTON MITRA",
+#         "AccountType": "Dhaka Credit Monthly Savings Project",
+#         "LedgerId": 1495,
+#         "Amount": 50000,
+#         "Balance": 0,
+#         "AccountId": 293897,
+#         "IsDefaulter": false,
+#         "IsSubLedger": false,
+#         "IsMultiplier": true,
+#         "IsNotEditable": false,
+#         "AccountTypeCode": "20",
+#         "PlType": 1,
+#         "Sort": 0,
+#         "MiscId": 0,
+#         "IsLps": false,
+#         "ServiceId": 0,
+#         "LoanBalance": 0,
+#         "InterestRate": 0,
+#         "LastPaidDate": "1900-01-01T00:00:00",
+#         "IsRefundBased": false,
+#         "LoanCollectionType": "dms_balance",
+#         "AccountFor": "Individual"
+#       },
+#       {
+#         "AccountNo": "MSP-0068437",
+#         "AccountName": "NEWTON MITRA",
+#         "AccountType": "Dhaka Credit Monthly Savings Project",
+#         "LedgerId": 1495,
+#         "Amount": 50000,
+#         "Balance": 0,
+#         "AccountId": 293898,
+#         "IsDefaulter": false,
+#         "IsSubLedger": false,
+#         "IsMultiplier": true,
+#         "IsNotEditable": false,
+#         "AccountTypeCode": "20",
+#         "PlType": 1,
+#         "Sort": 0,
+#         "IsLps": false,
+#         "LoanBalance": 0,
+#         "InterestRate": 0,
+#         "LastPaidDate": "1900-01-01T00:00:00",
+#         "IsRefundBased": false,
+#         "LoanCollectionType": "dms_balance",
+#         "AccountFor": "Individual"
+#       }
+#     ],
+#     "AccountHolderInfo": [
+#       {
+#         "FullName": "NEWTON MITRA",
+#         "FathersName": "MR.DAVID MITRO",
+#         "MothersName": "MRS.RATNA MITRO",
+#         "PersonId": 63786,
+#         "Gender": "M"
+#       }
+#     ]
+#   },
+#   "Status": "success",
+#   "Message": "success"
+# }

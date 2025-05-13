@@ -12,8 +12,8 @@ final class RegistrationInitialState extends RegistrationPageState {}
 final class RegistrationLoadingState extends RegistrationPageState {}
 
 final class RegistrationSuccessState extends RegistrationPageState {
-  final UserEntity authUser;
-  const RegistrationSuccessState(this.authUser);
+  final String data;
+  const RegistrationSuccessState(this.data);
 }
 
 final class RegistrationErrorState extends RegistrationPageState {

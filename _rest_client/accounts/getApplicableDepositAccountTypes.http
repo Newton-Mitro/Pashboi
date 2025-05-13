@@ -1,0 +1,64 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Account Types Request
+# @name getApplicableDepositAccountTypes
+POST {{host}}/Accounts_V1/getApplicableDepositAccountTypes
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "UID": "{{ByUserId}}",
+  "ByUserId": "{{ByUserId}}",
+  "RolePermissionId": "6,1,1210,57053",
+  "PersonId": "{{PersonId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "MobileNo": "{{MobileNumber}}",
+  "ProductType":-1,
+  "ProductCode":"-1",
+  "IsOnlineApplicable":true,
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#   "Data": [
+#     {
+#       "ProductId": 14,
+#       "ProductCode": "26",
+#       "ProductName": "Aged Savings Project",
+#       "ProductType": 3,
+#       "ProductTypeName": "Scheme Deposit",
+#       "Description": ""
+#     },
+#     {
+#       "ProductId": 17,
+#       "ProductCode": "31",
+#       "ProductName": "Marriage Deposit Scheme",
+#       "ProductType": 3,
+#       "ProductTypeName": "Scheme Deposit",
+#       "Description": ""
+#     }
+#   ],
+#   "Status": "success",
+#   "Message": null
+# }

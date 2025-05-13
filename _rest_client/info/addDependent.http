@@ -1,0 +1,55 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Add Family Or Relative Request
+# @name add_dependent
+POST {{host}}/info_V1/AddAccountOperator
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+  {  
+  "AccountOperators": [
+     {
+       "AccountOperatorId": 13821,
+       "AccountHolderInfoId": 184918
+    }
+    ],
+  "Remarks":"Add Dependent",
+  "UID": 14,
+  "ByUserId": 14,
+  "PersonId": 20528,
+  "EmployeeCode": "1224",
+  "MobileNumber": "+880-1683670118",
+  "MobileNo": "+880-1683670118",
+  "RequestFrom": "Web",
+  "RolePermissionId": " 58857, 58874",
+  "Year": 2024,
+  "IsNewMenu": false,
+  "OTPRegId": "{{OTPRegId}}",
+  "OTPValue": "{{OTPValue}}",
+  "UserName": "crystal.cruze@cccul.com"
+}
+
+### Response
+# {
+#     "Data": "A/C xxxxxxx added as dependent",
+#     "Status": "success",
+#     "Message": null
+# }

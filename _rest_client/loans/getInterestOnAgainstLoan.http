@@ -1,0 +1,59 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Get Interest On Against Loan Request
+# @name getInterestOnAgainstLoan
+POST {{host}}/loans_v1/getInterestOnAgainstLoan
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "LoanApplication": {
+    "AccountIds": "173915, ",
+    "LoanProductCode": "44 ",
+    "SuretyAccountIds": "173915, "
+  },
+  "ByUserId": "{{ByUserId}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "RolePermissionId": "6,1,1210",
+  "UID": "{{ByUserId}}",
+  "UserName": "bappy.besra@cccul.com",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#   "Data": [
+#     {
+#       "EligibleLoanAmount": 0,
+#       "MaxLoanAmount": 100000,
+#       "MinimumInstallment": "12,24,36,60",
+#       "IsEligible": true,
+#       "IsCertificateRequired": false,
+#       "AppliedAmount": 0,
+#       "Amount": 0,
+#       "IssuedAmount": 0,
+#       "LoanBalance": 0,
+#       "InterestRate": 12
+#     }
+#   ],
+#   "Status": "success",
+#   "Message": null
+# }

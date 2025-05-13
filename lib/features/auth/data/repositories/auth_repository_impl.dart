@@ -30,18 +30,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  ResultFuture<UserEntity> register(
-    String name,
+  ResultFuture<String> register(
     String email,
     String password,
     String confirmPassword,
+    String requestFrom,
   ) async {
     try {
       final result = await authRemoteDataSource.register(
-        name,
         email,
         password,
         confirmPassword,
+        requestFrom,
       );
       return Right(result);
     } catch (e) {

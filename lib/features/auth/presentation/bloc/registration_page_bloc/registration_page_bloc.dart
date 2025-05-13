@@ -16,10 +16,10 @@ class RegistrationPageBloc
     on<RegisterEvent>((event, emit) async {
       emit(RegistrationLoadingState());
       final registrationParams = RegistrationParams(
-        name: event.name,
         email: event.email,
         password: event.password,
         confirmPassword: event.confirmPassword,
+        requestFrom: 'Web',
       );
       final result = await registrationUseCase.call(registrationParams);
 
@@ -31,8 +31,8 @@ class RegistrationPageBloc
             emit(RegistrationErrorState(failure.message));
           }
         },
-        (user) {
-          emit(RegistrationSuccessState(user));
+        (data) {
+          emit(RegistrationSuccessState(data));
         },
       );
     });

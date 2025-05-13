@@ -1,0 +1,35 @@
+### User Registration Request
+# @name registerUser
+POST {{host}}/Auth_V1/UserRegister
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "newtonmitro@gmail.com",
+  "MobileNumber": "+880-1704687376",
+  "Password": "4a7d1ed414474e4033ac29ccb8653d9b",
+  "WithMFSRegistration": true,
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Success Response
+# {
+#     "Data": "find_out",
+#     "Status": "success",
+#     "Message": null
+# }
+
+### Error Response
+# {
+#   "Status": "failed",
+#   "Data": null,
+#   "Message": "An Error Has Occurred"
+# }
+
+### Already Registered User
+# {
+#   "Data": null,
+#   "Status": "failed",
+#   "Message": "Thank you, you are already signed up. Please, Log in."
+# }

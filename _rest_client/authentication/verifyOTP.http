@@ -1,0 +1,13 @@
+### Verify OTP Request
+# @name verifyOTP
+POST {{host}}/Auth_V1/verifyOTP
+Content-Type: application/json
+Accept: application/json
+
+## Request
+{
+    "OTPRegId": "{{OTPRegId}}",
+    "OTPValue": "{{OTPValue}}",
+    "MobileNumber": "{{MobileNumber}}",
+    "RequestFrom":"{{RequestFrom}}"
+}

@@ -1,4 +1,61 @@
 {
-  "tabby.config.telemetry": true,
-  "CodeGPT.apiKey": "CodeGPT Plus Beta"
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "RequestFrom": "Web"
+    },
+    "development": {
+      "host": "https://devapi.cccul.com/api",
+      "EncryptedPassword": "9efab2399c7c560b34de477b9aa0a465",
+      "UserName": "sujon.gomes@cccul.com",
+      "ByUserId": "25",
+      "PersonId": "13821",
+      "EmployeeCode": "812",
+      "MobileNumber": "+880-1716281408"
+    },
+    "staged": {
+      "host": "https://stagingapi.cccul.com/api",
+      "EncryptedPassword": "9efab2399c7c560b34de477b9aa0a465",
+      "UserName": "sujon.gomes@cccul.com",
+      "ByUserId": "25",
+      "PersonId": "13821",
+      "EmployeeCode": "812",
+      "MobileNumber": "+880-1716281408"
+    },
+    "production": {
+      "host": "https://webapi.cccul.com/api",
+      "EncryptedPassword": "14eb354c950d3cba8de7cb9a60963f59",
+      "UserName": "sujon.gomes@cccul.com",
+      "ByUserId": "25",
+      "PersonId": "13821",
+      "EmployeeCode": "812",
+      "MobileNumber": "+880-1716281408"
+    },
+    "supervisor_development": {
+      "host": "https://devapi.cccul.com/api",
+      "EncryptedPassword": "9efab2399c7c560b34de477b9aa0a465",
+      "UserName": "panna.peris@cccul.com",
+      "ByUserId": "2963",
+      "PersonId": "22659",
+      "EmployeeCode": "1312",
+      "MobileNumber": "+880-1733400146"
+    },
+    "supervisor_staged": {
+      "host": "https://stagingapi.cccul.com/api",
+      "EncryptedPassword": "9efab2399c7c560b34de477b9aa0a465",
+      "UserName": "panna.peris@cccul.com",
+      "ByUserId": "2963",
+      "PersonId": "22659",
+      "EmployeeCode": "1312",
+      "MobileNumber": "+880-1733400146"
+    },
+    "local": {
+      "host": "https://localhost:44344/api",
+      "EncryptedPassword": "9efab2399c7c560b34de477b9aa0a465",
+      "UserName": "panna.peris@cccul.com",
+      "ByUserId": "2963",
+      "PersonId": "22659",
+      "EmployeeCode": "1312",
+      "MobileNumber": "+880-1733400146"
+    }
+  }
 }

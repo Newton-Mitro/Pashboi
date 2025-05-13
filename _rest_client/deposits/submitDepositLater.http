@@ -1,0 +1,74 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Submit Deposit Later Request
+# @name submitDepositLater
+POST {{host}}/deposits_V2/submitDepositLater
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "AccountHolderName": "REBECCA CHRISTINA CRUZE",
+  "CardNo": "0010101700205227",
+  "DepositDate": "Jan 10, 2024 4:11:07 PM",
+  "FromAccountNo": "0125080430002",
+  "LedgerId": 0,
+  "ReferenceAccountNo": "0125080430002",
+  "Remarks": "",
+  "RepeatMonths": 0,
+  "ScheduleDate": "Jan 10, 2024 4:09:59 PM",
+  "SecretKey": "008bd5ad93b754d500338c253d9c1770",
+  "ServiceCharge": 0.0,
+  "TotalAmount": 0.0,
+  "TotalDepositAmount": 10.0,
+  "TransactionMethod": "12",
+  "TransactionModels": [
+    {
+      "AccountId": 133974,
+      "AccountNo": "0021519",
+      "AccountType": "Share Account",
+      "Amount": 10.0,
+      "LedgerId": 1486,
+      "PlType": 1
+    }
+  ],
+  "TransactionNumber": "dgdfgdfg",
+  "TransactionType": "DepositRequest",
+  "AccountNo": "L-0001356",
+  "ByUserId": "{{ByUserId}}",
+  "EmployeeCode": "1180",
+  "IMEI": "5b991844dc0b8968 - 9940ef34-d131-428c-a5a2-18c0a1071977",
+  "MobileNo": "{{MobileNumber}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "OTPRegId": "{{OTPRegId}}",
+  "OTPValue": "{{OTPValue}}",
+  "PersonId": "{{PersonId}}",
+  "RequestFrom": "MMS",
+  "RolePermissionId": " 56228",
+  "UID": "{{ByUserId}}",
+  "UserName": "{{UserName}}"
+}
+
+### Response
+# {
+#     "Data": "Your request has been submitted successfully.",
+#     "Status": "success",
+#     "Message": null
+# }

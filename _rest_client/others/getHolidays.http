@@ -1,0 +1,21 @@
+### Get Holidays Request
+# @name getHolidays
+POST {{host}}/others_v1/GetHolidaysList
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ByUserId": 14,
+  "DeviceRegId": "16654",
+  "EmployeeCode": "1224",
+  "IMEI": "5b991844dc0b8968 - fe491df8-4287-4882-92a3-bfa734de26fc",
+  "MobileNo": "+880-1683670118",
+  "MobileNumber": "+880-1683670118",
+  "PersonId": 20528,
+  "RequestFrom": "MMS",
+  "RequestTime": "Dec 19, 2023 4:04:20 PM",
+  "RolePermissionId": " 57540, 57566",
+  "UID": "14",
+  "UserName": "crystal.cruze@cccul.com",
+  "Year":2024
+}

@@ -6,11 +6,11 @@ import 'package:pashboi/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(String email, String password);
-  Future<UserModel> register(
-    String name,
+  Future<String> register(
     String email,
     String password,
     String confirmPassword,
+    String requestFrom,
   );
   Future<void> logout();
 }
@@ -51,20 +51,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> register(
-    String name,
+  Future<String> register(
     String email,
     String password,
     String confirmPassword,
+    String requestFrom,
   ) async {
     try {
       final response = await apiService.post(
         'Auth_V1/UserRegister',
         data: {
-          'name': name,
-          'email': email,
+          'UserName': email,
           'password': password,
           'password_confirmation': confirmPassword,
+          'RequestFrom': requestFrom,
         },
       );
 
@@ -72,11 +72,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final data = response.data?['Data'];
         if (data == null) throw Exception('Invalid response format');
 
-        final jsonResponse = JsonUtil.decodeModelList(data);
-
-        final userModel = UserModel.fromJson(jsonResponse[0]);
-
-        return userModel;
+        return data;
       } else {
         throw Exception(
           'Registration failed with status ${response.statusCode}',

@@ -1,0 +1,19 @@
+### Verify Mobile Request
+# @name verifyMobileNumber
+POST {{host}}/Auth_V1/verifyMobileNumber
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "MobileNo": "+880-1704687376",
+  "IsRegistered": true, //for Registered true otherwise false
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
+# {
+#     "Data": "52521",
+#     "Status": "success",
+#     "Message": null
+# }

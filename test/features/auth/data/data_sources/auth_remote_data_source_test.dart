@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:pashboi/features/auth/data/models/user_model.dart';
+
 import '../../../../mock.data/login.data.dart';
 import '../../../../mock.helper/mock.helper.dart';
 
@@ -18,7 +20,7 @@ void main() {
   });
 
   group('login', () {
-    test('should return UserModel on successful login', () async {
+    test('should return UserModel with token on successful login', () async {
       // Mocking the response from ApiService
       when(
         () => mockApiService.post(any(), data: any(named: 'data')),
@@ -40,6 +42,7 @@ void main() {
 
       // final resultWithToken = result.copyWith(accessToken: mockToken);
 
+      expect(result, isA<UserModel>());
       expect(result.loginEmail, 'john.doe@email.com');
       expect(result.accessToken, mockToken);
     });
@@ -58,7 +61,7 @@ void main() {
 
       expect(
         () => dataSource.login('wrong@example.com', 'wrongpassword'),
-        throwsA(isA<Exception>()),
+        throwsException,
       );
     });
   });
@@ -72,19 +75,23 @@ void main() {
         (_) async => Response(
           requestOptions: RequestOptions(path: ''),
           statusCode: HttpStatus.created,
-          data: mockLoginResponse,
+          data: {
+            'Data': 'User registered successfully',
+            'Message': 'User registered successfully',
+            'Status': 'success',
+          },
         ),
       );
 
       final result = await dataSource.register(
-        'John Doe',
         'john.doe@email.com',
         'password123',
         'password123',
+        'Web',
       );
 
-      expect(result.userName, 'John Doe');
-      expect(result.loginEmail, 'john.doe@email.com');
+      expect(result, isA<String>());
+      expect(result, equals('User registered successfully'));
     });
 
     test('should throw Exception on registration failure', () async {
@@ -101,10 +108,10 @@ void main() {
 
       expect(
         () => dataSource.register(
-          'Test User',
           'john.doe@email.com',
           'password123',
           'password123',
+          'Web',
         ),
         throwsA(isA<Exception>()),
       );

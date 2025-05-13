@@ -1,0 +1,73 @@
+### Login Request
+# @name login
+POST {{host}}/Auth_V2/UserLogin
+Content-Type: application/json
+Accept: application/json
+
+## Request Body
+{
+  "UserName": "{{UserName}}",
+  "Password": "{{EncryptedPassword}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Set Token
+@token = {{login.response.headers.Token}}
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+### Create Deposit Account Request
+# @name createDepositAccount
+POST {{host}}/Accounts_V1/createDepositAccount
+Content-Type: application/json
+Accept: application/json
+Token: {{token}}
+
+## Request Body
+{
+  "AccountHolders": [
+    {
+      "AccountHolderId": 29960,
+      "IsOrganization": false,
+      "MembershipNumber": "",
+      "SavingsACNumber": "T-0037417"
+    }
+  ],
+  "Nominees": [
+    {
+       "NomineePercentage": 100,
+      "PersonId": 52155
+    }
+  ],
+  "AccountOperators": [
+    {
+       "AccountHolderId": 37425,
+      "AccountOperatorId": 37425
+    }
+  ],
+  "Introducers":[],
+  "DMSProductCode":"20" ,
+  "ApplicationNo":"",
+  "BranchCode":"00",
+  "AccountFor": 1,
+  "AccountName": "RIPON  BAROI",
+  "InterestRate": 8.5,
+  "Duration": 60,
+  "InstallmentAmount": 500,
+  "RolePermissionId": "1,2,3",
+  "UserId": 123,
+  "TxnAccountNumber": "T-0051979",
+  "InterestPostingAccount": "",
+  "OTPRegId": "{{OTPRegId}}",
+  "OTPValue": "{{OTPValue}}",
+  "UserName": "{{UserName}}",
+  "UID": "{{ByUserId}}",
+  "ByUserId": "{{ByUserId}}",
+  "PersonId": "{{PersonId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "MobileNo": "{{MobileNumber}}",
+  "RequestFrom":"{{RequestFrom}}"
+}
+
+### Response
