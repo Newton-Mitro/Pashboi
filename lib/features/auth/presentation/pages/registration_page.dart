@@ -20,7 +20,6 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  final TextEditingController nameController = TextEditingController(text: '');
   final TextEditingController emailController = TextEditingController(text: '');
   final TextEditingController passwordController = TextEditingController(
     text: '',
@@ -88,23 +87,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           AppLogo(width: 150),
-                          AppTextInput(
-                            controller: nameController,
-                            label: Locales.string(
-                              context,
-                              'register_page_name_label',
-                            ),
-                            errorText:
-                                state is RegistrationValidationErrorState
-                                    ? state.errors['name']?.isNotEmpty == true
-                                        ? state.errors['name']![0]
-                                        : null
-                                    : null,
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: context.theme.colorScheme.onSurface,
-                            ),
-                          ),
+                          SizedBox(height: 15),
+
                           AppTextInput(
                             controller: emailController,
                             label: Locales.string(
@@ -184,7 +168,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 onPressed: () {
                                   context.read<RegistrationPageBloc>().add(
                                     RegisterEvent(
-                                      name: nameController.text,
                                       email: emailController.text,
                                       password: passwordController.text,
                                       confirmPassword:

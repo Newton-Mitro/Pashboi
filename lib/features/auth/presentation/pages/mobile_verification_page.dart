@@ -27,18 +27,39 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
 
   bool _otpSent = false;
   bool _isWaiting = false;
-  final int _otpDuration = 60; // 180  seconds = 3 minutes
+  final int _otpDuration = 60;
   final CountDownController _countDownController = CountDownController();
 
   @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < _focusNodes.length; i++) {
+      _focusNodes[i].addListener(() {
+        if (_focusNodes[i].hasFocus) {
+          _otpControllers[i].clear();
+        }
+      });
+    }
+  }
+
+  @override
   void dispose() {
+    try {
+      _countDownController.pause(); // 🔒 Safely pause countdown
+    } catch (e) {
+      // Avoid crash if already disposed
+      debugPrint('CountdownController pause failed: $e');
+    }
+
     _phoneController.dispose();
+
     for (var c in _otpControllers) {
       c.dispose();
     }
     for (var f in _focusNodes) {
       f.dispose();
     }
+
     super.dispose();
   }
 
@@ -64,7 +85,13 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
       _isWaiting = true;
     });
 
-    _countDownController.restart(duration: _otpDuration);
+    if (mounted) {
+      try {
+        _countDownController.restart(duration: _otpDuration);
+      } catch (e) {
+        debugPrint('CountdownController restart failed: $e');
+      }
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -121,18 +148,6 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    for (int i = 0; i < _focusNodes.length; i++) {
-      _focusNodes[i].addListener(() {
-        if (_focusNodes[i].hasFocus) {
-          _otpControllers[i].clear();
-        }
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -161,7 +176,10 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                 Text(
                   "Please enter the OTP \nsent to your mobile number.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -203,8 +221,8 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                         onChanged: (value) {
                           if (value.isNotEmpty) {
                             _otpControllers[index].text = value.substring(0, 1);
-                            _otpControllers[index]
-                                .selection = TextSelection.collapsed(offset: 1);
+                            _otpControllers[index].selection =
+                                const TextSelection.collapsed(offset: 1);
                           }
                           _onOtpChanged(value, index);
                         },
@@ -235,7 +253,9 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                         isReverse: true,
                         autoStart: true,
                         onComplete: () {
-                          setState(() => _isWaiting = false);
+                          if (mounted) {
+                            setState(() => _isWaiting = false);
+                          }
                         },
                       ),
                       const SizedBox(height: 8),

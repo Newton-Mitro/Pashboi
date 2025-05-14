@@ -10,7 +10,13 @@
       "ByUserId": "25",
       "PersonId": "13821",
       "EmployeeCode": "812",
-      "MobileNumber": "+880-1716281408"
+      "MobileNumber": "+880-1716281408",
+      "CardNo": "",
+      "CardAccountNumber": "",
+      "EncryptedCardPIN": "",
+      "NameOnCard": "",
+      "OTPRegId": "32537",
+      "OTPValue": "121212"
     },
     "staged": {
       "host": "https://stagingapi.cccul.com/api",
@@ -19,7 +25,13 @@
       "ByUserId": "25",
       "PersonId": "13821",
       "EmployeeCode": "812",
-      "MobileNumber": "+880-1716281408"
+      "MobileNumber": "+880-1716281408",
+      "CardNo": "",
+      "CardAccountNumber": "",
+      "EncryptedCardPIN": "",
+      "NameOnCard": "",
+      "OTPRegId": "32537",
+      "OTPValue": "121212"
     },
     "production": {
       "host": "https://webapi.cccul.com/api",
@@ -28,7 +40,9 @@
       "ByUserId": "25",
       "PersonId": "13821",
       "EmployeeCode": "812",
-      "MobileNumber": "+880-1716281408"
+      "MobileNumber": "+880-1716281408",
+      "OTPRegId": "32537",
+      "OTPValue": "121212"
     },
     "supervisor_development": {
       "host": "https://devapi.cccul.com/api",
@@ -37,7 +51,13 @@
       "ByUserId": "2963",
       "PersonId": "22659",
       "EmployeeCode": "1312",
-      "MobileNumber": "+880-1733400146"
+      "MobileNumber": "+880-1733400146",
+      "CardNo": "",
+      "CardAccountNumber": "",
+      "EncryptedCardPIN": "",
+      "NameOnCard": "",
+      "OTPRegId": "32537",
+      "OTPValue": "121212"
     },
     "supervisor_staged": {
       "host": "https://stagingapi.cccul.com/api",
@@ -46,7 +66,13 @@
       "ByUserId": "2963",
       "PersonId": "22659",
       "EmployeeCode": "1312",
-      "MobileNumber": "+880-1733400146"
+      "MobileNumber": "+880-1733400146",
+      "CardNo": "",
+      "CardAccountNumber": "",
+      "EncryptedCardPIN": "",
+      "NameOnCard": "",
+      "OTPRegId": "32537",
+      "OTPValue": "121212"
     },
     "local": {
       "host": "https://localhost:44344/api",
@@ -55,7 +81,13 @@
       "ByUserId": "2963",
       "PersonId": "22659",
       "EmployeeCode": "1312",
-      "MobileNumber": "+880-1733400146"
+      "MobileNumber": "+880-1733400146",
+      "CardNo": "",
+      "CardAccountNumber": "",
+      "EncryptedCardPIN": "",
+      "NameOnCard": "",
+      "OTPRegId": "32537",
+      "OTPValue": "121212"
     }
   }
 }

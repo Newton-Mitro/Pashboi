@@ -50,7 +50,7 @@ class TermsAndConditionsPage extends StatelessWidget {
                 <p><em>Last updated: May 7, 2025</em></p>
                 ''',
                   customStylesBuilder: (element) {
-                    if (element.classes.contains('foo')) {
+                    if (element.localName == 'a') {
                       return {'color': 'red'};
                     }
                     return null;

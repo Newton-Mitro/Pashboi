@@ -23,7 +23,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
     {
       "icon": FontAwesomeIcons.circleUser,
       "label": "Info",
-    }, // Profile, Change Password, Surety, AGM Counter
+    }, // Profile,  Surety, Cards, AGM Counter
 
     {
       "icon": FontAwesomeIcons.buildingColumns,
