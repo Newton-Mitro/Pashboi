@@ -57,6 +57,7 @@ ThemeData get foreverGreenLightTheme => ThemeData(
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
+      fontWeight: FontWeight.bold,
       color: _foreverGreenLightColors.onPrimary,
     ),
     backgroundColor: _foreverGreenLightColors.primary,

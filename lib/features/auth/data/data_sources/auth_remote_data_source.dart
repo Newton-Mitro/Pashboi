@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/utils/json_util.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
@@ -24,7 +25,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel> login(String email, String password) async {
     try {
       final response = await apiService.post(
-        'Auth_V2/UserLogin',
+        ApiUrls.login,
         data: {"UserName": email, "Password": password, "RequestFrom": "Web"},
       );
 
@@ -59,7 +60,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        'Auth_V1/UserRegister',
+        ApiUrls.register,
         data: {
           'UserName': email,
           'password': password,
@@ -86,9 +87,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     try {
-      await apiService.get('/auth/logout');
+      // await apiService.get('/auth/logout');
     } catch (e) {
-      rethrow;
+      // rethrow;
     }
   }
 }

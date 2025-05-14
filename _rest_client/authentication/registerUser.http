@@ -6,7 +6,7 @@ Accept: application/json
 
 ## Request Body
 {
-  "UserName": "newtonmitro@gmail.com",
+  "UserName": "newtonmitra@gmail.com",
   "MobileNumber": "+880-1704687376",
   "Password": "4a7d1ed414474e4033ac29ccb8653d9b",
   "WithMFSRegistration": true,

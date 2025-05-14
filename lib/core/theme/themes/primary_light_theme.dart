@@ -57,6 +57,7 @@ ThemeData get primaryLightTheme => ThemeData(
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
+      fontWeight: FontWeight.bold,
       color: _primaryLightColors.onPrimary,
     ),
     backgroundColor: _primaryLightColors.primary,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/utils/json_util.dart';
 import 'package:pashboi/features/my_app/data/models/app_status_model.dart';
@@ -17,7 +18,7 @@ class AppStatusRemoteDataSourceImpl implements AppStatusRemoteDataSource {
   Future<AppStatusModel> getAppStatus(int version) async {
     try {
       final response = await apiService.post(
-        'LoginApi/MFSAppConfig',
+        ApiUrls.getAppConfig,
         data: {"Data": version},
       );
 

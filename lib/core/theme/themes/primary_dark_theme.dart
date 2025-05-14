@@ -57,6 +57,7 @@ ThemeData get primaryDarkTheme => ThemeData(
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
+      fontWeight: FontWeight.bold,
       color: _primaryDarkColors.onPrimary,
     ),
     backgroundColor: _primaryDarkColors.primary,

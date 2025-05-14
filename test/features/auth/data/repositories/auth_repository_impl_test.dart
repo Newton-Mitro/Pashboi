@@ -121,16 +121,18 @@ void main() {
 
   group('logout', () {
     test('should return Right(void) on success', () async {
-      when(() => mockRemote.logout()).thenAnswer((_) async => {});
+      when(() => mockLocal.clearAuthUser()).thenAnswer((_) async => {});
 
       final result = await repository.logout();
 
       expect(result.isRight(), true);
-      verify(() => mockRemote.logout()).called(1);
+      verify(() => mockLocal.clearAuthUser()).called(1);
     });
 
     test('should return Left(Failure) on exception', () async {
-      when(() => mockRemote.logout()).thenThrow(Exception('Logout failed'));
+      when(
+        () => mockLocal.clearAuthUser(),
+      ).thenThrow(Exception('Logout failed'));
 
       final result = await repository.logout();
 

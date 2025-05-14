@@ -52,7 +52,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   ResultVoid logout() async {
     try {
-      final result = await authRemoteDataSource.logout();
+      final result = await authLocalDataSource.clearAuthUser();
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));

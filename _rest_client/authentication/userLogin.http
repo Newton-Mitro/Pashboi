@@ -6,8 +6,8 @@ Accept: application/json
 
 ## Request Body
 {
-  "UserName": "newton.mitro@cccul.com",
-  "Password": "9218c32cc68d2e1a4b151ffc87bc6e7c",
+  "UserName": "raven.quiah@cccul.com",
+  "Password": "9efab2399c7c560b34de477b9aa0a465",
   "RequestFrom":"{{RequestFrom}}"
 }
 

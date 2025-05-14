@@ -20,16 +20,31 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   bool isExpanded = false;
 
   final List<Map<String, dynamic>> menuItems = [
-    {"icon": FontAwesomeIcons.chartSimple, "label": "Info"},
-    {"icon": FontAwesomeIcons.umbrella, "label": "Accounts"},
-    {"icon": FontAwesomeIcons.piggyBank, "label": "Deposits"},
-    {"icon": FontAwesomeIcons.moneyBillTransfer, "label": "Transfer"},
-    {"icon": FontAwesomeIcons.sackDollar, "label": "Acc. Mgmt"},
-    {"icon": FontAwesomeIcons.gear, "label": "Settings"},
-    {"icon": FontAwesomeIcons.wallet, "label": "Wallet"},
-    {"icon": FontAwesomeIcons.receipt, "label": "Statements"},
-    {"icon": FontAwesomeIcons.chartPie, "label": "Analytics"},
-    {"icon": FontAwesomeIcons.lifeRing, "label": "Support"},
+    {
+      "icon": FontAwesomeIcons.circleUser,
+      "label": "Info",
+    }, // Profile, Change Password, Surety, AGM Counter
+
+    {
+      "icon": FontAwesomeIcons.buildingColumns,
+      "label": "Accounts",
+    }, // My Accounts, Open an Account, Dependent Accounts
+
+    {"icon": FontAwesomeIcons.fileInvoiceDollar, "label": "Loans"},
+
+    {"icon": FontAwesomeIcons.piggyBank, "label": "Deposit"},
+
+    {"icon": FontAwesomeIcons.rightLeft, "label": "Transfer"},
+
+    {"icon": FontAwesomeIcons.moneyBill, "label": "Withdraw"},
+
+    {"icon": FontAwesomeIcons.wallet, "label": "Payment"},
+
+    {"icon": FontAwesomeIcons.peopleRoof, "label": "Family"},
+
+    {"icon": FontAwesomeIcons.userGroup, "label": "Beneficiary"},
+
+    {"icon": FontAwesomeIcons.idBadge, "label": "Personnel"},
   ];
 
   @override
@@ -80,33 +95,48 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
 
         // Positioned Expand/Collapse Icon
         Positioned(
-          top: -16,
+          top: -28,
           child: GestureDetector(
             onTap: () {
               setState(() {
                 isExpanded = !isExpanded;
               });
             },
-            child: Container(
-              height: 36, // Increase the height for larger clickable area
-              width: 36, // Make it a circle with width same as height
-              decoration: BoxDecoration(
-                color: context.theme.colorScheme.primary,
-                shape: BoxShape.circle,
-                boxShadow: const [
-                  BoxShadow(color: Colors.black26, blurRadius: 6),
-                ],
-                border: Border.all(
-                  color: context.theme.colorScheme.primary,
-                  width: 1,
+            child: ClipRect(
+              child: Align(
+                alignment: Alignment.topCenter,
+                heightFactor: 0.8, // only top half is visible
+                child: Container(
+                  height: 56,
+                  width: 56,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(
+                        isExpanded
+                            ? FontAwesomeIcons.chevronDown
+                            : FontAwesomeIcons.chevronUp,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      Text(
+                        isExpanded ? 'less' : 'more',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              child: Icon(
-                isExpanded
-                    ? Icons.keyboard_arrow_down
-                    : Icons.keyboard_arrow_up,
-                size: 32,
-                color: Colors.grey.shade700,
               ),
             ),
           ),

@@ -117,30 +117,4 @@ void main() {
       );
     });
   });
-
-  group('logout', () {
-    test('should call ApiService.get for logout', () async {
-      // Mocking the response for logout
-      when(() => mockApiService.get(any())).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: ''),
-          statusCode: HttpStatus.ok,
-          data: {},
-        ),
-      );
-
-      await dataSource.logout();
-
-      verify(() => mockApiService.get('/auth/logout')).called(1);
-    });
-
-    test('should throw Exception on logout failure', () async {
-      // Mocking a failed logout response
-      when(
-        () => mockApiService.get(any()),
-      ).thenThrow(DioException(requestOptions: RequestOptions(path: '')));
-
-      expect(() => dataSource.logout(), throwsA(isA<DioException>()));
-    });
-  });
 }

@@ -5,7 +5,7 @@ import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.d
 
 class AppLogo extends StatefulWidget {
   final double width;
-  const AppLogo({super.key, this.width = 30});
+  const AppLogo({super.key, this.width = 25});
 
   @override
   State<AppLogo> createState() => AppLogoState();
