@@ -1,10 +1,30 @@
 part of 'otp_verification_bloc.dart';
 
-sealed class OtpVerificationState extends Equatable {
+abstract class OtpVerificationState extends Equatable {
   const OtpVerificationState();
-  
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class OtpVerificationInitial extends OtpVerificationState {}
+class OtpVerificationInitial extends OtpVerificationState {}
+
+class OtpVerificationLoading extends OtpVerificationState {}
+
+class OtpVerificationSuccess extends OtpVerificationState {
+  final String message;
+
+  const OtpVerificationSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class OtpVerificationFailure extends OtpVerificationState {
+  final String error;
+
+  const OtpVerificationFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

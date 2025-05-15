@@ -157,7 +157,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final data = response.data?['Data'];
-        if (data == null) throw Exception('Invalid response format');
+        if (data == null) throw Exception(response.data?['Message']);
 
         return data;
       } else {

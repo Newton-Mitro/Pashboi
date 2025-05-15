@@ -1,43 +1,52 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
+import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
-import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   final String routeName;
+  final String mobileNumber;
+  final String otpRegId;
 
-  const OtpVerificationPage({super.key, required this.routeName});
+  const OtpVerificationPage({
+    super.key,
+    required this.routeName,
+    required this.mobileNumber,
+    required this.otpRegId,
+  });
 
   @override
   State<OtpVerificationPage> createState() => _OtpVerificationPageState();
 }
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
-  final TextEditingController _phoneController = TextEditingController();
   final List<TextEditingController> _otpControllers = List.generate(
     6,
     (_) => TextEditingController(),
   );
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
-  bool _otpSent = false;
-  bool _isWaiting = false;
+  bool _isWaiting = true;
   final int _otpDuration = 60;
   final CountDownController _countDownController = CountDownController();
+  late String _otpRegId;
 
   @override
   void initState() {
     super.initState();
+    _otpRegId = widget.otpRegId;
+    _countDownController.start();
+
     for (int i = 0; i < _focusNodes.length; i++) {
       _focusNodes[i].addListener(() {
-        if (_focusNodes[i].hasFocus) {
-          _otpControllers[i].clear();
-        }
+        if (_focusNodes[i].hasFocus) _otpControllers[i].clear();
       });
     }
   }
@@ -45,34 +54,38 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   @override
   void dispose() {
     try {
-      _countDownController.pause(); // 🔒 Safely pause countdown
-    } catch (e) {
-      // Avoid crash if already disposed
-      debugPrint('CountdownController pause failed: $e');
-    }
-
-    _phoneController.dispose();
-
+      _countDownController.pause();
+    } catch (_) {}
     for (var c in _otpControllers) {
       c.dispose();
     }
     for (var f in _focusNodes) {
       f.dispose();
     }
-
     super.dispose();
   }
 
-  void _sendOtp() {
-    if (_phoneController.text.isEmpty) {
+  void _resendOTP() {
+    setState(() => _isWaiting = true);
+    try {
+      _countDownController.restart(duration: _otpDuration);
+    } catch (_) {}
+
+    context.read<VerifyMobileNumberBloc>().add(
+      SubmitMobileNumber(mobileNumber: widget.mobileNumber, isRegistered: true),
+    );
+  }
+
+  void _verifyOtp() {
+    final otp = _otpControllers.map((c) => c.text).join();
+    if (otp.length != 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           elevation: 0,
-          behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.transparent,
           content: AwesomeSnackbarContent(
-            title: 'Info',
-            message: 'Please enter your mobile number',
+            title: 'Error',
+            message: 'Please enter a 6-digit OTP',
             contentType: ContentType.failure,
           ),
         ),
@@ -80,51 +93,13 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       return;
     }
 
-    setState(() {
-      _otpSent = true;
-      _isWaiting = true;
-    });
-
-    if (mounted) {
-      try {
-        _countDownController.restart(duration: _otpDuration);
-      } catch (e) {
-        debugPrint('CountdownController restart failed: $e');
-      }
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: AwesomeSnackbarContent(
-          title: 'Info',
-          message: 'OTP sent to ${_phoneController.text}',
-          contentType: ContentType.success,
-        ),
+    context.read<OtpVerificationBloc>().add(
+      VerifyOtpSubmitted(
+        mobileNumber: widget.mobileNumber,
+        otp: otp,
+        otpRegId: _otpRegId,
       ),
     );
-  }
-
-  void _verifyOtp() {
-    final otp = _otpControllers.map((c) => c.text).join();
-    if (otp == "123456") {
-      Navigator.pushReplacementNamed(context, widget.routeName);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: AwesomeSnackbarContent(
-            title: 'Oh Snap',
-            message: "Invalid OTP",
-            contentType: ContentType.failure,
-          ),
-        ),
-      );
-    }
   }
 
   void _onOtpChanged(String value, int index) {
@@ -142,39 +117,80 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     for (var f in _focusNodes) {
       f.unfocus();
     }
-    setState(() {
-      _isWaiting = false;
-    });
+    setState(() => _isWaiting = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Locales.string(context, "mobile_verification_page_title")),
-      ),
-      body: AppBackground(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Align(alignment: Alignment.center, child: AppLogo(width: 150)),
-              const SizedBox(height: 40),
-              AppTextInput(
-                controller: _phoneController,
-                label: Locales.string(
-                  context,
-                  "mobile_verification_page_mobile_number_label",
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<OtpVerificationBloc, OtpVerificationState>(
+          listener: (context, state) {
+            if (state is OtpVerificationFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'Error',
+                    message: state.error,
+                    contentType: ContentType.failure,
+                  ),
                 ),
-                keyboardType: TextInputType.phone,
-                prefixIcon: const Icon(Icons.phone),
-              ),
-              const SizedBox(height: 16),
+              );
+            } else if (state is OtpVerificationSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'Success',
+                    message: state.message,
+                    contentType: ContentType.success,
+                  ),
+                ),
+              );
 
-              if (_otpSent) ...[
+              Navigator.pushReplacementNamed(context, widget.routeName);
+            }
+          },
+        ),
+        BlocListener<VerifyMobileNumberBloc, VerifyMobileNumberState>(
+          listener: (context, state) {
+            if (state is VerifyMobileNumberSuccess) {
+              setState(() {
+                _otpRegId = state.message;
+              });
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'Success',
+                    message: state.message,
+                    contentType: ContentType.success,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(Locales.string(context, "otp_verification_page_title")),
+        ),
+        body: AppBackground(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Align(alignment: Alignment.center, child: AppLogo(width: 150)),
+                const SizedBox(height: 40),
                 Text(
-                  "Please enter the OTP \nsent to your mobile number.",
+                  Locales.string(context, "otp_verification_page_instruction"),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 16,
@@ -220,7 +236,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         ),
                         onChanged: (value) {
                           if (value.isNotEmpty) {
-                            _otpControllers[index].text = value.substring(0, 1);
+                            _otpControllers[index].text = value[0];
                             _otpControllers[index].selection =
                                 const TextSelection.collapsed(offset: 1);
                           }
@@ -262,7 +278,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       Text(
                         Locales.string(
                           context,
-                          "mobile_verification_page_otp_expired_in_text",
+                          "otp_verification_page_otp_expired_in_text",
                         ),
                         style: TextStyle(
                           color: context.theme.colorScheme.onSurface,
@@ -274,12 +290,12 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                   TextButton(
                     onPressed: () {
                       _clearOtpFields();
-                      _sendOtp();
+                      _resendOTP();
                     },
                     child: Text(
                       Locales.string(
                         context,
-                        "mobile_verification_page_reseend_otp_button",
+                        "otp_verification_page_reseend_otp_button",
                       ),
                       style: TextStyle(
                         color: context.theme.colorScheme.onSurface,
@@ -288,30 +304,24 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     ),
                   ),
                 const SizedBox(height: 20),
-                AppPrimaryButton(
-                  label: Locales.string(
-                    context,
-                    "mobile_verification_page_verify_otp_button",
-                  ),
-                  onPressed: _verifyOtp,
-                  iconBefore: Icon(
-                    Icons.check_circle,
-                    color: context.theme.colorScheme.onPrimary,
-                  ),
+                BlocBuilder<OtpVerificationBloc, OtpVerificationState>(
+                  builder: (context, state) {
+                    final isLoading = state is OtpVerificationLoading;
+                    return AppPrimaryButton(
+                      label: Locales.string(
+                        context,
+                        "otp_verification_page_verify_otp_button",
+                      ),
+                      onPressed: isLoading ? null : _verifyOtp,
+                      iconBefore: Icon(
+                        Icons.check_circle,
+                        color: context.theme.colorScheme.onPrimary,
+                      ),
+                    );
+                  },
                 ),
-              ] else
-                AppPrimaryButton(
-                  label: Locales.string(
-                    context,
-                    "mobile_verification_page_send_otp_button",
-                  ),
-                  onPressed: _sendOtp,
-                  iconBefore: Icon(
-                    Icons.send,
-                    color: context.theme.colorScheme.onPrimary,
-                  ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

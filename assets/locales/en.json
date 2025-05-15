@@ -42,10 +42,12 @@
   "mobile_verification_page_title": "Mobile Verification",
   "mobile_verification_page_mobile_number_label": "Mobile Number",
   "mobile_verification_page_send_otp_button": "Send OTP",
-  "mobile_verification_page_reseend_otp_button": "Resend OTP",
-  "mobile_verification_page_verify_otp_button": "Verify OTP",
-  "mobile_verification_page_otp_expired_in_text": "OTP Expired in",
-  "mobile_verification_page_otp_expire_in_time_text": "seconds",
+
+  "otp_verification_page_title": "OTP Verification",
+  "otp_verification_page_instruction": "Please enter the OTP sent \nto your mobile number.",
+  "otp_verification_page_reseend_otp_button": "Resend OTP",
+  "otp_verification_page_verify_otp_button": "Verify OTP",
+  "otp_verification_page_otp_expired_in_text": "OTP Expired in",
 
   "register_page_title": "Create User Account",
   "register_page_name_label": "Name",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/features/auth/presentation/pages/login_page.dart';
@@ -39,6 +40,31 @@ class AppRoutes {
         } else {
           return _materialRoute(
             const MobileVerificationPage(routeName: PublicRoutesName.loginPage),
+          ); // Default route name if no arguments
+        }
+
+      case PublicRoutesName.otpVerificationPage:
+        if (args is Map<String, String>) {
+          final routeName =
+              args['routeName'] ?? ''; // Extract the routeName from the map
+          final mobileNumber =
+              args['mobileNumber'] ?? ''; // Extract the routeName from the map
+          final otpRegId =
+              args['otpRegId'] ?? ''; // Extract the routeName from the map
+          return _materialRoute(
+            OtpVerificationPage(
+              routeName: routeName,
+              mobileNumber: mobileNumber,
+              otpRegId: otpRegId,
+            ),
+          );
+        } else {
+          return _materialRoute(
+            const OtpVerificationPage(
+              routeName: PublicRoutesName.loginPage,
+              mobileNumber: '',
+              otpRegId: '',
+            ),
           ); // Default route name if no arguments
         }
 

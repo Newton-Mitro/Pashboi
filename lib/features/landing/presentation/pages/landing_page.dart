@@ -57,11 +57,15 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
       body: AppBackground(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.10),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.10,
+              vertical: MediaQuery.of(context).size.height * 0.05,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppLogo(key: _logoKey, width: 150),
+                Spacer(),
                 Column(
                   children: [
                     Text(
@@ -164,6 +168,7 @@ class _LandingPageState extends State<LandingPage> with RouteAware {
                     ),
                   ],
                 ),
+                Spacer(),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
