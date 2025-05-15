@@ -41,6 +41,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   @override
   void initState() {
     super.initState();
+    print("OTP Registration ID: " + widget.otpRegId);
     _otpRegId = widget.otpRegId;
     _countDownController.start();
 

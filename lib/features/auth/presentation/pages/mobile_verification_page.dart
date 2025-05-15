@@ -20,7 +20,32 @@ class MobileVerificationPage extends StatefulWidget {
 }
 
 class _MobileVerificationPageState extends State<MobileVerificationPage> {
-  final TextEditingController _phoneController = TextEditingController();
+  final String _prefix = '+880-';
+  late final TextEditingController _phoneController;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneController = TextEditingController(text: _prefix);
+
+    _phoneController.addListener(() {
+      final text = _phoneController.text;
+
+      // Enforce prefix presence
+      if (!text.startsWith(_prefix)) {
+        final newText = _prefix;
+        _phoneController.value = TextEditingValue(
+          text: newText,
+          selection: TextSelection.collapsed(offset: newText.length),
+        );
+      } else if (_phoneController.selection.start < _prefix.length) {
+        // Keep cursor after prefix
+        _phoneController.selection = TextSelection.collapsed(
+          offset: _prefix.length,
+        );
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -29,7 +54,10 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
   }
 
   void _sendOtp() {
-    if (_phoneController.text.isEmpty) {
+    final fullNumber = _phoneController.text;
+    final rawNumber = fullNumber.replaceFirst(_prefix, '');
+
+    if (rawNumber.isEmpty) {
       _showSnackBar(
         title: 'Info',
         message: 'Please enter your mobile number',
@@ -39,10 +67,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
     }
 
     context.read<VerifyMobileNumberBloc>().add(
-      SubmitMobileNumber(
-        mobileNumber: _phoneController.text,
-        isRegistered: true, // or false based on context
-      ),
+      SubmitMobileNumber(mobileNumber: fullNumber, isRegistered: true),
     );
   }
 
@@ -88,6 +113,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
             arguments: {
               'routeName': widget.routeName,
               'mobileNumber': _phoneController.text,
+              'otpRegId': state.message,
             },
           );
         }
@@ -106,14 +132,23 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
               children: [
                 Align(alignment: Alignment.center, child: AppLogo(width: 150)),
                 const SizedBox(height: 40),
-                AppTextInput(
-                  controller: _phoneController,
-                  label: Locales.string(
-                    context,
-                    "mobile_verification_page_mobile_number_label",
-                  ),
-                  keyboardType: TextInputType.phone,
-                  prefixIcon: const Icon(Icons.phone),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // You can uncomment and use the CountryCodePicker here if you want dynamic country code
+                    // const SizedBox(width: 8),
+                    Expanded(
+                      child: AppTextInput(
+                        controller: _phoneController,
+                        label: Locales.string(
+                          context,
+                          "mobile_verification_page_mobile_number_label",
+                        ),
+                        keyboardType: TextInputType.phone,
+                        prefixIcon: const Icon(Icons.phone),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 BlocBuilder<VerifyMobileNumberBloc, VerifyMobileNumberState>(
