@@ -1,47 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class InfoMenusView extends StatefulWidget {
-  const InfoMenusView({super.key});
+class WithdrawMenusView extends StatefulWidget {
+  const WithdrawMenusView({super.key});
 
   @override
-  State<InfoMenusView> createState() => _InfoMenusViewState();
+  State<WithdrawMenusView> createState() => _WithdrawMenusViewState();
 }
-// <i class="fa-solid fa-users-gear"></i>
 
-class _InfoMenusViewState extends State<InfoMenusView> {
+class _WithdrawMenusViewState extends State<WithdrawMenusView> {
   final List<Map<String, dynamic>> infoMenus = [
     {
-      "icon": FontAwesomeIcons.usersGear,
-      "menuName": "Dependent’s Account’s",
-      "menuDescription":
-          "Place for all your dependent accounts. You always add more.",
+      "icon": Icons.account_balance,
+      "menuName": "Withdraw",
+      "menuDescription": "Place for all your dependent accounts.",
     },
     {
-      "icon": FontAwesomeIcons.users,
-      "menuName": "Family & Relative’s",
-      "menuDescription":
-          "Add your family members and relatives as a relation from here",
+      "icon": Icons.credit_card,
+      "menuName": "Cards",
+      "menuDescription": "Manage your debit or credit cards easily.",
     },
     {
-      "icon": FontAwesomeIcons.fileLines,
-      "menuName": "Surety Status",
-      "menuDescription":
-          "See and manage all your accounts, statements from here. One place for all",
+      "icon": Icons.security,
+      "menuName": "Security",
+      "menuDescription": "Adjust your security and privacy preferences.",
     },
     {
       "icon": Icons.settings,
-      "menuName": "Beneficiarie’s",
-      "menuDescription":
-          "See and manage all your accounts, statements from here. One place for all",
+      "menuName": "Settings",
+      "menuDescription": "Customize your application settings.",
     },
     {
       "icon": Icons.support_agent,
-      "menuName": "Card’s",
-      "menuDescription":
-          "See and manage all your accounts, statements from here. One place for all",
+      "menuName": "Support",
+      "menuDescription": "Get help and support quickly.",
     },
   ];
 

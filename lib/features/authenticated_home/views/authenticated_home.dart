@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/features/authenticated_home/notifier/notifiers.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/accounts_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/beneficiary_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/deposit_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/family_menus_view.dart';
 import 'package:pashboi/features/authenticated_home/views/menus/info_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/loans_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/payment_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/personnel_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/transfer_menus_view.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/withdraw_menus_view.dart';
 import 'package:pashboi/features/authenticated_home/widgets/app_bottom_navigation_bar.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/injection.dart';
@@ -10,15 +19,15 @@ import 'package:pashboi/shared/widgets/app_background.dart';
 
 List<Widget> menuViews = [
   InfoMenusView(),
-  Center(child: Text("Accounts")),
-  Center(child: Text("Loans")),
-  Center(child: Text("Deposit")),
-  Center(child: Text("Transfer")),
-  Center(child: Text("Withdraw")),
-  Center(child: Text("Payments")),
-  Center(child: Text("Family")),
-  Center(child: Text("Beneficiary")),
-  Center(child: Text("Personnal")),
+  AccountsMenusView(),
+  LoansMenusView(),
+  DepositMenusView(),
+  TransferMenusView(),
+  WithdrawMenusView(),
+  PaymentMenusView(),
+  FamilyMenusView(),
+  BeneficiaryMenusView(),
+  PersonnelMenusView(),
 ];
 
 class AuthenticatedHome extends StatefulWidget {
