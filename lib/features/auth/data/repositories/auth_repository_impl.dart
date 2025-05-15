@@ -69,4 +69,42 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(FailureMapper.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<String> verifyMobileNumber(
+    String mobileNumber,
+    bool isRegistered,
+    String requestFrom,
+  ) async {
+    try {
+      final result = await authRemoteDataSource.verifyMobileNumber(
+        mobileNumber,
+        isRegistered,
+        requestFrom,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> verifyOtp(
+    String otpRegId,
+    String otpValue,
+    String mobileNumber,
+    String requestFrom,
+  ) async {
+    try {
+      final result = await authRemoteDataSource.verifyOtp(
+        otpRegId,
+        otpValue,
+        mobileNumber,
+        requestFrom,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
 }
