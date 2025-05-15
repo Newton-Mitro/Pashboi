@@ -51,6 +51,7 @@ class _MyAppState extends State<MyApp> {
                         Locale('bn', 'BD'),
                       ],
                       localizationsDelegates: Locales.delegates,
+
                       locale:
                           languageState.language == 'bn'
                               ? const Locale('bn', 'BD')
