@@ -1,33 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/features/authenticated_home/notifier/notifiers.dart';
-import 'package:pashboi/features/authenticated_home/views/accounts/account_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/beneficiary/beneficiary_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/deposit/deposit_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/family/family_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/info/info_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/loans/loans_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/payment/payment_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/personnel/personnel_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/transfer/transfer_widget.dart';
-import 'package:pashboi/features/authenticated_home/views/withdraw/withdraw_widget.dart';
+import 'package:pashboi/features/authenticated_home/views/menus/info_menus_view.dart';
 import 'package:pashboi/features/authenticated_home/widgets/app_bottom_navigation_bar.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/authenticated_home/bloc/auth_bloc.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
 
-List<Widget> pages = [
-  Info(),
-  Accounts(),
-  Loans(),
-  Deposit(),
-  Transfer(),
-  Withdraw(),
-  Payment(),
-  Family(),
-  Beneficiary(),
-  Personnel(),
+List<Widget> menuViews = [
+  InfoMenusView(),
+  Center(child: Text("Accounts")),
+  Center(child: Text("Loans")),
+  Center(child: Text("Deposit")),
+  Center(child: Text("Transfer")),
+  Center(child: Text("Withdraw")),
+  Center(child: Text("Payments")),
+  Center(child: Text("Family")),
+  Center(child: Text("Beneficiary")),
+  Center(child: Text("Personnal")),
 ];
 
 class AuthenticatedHome extends StatefulWidget {
@@ -171,19 +162,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                       ),
                     ],
                   ),
-
-                  // body: AppBackground(
-                  //   child: Center(
-                  //     child: Text(
-                  //       selectedPage.toString(),
-                  //       style: TextStyle(
-                  //         fontSize: 86,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  body: AppBackground(child: pages[selectedPage]),
+                  body: AppBackground(child: menuViews[selectedPage]),
                   bottomNavigationBar: CustomBottomNav(
                     selectedIndex: selectedPage,
                     onTap: (index) {
