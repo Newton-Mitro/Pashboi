@@ -14,6 +14,19 @@ abstract class AuthRemoteDataSource {
     String requestFrom,
   );
   Future<void> logout();
+
+  Future<String> verifyMobileNumber(
+    String mobileNumber,
+    bool isRegistered,
+    String requestFrom,
+  );
+
+  Future<String> verifyOtp(
+    String otpRegId,
+    String otpValue,
+    String mobileNumber,
+    String requestFrom,
+  );
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -90,6 +103,70 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // await apiService.get('/auth/logout');
     } catch (e) {
       // rethrow;
+    }
+  }
+
+  @override
+  Future<String> verifyMobileNumber(
+    String mobileNumber,
+    bool isRegistered,
+    String requestFrom,
+  ) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.verifyMobileNumber,
+        data: {
+          'MobileNo': mobileNumber,
+          'IsRegistered': isRegistered,
+          'RequestFrom': requestFrom,
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final data = response.data?['Data'];
+        if (data == null) throw Exception('Invalid response format');
+
+        return data;
+      } else {
+        throw Exception(
+          'Registration failed with status ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> verifyOtp(
+    String otpRegId,
+    String otpValue,
+    String mobileNumber,
+    String requestFrom,
+  ) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.verifyOTP,
+        data: {
+          'OTPRegId': otpRegId,
+          'OTPValue': otpValue,
+          'MobileNumber': mobileNumber,
+          'RequestFrom': requestFrom,
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final data = response.data?['Data'];
+        if (data == null) throw Exception(response.data?['Message']);
+
+        return data;
+      } else {
+        throw Exception(
+          'Registration failed with status ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }

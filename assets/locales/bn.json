@@ -39,13 +39,15 @@
   "terms_and_conditions_page_accept_button": "গ্রহণ করুন",
   "terms_and_conditions_page_decline_button": "বাতিল করুন",
 
-  "mobile_verification_page_title": "মোবাইল যাচাইকরণ",
+  "mobile_verification_page_title": "মোবাইল ভারিফিকেশন",
   "mobile_verification_page_mobile_number_label": "মোবাইল নম্বর",
-  "mobile_verification_page_send_otp_button": "ওটিপি পাঠান",
-  "mobile_verification_page_reseend_otp_button": "ওটিপি পুনরায় পাঠান",
-  "mobile_verification_page_verify_otp_button": "ওটিপি যাচাই করুন",
-  "mobile_verification_page_otp_expired_in_text": "ওটিপি মেয়াদ শেষ হবে",
-  "mobile_verification_page_otp_expire_in_time_text": "সেকেন্ড",
+  "mobile_verification_page_send_otp_button": "OTP পাঠান",
+
+  "otp_verification_page_title": "OTP ভারিফিকেশন",
+  "otp_verification_page_instruction": "আপনার মোবাইল নম্বরে প্রদত্ত \nOTP কোড দিন",
+  "otp_verification_page_reseend_otp_button": "OTP পুনরায় পাঠান",
+  "otp_verification_page_verify_otp_button": "OTP যাচাই করুন",
+  "otp_verification_page_otp_expired_in_text": "OTP সময় শেষ হবে",
 
   "register_page_title": "অ্যাকাউন্ট তৈরি করুন",
   "register_page_name_label": "নাম",

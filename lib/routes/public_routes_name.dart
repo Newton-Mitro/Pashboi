@@ -6,6 +6,7 @@ final class PublicRoutesName {
   static const String resetPasswordPage = '/resetPasswordPage';
   static const String registerPage = '/registerPage';
   static const String mobileVerificationPage = '/mobileVerificationPage';
+  static const String otpVerificationPage = '/otpVerificationPage';
 
   static const String publicHomePage = '/publicHomePage';
 }

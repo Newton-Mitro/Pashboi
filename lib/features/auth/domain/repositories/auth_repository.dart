@@ -11,4 +11,17 @@ abstract class AuthRepository {
   ResultFuture<UserEntity> login(String email, String password);
   ResultVoid logout();
   ResultFuture<UserEntity> getAuthUser();
+
+  ResultFuture<String> verifyMobileNumber(
+    String mobileNumber,
+    bool isRegistered,
+    String requestFrom,
+  );
+
+  ResultFuture<String> verifyOtp(
+    String otpRegId,
+    String otpValue,
+    String mobileNumber,
+    String requestFrom,
+  );
 }
