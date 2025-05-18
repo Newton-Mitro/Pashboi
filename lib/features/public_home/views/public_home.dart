@@ -21,11 +21,11 @@ class _PublicHomeState extends State<PublicHome> {
   @override
   Widget build(BuildContext context) {
     final List<String> titles = [
-      Locales.string(context, 'public_savings_page_title'),
-      Locales.string(context, 'public_loans_page_title'),
-      Locales.string(context, 'public_services_and_projects_page_title'),
-      Locales.string(context, 'public_notices_page_title'),
-      Locales.string(context, 'public_service_centers_page_title'),
+      Locales.string(context, 'public_bottom_nav_menu_savings'),
+      Locales.string(context, 'public_bottom_nav_menu_loans'),
+      Locales.string(context, 'public_bottom_nav_menu_services_and_projects'),
+      Locales.string(context, 'public_bottom_nav_menu_notices'),
+      Locales.string(context, 'public_bottom_nav_menu_service_centers'),
     ];
 
     return ValueListenableBuilder<int>(

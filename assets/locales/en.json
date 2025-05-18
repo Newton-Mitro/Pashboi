@@ -68,15 +68,5 @@
   "public_bottom_nav_menu_loans": "Loan Policies",
   "public_bottom_nav_menu_services_and_projects": "Services & Projects",
   "public_bottom_nav_menu_notices": "Notices",
-  "public_bottom_nav_menu_service_centers": "Service Centers",
-
-  "public_savings_page_title": "Saving Policies",
-
-  "public_loans_page_title": "Loan Policies",
-
-  "public_services_and_projects_page_title": "Services & Projects",
-
-  "public_notices_page_title": "Notices",
-
-  "public_service_centers_page_title": "Service Centers"
+  "public_bottom_nav_menu_service_centers": "Service Centers"
 }
