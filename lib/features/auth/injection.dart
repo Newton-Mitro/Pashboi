@@ -16,9 +16,9 @@ import 'package:pashboi/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:pashboi/features/auth/presentation/bloc/forgot_password_page_bloc/forgot_password_page_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
-import 'package:pashboi/features/authenticated_home/bloc/auth_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/login_page_bloc/login_page_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/registration_page_bloc/registration_page_bloc.dart';
+import 'package:pashboi/features/authenticated_home/bloc/authenticated_home_bloc.dart';
 
 void registerAuthModule() async {
   // Register Data Sources
@@ -70,8 +70,8 @@ void registerAuthModule() async {
     () => RegistrationPageBloc(registrationUseCase: sl<RegistrationUseCase>()),
   );
 
-  sl.registerFactory<AuthBloc>(
-    () => AuthBloc(
+  sl.registerFactory<AuthenticatedHomeBloc>(
+    () => AuthenticatedHomeBloc(
       logoutUseCase: sl<LogoutUsecase>(),
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
     ),

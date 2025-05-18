@@ -12,7 +12,7 @@ class OnboardingInfoRepositoryImpl implements OnboardingInfoRepository {
   OnboardingInfoRepositoryImpl({required this.localDataSource});
 
   @override
-  ResultVoid setOnboardingSeen(bool seen) async {
+  ResultFuture<void> setOnboardingSeen(bool seen) async {
     try {
       localDataSource.setOnboardingSeen(seen);
       return Right(null);

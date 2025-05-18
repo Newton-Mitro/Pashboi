@@ -14,54 +14,39 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
     {
       "icon": Icons.account_balance,
       "menuName": "Accounts",
-      "menuDescription": "Place for all your dependent accounts.",
+      "menuDescription":
+          "View and manage your  accounts, balances, and transactions from here",
     },
     {
       "icon": Icons.credit_card,
-      "menuName": "Cards",
-      "menuDescription": "Manage your debit or credit cards easily.",
-    },
-    {
-      "icon": Icons.security,
-      "menuName": "Security",
-      "menuDescription": "Adjust your security and privacy preferences.",
-    },
-    {
-      "icon": Icons.settings,
-      "menuName": "Settings",
-      "menuDescription": "Customize your application settings.",
-    },
-    {
-      "icon": Icons.support_agent,
-      "menuName": "Support",
-      "menuDescription": "Get help and support quickly.",
+      "menuName": "Open an Account",
+      "menuDescription":
+          "Process to open a new account quickly and easily from here",
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: ListView.separated(
-          itemCount: infoMenus.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final menu = infoMenus[index];
-            return MenuTile(
-              icon: Icon(
-                menu['icon'],
-                size: 35,
-                color: context.theme.colorScheme.onPrimary,
-              ),
-              menuName: menu['menuName'],
-              menuDescription: menu['menuDescription'],
-              onTap: () {
-                debugPrint("Tapped on ${menu['menuName']}");
-              },
-            );
-          },
-        ),
+      child: ListView.separated(
+        itemCount: infoMenus.length,
+        padding: const EdgeInsets.all(12),
+        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final menu = infoMenus[index];
+          return MenuTile(
+            icon: Icon(
+              menu['icon'],
+              size: 35,
+              color: context.theme.colorScheme.onPrimary,
+            ),
+            menuName: menu['menuName'],
+            menuDescription: menu['menuDescription'],
+            onTap: () {
+              debugPrint("Tapped on ${menu['menuName']}");
+            },
+          );
+        },
       ),
     );
   }

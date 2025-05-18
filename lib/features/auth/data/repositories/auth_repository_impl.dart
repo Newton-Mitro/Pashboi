@@ -50,10 +50,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  ResultVoid logout() async {
+  ResultFuture<void> logout() async {
     try {
-      final result = await authLocalDataSource.clearAuthUser();
-      return Right(result);
+      await authLocalDataSource.clearAuthUser();
+      return const Right(null);
     } catch (e) {
       return Left(FailureMapper.fromException(e));
     }

@@ -9,7 +9,7 @@ abstract class AuthRepository {
     String requestFrom,
   );
   ResultFuture<UserEntity> login(String email, String password);
-  ResultVoid logout();
+  ResultFuture<void> logout();
   ResultFuture<UserEntity> getAuthUser();
 
   ResultFuture<String> verifyMobileNumber(
