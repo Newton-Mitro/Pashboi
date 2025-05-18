@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PersonnelMenusView extends StatefulWidget {
   const PersonnelMenusView({super.key});
@@ -12,29 +13,59 @@ class PersonnelMenusView extends StatefulWidget {
 class _PersonnelMenusViewState extends State<PersonnelMenusView> {
   final List<Map<String, dynamic>> infoMenus = [
     {
-      "icon": Icons.account_balance,
-      "menuName": "Personnel",
-      "menuDescription": "Place for all your dependent accounts.",
+      "icon": FontAwesomeIcons.calendarDays,
+      "menuName": "Leave Application",
+      "menuDescription":
+          "Submit a formal request for leave, specifying the dates and type of leave",
     },
     {
-      "icon": Icons.credit_card,
-      "menuName": "Cards",
-      "menuDescription": "Manage your debit or credit cards easily.",
+      "icon": FontAwesomeIcons.circleCheck,
+      "menuName": "Fallback Acceptance",
+      "menuDescription":
+          "Approve or decline fallback leave requests based on availability and company policy",
     },
     {
-      "icon": Icons.security,
-      "menuName": "Security",
-      "menuDescription": "Adjust your security and privacy preferences.",
+      "icon": FontAwesomeIcons.thumbsUp,
+      "menuName": "Leave Approval",
+      "menuDescription":
+          "Review and approve or reject pending leave requests from employees",
     },
     {
-      "icon": Icons.settings,
-      "menuName": "Settings",
-      "menuDescription": "Customize your application settings.",
+      "icon": FontAwesomeIcons.clockRotateLeft,
+      "menuName": "Leave History",
+      "menuDescription":
+          "View and manage a history of your approved or denied leave applications",
     },
     {
-      "icon": Icons.support_agent,
-      "menuName": "Support",
-      "menuDescription": "Get help and support quickly.",
+      "icon": FontAwesomeIcons.clock,
+      "menuName": "Attendance",
+      "menuDescription":
+          "Track your attendance records, including working hours and absences",
+    },
+    {
+      "icon": FontAwesomeIcons.houseLaptop,
+      "menuName": "Working Out of Office Application",
+      "menuDescription":
+          "Submit a request to work remotely or outside the office for a specified period",
+    },
+    {
+      "icon": FontAwesomeIcons.squareCheck,
+      "menuName": "Working Out of Office Approval",
+      "menuDescription":
+          "Review and approve or reject employee requests to work outside the office",
+    },
+
+    {
+      "icon": Icons.file_copy,
+      "menuName": "Working Out of Office History",
+      "menuDescription":
+          "View your history of approved or denied working out of office applications",
+    },
+    {
+      "icon": Icons.fingerprint,
+      "menuName": "Today's Punch",
+      "menuDescription":
+          "Record your in and out times for attendance on the current day",
     },
   ];
 

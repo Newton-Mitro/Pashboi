@@ -35,13 +35,12 @@ class _InfoMenusViewState extends State<InfoMenusView> {
       "icon": Icons.settings,
       "menuName": "Beneficiarie’s",
       "menuDescription":
-          "See and manage all your accounts, statements from here. One place for all",
+          "Manage and add beneficiaries for your account or services from here",
     },
     {
       "icon": Icons.support_agent,
       "menuName": "Card’s",
-      "menuDescription":
-          "See and manage all your accounts, statements from here. One place for all",
+      "menuDescription": "View, manage, and request your  cards from here",
     },
   ];
 
