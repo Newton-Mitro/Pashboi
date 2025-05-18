@@ -3,11 +3,11 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
-import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
 class OtpVerificationPage extends StatefulWidget {
@@ -188,7 +188,23 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Align(alignment: Alignment.center, child: AppLogo(width: 150)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Icon(FontAwesomeIcons.key, size: 100),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      Locales.string(context, "otp_verification_page_title"),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 40),
                 Text(
                   Locales.string(context, "otp_verification_page_instruction"),
