@@ -29,27 +29,25 @@ class _LoansMenusViewState extends State<LoansMenusView> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: ListView.separated(
-          itemCount: infoMenus.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final menu = infoMenus[index];
-            return MenuTile(
-              icon: Icon(
-                menu['icon'],
-                size: 35,
-                color: context.theme.colorScheme.onPrimary,
-              ),
-              menuName: menu['menuName'],
-              menuDescription: menu['menuDescription'],
-              onTap: () {
-                debugPrint("Tapped on ${menu['menuName']}");
-              },
-            );
-          },
-        ),
+      child: ListView.separated(
+        itemCount: infoMenus.length,
+        padding: const EdgeInsets.all(12),
+        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final menu = infoMenus[index];
+          return MenuTile(
+            icon: Icon(
+              menu['icon'],
+              size: 35,
+              color: context.theme.colorScheme.onPrimary,
+            ),
+            menuName: menu['menuName'],
+            menuDescription: menu['menuDescription'],
+            onTap: () {
+              debugPrint("Tapped on ${menu['menuName']}");
+            },
+          );
+        },
       ),
     );
   }

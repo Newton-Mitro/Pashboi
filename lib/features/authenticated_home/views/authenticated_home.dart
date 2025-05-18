@@ -38,6 +38,8 @@ class AuthenticatedHome extends StatefulWidget {
 }
 
 class _AuthenticatedHomeState extends State<AuthenticatedHome> {
+  int _previousPage = selectedPageNotifier.value;
+
   Future<bool> _showLogoutDialog() async {
     return await showDialog<bool>(
           context: context,
@@ -71,7 +73,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
           }
         },
         child: PopScope(
-          canPop: false, // control pop manually
+          canPop: false,
           onPopInvoked: (didPop) async {
             if (!didPop) {
               final shouldLogout = await _showLogoutDialog();
@@ -82,103 +84,124 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
           },
           child: ValueListenableBuilder<int>(
             valueListenable: selectedPageNotifier,
-            builder:
-                (context, selectedPage, child) => Scaffold(
-                  appBar: AppBar(
-                    // leading: Image.asset(AppImages.pathLogo),
-                    automaticallyImplyLeading: false,
-                    title: const Text('Info'),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
+            builder: (context, selectedPage, child) {
+              final isForward = selectedPage >= _previousPage;
+              _previousPage = selectedPage;
+
+              return Scaffold(
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  title: const Text('Info'),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  elevation: 4,
+                  actions: [
+                    PopupMenuButton<int>(
+                      offset: const Offset(0, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      onSelected: (value) async {
+                        if (value == 0) {
+                          debugPrint('Profile tapped');
+                        } else if (value == 1) {
+                          debugPrint('Settings tapped');
+                        } else if (value == 2) {
+                          final shouldLogout = await _showLogoutDialog();
+                          if (shouldLogout) {
+                            context.read<AuthBloc>().add(LogoutEvent());
+                          }
+                        }
+                      },
+                      itemBuilder:
+                          (context) => [
+                            const PopupMenuItem(
+                              value: 0,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.person, size: 20),
+                                  SizedBox(width: 8),
+                                  Text('Profile'),
+                                ],
+                              ),
+                            ),
+                            const PopupMenuItem(
+                              value: 1,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.settings, size: 20),
+                                  SizedBox(width: 8),
+                                  Text('Settings'),
+                                ],
+                              ),
+                            ),
+                            const PopupMenuItem(
+                              enabled: false,
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Divider(
+                                color: Colors.grey,
+                                thickness: 1.2,
+                                height: 8,
+                              ),
+                            ),
+                            const PopupMenuItem(
+                              value: 2,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.logout, size: 20),
+                                  SizedBox(width: 8),
+                                  Text('Logout'),
+                                ],
+                              ),
+                            ),
+                          ],
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundImage: NetworkImage(
+                            'https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg',
+                          ),
+                          backgroundColor: Colors.grey,
+                        ),
                       ),
                     ),
-                    elevation: 4,
-                    actions: [
-                      PopupMenuButton<int>(
-                        offset: const Offset(0, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        onSelected: (value) async {
-                          if (value == 0) {
-                            // Handle Profile
-                            debugPrint('Profile tapped');
-                          } else if (value == 1) {
-                            // Handle Settings
-                            debugPrint('Settings tapped');
-                          } else if (value == 2) {
-                            final shouldLogout = await _showLogoutDialog();
-                            if (shouldLogout) {
-                              context.read<AuthBloc>().add(LogoutEvent());
-                            }
-                          }
-                        },
-                        itemBuilder:
-                            (context) => [
-                              const PopupMenuItem(
-                                value: 0,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.person, size: 20),
-                                    SizedBox(width: 8),
-                                    Text('Profile'),
-                                  ],
-                                ),
-                              ),
-                              const PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.settings, size: 20),
-                                    SizedBox(width: 8),
-                                    Text('Settings'),
-                                  ],
-                                ),
-                              ),
-                              // Custom Divider
-                              const PopupMenuItem(
-                                enabled: false,
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: Divider(
-                                  color: Colors.grey,
-                                  thickness: 1.2,
-                                  height: 8,
-                                ),
-                              ),
-                              const PopupMenuItem(
-                                value: 2,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.logout, size: 20),
-                                    SizedBox(width: 8),
-                                    Text('Logout'),
-                                  ],
-                                ),
-                              ),
-                            ],
-                        child: const Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: CircleAvatar(
-                            radius: 18,
-                            backgroundImage: NetworkImage(
-                              'https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg',
-                            ),
-                            backgroundColor: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  body: AppBackground(child: menuViews[selectedPage]),
-                  bottomNavigationBar: CustomBottomNav(
-                    selectedIndex: selectedPage,
-                    onTap: (index) {
-                      selectedPageNotifier.value = index;
-                    },
+                  ],
+                ),
+                body: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (
+                    Widget child,
+                    Animation<double> animation,
+                  ) {
+                    final offsetTween = Tween<Offset>(
+                      begin:
+                          isForward ? const Offset(1, 0) : const Offset(-1, 0),
+                      end: Offset.zero,
+                    );
+
+                    return SlideTransition(
+                      position: offsetTween.animate(animation),
+                      child: child,
+                    );
+                  },
+                  child: KeyedSubtree(
+                    key: ValueKey<int>(selectedPage),
+                    child: AppBackground(child: menuViews[selectedPage]),
                   ),
                 ),
+                bottomNavigationBar: CustomBottomNav(
+                  selectedIndex: selectedPage,
+                  onTap: (index) {
+                    selectedPageNotifier.value = index;
+                  },
+                ),
+              );
+            },
           ),
         ),
       ),
