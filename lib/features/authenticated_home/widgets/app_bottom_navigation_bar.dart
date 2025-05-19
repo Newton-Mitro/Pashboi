@@ -6,11 +6,13 @@ import 'package:pashboi/core/extensions/app_context.dart';
 class CustomBottomNav extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onTap;
+  final List<Map<String, dynamic>> menuItems;
 
   const CustomBottomNav({
     super.key,
     required this.selectedIndex,
     required this.onTap,
+    required this.menuItems,
   });
 
   @override
@@ -22,57 +24,6 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> menuItems = [
-      {
-        "icon": FontAwesomeIcons.circleUser,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_info'),
-      }, // Profile,  Surety, Cards, AGM Counter
-
-      {
-        "icon": FontAwesomeIcons.buildingColumns,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_accounts'),
-      }, // My Accounts, Open an Account, Dependent Accounts
-
-      {
-        "icon": FontAwesomeIcons.fileInvoiceDollar,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_loan'),
-      },
-
-      {
-        "icon": FontAwesomeIcons.piggyBank,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_deposit'),
-      },
-
-      {
-        "icon": FontAwesomeIcons.rightLeft,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_transfer'),
-      },
-
-      {
-        "icon": FontAwesomeIcons.moneyBill,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_withdraw'),
-      },
-
-      {
-        "icon": FontAwesomeIcons.wallet,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_payment'),
-      },
-
-      {
-        "icon": FontAwesomeIcons.peopleRoof,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_family'),
-      },
-
-      {
-        "icon": FontAwesomeIcons.userGroup,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_beneficiary'),
-      },
-
-      {
-        "icon": FontAwesomeIcons.idBadge,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_personnel'),
-      },
-    ];
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
@@ -97,7 +48,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
               Row(
                 children: List.generate(
                   5,
-                  (i) => Expanded(child: _navItem(menuItems[i], i)),
+                  (i) => Expanded(child: _navItem(widget.menuItems[i], i)),
                 ),
               ),
 
@@ -107,7 +58,9 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                 secondChild: Row(
                   children: List.generate(
                     5,
-                    (i) => Expanded(child: _navItem(menuItems[i + 5], i + 5)),
+                    (i) => Expanded(
+                      child: _navItem(widget.menuItems[i + 5], i + 5),
+                    ),
                   ),
                 ),
                 crossFadeState:
