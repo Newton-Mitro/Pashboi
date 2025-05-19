@@ -68,5 +68,16 @@
   "public_bottom_nav_menu_loans": "ঋণ নীতি",
   "public_bottom_nav_menu_services_and_projects": "সেবা ও প্রকল্প",
   "public_bottom_nav_menu_notices": "নোটিশ",
-  "public_bottom_nav_menu_service_centers": "সেবা কেন্দ্র"
+  "public_bottom_nav_menu_service_centers": "সেবা কেন্দ্র",
+
+  "auth_bottom_nav_menu_info": "তথ্য",
+  "auth_bottom_nav_menu_accounts": "অ্যাকাউন্টস",
+  "auth_bottom_nav_menu_loan": "ঋণ",
+  "auth_bottom_nav_menu_deposit": "আমানত",
+  "auth_bottom_nav_menu_transfer": "স্থানান্তর",
+  "auth_bottom_nav_menu_withdraw": "উত্তোলন",
+  "auth_bottom_nav_menu_payment": "পরিশোধ",
+  "auth_bottom_nav_menu_family": "পরিবার",
+  "auth_bottom_nav_menu_beneficiary": "উপকারভোগী",
+  "auth_bottom_nav_menu_personnel": "কর্মচারী"
 }

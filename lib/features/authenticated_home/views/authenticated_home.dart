@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/features/authenticated_home/bloc/authenticated_home_bloc.dart';
 import 'package:pashboi/features/authenticated_home/views/menus/accounts_menus_view.dart';
 import 'package:pashboi/features/authenticated_home/views/menus/beneficiary_menus_view.dart';
@@ -63,6 +65,57 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> menuItems = [
+      {
+        "icon": FontAwesomeIcons.circleUser,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_info'),
+      }, // Profile,  Surety, Cards, AGM Counter
+
+      {
+        "icon": FontAwesomeIcons.buildingColumns,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_accounts'),
+      }, // My Accounts, Open an Account, Dependent Accounts
+
+      {
+        "icon": FontAwesomeIcons.fileInvoiceDollar,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_loan'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.piggyBank,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_deposit'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.rightLeft,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_transfer'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.moneyBill,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_withdraw'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.wallet,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_payment'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.peopleRoof,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_family'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.userGroup,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_beneficiary'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.idBadge,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
+      },
+    ];
     return BlocProvider(
       create:
           (context) => sl<AuthenticatedHomeBloc>()..add(IsAuthenticatedEvent()),
@@ -96,7 +149,8 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                title: const Text('Info'),
+                // title: const Text('Info'),
+                title: Text(menuItems[selectedPage]['label']),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
@@ -203,6 +257,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                     ChangePageEvent(index),
                   );
                 },
+                menuItems: menuItems,
               ),
             ),
           );

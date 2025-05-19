@@ -5,11 +5,13 @@ import 'package:pashboi/core/extensions/app_context.dart';
 class CustomBottomNav extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onTap;
+  final List<Map<String, dynamic>> menuItems;
 
   const CustomBottomNav({
     super.key,
     required this.selectedIndex,
     required this.onTap,
+    required this.menuItems,
   });
 
   @override
@@ -18,34 +20,6 @@ class CustomBottomNav extends StatefulWidget {
 
 class _CustomBottomNavState extends State<CustomBottomNav> {
   bool isExpanded = false;
-
-  final List<Map<String, dynamic>> menuItems = [
-    {
-      "icon": FontAwesomeIcons.circleUser,
-      "label": "Info",
-    }, // Profile,  Surety, Cards, AGM Counter
-
-    {
-      "icon": FontAwesomeIcons.buildingColumns,
-      "label": "Accounts",
-    }, // My Accounts, Open an Account, Dependent Accounts
-
-    {"icon": FontAwesomeIcons.fileInvoiceDollar, "label": "Loans"},
-
-    {"icon": FontAwesomeIcons.piggyBank, "label": "Deposit"},
-
-    {"icon": FontAwesomeIcons.rightLeft, "label": "Transfer"},
-
-    {"icon": FontAwesomeIcons.moneyBill, "label": "Withdraw"},
-
-    {"icon": FontAwesomeIcons.wallet, "label": "Payment"},
-
-    {"icon": FontAwesomeIcons.peopleRoof, "label": "Family"},
-
-    {"icon": FontAwesomeIcons.userGroup, "label": "Beneficiary"},
-
-    {"icon": FontAwesomeIcons.idBadge, "label": "Personnel"},
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +45,10 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
             children: [
               // First row
               Row(
-                children: List.generate(5, (i) => Expanded(child: _navItem(i))),
+                children: List.generate(
+                  5,
+                  (i) => Expanded(child: _navItem(widget.menuItems[i], i)),
+                ),
               ),
 
               // Second row (expandable)
@@ -80,7 +57,9 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                 secondChild: Row(
                   children: List.generate(
                     5,
-                    (i) => Expanded(child: _navItem(i + 5)),
+                    (i) => Expanded(
+                      child: _navItem(widget.menuItems[i + 5], i + 5),
+                    ),
                   ),
                 ),
                 crossFadeState:
@@ -145,8 +124,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
     );
   }
 
-  Widget _navItem(int index) {
-    final item = menuItems[index];
+  Widget _navItem(Map<String, dynamic> item, int index) {
     final selected = index == widget.selectedIndex;
 
     return GestureDetector(
