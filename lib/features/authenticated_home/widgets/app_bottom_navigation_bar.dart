@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
@@ -19,36 +20,59 @@ class CustomBottomNav extends StatefulWidget {
 class _CustomBottomNavState extends State<CustomBottomNav> {
   bool isExpanded = false;
 
-  final List<Map<String, dynamic>> menuItems = [
-    {
-      "icon": FontAwesomeIcons.circleUser,
-      "label": "Info",
-    }, // Profile,  Surety, Cards, AGM Counter
-
-    {
-      "icon": FontAwesomeIcons.buildingColumns,
-      "label": "Accounts",
-    }, // My Accounts, Open an Account, Dependent Accounts
-
-    {"icon": FontAwesomeIcons.fileInvoiceDollar, "label": "Loans"},
-
-    {"icon": FontAwesomeIcons.piggyBank, "label": "Deposit"},
-
-    {"icon": FontAwesomeIcons.rightLeft, "label": "Transfer"},
-
-    {"icon": FontAwesomeIcons.moneyBill, "label": "Withdraw"},
-
-    {"icon": FontAwesomeIcons.wallet, "label": "Payment"},
-
-    {"icon": FontAwesomeIcons.peopleRoof, "label": "Family"},
-
-    {"icon": FontAwesomeIcons.userGroup, "label": "Beneficiary"},
-
-    {"icon": FontAwesomeIcons.idBadge, "label": "Personnel"},
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> menuItems = [
+      {
+        "icon": FontAwesomeIcons.circleUser,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_info'),
+      }, // Profile,  Surety, Cards, AGM Counter
+
+      {
+        "icon": FontAwesomeIcons.buildingColumns,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_accounts'),
+      }, // My Accounts, Open an Account, Dependent Accounts
+
+      {
+        "icon": FontAwesomeIcons.fileInvoiceDollar,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_loan'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.piggyBank,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_deposit'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.rightLeft,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_transfer'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.moneyBill,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_withdraw'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.wallet,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_payment'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.peopleRoof,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_family'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.userGroup,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_beneficiary'),
+      },
+
+      {
+        "icon": FontAwesomeIcons.idBadge,
+        "label": Locales.string(context, 'locales_bottom_nav_menu_personnel'),
+      },
+    ];
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
@@ -71,7 +95,10 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
             children: [
               // First row
               Row(
-                children: List.generate(5, (i) => Expanded(child: _navItem(i))),
+                children: List.generate(
+                  5,
+                  (i) => Expanded(child: _navItem(menuItems[i], i)),
+                ),
               ),
 
               // Second row (expandable)
@@ -80,7 +107,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                 secondChild: Row(
                   children: List.generate(
                     5,
-                    (i) => Expanded(child: _navItem(i + 5)),
+                    (i) => Expanded(child: _navItem(menuItems[i + 5], i + 5)),
                   ),
                 ),
                 crossFadeState:
@@ -145,8 +172,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
     );
   }
 
-  Widget _navItem(int index) {
-    final item = menuItems[index];
+  Widget _navItem(Map<String, dynamic> item, int index) {
     final selected = index == widget.selectedIndex;
 
     return GestureDetector(
