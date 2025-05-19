@@ -68,5 +68,16 @@
   "public_bottom_nav_menu_loans": "Loan Policies",
   "public_bottom_nav_menu_services_and_projects": "Services & Projects",
   "public_bottom_nav_menu_notices": "Notices",
-  "public_bottom_nav_menu_service_centers": "Service Centers"
+  "public_bottom_nav_menu_service_centers": "Service Centers",
+
+  "locales_bottom_nav_menu_info": "Info",
+  "locales_bottom_nav_menu_accounts": "Accounts",
+  "locales_bottom_nav_menu_loan": "Loans",
+  "locales_bottom_nav_menu_deposit": "Deposit",
+  "locales_bottom_nav_menu_transfer": "Transfer",
+  "locales_bottom_nav_menu_withdraw": "Withdraw",
+  "locales_bottom_nav_menu_payment": "Payment",
+  "locales_bottom_nav_menu_family": "Family",
+  "locales_bottom_nav_menu_beneficiary": "Beneficiary",
+  "locales_bottom_nav_menu_personnel": "Personnel"
 }
