@@ -68,52 +68,52 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
     final List<Map<String, dynamic>> menuItems = [
       {
         "icon": FontAwesomeIcons.circleUser,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_info'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_info'),
       }, // Profile,  Surety, Cards, AGM Counter
 
       {
         "icon": FontAwesomeIcons.buildingColumns,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_accounts'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_accounts'),
       }, // My Accounts, Open an Account, Dependent Accounts
 
       {
         "icon": FontAwesomeIcons.fileInvoiceDollar,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_loan'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_loan'),
       },
 
       {
         "icon": FontAwesomeIcons.piggyBank,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_deposit'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_deposit'),
       },
 
       {
         "icon": FontAwesomeIcons.rightLeft,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_transfer'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_transfer'),
       },
 
       {
         "icon": FontAwesomeIcons.moneyBill,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_withdraw'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_withdraw'),
       },
 
       {
         "icon": FontAwesomeIcons.wallet,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_payment'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_payment'),
       },
 
       {
         "icon": FontAwesomeIcons.peopleRoof,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_family'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_family'),
       },
 
       {
         "icon": FontAwesomeIcons.userGroup,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_beneficiary'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_beneficiary'),
       },
 
       {
         "icon": FontAwesomeIcons.idBadge,
-        "label": Locales.string(context, 'locales_bottom_nav_menu_personnel'),
+        "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
       },
     ];
     return BlocProvider(

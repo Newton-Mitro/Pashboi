@@ -70,14 +70,14 @@
   "public_bottom_nav_menu_notices": "নোটিশ",
   "public_bottom_nav_menu_service_centers": "সেবা কেন্দ্র",
 
-  "locales_bottom_nav_menu_info": "তথ্য",
-  "locales_bottom_nav_menu_accounts": "অ্যাকাউন্টস",
-  "locales_bottom_nav_menu_loan": "ঋণ",
-  "locales_bottom_nav_menu_deposit": "আমানত",
-  "locales_bottom_nav_menu_transfer": "স্থানান্তর",
-  "locales_bottom_nav_menu_withdraw": "উত্তোলন",
-  "locales_bottom_nav_menu_payment": "পরিশোধ",
-  "locales_bottom_nav_menu_family": "পরিবার",
-  "locales_bottom_nav_menu_beneficiary": "উপকারভোগী",
-  "locales_bottom_nav_menu_personnel": "কর্মচারী"
+  "auth_bottom_nav_menu_info": "তথ্য",
+  "auth_bottom_nav_menu_accounts": "অ্যাকাউন্টস",
+  "auth_bottom_nav_menu_loan": "ঋণ",
+  "auth_bottom_nav_menu_deposit": "আমানত",
+  "auth_bottom_nav_menu_transfer": "স্থানান্তর",
+  "auth_bottom_nav_menu_withdraw": "উত্তোলন",
+  "auth_bottom_nav_menu_payment": "পরিশোধ",
+  "auth_bottom_nav_menu_family": "পরিবার",
+  "auth_bottom_nav_menu_beneficiary": "উপকারভোগী",
+  "auth_bottom_nav_menu_personnel": "কর্মচারী"
 }
