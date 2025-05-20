@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
 class AppDialog extends StatelessWidget {
   const AppDialog({
@@ -46,17 +47,18 @@ class AppDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
+                AppPrimaryButton(
+                  label: "Submit",
                   onPressed: () {
                     onSubmit();
                   },
-                  child: const Text("Submit"),
                 ),
-                ElevatedButton(
+                AppPrimaryButton(
+                  label: "Cancel",
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text("Close"),
+                  // child: const Text("Close"),
                 ),
               ],
             ),
