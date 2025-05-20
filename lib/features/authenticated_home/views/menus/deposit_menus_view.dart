@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,41 +12,59 @@ class DepositMenusView extends StatefulWidget {
 }
 
 class _DepositMenusViewState extends State<DepositMenusView> {
-  final List<Map<String, dynamic>> infoMenus = [
-    {
-      "icon": FontAwesomeIcons.moneyBillWave,
-      "menuName": "Deposit Now",
-      "menuDescription":
-          "Make an instant deposit to your account using available  methods",
-    },
-    {
-      "icon": FontAwesomeIcons.clock,
-      "menuName": "Deposit Later",
-      "menuDescription":
-          "Schedule a deposit for a later time or choose a future deposit option",
-    },
-    {
-      "icon": FontAwesomeIcons.mobileScreenButton,
-      "menuName": "Deposit from bKash",
-      "menuDescription":
-          "Easily deposit funds to your account directly through your bKash wallet",
-    },
-    {
-      "icon": FontAwesomeIcons.circleInfo,
-      "menuName": "Deposit Request Status",
-      "menuDescription":
-          "Track the status of your deposit requests and view related updates",
-    },
-    {
-      "icon": FontAwesomeIcons.receipt,
-      "menuName": "eReceipt",
-      "menuDescription":
-          "Access and download electronic receipts for your transactions",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> infoMenus = [
+      {
+        "icon": FontAwesomeIcons.moneyBillWave,
+        "menuName": Locales.string(context, "deposit_menu_deposit_now_title"),
+        "menuDescription": Locales.string(
+          context,
+          "deposit_menu_deposit_now_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.clock,
+        "menuName": Locales.string(
+          context,
+          "deposit_menu_deposit_latter_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "deposit_menu_deposit_latter_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.mobileScreenButton,
+        "menuName": Locales.string(
+          context,
+          "deposit_menu_deposit_from_bKash_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "deposit_menu_deposit_from_bKash_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.circleInfo,
+        "menuName": Locales.string(
+          context,
+          "deposit_menu_deposit_request_status_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "deposit_menu_deposit_request_status_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.receipt,
+        "menuName": Locales.string(context, "deposit_menu_eReceipt_title"),
+        "menuDescription": Locales.string(
+          context,
+          "deposit_menu_eReceipt_description",
+        ),
+      },
+    ];
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,

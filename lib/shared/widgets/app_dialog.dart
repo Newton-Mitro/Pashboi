@@ -7,13 +7,15 @@ class AppDialog extends StatelessWidget {
     required this.title,
     required this.content,
     required this.icon,
-    required this.onSubmit,
+    required this.onPositiveButtonTap,
+    required this.positiveButtonLabel,
   });
 
   final String title;
   final String content;
   final Icon icon;
-  final VoidCallback onSubmit;
+  final Function onPositiveButtonTap;
+  final String positiveButtonLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +49,10 @@ class AppDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 AppPrimaryButton(
-                  label: "Submit",
+                  label: positiveButtonLabel,
                   horizontalPadding: 10,
                   onPressed: () {
-                    onSubmit();
+                    onPositiveButtonTap();
                   },
                 ),
                 AppPrimaryButton(

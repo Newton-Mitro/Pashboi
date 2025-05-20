@@ -119,10 +119,11 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                         title: 'Logout',
                         content: 'Are you sure you want to logout?',
                         icon: const Icon(Icons.logout, size: 40),
-                        onSubmit:
+                        onPositiveButtonTap:
                             () => context.read<AuthenticatedHomeBloc>().add(
                               LogoutEvent(),
                             ),
+                        positiveButtonLabel: 'Logout',
                       ),
                 );
               }
@@ -157,10 +158,11 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                 title: 'Logout',
                                 content: 'Are you sure you want to logout?',
                                 icon: const Icon(Icons.logout, size: 40),
-                                onSubmit:
+                                onPositiveButtonTap:
                                     () => context
                                         .read<AuthenticatedHomeBloc>()
                                         .add(LogoutEvent()),
+                                positiveButtonLabel: 'Logout',
                               ),
                         );
                       }
