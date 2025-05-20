@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,66 +12,107 @@ class PersonnelMenusView extends StatefulWidget {
 }
 
 class _PersonnelMenusViewState extends State<PersonnelMenusView> {
-  final List<Map<String, dynamic>> infoMenus = [
-    {
-      "icon": FontAwesomeIcons.calendarDays,
-      "menuName": "Leave Application",
-      "menuDescription":
-          "Submit a formal request for leave, specifying the dates and type of leave",
-    },
-    {
-      "icon": FontAwesomeIcons.circleCheck,
-      "menuName": "Fallback Acceptance",
-      "menuDescription":
-          "Approve or decline fallback leave requests based on availability and company policy",
-    },
-    {
-      "icon": FontAwesomeIcons.thumbsUp,
-      "menuName": "Leave Approval",
-      "menuDescription":
-          "Review and approve or reject pending leave requests from employees",
-    },
-    {
-      "icon": FontAwesomeIcons.clockRotateLeft,
-      "menuName": "Leave History",
-      "menuDescription":
-          "View and manage a history of your approved or denied leave applications",
-    },
-    {
-      "icon": FontAwesomeIcons.clock,
-      "menuName": "Attendance",
-      "menuDescription":
-          "Track your attendance records, including working hours and absences",
-    },
-    {
-      "icon": FontAwesomeIcons.houseLaptop,
-      "menuName": "Working Out of Office Application",
-      "menuDescription":
-          "Submit a request to work remotely or outside the office for a specified period",
-    },
-    {
-      "icon": FontAwesomeIcons.squareCheck,
-      "menuName": "Working Out of Office Approval",
-      "menuDescription":
-          "Review and approve or reject employee requests to work outside the office",
-    },
-
-    {
-      "icon": Icons.file_copy,
-      "menuName": "Working Out of Office History",
-      "menuDescription":
-          "View your history of approved or denied working out of office applications",
-    },
-    {
-      "icon": Icons.fingerprint,
-      "menuName": "Today's Punch",
-      "menuDescription":
-          "Record your in and out times for attendance on the current day",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> infoMenus = [
+      {
+        "icon": FontAwesomeIcons.calendarDays,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_leave_application_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_leave_application_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.circleCheck,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_fallback_acceptance_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_fallback_acceptance_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.thumbsUp,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_leave_approval_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_leave_approval_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.clockRotateLeft,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_leave_history_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_leave_history_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.clock,
+        "menuName": Locales.string(context, "personnel_menu_attendance_title"),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_attendance_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.houseLaptop,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_working_out_of_office_application_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_working_out_of_office_application_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.squareCheck,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_working_out_of_office_approval_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_working_out_of_office_approval_description",
+        ),
+      },
+
+      {
+        "icon": Icons.file_copy,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_working_out_of_office_history_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_working_out_of_office_history_description",
+        ),
+      },
+      {
+        "icon": Icons.fingerprint,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_todays_punch_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_todays_punch_description",
+        ),
+      },
+    ];
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,

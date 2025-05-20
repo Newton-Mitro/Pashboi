@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BeneficiaryMenusView extends StatefulWidget {
   const BeneficiaryMenusView({super.key});
@@ -10,36 +12,32 @@ class BeneficiaryMenusView extends StatefulWidget {
 }
 
 class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
-  final List<Map<String, dynamic>> infoMenus = [
-    {
-      "icon": Icons.account_balance,
-      "menuName": "Beneficiary",
-      "menuDescription": "Place for all your dependent accounts.",
-    },
-    {
-      "icon": Icons.credit_card,
-      "menuName": "Cards",
-      "menuDescription": "Manage your debit or credit cards easily.",
-    },
-    {
-      "icon": Icons.security,
-      "menuName": "Security",
-      "menuDescription": "Adjust your security and privacy preferences.",
-    },
-    {
-      "icon": Icons.settings,
-      "menuName": "Settings",
-      "menuDescription": "Customize your application settings.",
-    },
-    {
-      "icon": Icons.support_agent,
-      "menuName": "Support",
-      "menuDescription": "Get help and support quickly.",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> infoMenus = [
+      {
+        "icon": FontAwesomeIcons.users,
+        "menuName": Locales.string(
+          context,
+          "beneficiary_menu_beneficiaries_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "beneficiary_menu_beneficiaries_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.userPlus,
+        "menuName": Locales.string(
+          context,
+          "beneficiary_menu_add_beneficiaries_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "beneficiary_menu_add_beneficiaries_description",
+        ),
+      },
+    ];
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,

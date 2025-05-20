@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,40 +13,34 @@ class InfoMenusView extends StatefulWidget {
 // <i class="fa-solid fa-users-gear"></i>
 
 class _InfoMenusViewState extends State<InfoMenusView> {
-  final List<Map<String, dynamic>> infoMenus = [
-    {
-      "icon": FontAwesomeIcons.usersGear,
-      "menuName": "Dependent’s Account’s",
-      "menuDescription":
-          "Place for all your dependent accounts. You always add more.",
-    },
-    {
-      "icon": FontAwesomeIcons.users,
-      "menuName": "Family & Relative’s",
-      "menuDescription":
-          "Add your family members and relatives as a relation from here",
-    },
-    {
-      "icon": FontAwesomeIcons.fileLines,
-      "menuName": "Surety Status",
-      "menuDescription":
-          "See and manage all your accounts, statements from here. One place for all",
-    },
-    {
-      "icon": Icons.settings,
-      "menuName": "Beneficiarie’s",
-      "menuDescription":
-          "Manage and add beneficiaries for your account or services from here",
-    },
-    {
-      "icon": Icons.support_agent,
-      "menuName": "Card’s",
-      "menuDescription": "View, manage, and request your  cards from here",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> infoMenus = [
+      {
+        "icon": FontAwesomeIcons.circleUser,
+        "menuName": Locales.string(context, "info_menu_profile_title"),
+        "menuDescription": Locales.string(
+          context,
+          "info_menu_profile_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.userShield,
+        "menuName": Locales.string(context, "info_menu_surety_status_title"),
+        "menuDescription": Locales.string(
+          context,
+          "info_menu_surety_status_description",
+        ),
+      },
+      {
+        "icon": Icons.credit_card,
+        "menuName": Locales.string(context, "info_menu_card_title"),
+        "menuDescription": Locales.string(
+          context,
+          "info_menu_card_description",
+        ),
+      },
+    ];
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
