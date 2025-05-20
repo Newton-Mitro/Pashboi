@@ -20,11 +20,11 @@ class _WithdrawMenusViewState extends State<WithdrawMenusView> {
         "icon": FontAwesomeIcons.moneyBillWave,
         "menuName": Locales.string(
           context,
-          "Withdraw_menu_Withdraw_through_atm_title",
+          "withdraw_menu_withdraw_through_atm_title",
         ),
         "menuDescription": Locales.string(
           context,
-          "Withdraw_menu_Withdraw_through_atm_description",
+          "withdraw_menu_withdraw_through_atm_description",
         ),
       },
     ];

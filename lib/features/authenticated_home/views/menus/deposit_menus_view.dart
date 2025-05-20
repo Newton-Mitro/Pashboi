@@ -38,11 +38,11 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         "icon": FontAwesomeIcons.mobileScreenButton,
         "menuName": Locales.string(
           context,
-          "deposit_menu_deposit_from_bKash_title",
+          "deposit_menu_deposit_from_bkash_title",
         ),
         "menuDescription": Locales.string(
           context,
-          "deposit_menu_deposit_from_bKash_description",
+          "deposit_menu_deposit_from_bkash_description",
         ),
       },
       {
@@ -58,10 +58,10 @@ class _DepositMenusViewState extends State<DepositMenusView> {
       },
       {
         "icon": FontAwesomeIcons.receipt,
-        "menuName": Locales.string(context, "deposit_menu_eReceipt_title"),
+        "menuName": Locales.string(context, "deposit_menu_ereceipt_title"),
         "menuDescription": Locales.string(
           context,
-          "deposit_menu_eReceipt_description",
+          "deposit_menu_ereceipt_description",
         ),
       },
     ];
