@@ -19,11 +19,11 @@ class _TransferMenusViewState extends State<TransferMenusView> {
         "icon": FontAwesomeIcons.mobileScreenButton,
         "menuName": Locales.string(
           context,
-          "transfer_menu_transfer_to_bKash_title",
+          "transfer_menu_transfer_to_bkash_title",
         ),
         "menuDescription": Locales.string(
           context,
-          "transfer_menu_transfer_to_bKash_description",
+          "transfer_menu_transfer_to_bkash_description",
         ),
       },
       {
