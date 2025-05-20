@@ -18,7 +18,6 @@ class AppDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.yellow,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -49,12 +48,14 @@ class AppDialog extends StatelessWidget {
               children: [
                 AppPrimaryButton(
                   label: "Submit",
+                  horizontalPadding: 10,
                   onPressed: () {
                     onSubmit();
                   },
                 ),
                 AppPrimaryButton(
                   label: "Cancel",
+                  horizontalPadding: 10,
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/authenticated_home/bloc/authenticated_home_bloc.dart';
 import 'package:pashboi/features/authenticated_home/views/menus/accounts_menus_view.dart';
 import 'package:pashboi/features/authenticated_home/views/menus/beneficiary_menus_view.dart';
@@ -15,8 +17,8 @@ import 'package:pashboi/features/authenticated_home/views/menus/transfer_menus_v
 import 'package:pashboi/features/authenticated_home/views/menus/withdraw_menus_view.dart';
 import 'package:pashboi/features/authenticated_home/widgets/app_bottom_navigation_bar.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
-import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/app_dialog.dart';
 
 final List<Widget> menuViews = [
   InfoMenusView(),
@@ -41,81 +43,51 @@ class AuthenticatedHome extends StatefulWidget {
 class _AuthenticatedHomeState extends State<AuthenticatedHome> {
   int _previousPage = 0;
 
-  Future<bool> _showLogoutDialog() async {
-    return await showDialog<bool>(
-          context: context,
-          builder:
-              (context) => AlertDialog(
-                title: const Text('Logout'),
-                content: const Text('Are you sure you want to logout?'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text('Cancel'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: const Text('Logout'),
-                  ),
-                ],
-              ),
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> menuItems = [
       {
         "icon": FontAwesomeIcons.circleUser,
         "label": Locales.string(context, 'auth_bottom_nav_menu_info'),
-      }, // Profile,  Surety, Cards, AGM Counter
-
+      },
       {
         "icon": FontAwesomeIcons.buildingColumns,
         "label": Locales.string(context, 'auth_bottom_nav_menu_accounts'),
-      }, // My Accounts, Open an Account, Dependent Accounts
-
+      },
       {
         "icon": FontAwesomeIcons.fileInvoiceDollar,
         "label": Locales.string(context, 'auth_bottom_nav_menu_loan'),
       },
-
       {
         "icon": FontAwesomeIcons.piggyBank,
         "label": Locales.string(context, 'auth_bottom_nav_menu_deposit'),
       },
-
       {
         "icon": FontAwesomeIcons.rightLeft,
         "label": Locales.string(context, 'auth_bottom_nav_menu_transfer'),
       },
-
       {
         "icon": FontAwesomeIcons.moneyBill,
         "label": Locales.string(context, 'auth_bottom_nav_menu_withdraw'),
       },
-
       {
         "icon": FontAwesomeIcons.wallet,
         "label": Locales.string(context, 'auth_bottom_nav_menu_payment'),
       },
-
       {
         "icon": FontAwesomeIcons.peopleRoof,
         "label": Locales.string(context, 'auth_bottom_nav_menu_family'),
       },
-
       {
         "icon": FontAwesomeIcons.userGroup,
         "label": Locales.string(context, 'auth_bottom_nav_menu_beneficiary'),
       },
-
       {
         "icon": FontAwesomeIcons.idBadge,
         "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
       },
     ];
+
     return BlocProvider(
       create:
           (context) => sl<AuthenticatedHomeBloc>()..add(IsAuthenticatedEvent()),
@@ -140,16 +112,24 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
             canPop: false,
             onPopInvoked: (didPop) async {
               if (!didPop) {
-                final shouldLogout = await _showLogoutDialog();
-                if (shouldLogout) {
-                  context.read<AuthenticatedHomeBloc>().add(LogoutEvent());
-                }
+                await showDialog(
+                  context: context,
+                  builder:
+                      (_) => AppDialog(
+                        title: 'Logout',
+                        content: 'Are you sure you want to logout?',
+                        icon: const Icon(Icons.logout, size: 40),
+                        onSubmit:
+                            () => context.read<AuthenticatedHomeBloc>().add(
+                              LogoutEvent(),
+                            ),
+                      ),
+                );
               }
             },
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                // title: const Text('Info'),
                 title: Text(menuItems[selectedPage]['label']),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -170,12 +150,19 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                       } else if (value == 1) {
                         debugPrint('Settings tapped');
                       } else if (value == 2) {
-                        final shouldLogout = await _showLogoutDialog();
-                        if (shouldLogout) {
-                          context.read<AuthenticatedHomeBloc>().add(
-                            LogoutEvent(),
-                          );
-                        }
+                        await showDialog(
+                          context: context,
+                          builder:
+                              (_) => AppDialog(
+                                title: 'Logout',
+                                content: 'Are you sure you want to logout?',
+                                icon: const Icon(Icons.logout, size: 40),
+                                onSubmit:
+                                    () => context
+                                        .read<AuthenticatedHomeBloc>()
+                                        .add(LogoutEvent()),
+                              ),
+                        );
                       }
                     },
                     itemBuilder:
