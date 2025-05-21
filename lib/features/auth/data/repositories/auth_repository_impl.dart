@@ -4,7 +4,7 @@ import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
+import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -19,7 +19,7 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  ResultFuture<UserEntity> login(String email, String password) async {
+  ResultFuture<AuthUserEntity> login(String email, String password) async {
     try {
       final result = await authRemoteDataSource.login(email, password);
       await authLocalDataSource.setAuthUser(result);
@@ -60,7 +60,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  ResultFuture<UserEntity> getAuthUser() async {
+  ResultFuture<AuthUserEntity> getAuthUser() async {
     try {
       final user = await authLocalDataSource.getAuthUser();
 

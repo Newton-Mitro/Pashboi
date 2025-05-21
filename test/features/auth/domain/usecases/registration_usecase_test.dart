@@ -13,14 +13,13 @@ void main() {
   const tEmail = 'test@example.com';
   const tPassword = 'password123';
   const tConfirmPassword = 'password123';
-  const tRequestFrom = 'mobile';
+  const tRequestFrom = 'Pashboi';
   const tSuccessMessage = 'Registration successful';
 
   final tParams = RegistrationParams(
     email: tEmail,
     password: tPassword,
     confirmPassword: tConfirmPassword,
-    requestFrom: tRequestFrom,
   );
 
   setUp(() {

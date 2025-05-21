@@ -18,7 +18,6 @@ class RegistrationPageBloc
         email: event.email,
         password: event.password,
         confirmPassword: event.confirmPassword,
-        requestFrom: 'Web',
       );
       final result = await registrationUseCase.call(registrationParams);
 

@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/utils/json_util.dart';
-import 'package:pashboi/features/auth/data/models/user_model.dart';
+import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> login(String email, String password);
+  Future<AuthUserModel> login(String email, String password);
+
   Future<String> register(
     String email,
     String password,
     String confirmPassword,
     String requestFrom,
   );
-  Future<void> logout();
 
   Future<String> verifyMobileNumber(
     String mobileNumber,
@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.apiService});
 
   @override
-  Future<UserModel> login(String email, String password) async {
+  Future<AuthUserModel> login(String email, String password) async {
     try {
       final response = await apiService.post(
         ApiUrls.login,
@@ -50,9 +50,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
         final jsonResponse = JsonUtil.decodeModelList(dataString);
 
-        final userModel = UserModel.fromJson({
-          ...jsonResponse[0],
-          "accessToken": token,
+        final userModel = AuthUserModel.fromJson({
+          "user": jsonResponse[0],
+          "access_token": token,
+          "refresh_token": token,
         });
 
         return userModel;
@@ -94,15 +95,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } catch (e) {
       rethrow;
-    }
-  }
-
-  @override
-  Future<void> logout() async {
-    try {
-      // await apiService.get('/auth/logout');
-    } catch (e) {
-      // rethrow;
     }
   }
 

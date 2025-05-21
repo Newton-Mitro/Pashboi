@@ -2,15 +2,13 @@ import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 
-final class LogoutParams {}
-
-class LogoutUsecase extends UseCase<void, LogoutParams> {
+class LogoutUseCase extends UseCase<void, NoParams> {
   final AuthRepository authRepository;
 
-  LogoutUsecase({required this.authRepository});
+  LogoutUseCase({required this.authRepository});
 
   @override
-  ResultFuture<void> call(LogoutParams params) {
+  ResultFuture<void> call(NoParams params) {
     return authRepository.logout();
   }
 }

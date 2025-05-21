@@ -2,17 +2,18 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/core/errors/failures.dart';
+import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/logout_usecase.dart';
 
 import '../../../../mock.helper/mock.helper.dart';
 
 void main() {
   late MockAuthRepository mockAuthRepository;
-  late LogoutUsecase logoutUsecase;
+  late LogoutUseCase logoutUsecase;
 
   setUp(() {
     mockAuthRepository = MockAuthRepository();
-    logoutUsecase = LogoutUsecase(authRepository: mockAuthRepository);
+    logoutUsecase = LogoutUseCase(authRepository: mockAuthRepository);
   });
 
   test('should call logout on repository and return void on success', () async {
@@ -22,7 +23,7 @@ void main() {
     ).thenAnswer((_) async => const Right(null));
 
     // Act
-    final result = await logoutUsecase(LogoutParams());
+    final result = await logoutUsecase(NoParams());
 
     // Assert
     expect(result, const Right(null));
@@ -37,7 +38,7 @@ void main() {
     ).thenAnswer((_) async => Left(ServerFailure(message: 'Logout failed')));
 
     // Act
-    final result = await logoutUsecase(LogoutParams());
+    final result = await logoutUsecase(NoParams());
 
     // Assert
     expect(result.isLeft(), true);

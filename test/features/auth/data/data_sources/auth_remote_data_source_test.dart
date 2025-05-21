@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:pashboi/features/auth/data/models/user_model.dart';
+import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 
 import '../../../../mock.data/login.data.dart';
 import '../../../../mock.helper/mock.helper.dart';
@@ -42,8 +42,8 @@ void main() {
 
       // final resultWithToken = result.copyWith(accessToken: mockToken);
 
-      expect(result, isA<UserModel>());
-      expect(result.loginEmail, 'john.doe@email.com');
+      expect(result, isA<AuthUserModel>());
+      expect(result.user.loginEmail, 'john.doe@email.com');
       expect(result.accessToken, mockToken);
     });
 

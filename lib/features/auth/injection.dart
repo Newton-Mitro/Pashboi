@@ -13,10 +13,10 @@ import 'package:pashboi/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/registration_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/verify_mobile_number_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/verify_otp_usecase.dart';
+import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/forgot_password_page_bloc/forgot_password_page_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
-import 'package:pashboi/features/auth/presentation/bloc/login_page_bloc/login_page_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/registration_page_bloc/registration_page_bloc.dart';
 import 'package:pashboi/features/authenticated_home/bloc/authenticated_home_bloc.dart';
 
@@ -45,8 +45,8 @@ void registerAuthModule() async {
   sl.registerLazySingleton<RegistrationUseCase>(
     () => RegistrationUseCase(authRepository: sl<AuthRepository>()),
   );
-  sl.registerLazySingleton<LogoutUsecase>(
-    () => LogoutUsecase(authRepository: sl<AuthRepository>()),
+  sl.registerLazySingleton<LogoutUseCase>(
+    () => LogoutUseCase(authRepository: sl<AuthRepository>()),
   );
   sl.registerLazySingleton<GetAuthUserUseCase>(
     () => GetAuthUserUseCase(authRepository: sl<AuthRepository>()),
@@ -62,20 +62,19 @@ void registerAuthModule() async {
   );
 
   // Register Bloc
-  sl.registerFactory<LoginPageBloc>(
-    () => LoginPageBloc(loginUseCase: sl<LoginUseCase>()),
+  sl.registerFactory<AuthBloc>(
+    () => AuthBloc(
+      loginUseCase: sl<LoginUseCase>(),
+      logoutUseCase: sl<LogoutUseCase>(),
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+    ),
   );
 
   sl.registerFactory<RegistrationPageBloc>(
     () => RegistrationPageBloc(registrationUseCase: sl<RegistrationUseCase>()),
   );
 
-  sl.registerFactory<AuthenticatedHomeBloc>(
-    () => AuthenticatedHomeBloc(
-      logoutUseCase: sl<LogoutUsecase>(),
-      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
-    ),
-  );
+  sl.registerFactory<AuthenticatedHomeBloc>(() => AuthenticatedHomeBloc());
 
   sl.registerFactory<ForgotPasswordPageBloc>(
     () => ForgotPasswordPageBloc(

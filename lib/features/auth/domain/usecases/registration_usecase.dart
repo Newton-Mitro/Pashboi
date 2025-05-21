@@ -6,13 +6,11 @@ final class RegistrationParams {
   final String email;
   final String password;
   final String confirmPassword;
-  final String requestFrom;
 
   RegistrationParams({
     required this.email,
     required this.password,
     required this.confirmPassword,
-    required this.requestFrom,
   });
 }
 
@@ -27,7 +25,7 @@ class RegistrationUseCase extends UseCase<String, RegistrationParams> {
       params.email,
       params.password,
       params.confirmPassword,
-      params.requestFrom,
+      "Pashboi",
     );
 
     return authUser;

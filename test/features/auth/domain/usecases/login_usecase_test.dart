@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:pashboi/core/errors/failures.dart';
+import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/usecases/login_usecase.dart';
 
@@ -23,24 +24,28 @@ void main() {
   const tPassword = 'password123';
   final tHashedPassword = md5.convert(utf8.encode(tPassword)).toString();
 
-  final tUserEntity = UserEntity(
-    id: 'uuid-123',
-    userId: 1,
-    personId: 1,
-    loginEmail: tEmail,
-    roleId: 'admin',
-    roleName: 'Administrator',
-    userName: 'Test User',
-    userPicture: '',
-    branchCode: 'BR001',
-    regMobile: '01700000000',
-    address: '123 Street',
-    organizationCode: 'ORG001',
-    deviceId: 12345,
-    employeeCode: 'EMP001',
-    isNewMenu: false,
-    accessToken: 'token_abc123',
-    rolePermissions: [],
+  final tUserEntity = AuthUserModel(
+    accessToken: 'mockAccessToken',
+    refreshToken: 'mockRefreshToken',
+    user: UserEntity(
+      id: 'uuid-123',
+      userId: 1,
+      personId: 1,
+      loginEmail: tEmail,
+      roleId: 'admin',
+      roleName: 'Administrator',
+      userName: 'Test User',
+      userPicture: '',
+      branchCode: 'BR001',
+      regMobile: '01700000000',
+      address: '123 Street',
+      organizationCode: 'ORG001',
+      deviceId: 12345,
+      employeeCode: 'EMP001',
+      isNewMenu: false,
+      accessToken: 'token_abc123',
+      rolePermissions: [],
+    ),
   );
 
   test('should return UserEntity on successful login', () async {

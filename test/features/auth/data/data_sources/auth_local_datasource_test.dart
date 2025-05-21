@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.dart';
+import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 import 'package:pashboi/features/auth/data/models/role_permission_model.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 
@@ -11,35 +12,39 @@ void main() {
   late MockLocalStorage mockLocalStorage;
   late AuthLocalDataSourceImpl dataSource;
 
-  final testUser = UserModel(
-    id: '350b89e4-ec4f-457b-af12-376b5430a931',
-    userId: 1,
-    personId: 101,
-    loginEmail: 'test@example.com',
-    roleId: 'admin',
-    roleName: 'Administrator',
-    userName: 'Test User',
-    userPicture: null,
-    branchCode: 'BR001',
-    regMobile: '01234567890',
-    address: '123 Street',
-    organizationCode: 'ORG001',
-    deviceId: 123,
-    employeeCode: 'EMP123',
-    isNewMenu: true,
-    accessToken: 'token_abc123',
-    rolePermissions: [
-      RolePermissionModel(
-        menuId: 1,
-        parentMenuId: 0,
-        menuName: 'Dashboard',
-        sort: 1,
-        chkStatus: true,
-        mfsIcon: null,
-        rolePermissionIds: 'VIEW',
-        isNewMenu: false,
-      ),
-    ],
+  final testUser = AuthUserModel(
+    accessToken: 'mockAccessToken',
+    refreshToken: 'mockRefreshToken',
+    user: UserModel(
+      id: '350b89e4-ec4f-457b-af12-376b5430a931',
+      userId: 1,
+      personId: 101,
+      loginEmail: 'test@example.com',
+      roleId: 'admin',
+      roleName: 'Administrator',
+      userName: 'Test User',
+      userPicture: null,
+      branchCode: 'BR001',
+      regMobile: '01234567890',
+      address: '123 Street',
+      organizationCode: 'ORG001',
+      deviceId: 123,
+      employeeCode: 'EMP123',
+      isNewMenu: true,
+      accessToken: 'token_abc123',
+      rolePermissions: [
+        RolePermissionModel(
+          menuId: 1,
+          parentMenuId: 0,
+          menuName: 'Dashboard',
+          sort: 1,
+          chkStatus: true,
+          mfsIcon: null,
+          rolePermissionIds: 'VIEW',
+          isNewMenu: false,
+        ),
+      ],
+    ),
   );
 
   setUp(() {

@@ -2,6 +2,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -10,7 +11,6 @@ import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/network_error_dialog.dart';
-import 'package:pashboi/features/auth/presentation/bloc/login_page_bloc/login_page_bloc.dart';
 import 'package:pashboi/features/terms_and_condition/presentation/pages/terms_and_conditions_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,22 +27,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<LoginPageBloc>(),
+      create: (context) => sl<AuthBloc>(),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           title: Text(Locales.string(context, 'login_page_title')),
         ),
-        body: BlocListener<LoginPageBloc, LoginPageState>(
+        body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is LoginSuccessState) {
-              Navigator.pushReplacementNamed(
-                context,
-                PublicRoutesName.homePage,
-              );
+            if (state is Authenticated) {
+              Navigator.popAndPushNamed(context, PublicRoutesName.homePage);
             }
 
-            if (state is LoginErrorState) {
+            if (state is AuthError) {
               if (state.message == "No internet connection") {
                 NetworkErrorDialog.show(context);
               } else {
@@ -72,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const AppLogo(width: 150),
                     const SizedBox(height: 50),
-                    BlocBuilder<LoginPageBloc, LoginPageState>(
+                    BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, state) {
                         return Column(
                           children: [
@@ -83,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                                 'login_page_user_name_label',
                               ),
                               errorText:
-                                  state is LoginValidationErrorState
+                                  state is AuthValidationErrorState
                                       ? state.errors['email']?.isNotEmpty ==
                                               true
                                           ? state.errors['email']
@@ -103,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               obscureText: true,
                               errorText:
-                                  state is LoginValidationErrorState
+                                  state is AuthValidationErrorState
                                       ? state.errors['password']?.isNotEmpty ==
                                               true
                                           ? state.errors['password']
@@ -141,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            if (state is LoginLoadingState)
+                            if (state is AuthLoading)
                               const CircularProgressIndicator()
                             else
                               AppPrimaryButton(
@@ -150,8 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                                   'login_page_login_button',
                                 ),
                                 onPressed: () {
-                                  context.read<LoginPageBloc>().add(
-                                    LoginEvent(
+                                  context.read<AuthBloc>().add(
+                                    LoginRequested(
                                       username: usernameController.text,
                                       password: passwordController.text,
                                     ),

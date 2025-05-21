@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:pashboi/core/errors/failures.dart';
+import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 import 'package:pashboi/features/auth/data/models/user_model.dart';
 import 'package:pashboi/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
@@ -21,24 +22,28 @@ void main() {
   const tConfirmPassword = 'password123';
   const tToken = 'mock_token';
 
-  final tUserModel = UserModel(
-    id: 'uuid-123',
-    userId: 1,
-    personId: 1,
-    loginEmail: tEmail,
-    roleId: 'admin',
-    roleName: 'Administrator',
-    userName: tName,
-    userPicture: '',
-    branchCode: 'BR001',
-    regMobile: '01700000000',
-    address: '123 Street',
-    organizationCode: 'ORG001',
-    deviceId: 12345,
-    employeeCode: 'EMP001',
-    isNewMenu: false,
-    accessToken: tToken,
-    rolePermissions: [],
+  final tUserModel = AuthUserModel(
+    accessToken: 'mockAccessToken',
+    refreshToken: 'mockRefreshToken',
+    user: UserModel(
+      id: 'uuid-123',
+      userId: 1,
+      personId: 1,
+      loginEmail: tEmail,
+      roleId: 'admin',
+      roleName: 'Administrator',
+      userName: tName,
+      userPicture: '',
+      branchCode: 'BR001',
+      regMobile: '01700000000',
+      address: '123 Street',
+      organizationCode: 'ORG001',
+      deviceId: 12345,
+      employeeCode: 'EMP001',
+      isNewMenu: false,
+      accessToken: tToken,
+      rolePermissions: [],
+    ),
   );
 
   setUp(() {
