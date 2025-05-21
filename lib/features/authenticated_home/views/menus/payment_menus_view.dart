@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,16 +12,18 @@ class PaymentMenusView extends StatefulWidget {
 }
 
 class _PaymentMenusViewState extends State<PaymentMenusView> {
-  final List<Map<String, dynamic>> infoMenus = [
-    {
-      "icon": FontAwesomeIcons.moneyCheckDollar,
-      "menuName": "Payments",
-      "menuDescription": "Make payments for services from your account",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> infoMenus = [
+      {
+        "icon": FontAwesomeIcons.moneyCheckDollar,
+        "menuName": Locales.string(context, "payment_menu_payments_title"),
+        "menuDescription": Locales.string(
+          context,
+          "payment_menu_payments_description",
+        ),
+      },
+    ];
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,

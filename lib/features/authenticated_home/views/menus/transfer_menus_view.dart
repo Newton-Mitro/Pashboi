@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,41 +12,55 @@ class TransferMenusView extends StatefulWidget {
 }
 
 class _TransferMenusViewState extends State<TransferMenusView> {
-  final List<Map<String, dynamic>> infoMenus = [
-    {
-      "icon": FontAwesomeIcons.mobileScreenButton,
-      "menuName": "Transfer to bKash",
-      "menuDescription":
-          "Send money directly from your account to a bKash wallet quickly and securely",
-    },
-    {
-      "icon": FontAwesomeIcons.rightLeft,
-      "menuName": "Transfer Within Dhaka Credit",
-      "menuDescription":
-          "Transfer funds between your own accounts or to other members within Dhaka Credit",
-    },
-    {
-      "icon": FontAwesomeIcons.buildingColumns,
-      "menuName": "Bank to Dhaka Credit",
-      "menuDescription":
-          "Transfer money from an external bank account to your Dhaka Credit account",
-    },
-    {
-      "icon": FontAwesomeIcons.peopleArrows,
-      "menuName": "Transfer to Other Cooperatives",
-      "menuDescription":
-          "Send funds from your Dhaka Credit account to other cooperative institutions",
-    },
-    {
-      "icon": FontAwesomeIcons.clipboardCheck,
-      "menuName": "Transfer Request Status",
-      "menuDescription":
-          "Check the status and history of your recent transfer requests",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> infoMenus = [
+      {
+        "icon": FontAwesomeIcons.mobileScreenButton,
+        "menuName": Locales.string(
+          context,
+          "transfer_menu_transfer_to_bkash_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "transfer_menu_transfer_to_bkash_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.rightLeft,
+        "menuName": Locales.string(
+          context,
+          "transfer_menu_transfer_within_dhaka_cradit_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "transfer_menu_transfer_within_dhaka_cradit_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.buildingColumns,
+        "menuName": Locales.string(
+          context,
+          "transfer_menu_bank_to_dhaka_cradit_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "transfer_menu_bank_to_dhaka_cradit_description",
+        ),
+      },
+
+      {
+        "icon": FontAwesomeIcons.clipboardCheck,
+        "menuName": Locales.string(
+          context,
+          "transfer_menu_transfer_request_status_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "transfer_menu_transfer_request_status_description",
+        ),
+      },
+    ];
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,

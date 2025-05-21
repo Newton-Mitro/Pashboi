@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/menu_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,23 +12,26 @@ class LoansMenusView extends StatefulWidget {
 }
 
 class _LoansMenusViewState extends State<LoansMenusView> {
-  final List<Map<String, dynamic>> infoMenus = [
-    {
-      "icon": FontAwesomeIcons.fileInvoiceDollar,
-      "menuName": "My Loans",
-      "menuDescription":
-          "View details of your active loans,  outstanding balances",
-    },
-    {
-      "icon": FontAwesomeIcons.fileSignature,
-      "menuName": "Apply for a Loan",
-      "menuDescription":
-          "Submit a new loan application and check your eligibility and loan options",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> infoMenus = [
+      {
+        "icon": FontAwesomeIcons.fileInvoiceDollar,
+        "menuName": Locales.string(context, "loan_menu_my_loans_title"),
+        "menuDescription": Locales.string(
+          context,
+          "loan_menu_my_loans_description",
+        ),
+      },
+      {
+        "icon": FontAwesomeIcons.fileSignature,
+        "menuName": Locales.string(context, "loan_menu_apply_for_a_loan_title"),
+        "menuDescription": Locales.string(
+          context,
+          "loan_menu_apply_for_a_loan_description",
+        ),
+      },
+    ];
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
