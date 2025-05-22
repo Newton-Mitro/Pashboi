@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         body: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is Authenticated) {
-              Navigator.popAndPushNamed(context, PublicRoutesName.homePage);
+              Navigator.pushNamed(context, PublicRoutesName.homePage);
             }
 
             if (state is AuthError) {

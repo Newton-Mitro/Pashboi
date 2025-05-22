@@ -100,9 +100,6 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
               PublicRoutesName.landingPage,
               (route) => false,
             );
-
-            // Navigator.popAndPushNamed(context, PublicRoutesName.root);
-            // Navigator.pushReplacementNamed(context, PublicRoutesName.root);
           }
         },
         child: BlocBuilder<AuthenticatedHomeBloc, AuthenticatedHomeState>(
