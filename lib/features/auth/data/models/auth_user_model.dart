@@ -1,4 +1,4 @@
-import 'package:pashboi/features/auth/data/models/user_model.dart';
+import 'package:pashboi/features/authenticated_pages/user/data/models/user_model.dart';
 import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
 
 class AuthUserModel extends AuthUserEntity {

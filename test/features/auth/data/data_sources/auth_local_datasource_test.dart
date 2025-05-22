@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 import 'package:pashboi/features/auth/data/models/role_permission_model.dart';
-import 'package:pashboi/features/auth/data/models/user_model.dart';
+import 'package:pashboi/features/authenticated_pages/user/data/models/user_model.dart';
 
 import '../../../../mock.helper/mock.helper.dart';
 

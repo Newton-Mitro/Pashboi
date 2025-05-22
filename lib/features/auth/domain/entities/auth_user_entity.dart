@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
+import 'package:pashboi/features/authenticated_pages/user/domain/entities/user_entity.dart';
 
 class AuthUserEntity extends Equatable {
   final String accessToken;

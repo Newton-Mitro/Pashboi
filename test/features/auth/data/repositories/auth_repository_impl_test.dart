@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
-import 'package:pashboi/features/auth/data/models/user_model.dart';
+import 'package:pashboi/features/authenticated_pages/user/data/models/user_model.dart';
 import 'package:pashboi/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 

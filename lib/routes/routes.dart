@@ -4,10 +4,10 @@ import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dar
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/features/auth/presentation/pages/login_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/registration_page.dart';
-import 'package:pashboi/features/authenticated_home/views/authenticated_home.dart';
+import 'package:pashboi/features/authenticated_pages/authenticated_home/views/authenticated_home.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
-import 'package:pashboi/features/public_home/views/public_home.dart';
+import 'package:pashboi/features/public_pages/public_home/views/public_home.dart';
 
 class AppRoutes {
   Route<dynamic> onGenerateRoutes(RouteSettings settings) {
