@@ -7,6 +7,7 @@ class TransactionModel extends TransactionEntity {
     required super.accountId,
     required super.debit,
     required super.credit,
+    required super.balance,
     required super.memo,
   });
 
@@ -17,6 +18,7 @@ class TransactionModel extends TransactionEntity {
       accountId: json['account_id'],
       debit: (json['debit'] as num).toDouble(),
       credit: (json['credit'] as num).toDouble(),
+      balance: (json['balance'] as num).toDouble(),
       memo: json['memo'] ?? '',
     );
   }
@@ -28,6 +30,7 @@ class TransactionModel extends TransactionEntity {
       'account_id': accountId,
       'debit': debit,
       'credit': credit,
+      'balance': balance,
       'memo': memo,
     };
   }

@@ -1,4 +1,5 @@
 import 'package:pashboi/core/entities/entity.dart';
+import 'package:pashboi/features/authenticated_pages/savings/domain/entities/nominee_entity.dart';
 
 class SavingAccountEntity extends Entity<int> {
   final String number;
@@ -10,6 +11,9 @@ class SavingAccountEntity extends Entity<int> {
   final int ledgerId;
   final double interestReate;
   final String accountFor;
+  final String status;
+  final bool defaultAccount;
+  final List<NomineeEntity> nominees;
 
   SavingAccountEntity({
     super.id,
@@ -22,6 +26,9 @@ class SavingAccountEntity extends Entity<int> {
     required this.ledgerId,
     required this.interestReate,
     required this.accountFor,
+    required this.status,
+    required this.defaultAccount,
+    required this.nominees,
   });
 
   @override
@@ -36,5 +43,8 @@ class SavingAccountEntity extends Entity<int> {
     ledgerId,
     interestReate,
     accountFor,
+    status,
+    defaultAccount,
+    nominees,
   ];
 }

@@ -5,6 +5,7 @@ class TransactionEntity extends Entity<int> {
   final int accountId;
   final double debit;
   final double credit;
+  final double balance;
   final String memo;
 
   TransactionEntity({
@@ -13,9 +14,18 @@ class TransactionEntity extends Entity<int> {
     required this.accountId,
     required this.debit,
     required this.credit,
+    required this.balance,
     required this.memo,
   });
 
   @override
-  List<Object?> get props => [id, voucherId, accountId, debit, credit, memo];
+  List<Object?> get props => [
+    id,
+    voucherId,
+    accountId,
+    debit,
+    credit,
+    balance,
+    memo,
+  ];
 }
