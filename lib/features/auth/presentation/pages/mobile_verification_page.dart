@@ -126,9 +126,8 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
         ),
         body: AppBackground(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -137,7 +136,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                       alignment: Alignment.center,
                       child: Icon(
                         FontAwesomeIcons.mobileScreenButton,
-                        size: 100,
+                        size: 80,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -150,7 +149,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
