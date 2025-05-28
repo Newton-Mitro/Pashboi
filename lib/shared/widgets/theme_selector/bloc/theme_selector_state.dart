@@ -9,6 +9,10 @@ class PrimaryLightThemeState extends ThemeSelectorState {
   PrimaryLightThemeState() : super(AppTheme.primaryLight);
 }
 
+class PinkLightThemeState extends ThemeSelectorState {
+  PinkLightThemeState() : super(AppTheme.pinkLight);
+}
+
 class PrimaryDarkThemeState extends ThemeSelectorState {
   PrimaryDarkThemeState() : super(AppTheme.primaryDark);
 }

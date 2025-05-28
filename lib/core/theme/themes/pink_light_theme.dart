@@ -1,74 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/forever_green_light_colors.dart';
+import 'package:pashboi/core/theme/values/colors/pink_light_colors.dart';
 
-final _foreverGreenLightColors = ForeverGreenLightColor();
+final _pinkLightColors = PinkLightColors();
 
-ThemeData get foreverGreenLightTheme => ThemeData(
+ThemeData get pinkLightTheme => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _foreverGreenLightColors.background,
-
+  scaffoldBackgroundColor: _pinkLightColors.background,
   colorScheme: ColorScheme.light(
-    primary: _foreverGreenLightColors.primary,
-    onPrimary: _foreverGreenLightColors.onPrimary,
-    primaryContainer: _foreverGreenLightColors.primaryContainer,
-    onPrimaryContainer: _foreverGreenLightColors.onPrimaryContainer,
-    secondary: _foreverGreenLightColors.secondary,
-    onSecondary: _foreverGreenLightColors.onSecondary,
-    secondaryContainer: _foreverGreenLightColors.secondaryContainer,
-    onSecondaryContainer: _foreverGreenLightColors.onSecondaryContainer,
-    tertiary: _foreverGreenLightColors.tertiary,
-    onTertiary: _foreverGreenLightColors.onTertiary,
-    tertiaryContainer: _foreverGreenLightColors.tertiaryContainer,
-    onTertiaryContainer: _foreverGreenLightColors.onTertiaryContainer,
-    error: _foreverGreenLightColors.error,
-    onError: _foreverGreenLightColors.onError,
-    errorContainer: _foreverGreenLightColors.errorContainer,
-    onErrorContainer: _foreverGreenLightColors.onErrorContainer,
-    surface: _foreverGreenLightColors.surface,
-    onSurface: _foreverGreenLightColors.onSurface,
-    surfaceContainerHighest: _foreverGreenLightColors.surfaceContainer,
-    onSurfaceVariant: _foreverGreenLightColors.onSurfaceVariant,
-    outline: _foreverGreenLightColors.outline,
-    shadow: _foreverGreenLightColors.shadow,
-    inverseSurface: _foreverGreenLightColors.inverseSurface,
-    onInverseSurface: _foreverGreenLightColors.onInverseSurface,
-    inversePrimary: _foreverGreenLightColors.inversePrimary,
-    surfaceTint: _foreverGreenLightColors.surfaceTint,
+    primary: _pinkLightColors.primary,
+    onPrimary: _pinkLightColors.onPrimary,
+    primaryContainer: _pinkLightColors.primaryContainer,
+    onPrimaryContainer: _pinkLightColors.onPrimaryContainer,
+    secondary: _pinkLightColors.secondary,
+    onSecondary: _pinkLightColors.onSecondary,
+    secondaryContainer: _pinkLightColors.secondaryContainer,
+    onSecondaryContainer: _pinkLightColors.onSecondaryContainer,
+    tertiary: _pinkLightColors.tertiary,
+    onTertiary: _pinkLightColors.onTertiary,
+    tertiaryContainer: _pinkLightColors.tertiaryContainer,
+    onTertiaryContainer: _pinkLightColors.onTertiaryContainer,
+    error: _pinkLightColors.error,
+    onError: _pinkLightColors.onError,
+    errorContainer: _pinkLightColors.errorContainer,
+    onErrorContainer: _pinkLightColors.onErrorContainer,
+    surface: _pinkLightColors.surface,
+    onSurface: _pinkLightColors.onSurface,
+    surfaceContainerHighest: _pinkLightColors.surfaceContainer,
+    onSurfaceVariant: _pinkLightColors.onSurfaceVariant,
+    outline: _pinkLightColors.outline,
+    shadow: _pinkLightColors.shadow,
+    inverseSurface: _pinkLightColors.inverseSurface,
+    onInverseSurface: _pinkLightColors.onInverseSurface,
+    inversePrimary: _pinkLightColors.inversePrimary,
+    surfaceTint: _pinkLightColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _foreverGreenLightColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _pinkLightColors.surface),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _foreverGreenLightColors.surface, // Background color
+      color: _pinkLightColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _foreverGreenLightColors.onSurface, // Foreground (text) color
+      color: _pinkLightColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_foreverGreenLightColors.primary),
-    trackColor: WidgetStateProperty.all(_foreverGreenLightColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_pinkLightColors.primary),
+    trackColor: WidgetStateProperty.all(_pinkLightColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_foreverGreenLightColors.onSurface),
+  textTheme: _buildTextTheme(_pinkLightColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _foreverGreenLightColors.onPrimary,
+      color: _pinkLightColors.onPrimary,
     ),
-    backgroundColor: _foreverGreenLightColors.primary,
+    backgroundColor: _pinkLightColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _foreverGreenLightColors.onPrimary),
+    iconTheme: IconThemeData(color: _pinkLightColors.onPrimary),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _foreverGreenLightColors.primary,
-    selectedItemColor: _foreverGreenLightColors.selected,
-    unselectedItemColor: _foreverGreenLightColors.unSelected,
+    backgroundColor: _pinkLightColors.primary,
+    selectedItemColor: _pinkLightColors.selected,
+    unselectedItemColor: _pinkLightColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -76,10 +75,10 @@ ThemeData get foreverGreenLightTheme => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _foreverGreenLightColors.secondary),
+        side: BorderSide(color: _pinkLightColors.secondary),
       ),
-      backgroundColor: _foreverGreenLightColors.primary,
-      foregroundColor: _foreverGreenLightColors.onPrimary,
+      backgroundColor: _pinkLightColors.primary,
+      foregroundColor: _pinkLightColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

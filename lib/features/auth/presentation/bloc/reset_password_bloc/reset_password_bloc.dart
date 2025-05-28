@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
@@ -46,10 +49,14 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
 
     emit(ResetPasswordLoading());
 
+    // 🔐 Encrypt password with MD5
+    final encryptedPassword =
+        md5.convert(utf8.encode(event.password)).toString();
+
     final result = await resetPasswordUseCase(
       ResetPasswordParams(
         mobileNumber: event.mobileNumber,
-        password: event.password,
+        password: encryptedPassword,
       ),
     );
 

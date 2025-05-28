@@ -38,12 +38,19 @@ class _LandingPageState extends State<LandingPage> {
             automaticallyImplyLeading: false,
             elevation: 0,
             actions: [
-              LanguageSwitch(),
-              const SizedBox(width: 10),
-              Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: ThemeSelector(),
+              const SizedBox(width: 20),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: context.theme.colorScheme.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(child: ThemeSelector()),
               ),
+              Spacer(),
+              LanguageSwitch(),
+              const SizedBox(width: 20),
             ],
           ),
           body: AppBackground(

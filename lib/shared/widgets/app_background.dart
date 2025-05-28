@@ -13,6 +13,8 @@ class AppBackground extends StatelessWidget {
       return AppImages.pathPrimaryDarkBgImage;
     } else if (state is ForeverGreenLightThemeState) {
       return AppImages.pathForeverGreenLightBgImage;
+    } else if (state is PinkLightThemeState) {
+      return AppImages.pathPinkLightBgImage;
     } else {
       return AppImages.pathPrimaryLightBgImage;
     }

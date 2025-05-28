@@ -17,9 +17,12 @@ import 'package:pashboi/features/authenticated_pages/authenticated_home/views/me
 import 'package:pashboi/features/authenticated_pages/authenticated_home/views/menus/transfer_menus_view.dart';
 import 'package:pashboi/features/authenticated_pages/authenticated_home/views/menus/withdraw_menus_view.dart';
 import 'package:pashboi/features/authenticated_pages/authenticated_home/widgets/app_bottom_navigation_bar.dart';
+import 'package:pashboi/features/public_pages/public_home/widgets/public_home_drawer.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
 import 'package:pashboi/shared/widgets/app_dialog.dart';
+import 'package:pashboi/shared/widgets/language_switch/language_switch.dart';
+import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
 
 final List<Widget> menuViews = [
   InfoMenusView(),
@@ -135,8 +138,8 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                 }
               },
               child: Scaffold(
+                drawer: const PublicHomeDrawer(),
                 appBar: AppBar(
-                  automaticallyImplyLeading: false,
                   title: Text(menuItems[selectedPage]['label']),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -146,6 +149,9 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                   ),
                   elevation: 4,
                   actions: [
+                    ThemeSelector(),
+                    LanguageSwitch(),
+                    SizedBox(width: 10),
                     PopupMenuButton<int>(
                       offset: const Offset(0, 50),
                       shape: RoundedRectangleBorder(
@@ -246,6 +252,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                     child: AppBackground(child: menuViews[selectedPage]),
                   ),
                 ),
+
                 bottomNavigationBar: CustomBottomNav(
                   selectedIndex: selectedPage,
                   onTap: (index) {

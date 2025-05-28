@@ -6,6 +6,8 @@ class LoadTheme extends ThemeSelectorEvent {}
 
 class SetPrimaryLightTheme extends ThemeSelectorEvent {}
 
+class SetPinkLightTheme extends ThemeSelectorEvent {}
+
 class SetPrimaryDarkTheme extends ThemeSelectorEvent {}
 
 class SetForeverGreenLightTheme extends ThemeSelectorEvent {}

@@ -138,7 +138,9 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
               item['icon'],
               size: 20,
               color:
-                  selected ? context.theme.colorScheme.onPrimary : Colors.grey,
+                  selected
+                      ? context.theme.colorScheme.onPrimary
+                      : context.theme.colorScheme.tertiary,
             ),
             const SizedBox(height: 4),
             Text(
@@ -149,7 +151,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                 color:
                     selected
                         ? context.theme.colorScheme.onPrimary
-                        : Colors.grey,
+                        : context.theme.colorScheme.tertiary,
               ),
             ),
           ],

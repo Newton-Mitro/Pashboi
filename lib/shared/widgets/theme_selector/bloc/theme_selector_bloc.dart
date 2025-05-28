@@ -9,6 +9,7 @@ part 'theme_selector_state.dart';
 enum ThemeName {
   primaryDark('primary_dark'),
   primaryLight('primary_light'),
+  pinkLight('pink_light'),
   foreverGreenLight('forever_green');
 
   final String themeKey;
@@ -29,6 +30,7 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     : super(PrimaryLightThemeState()) {
     on<LoadTheme>(_onLoadTheme);
     on<SetPrimaryLightTheme>(_onSetPrimaryLightTheme);
+    on<SetPinkLightTheme>(_onSetPinkLightTheme);
     on<SetPrimaryDarkTheme>(_onSetPrimaryDarkTheme);
     on<SetForeverGreenLightTheme>(_onSetForeverGreenLightTheme);
   }
@@ -50,6 +52,9 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
       case ThemeName.primaryLight:
         emit(PrimaryLightThemeState());
         break;
+      case ThemeName.pinkLight:
+        emit(PinkLightThemeState());
+        break;
     }
   }
 
@@ -59,6 +64,14 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
   ) async {
     await themeService.setTheme(ThemeName.primaryLight.themeKey);
     emit(PrimaryLightThemeState());
+  }
+
+  Future<void> _onSetPinkLightTheme(
+    SetPinkLightTheme event,
+    Emitter<ThemeSelectorState> emit,
+  ) async {
+    await themeService.setTheme(ThemeName.pinkLight.themeKey);
+    emit(PinkLightThemeState());
   }
 
   Future<void> _onSetPrimaryDarkTheme(

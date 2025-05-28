@@ -33,44 +33,47 @@ class _LoginPageState extends State<LoginPage> {
           elevation: 0,
           title: Text(Locales.string(context, 'login_page_title')),
         ),
-        body: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is Authenticated) {
-              Navigator.pushNamed(context, PublicRoutesName.homePage);
-            }
-
-            if (state is AuthError) {
-              if (state.message == "No internet connection") {
-                NetworkErrorDialog.show(context);
-              } else {
-                final snackBar = SnackBar(
-                  elevation: 0,
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.transparent,
-                  content: AwesomeSnackbarContent(
-                    title: 'Oops!',
-                    message: state.message,
-                    contentType: ContentType.failure,
-                  ),
-                );
-
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBar);
+        body: AppBackground(
+          child: BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is Authenticated) {
+                Navigator.pushNamed(context, PublicRoutesName.homePage);
               }
-            }
-          },
-          child: AppBackground(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
-              child: Column(
-                spacing: 10,
-                children: [
-                  const AppLogo(width: 150),
-                  const SizedBox(height: 20),
-                  BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      return Column(
+
+              if (state is AuthError) {
+                if (state.message == "No internet connection") {
+                  NetworkErrorDialog.show(context);
+                } else {
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Oops!',
+                      message: state.message,
+                      contentType: ContentType.failure,
+                    ),
+                  );
+
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                }
+              }
+            },
+
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              spacing: 10,
+              children: [
+                const AppLogo(width: 150),
+                const SizedBox(height: 20),
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           AppTextInput(
                             controller: usernameController,
@@ -200,11 +203,11 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                         ],
-                      );
-                    },
-                  ),
-                ],
-              ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
