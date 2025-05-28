@@ -34,14 +34,12 @@ class AuthRepositoryImpl implements AuthRepository {
     String email,
     String password,
     String confirmPassword,
-    String requestFrom,
   ) async {
     try {
       final result = await authRemoteDataSource.register(
         email,
         password,
         confirmPassword,
-        requestFrom,
       );
       return Right(result);
     } catch (e) {
@@ -74,14 +72,13 @@ class AuthRepositoryImpl implements AuthRepository {
   ResultFuture<String> verifyMobileNumber(
     String mobileNumber,
     bool isRegistered,
-    String requestFrom,
   ) async {
     try {
       final result = await authRemoteDataSource.verifyMobileNumber(
         mobileNumber,
         isRegistered,
-        requestFrom,
       );
+      await authLocalDataSource.setRegisteredMobile(mobileNumber);
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));
@@ -93,14 +90,38 @@ class AuthRepositoryImpl implements AuthRepository {
     String otpRegId,
     String otpValue,
     String mobileNumber,
-    String requestFrom,
   ) async {
     try {
       final result = await authRemoteDataSource.verifyOtp(
         otpRegId,
         otpValue,
         mobileNumber,
-        requestFrom,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> getRegisteredMobile() async {
+    try {
+      final result = await authLocalDataSource.getRegisteredMobile();
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> resetPassword({
+    required String mobileNumber,
+    required String password,
+  }) async {
+    try {
+      final result = await authRemoteDataSource.resetPassword(
+        mobileNumber: mobileNumber,
+        password: password,
       );
       return Right(result);
     } catch (e) {

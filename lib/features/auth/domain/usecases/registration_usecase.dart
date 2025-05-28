@@ -25,7 +25,6 @@ class RegistrationUseCase extends UseCase<String, RegistrationParams> {
       params.email,
       params.password,
       params.confirmPassword,
-      "Pashboi",
     );
 
     return authUser;

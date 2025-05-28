@@ -6,18 +6,19 @@ import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.da
 import 'package:pashboi/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:pashboi/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
-import 'package:pashboi/features/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
+import 'package:pashboi/features/auth/domain/usecases/get_registered_mobile_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/login_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/registration_usecase.dart';
+import 'package:pashboi/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/verify_mobile_number_usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:pashboi/features/auth/presentation/bloc/forgot_password_page_bloc/forgot_password_page_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/registration_page_bloc/registration_page_bloc.dart';
+import 'package:pashboi/features/auth/presentation/bloc/reset_password_bloc/reset_password_bloc.dart';
 import 'package:pashboi/features/authenticated_pages/authenticated_home/bloc/authenticated_home_bloc.dart';
 
 void registerAuthModule() async {
@@ -51,9 +52,6 @@ void registerAuthModule() async {
   sl.registerLazySingleton<GetAuthUserUseCase>(
     () => GetAuthUserUseCase(authRepository: sl<AuthRepository>()),
   );
-  sl.registerLazySingleton<ForgotPasswordUseCase>(
-    () => ForgotPasswordUseCase(authRepository: sl<AuthRepository>()),
-  );
   sl.registerLazySingleton<VerifyMobileNumberUseCase>(
     () => VerifyMobileNumberUseCase(authRepository: sl<AuthRepository>()),
   );
@@ -61,6 +59,12 @@ void registerAuthModule() async {
     () => VerifyOtpUseCase(authRepository: sl<AuthRepository>()),
   );
 
+  sl.registerLazySingleton<ResetPasswordUseCase>(
+    () => ResetPasswordUseCase(authRepository: sl<AuthRepository>()),
+  );
+  sl.registerLazySingleton<GetRegisteredMobileUseCase>(
+    () => GetRegisteredMobileUseCase(authRepository: sl<AuthRepository>()),
+  );
   // Register Bloc
   sl.registerFactory<AuthBloc>(
     () => AuthBloc(
@@ -76,12 +80,6 @@ void registerAuthModule() async {
 
   sl.registerFactory<AuthenticatedHomeBloc>(() => AuthenticatedHomeBloc());
 
-  sl.registerFactory<ForgotPasswordPageBloc>(
-    () => ForgotPasswordPageBloc(
-      forgotPasswordUseCase: sl<ForgotPasswordUseCase>(),
-    ),
-  );
-
   sl.registerFactory<VerifyMobileNumberBloc>(
     () => VerifyMobileNumberBloc(
       verifyMobileNumberUseCase: sl<VerifyMobileNumberUseCase>(),
@@ -90,5 +88,12 @@ void registerAuthModule() async {
 
   sl.registerFactory<OtpVerificationBloc>(
     () => OtpVerificationBloc(verifyOtpUseCase: sl<VerifyOtpUseCase>()),
+  );
+
+  sl.registerFactory<ResetPasswordBloc>(
+    () => ResetPasswordBloc(
+      resetPasswordUseCase: sl<ResetPasswordUseCase>(),
+      getRegisteredMobileUseCase: sl<GetRegisteredMobileUseCase>(),
+    ),
   );
 }

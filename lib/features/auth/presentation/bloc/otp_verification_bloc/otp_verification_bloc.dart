@@ -23,7 +23,6 @@ class OtpVerificationBloc
           mobileNumber: event.mobileNumber,
           otpRegId: event.otpRegId,
           otpValue: event.otp,
-          requestFrom: 'Web',
         ),
       );
 

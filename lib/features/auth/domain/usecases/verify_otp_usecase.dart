@@ -6,13 +6,11 @@ final class VerifyOtpParams {
   final String otpRegId;
   final String otpValue;
   final String mobileNumber;
-  final String requestFrom;
 
   VerifyOtpParams({
     required this.otpRegId,
     required this.otpValue,
     required this.mobileNumber,
-    required this.requestFrom,
   });
 }
 
@@ -27,7 +25,6 @@ class VerifyOtpUseCase extends UseCase<String, VerifyOtpParams> {
       params.otpRegId,
       params.otpValue,
       params.mobileNumber,
-      params.requestFrom,
     );
 
     return authUser;

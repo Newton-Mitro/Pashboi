@@ -5,8 +5,11 @@ import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 abstract class AuthLocalDataSource {
   Future<void> setAuthUser(AuthUserModel authUser);
   Future<AuthUserModel> getAuthUser();
-
   Future<void> clearAuthUser();
+
+  Future<void> setRegisteredMobile(String regMobile);
+  Future<String> getRegisteredMobile();
+  Future<void> clearRegisteredMobile();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -14,6 +17,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl({required this.localStorage});
 
   static const _userKey = 'auth_user';
+  static const _regMobile = 'reg_mobile';
 
   @override
   Future<void> setAuthUser(AuthUserModel authUser) async {
@@ -35,5 +39,21 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> clearAuthUser() async {
     await localStorage.remove(_userKey);
+  }
+
+  @override
+  Future<void> clearRegisteredMobile() async {
+    await localStorage.remove(_regMobile);
+  }
+
+  @override
+  Future<String> getRegisteredMobile() async {
+    final userJsonString = await localStorage.getString(_regMobile);
+    return userJsonString;
+  }
+
+  @override
+  Future<void> setRegisteredMobile(String regMobile) async {
+    await localStorage.saveString(_regMobile, regMobile);
   }
 }

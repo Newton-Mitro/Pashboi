@@ -7,13 +7,18 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
-import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
+import 'package:pashboi/shared/widgets/prefixed_mobile_number_input.dart';
 
 class MobileVerificationPage extends StatefulWidget {
   final String routeName;
+  final String pageTitle;
 
-  const MobileVerificationPage({super.key, required this.routeName});
+  const MobileVerificationPage({
+    super.key,
+    required this.routeName,
+    required this.pageTitle,
+  });
 
   @override
   State<MobileVerificationPage> createState() => _MobileVerificationPageState();
@@ -21,40 +26,10 @@ class MobileVerificationPage extends StatefulWidget {
 
 class _MobileVerificationPageState extends State<MobileVerificationPage> {
   final String _prefix = '+880-';
-  late final TextEditingController _phoneController;
-
-  @override
-  void initState() {
-    super.initState();
-    _phoneController = TextEditingController(text: _prefix);
-
-    _phoneController.addListener(() {
-      final text = _phoneController.text;
-
-      // Enforce prefix presence
-      if (!text.startsWith(_prefix)) {
-        final newText = _prefix;
-        _phoneController.value = TextEditingValue(
-          text: newText,
-          selection: TextSelection.collapsed(offset: newText.length),
-        );
-      } else if (_phoneController.selection.start < _prefix.length) {
-        // Keep cursor after prefix
-        _phoneController.selection = TextSelection.collapsed(
-          offset: _prefix.length,
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
-  }
+  String _mobileNumber = '';
 
   void _sendOtp() {
-    final fullNumber = _phoneController.text;
+    final fullNumber = _mobileNumber;
     final rawNumber = fullNumber.replaceFirst(_prefix, '');
 
     if (rawNumber.isEmpty) {
@@ -112,18 +87,14 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
             PublicRoutesName.otpVerificationPage,
             arguments: {
               'routeName': widget.routeName,
-              'mobileNumber': _phoneController.text,
+              'mobileNumber': _mobileNumber,
               'otpRegId': state.message,
             },
           );
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            Locales.string(context, "mobile_verification_page_title"),
-          ),
-        ),
+        appBar: AppBar(title: Text(widget.pageTitle)),
         body: AppBackground(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
@@ -150,20 +121,23 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
+
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // You can uncomment and use the CountryCodePicker here if you want dynamic country code
-                    // const SizedBox(width: 8),
                     Expanded(
-                      child: AppTextInput(
-                        controller: _phoneController,
+                      child: PrefixedMobileNumberInput(
                         label: Locales.string(
                           context,
                           "mobile_verification_page_mobile_number_label",
                         ),
-                        keyboardType: TextInputType.phone,
                         prefixIcon: const Icon(Icons.phone),
+                        prefix: _prefix,
+                        onChanged: (value) {
+                          setState(() {
+                            _mobileNumber = value;
+                          });
+                        },
                       ),
                     ),
                   ],

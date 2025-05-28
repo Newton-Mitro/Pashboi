@@ -12,21 +12,20 @@ abstract class AuthRemoteDataSource {
     String email,
     String password,
     String confirmPassword,
-    String requestFrom,
   );
 
-  Future<String> verifyMobileNumber(
-    String mobileNumber,
-    bool isRegistered,
-    String requestFrom,
-  );
+  Future<String> verifyMobileNumber(String mobileNumber, bool isRegistered);
 
   Future<String> verifyOtp(
     String otpRegId,
     String otpValue,
     String mobileNumber,
-    String requestFrom,
   );
+
+  Future<String> resetPassword({
+    required String mobileNumber,
+    required String password,
+  });
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -70,7 +69,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String email,
     String password,
     String confirmPassword,
-    String requestFrom,
   ) async {
     try {
       final response = await apiService.post(
@@ -79,7 +77,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'UserName': email,
           'password': password,
           'password_confirmation': confirmPassword,
-          'RequestFrom': requestFrom,
+          'RequestFrom': 'Pashboi',
         },
       );
 
@@ -102,7 +100,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<String> verifyMobileNumber(
     String mobileNumber,
     bool isRegistered,
-    String requestFrom,
   ) async {
     try {
       final response = await apiService.post(
@@ -110,7 +107,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         data: {
           'MobileNo': mobileNumber,
           'IsRegistered': isRegistered,
-          'RequestFrom': requestFrom,
+          'RequestFrom': 'Pashboi',
         },
       );
 
@@ -134,7 +131,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String otpRegId,
     String otpValue,
     String mobileNumber,
-    String requestFrom,
   ) async {
     try {
       final response = await apiService.post(
@@ -143,7 +139,37 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'OTPRegId': otpRegId,
           'OTPValue': otpValue,
           'MobileNumber': mobileNumber,
-          'RequestFrom': requestFrom,
+          'RequestFrom': 'Pashboi',
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final data = response.data?['Data'];
+        if (data == null) throw Exception(response.data?['Message']);
+
+        return data;
+      } else {
+        throw Exception(
+          'Registration failed with status ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> resetPassword({
+    required String mobileNumber,
+    required String password,
+  }) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.resetPassword,
+        data: {
+          'MobileNumber': mobileNumber,
+          'Password': password,
+          'RequestFrom': 'Pashboi',
         },
       );
 

@@ -5,12 +5,10 @@ import 'package:pashboi/features/auth/domain/repositories/auth_repository.dart';
 final class VerifyMobileNumberParams {
   final String mobileNumber;
   final bool isRegistered;
-  final String requestFrom;
 
   VerifyMobileNumberParams({
     required this.mobileNumber,
     required this.isRegistered,
-    required this.requestFrom,
   });
 }
 
@@ -25,7 +23,6 @@ class VerifyMobileNumberUseCase
     final authUser = await authRepository.verifyMobileNumber(
       params.mobileNumber,
       params.isRegistered,
-      params.requestFrom,
     );
 
     return authUser;

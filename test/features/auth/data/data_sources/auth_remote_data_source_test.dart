@@ -87,7 +87,6 @@ void main() {
         'john.doe@email.com',
         'password123',
         'password123',
-        'Web',
       );
 
       expect(result, isA<String>());
@@ -111,7 +110,6 @@ void main() {
           'john.doe@email.com',
           'password123',
           'password123',
-          'Web',
         ),
         throwsA(isA<Exception>()),
       );
