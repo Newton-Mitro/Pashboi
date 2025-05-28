@@ -5,7 +5,6 @@ import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
 import 'package:pashboi/features/my_app/presentation/pages/app_error_page.dart';
 import 'package:pashboi/features/my_app/presentation/pages/new_version_required_page.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
-import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:pashboi/features/under_maintenance/presentation/pages/under_maintenance_page.dart';
 import 'package:pashboi/routes/routes.dart';
@@ -14,7 +13,6 @@ import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.d
 import 'package:pashboi/ui/add_family_and_relatives.dart';
 import 'package:pashboi/ui/family_and_relatives.dart';
 import 'package:pashboi/ui/family_and_relatives_submit.dart';
-import 'package:pashboi/ui/user_profile.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -108,7 +106,7 @@ class _MyAppState extends State<MyApp> {
       if (onboardingState is OnboardingSeenLoaded) {
         final bool onboardingSeen = onboardingState.seen;
         return onboardingSeen
-            ? const AddFamilyAndRelatives()
+            ? const FamilyAndRelatives()
             : const OnboardingPage();
       }
 

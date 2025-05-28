@@ -74,7 +74,7 @@ class _AppSearchInputState extends State<AppSearchInput> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: context.theme.colorScheme.primary,
                       borderRadius: BorderRadius.circular(
                         6,
                       ), // Adjust as needed

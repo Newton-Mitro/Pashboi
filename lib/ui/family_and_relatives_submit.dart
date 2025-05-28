@@ -20,26 +20,36 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
     Widget buildPreviewRow(String label, String value) => Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(color: Colors.white)),
-        Text(value, style: const TextStyle(color: Colors.white)),
+        Text(
+          label,
+          style: TextStyle(color: context.theme.colorScheme.onPrimary),
+        ),
+        Text(
+          value,
+          style: TextStyle(color: context.theme.colorScheme.onPrimary),
+        ),
       ],
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               'Family and Relatives',
               style: TextStyle(
-                color: Colors.white,
+                color: context.theme.colorScheme.onPrimary,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
               ),
             ),
-            Icon(FontAwesomeIcons.house, size: 20, color: Colors.white),
+            Icon(
+              FontAwesomeIcons.house,
+              size: 20,
+              color: context.theme.colorScheme.onPrimary,
+            ),
           ],
         ),
       ),
@@ -53,25 +63,24 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
+                  Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         FontAwesomeIcons.checkDouble,
-                        size: 25,
-                        color: Colors.blue,
+                        size: 60,
+                        color: context.theme.colorScheme.onPrimary,
                       ),
-                      SizedBox(width: 4),
+                      SizedBox(height: 10),
                       Padding(
                         padding: EdgeInsets.only(bottom: 1),
                         child: Text(
                           "Congratulation!",
                           style: TextStyle(
                             color: context.theme.colorScheme.onPrimary,
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
                           ),
                         ),
                       ),

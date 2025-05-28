@@ -4,22 +4,22 @@ import 'package:pashboi/core/extensions/app_context.dart';
 class SmallCard extends StatelessWidget {
   const SmallCard({
     super.key,
-    required this.icon,
-    required this.menuName,
-    required this.menuDescription,
-    required this.buttonText,
+    required this.gender,
+    required this.titleText,
+    required this.subtitleText,
+    required this.requestStatus,
     this.onTap,
   });
 
-  final Icon icon;
-  final String menuName;
-  final String menuDescription;
-  final String buttonText; // Added buttonText for consistency
+  final String gender;
+  final String titleText;
+  final String subtitleText;
+  final String requestStatus; // Added buttonText for consistency
   final VoidCallback? onTap; // use VoidCallback instead of CallbackAction?
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Container(
       color: Colors.transparent, // needed for InkWell to show ripple
       child: InkWell(
         onTap: onTap,
@@ -47,7 +47,11 @@ class SmallCard extends StatelessWidget {
                     ),
                     child: SizedBox.expand(
                       child: Center(
-                        child: icon, // Replace with `icon` if dynamic
+                        child: Icon(
+                          gender == 'male' ? Icons.man : Icons.woman,
+                          size: 30,
+                          color: context.theme.colorScheme.onSurface,
+                        ), // Replace with `icon` if dynamic
                       ),
                     ),
                   ),
@@ -64,7 +68,7 @@ class SmallCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          menuName,
+                          titleText,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -72,7 +76,7 @@ class SmallCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          menuDescription,
+                          subtitleText,
                           style: TextStyle(
                             fontSize: 12,
                             fontFamily: 'Lexend',
@@ -87,16 +91,22 @@ class SmallCard extends StatelessWidget {
                             vertical: 0,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.green,
+                            color:
+                                requestStatus == "Approved"
+                                    ? context.theme.colorScheme.tertiary
+                                    : context.theme.colorScheme.secondary,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            buttonText,
+                            requestStatus,
                             style: TextStyle(
                               fontSize: 12,
                               fontFamily: 'Lexend',
                               fontWeight: FontWeight.normal,
-                              color: Colors.white,
+                              color:
+                                  requestStatus == "Approved"
+                                      ? context.theme.colorScheme.onTertiary
+                                      : context.theme.colorScheme.onSecondary,
                             ),
                           ),
                         ),

@@ -24,19 +24,22 @@ class _AddFamilyAndRelativesState extends State<AddFamilyAndRelatives> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               'Add Family and Relatives',
               style: TextStyle(
-                color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
               ),
             ),
-            Icon(FontAwesomeIcons.house, size: 20, color: Colors.white),
+            Icon(
+              FontAwesomeIcons.house,
+              size: 20,
+              color: context.theme.colorScheme.onSecondary,
+            ),
           ],
         ),
       ),
@@ -53,7 +56,7 @@ class _AddFamilyAndRelativesState extends State<AddFamilyAndRelatives> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: context.theme.colorScheme.primary,
+                      color: context.theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Padding(
