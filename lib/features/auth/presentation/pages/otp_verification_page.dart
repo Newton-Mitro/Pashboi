@@ -184,16 +184,16 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         ),
         body: AppBackground(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 10,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Align(
                       alignment: Alignment.center,
-                      child: Icon(FontAwesomeIcons.key, size: 100),
+                      child: Icon(FontAwesomeIcons.key, size: 80),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -205,7 +205,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Text(
                   Locales.string(context, "otp_verification_page_instruction"),
                   textAlign: TextAlign.center,

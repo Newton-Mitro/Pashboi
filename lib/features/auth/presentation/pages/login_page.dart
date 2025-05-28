@@ -61,149 +61,145 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
           child: AppBackground(
-            child: Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const AppLogo(width: 150),
-                    const SizedBox(height: 50),
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        return Column(
-                          children: [
-                            AppTextInput(
-                              controller: usernameController,
-                              label: Locales.string(
-                                context,
-                                'login_page_user_name_label',
-                              ),
-                              errorText:
-                                  state is AuthValidationErrorState
-                                      ? state.errors['email']?.isNotEmpty ==
-                                              true
-                                          ? state.errors['email']
-                                          : null
-                                      : null,
-                              prefixIcon: Icon(
-                                Icons.person,
-                                color: context.theme.colorScheme.onSurface,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
+              child: Column(
+                spacing: 10,
+                children: [
+                  const AppLogo(width: 150),
+                  const SizedBox(height: 20),
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          AppTextInput(
+                            controller: usernameController,
+                            label: Locales.string(
+                              context,
+                              'login_page_user_name_label',
+                            ),
+                            errorText:
+                                state is AuthValidationErrorState
+                                    ? state.errors['email']?.isNotEmpty == true
+                                        ? state.errors['email']
+                                        : null
+                                    : null,
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          AppTextInput(
+                            controller: passwordController,
+                            label: Locales.string(
+                              context,
+                              'login_page_password_label',
+                            ),
+                            obscureText: true,
+                            errorText:
+                                state is AuthValidationErrorState
+                                    ? state.errors['password']?.isNotEmpty ==
+                                            true
+                                        ? state.errors['password']
+                                        : null
+                                    : null,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  PublicRoutesName.mobileVerificationPage,
+                                  arguments: {
+                                    'routeName':
+                                        PublicRoutesName.resetPasswordPage,
+                                  },
+                                );
+                              },
+                              child: Text(
+                                Locales.string(
+                                  context,
+                                  'login_page_forgot_password_button',
+                                ),
+                                style: TextStyle(
+                                  color: context.theme.colorScheme.onSurface,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 12),
-                            AppTextInput(
-                              controller: passwordController,
+                          ),
+                          const SizedBox(height: 20),
+                          if (state is AuthLoading)
+                            const CircularProgressIndicator()
+                          else
+                            AppPrimaryButton(
                               label: Locales.string(
                                 context,
-                                'login_page_password_label',
+                                'login_page_login_button',
                               ),
-                              obscureText: true,
-                              errorText:
-                                  state is AuthValidationErrorState
-                                      ? state.errors['password']?.isNotEmpty ==
-                                              true
-                                          ? state.errors['password']
-                                          : null
-                                      : null,
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: context.theme.colorScheme.onSurface,
+                              onPressed: () {
+                                context.read<AuthBloc>().add(
+                                  LoginRequested(
+                                    username: usernameController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                              },
+                              iconBefore: Icon(
+                                Icons.login,
+                                color: context.theme.colorScheme.onPrimary,
                               ),
                             ),
-                            const SizedBox(height: 20),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                Locales.string(
+                                  context,
+                                  'login_page_dont_have_account_text',
+                                ),
+                                style: TextStyle(
+                                  color: context.theme.colorScheme.onSurface,
+                                ),
+                              ),
+                              TextButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.push(
                                     context,
-                                    PublicRoutesName.mobileVerificationPage,
-                                    arguments: {
-                                      'routeName':
-                                          PublicRoutesName.resetPasswordPage,
-                                    },
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) =>
+                                              const TermsAndConditionsPage(),
+                                    ),
                                   );
                                 },
                                 child: Text(
                                   Locales.string(
                                     context,
-                                    'login_page_forgot_password_button',
+                                    'login_page_create_account_button',
                                   ),
                                   style: TextStyle(
                                     color: context.theme.colorScheme.onSurface,
+                                    fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                            if (state is AuthLoading)
-                              const CircularProgressIndicator()
-                            else
-                              AppPrimaryButton(
-                                label: Locales.string(
-                                  context,
-                                  'login_page_login_button',
-                                ),
-                                onPressed: () {
-                                  context.read<AuthBloc>().add(
-                                    LoginRequested(
-                                      username: usernameController.text,
-                                      password: passwordController.text,
-                                    ),
-                                  );
-                                },
-                                iconBefore: Icon(
-                                  Icons.login,
-                                  color: context.theme.colorScheme.onPrimary,
-                                ),
-                              ),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  Locales.string(
-                                    context,
-                                    'login_page_dont_have_account_text',
-                                  ),
-                                  style: TextStyle(
-                                    color: context.theme.colorScheme.onSurface,
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) =>
-                                                const TermsAndConditionsPage(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    Locales.string(
-                                      context,
-                                      'login_page_create_account_button',
-                                    ),
-                                    style: TextStyle(
-                                      color:
-                                          context.theme.colorScheme.onSurface,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
