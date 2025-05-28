@@ -11,6 +11,9 @@ import 'package:pashboi/features/under_maintenance/presentation/pages/under_main
 import 'package:pashboi/routes/routes.dart';
 import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
 import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
+import 'package:pashboi/ui/add_family_and_relatives.dart';
+import 'package:pashboi/ui/family_and_relatives.dart';
+import 'package:pashboi/ui/family_and_relatives_submit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -103,7 +106,9 @@ class _MyAppState extends State<MyApp> {
 
       if (onboardingState is OnboardingSeenLoaded) {
         final bool onboardingSeen = onboardingState.seen;
-        return onboardingSeen ? const LandingPage() : const OnboardingPage();
+        return onboardingSeen
+            ? const FamilyAndRelativesSubmit()
+            : const OnboardingPage();
       }
 
       return const AppErrorPage(message: 'Unexpected onboarding state');
