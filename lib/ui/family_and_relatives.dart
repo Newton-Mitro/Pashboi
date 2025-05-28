@@ -83,62 +83,61 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
         ),
       ),
       body: AppBackground(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Render account cards
-                Column(
-                  children: [
-                    if (accountInfo.isEmpty)
-                      Center(
-                        child: Text(
-                          'You don’t have any family or relative accounts added',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: context.theme.colorScheme.onSurface,
-                            fontWeight: FontWeight.w400,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child:
+                    accountInfo.isEmpty
+                        ? Center(
+                          child: Text(
+                            'You don’t have any family or relative accounts added',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: context.theme.colorScheme.onSurface,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
+                        )
+                        : ListView.builder(
+                          itemCount: accountInfo.length,
+                          itemBuilder: (context, index) {
+                            final account = accountInfo[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: SmallCard(
+                                gender: account['gender'],
+                                titleText: account['name'],
+                                subtitleText: account['accountNo'],
+                                requestStatus: account['status'],
+                              ),
+                            );
+                          },
                         ),
-                      )
-                    else
-                      ...accountInfo.map((account) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: SmallCard(
-                            gender: account['gender'],
-                            titleText: account['name'],
-                            subtitleText: account['accountNo'],
-                            requestStatus: account['status'],
-                          ),
-                        );
-                      }),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Click to add a family member or a relative!',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
+              ),
+              const SizedBox(height: 32),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Click to add a family member or a relative!',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.theme.colorScheme.onSurface,
                     ),
-                    const SizedBox(height: 16),
-
-                    AppPrimaryButton(
-                      iconBefore: Icon(Icons.person_add),
-                      label: "Add Person",
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  const SizedBox(height: 16),
+                  AppPrimaryButton(
+                    iconBefore: Icon(Icons.person_add),
+                    label: "Add Person",
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
