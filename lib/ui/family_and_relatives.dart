@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/ui/new_widget/small_card.dart';
 
 class FamilyAndRelatives extends StatefulWidget {
@@ -34,19 +36,23 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               'Family and Relatives',
               style: TextStyle(
-                color: Colors.white,
+                color: context.theme.colorScheme.onSurface,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
               ),
             ),
-            Icon(FontAwesomeIcons.house, size: 20, color: Colors.white),
+            Icon(
+              FontAwesomeIcons.house,
+              size: 20,
+              color: context.theme.colorScheme.onSurface,
+            ),
           ],
         ),
       ),
@@ -60,13 +66,13 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
               Column(
                 children: [
                   if (accountInfo.isEmpty)
-                    const Center(
+                    Center(
                       child: Text(
                         'You don’t have any family or relative accounts added',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.white,
+                          color: context.theme.colorScheme.onSurface,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -81,7 +87,7 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
                                 ? Icons.man
                                 : Icons.woman,
                             size: 30,
-                            color: Colors.white,
+                            color: context.theme.colorScheme.onSurface,
                           ),
                           menuName: account['name'],
                           menuDescription: account['accountNo'],
@@ -94,29 +100,19 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'Click to add a family member or a relative!',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF939393)),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.theme.colorScheme.onSurface,
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 100,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        print('Add Family Member or Relative');
-                      },
-                      icon: const Icon(Icons.person_add, color: Colors.white),
-                      label: const Text(
-                        'Add Person',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0051DA),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                    ),
+
+                  AppPrimaryButton(
+                    iconBefore: Icon(Icons.person_add),
+                    label: "Add Person",
+                    onPressed: () {},
                   ),
                 ],
               ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
 class FamilyAndRelativesSubmit extends StatefulWidget {
   const FamilyAndRelativesSubmit({super.key});
@@ -54,7 +56,7 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(
                         FontAwesomeIcons.checkDouble,
                         size: 25,
@@ -66,7 +68,7 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
                         child: Text(
                           "Congratulation!",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.theme.colorScheme.onPrimary,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
@@ -75,13 +77,13 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
                       ),
                     ],
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(30),
                     child: Text(
                       "Your request has been submitted and waiting for approval",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: context.theme.colorScheme.onPrimary,
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                       ),
@@ -90,10 +92,10 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF0051DA),
+                      color: context.theme.colorScheme.primary,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: const Color(0xFF0051DA),
+                        color: context.theme.colorScheme.secondary,
                         width: 1,
                       ),
                     ),
@@ -107,7 +109,7 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: context.theme.colorScheme.onPrimary,
                                 decoration: TextDecoration.underline,
                               ),
                             ),
@@ -116,8 +118,8 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF000A1A),
+                          decoration: BoxDecoration(
+                            color: context.theme.colorScheme.surface,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(8),
                               bottomRight: Radius.circular(8),
@@ -142,25 +144,10 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
                 ],
               ),
 
-              // Button
-              SizedBox(
-                width: buttonWidth,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    print('Go to Family & Relatives');
-                  },
-                  icon: const Icon(Icons.arrow_forward),
-                  label: const Text(
-                    'Go to Family & Relatives',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0051DA),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                ),
+              AppPrimaryButton(
+                iconBefore: Icon(Icons.arrow_forward),
+                label: "Go to Family & Relatives",
+                onPressed: () {},
               ),
             ],
           ),
