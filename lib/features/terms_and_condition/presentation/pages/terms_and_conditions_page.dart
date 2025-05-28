@@ -86,6 +86,10 @@ class TermsAndConditionsPage extends StatelessWidget {
                           PublicRoutesName.mobileVerificationPage,
                           arguments: {
                             'routeName': PublicRoutesName.registerPage,
+                            'pageTitle': Locales.string(
+                              context,
+                              'mobile_verification_page_title',
+                            ),
                           },
                         );
                       },

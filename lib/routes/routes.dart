@@ -34,13 +34,18 @@ class AppRoutes {
 
       case PublicRoutesName.mobileVerificationPage:
         if (args is Map<String, String>) {
-          final routeName =
-              args['routeName'] ?? ''; // Extract the routeName from the map
-          return _materialRoute(MobileVerificationPage(routeName: routeName));
+          final routeName = args['routeName'] ?? '';
+          final pageTitle = args['pageTitle'] ?? '';
+          return _materialRoute(
+            MobileVerificationPage(routeName: routeName, pageTitle: pageTitle),
+          );
         } else {
           return _materialRoute(
-            const MobileVerificationPage(routeName: PublicRoutesName.loginPage),
-          ); // Default route name if no arguments
+            const MobileVerificationPage(
+              routeName: PublicRoutesName.loginPage,
+              pageTitle: '',
+            ),
+          );
         }
 
       case PublicRoutesName.otpVerificationPage:

@@ -6,7 +6,6 @@ abstract class AuthRepository {
     String email,
     String password,
     String confirmPassword,
-    String requestFrom,
   );
   ResultFuture<AuthUserEntity> login(String email, String password);
   ResultFuture<void> logout();
@@ -15,13 +14,18 @@ abstract class AuthRepository {
   ResultFuture<String> verifyMobileNumber(
     String mobileNumber,
     bool isRegistered,
-    String requestFrom,
   );
 
   ResultFuture<String> verifyOtp(
     String otpRegId,
     String otpValue,
     String mobileNumber,
-    String requestFrom,
   );
+
+  ResultFuture<String> resetPassword({
+    required String mobileNumber,
+    required String password,
+  });
+
+  ResultFuture<String> getRegisteredMobile();
 }

@@ -24,7 +24,6 @@ class VerifyMobileNumberBloc
       VerifyMobileNumberParams(
         mobileNumber: event.mobileNumber,
         isRegistered: event.isRegistered,
-        requestFrom: 'Web',
       ),
     );
 

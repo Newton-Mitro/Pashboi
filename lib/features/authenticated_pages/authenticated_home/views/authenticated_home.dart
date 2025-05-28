@@ -155,7 +155,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                         if (value == 0) {
                           debugPrint('Profile tapped');
                         } else if (value == 1) {
-                          debugPrint('Settings tapped');
+                          debugPrint('Change password tapped');
                         } else if (value == 2) {
                           await showDialog(
                             context: context,
@@ -189,9 +189,9 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                               value: 1,
                               child: Row(
                                 children: [
-                                  Icon(Icons.settings, size: 20),
+                                  Icon(Icons.lock_open_rounded, size: 20),
                                   SizedBox(width: 8),
-                                  Text('Settings'),
+                                  Text('Change Password'),
                                 ],
                               ),
                             ),

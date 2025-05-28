@@ -91,11 +91,10 @@ void main() {
   group('register', () {
     test('should return Right(UserEntity) on success', () async {
       when(
-        () => mockRemote.register(tName, tEmail, tPassword, tConfirmPassword),
+        () => mockRemote.register(tEmail, tPassword, tConfirmPassword),
       ).thenAnswer((_) async => 'User registered successfully');
 
       final result = await repository.register(
-        tName,
         tEmail,
         tPassword,
         tConfirmPassword,
@@ -103,17 +102,16 @@ void main() {
 
       expect(result, Right('User registered successfully'));
       verify(
-        () => mockRemote.register(tName, tEmail, tPassword, tConfirmPassword),
+        () => mockRemote.register(tEmail, tPassword, tConfirmPassword),
       ).called(1);
     });
 
     test('should return Left(Failure) on exception', () async {
       when(
-        () => mockRemote.register(tName, tEmail, tPassword, tConfirmPassword),
+        () => mockRemote.register(tEmail, tPassword, tConfirmPassword),
       ).thenThrow(Exception('Registration failed'));
 
       final result = await repository.register(
-        tName,
         tEmail,
         tPassword,
         tConfirmPassword,

@@ -120,6 +120,10 @@ class _LoginPageState extends State<LoginPage> {
                                   arguments: {
                                     'routeName':
                                         PublicRoutesName.resetPasswordPage,
+                                    'pageTitle': Locales.string(
+                                      context,
+                                      'login_page_forgot_password_button',
+                                    ),
                                   },
                                 );
                               },

@@ -32,12 +32,7 @@ void main() {
   test('should return success message on successful registration', () async {
     // Arrange
     when(
-      () => mockAuthRepository.register(
-        tEmail,
-        tPassword,
-        tConfirmPassword,
-        tRequestFrom,
-      ),
+      () => mockAuthRepository.register(tEmail, tPassword, tConfirmPassword),
     ).thenAnswer((_) async => Right(tSuccessMessage));
 
     // Act
@@ -46,12 +41,7 @@ void main() {
     // Assert
     expect(result, Right(tSuccessMessage));
     verify(
-      () => mockAuthRepository.register(
-        tEmail,
-        tPassword,
-        tConfirmPassword,
-        tRequestFrom,
-      ),
+      () => mockAuthRepository.register(tEmail, tPassword, tConfirmPassword),
     ).called(1);
     verifyNoMoreInteractions(mockAuthRepository);
   });
@@ -59,12 +49,7 @@ void main() {
   test('should return Failure on unsuccessful registration', () async {
     // Arrange
     when(
-      () => mockAuthRepository.register(
-        tEmail,
-        tPassword,
-        tConfirmPassword,
-        tRequestFrom,
-      ),
+      () => mockAuthRepository.register(tEmail, tPassword, tConfirmPassword),
     ).thenAnswer(
       (_) async => Left(ServerFailure(message: 'Registration failed')),
     );
@@ -76,12 +61,7 @@ void main() {
     expect(result.isLeft(), true);
     expect(result.fold((l) => l, (_) => null), isA<ServerFailure>());
     verify(
-      () => mockAuthRepository.register(
-        tEmail,
-        tPassword,
-        tConfirmPassword,
-        tRequestFrom,
-      ),
+      () => mockAuthRepository.register(tEmail, tPassword, tConfirmPassword),
     ).called(1);
     verifyNoMoreInteractions(mockAuthRepository);
   });

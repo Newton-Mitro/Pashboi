@@ -60,7 +60,7 @@
   "register_page_login_button": "Login",
 
   "reset_password_page_title": "Reset Password",
-  "reset_password_page_email_label": "Email",
+  "reset_password_page_mobile_number_label": "Registered Mobile Number",
   "reset_password_page_password_label": "Password",
   "reset_password_page_confirm_password_label": "Confirm Password",
   "reset_password_page_reset_password_button": "Reset Password",
