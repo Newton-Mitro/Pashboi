@@ -72,7 +72,7 @@ class DarkBlueOceanColors extends AppColors {
 
   // Background & Surface
   @override
-  Color get background => const Color.fromARGB(255, 0, 19, 49); // darker navy background
+  Color get background => const Color.fromARGB(255, 0, 11, 29); // darker navy background
   @override
   Color get onBackground => Colors.white;
   @override
