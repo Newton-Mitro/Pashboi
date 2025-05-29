@@ -3,7 +3,8 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/ui/new_widget/suerity_list.dart';
 
 class SuretyStatus extends StatefulWidget {
@@ -161,7 +162,7 @@ class _SuretyStatusState extends State<SuretyStatus> {
           ],
         ),
       ),
-      body: AppBackground(
+      body: PageContainer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,12 +210,14 @@ class _SuretyStatusState extends State<SuretyStatus> {
                                 leftIcon: const Icon(
                                   FontAwesomeIcons.user,
                                   size: 20,
+                                  color: Colors.white,
                                 ),
                                 header: Text(
                                   surety['name'],
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
                                 ),
                                 content: SuerityList(

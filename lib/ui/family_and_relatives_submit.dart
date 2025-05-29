@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 
 class FamilyAndRelativesSubmit extends StatefulWidget {
   const FamilyAndRelativesSubmit({super.key});
@@ -53,7 +53,7 @@ class _FamilyAndRelativesSubmitState extends State<FamilyAndRelativesSubmit> {
           ],
         ),
       ),
-      body: AppBackground(
+      body: PageContainer(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           child: Column(

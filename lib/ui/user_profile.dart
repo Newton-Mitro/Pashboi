@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -33,7 +33,7 @@ class _UserProfileState extends State<UserProfile> {
           ],
         ),
       ),
-      body: AppBackground(
+      body: PageContainer(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),

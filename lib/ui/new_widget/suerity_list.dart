@@ -21,13 +21,13 @@ class SuerityList extends StatelessWidget {
                       Icon(
                         item['data_icon'],
                         size: 15,
-                        color: context.theme.colorScheme.onPrimary,
+                        color: context.theme.colorScheme.secondary,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         item['data_desc'],
                         style: TextStyle(
-                          color: context.theme.colorScheme.onPrimary,
+                          color: context.theme.colorScheme.secondary,
                         ),
                       ),
                     ],
@@ -35,7 +35,7 @@ class SuerityList extends StatelessWidget {
                   Text(
                     item['data'],
                     style: TextStyle(
-                      color: context.theme.colorScheme.onPrimary,
+                      color: context.theme.colorScheme.secondary,
                     ),
                   ),
                 ],
