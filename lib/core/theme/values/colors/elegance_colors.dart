@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-class PinkLightColors extends AppColors {
+class EleganceColors extends AppColors {
   static const Color _primary = Color(0xFFE91E63);
 
   @override
@@ -59,7 +59,7 @@ class PinkLightColors extends AppColors {
   Color get onSecondaryFixedVariant => Colors.white70;
 
   @override
-  Color get tertiary => const Color(0xFFF48FB1); // soft pink tertiary
+  Color get tertiary => const Color.fromARGB(255, 247, 162, 190); // soft pink tertiary
 
   @override
   Color get onTertiary => Colors.white;

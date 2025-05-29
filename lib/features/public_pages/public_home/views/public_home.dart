@@ -152,7 +152,10 @@ class _PublicHomeScreenState extends State<PublicHomeScreen>
             bottomNavigationBar: AnimatedBottomNavigationBar.builder(
               itemCount: tabItems.length,
               tabBuilder: (index, isActive) {
-                final color = isActive ? Colors.blueAccent : Colors.grey;
+                final color =
+                    isActive
+                        ? context.theme.colorScheme.onPrimary
+                        : context.theme.colorScheme.tertiary;
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Icon(tabItems[index], size: 24, color: color)],

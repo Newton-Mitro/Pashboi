@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/primary_light_colors.dart';
+import 'package:pashboi/core/theme/values/colors/blue_ocean_colors.dart';
 
-final _primaryLightColors = PrimaryLightColors();
+final _primaryLightColors = BlueOceanColors();
 
 ThemeData get blueOceanThemeData => ThemeData(
   useMaterial3: true,

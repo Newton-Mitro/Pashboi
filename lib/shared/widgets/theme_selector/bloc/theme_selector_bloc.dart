@@ -10,7 +10,8 @@ enum ThemeName {
   darkBlueAbyss('darkBlueAbyss'),
   blueOcean('blueOcean'),
   elegance('elegance'),
-  oliverPetal('oliverPetal');
+  oliverPetal('oliverPetal'),
+  darkBlueOcean('darkBlueOcean');
 
   final String themeKey;
   const ThemeName(this.themeKey);
@@ -32,6 +33,7 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     on<SetEleganceTheme>(_onSetPinkLightTheme);
     on<SetDarkBlueAbyssTheme>(_onSetPrimaryDarkTheme);
     on<SetOliverPetalTheme>(_onSetForeverGreenLightTheme);
+    on<SetDarkBlueOceanTheme>(_onSetDarkBlueOceanTheme);
   }
 
   Future<void> _onLoadTheme(
@@ -53,6 +55,9 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
         break;
       case ThemeName.elegance:
         emit(EleganceTheme());
+        break;
+      case ThemeName.darkBlueOcean:
+        emit(DarkBlueOceanTheme());
         break;
     }
   }
@@ -87,5 +92,13 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
   ) async {
     await themeService.setTheme(ThemeName.oliverPetal.themeKey);
     emit(OliverPetalTheme());
+  }
+
+  Future<void> _onSetDarkBlueOceanTheme(
+    SetDarkBlueOceanTheme event,
+    Emitter<ThemeSelectorState> emit,
+  ) async {
+    await themeService.setTheme(ThemeName.darkBlueOcean.themeKey);
+    emit(DarkBlueOceanTheme());
   }
 }
