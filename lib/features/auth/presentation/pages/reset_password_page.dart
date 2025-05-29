@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
@@ -6,8 +7,9 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/auth/presentation/bloc/reset_password_bloc/reset_password_bloc.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/prefixed_mobile_number_input.dart';
 
 class ResetPasswordPage extends StatefulWidget {
@@ -47,7 +49,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (password != confirmPassword) {
       _showSnackBar(
-        Locales.string(context, 'password_mismatch'),
+        title: 'Oops!',
+        message: Locales.string(context, 'password_mismatch'),
         isError: true,
       );
       return;
@@ -58,13 +61,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 
-  void _showSnackBar(String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Colors.red : Colors.green,
+  void _showSnackBar({
+    required String title,
+    required String message,
+    bool isError = false,
+  }) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: message,
+        contentType: isError ? ContentType.failure : ContentType.success,
       ),
     );
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
 
   void _navigateToLogin() {
@@ -81,119 +96,126 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         ),
         body: BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
           listener: (context, state) {
-            debugPrint('ResetPasswordState: $state');
-
             if (state is ResetPasswordFailure) {
-              _showSnackBar(state.message, isError: true);
+              _showSnackBar(
+                title: 'Oops!',
+                message: state.message,
+                isError: true,
+              );
             } else if (state is ResetPasswordSuccess) {
-              _showSnackBar("Password reset successfully");
+              _showSnackBar(
+                title: 'Success',
+                message: Locales.string(context, 'reset_password_success'),
+              );
               Future.delayed(
-                const Duration(milliseconds: 500),
+                const Duration(milliseconds: 700),
                 _navigateToLogin,
               );
             } else if (state is RegisteredMobileLoaded) {
               setState(() {
                 _mobileNumber = state.mobile;
-                _mobileNumberController.text = '+880-${_mobileNumber}';
+                _mobileNumberController.text = '+880-$_mobileNumber';
               });
             }
           },
           builder: (context, state) {
-            return AppBackground(
+            return PageContainer(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 26,
-                  vertical: 36,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    spacing: 10,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(FontAwesomeIcons.lock, size: 80),
-                      const SizedBox(height: 16),
-                      Text(
-                        Locales.string(context, "reset_password_page_title"),
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  spacing: 10,
+                  children: [
+                    const Icon(
+                      FontAwesomeIcons.lock,
+                      size: 80,
+                      textDirection: TextDirection.ltr,
+                    ),
+                    Text(
+                      Locales.string(context, 'reset_password_page_title'),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 40),
-                      Row(
+                    ),
+                    SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 26,
+                        vertical: 36,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Expanded(
-                            child: PrefixedMobileNumberInput(
+                          PrefixedMobileNumberInput(
+                            label: Locales.string(
+                              context,
+                              'reset_password_page_mobile_number_label',
+                            ),
+                            prefixIcon: const Icon(Icons.phone),
+                            prefix: '+880-',
+                            controller: _mobileNumberController,
+                            readOnly: true,
+                            onChanged: (_) {},
+                            errorText:
+                                state is ResetPasswordValidationError
+                                    ? state.errors['mobile']?.isNotEmpty == true
+                                        ? state.errors['mobile']
+                                        : null
+                                    : null,
+                          ),
+                          const SizedBox(height: 16),
+                          AppTextInput(
+                            controller: _passwordController,
+                            label: Locales.string(
+                              context,
+                              'reset_password_page_password_label',
+                            ),
+                            obscureText: true,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                            errorText:
+                                state is ResetPasswordValidationError
+                                    ? state.errors['password']?.isNotEmpty ==
+                                            true
+                                        ? state.errors['password']
+                                        : null
+                                    : null,
+                          ),
+                          const SizedBox(height: 16),
+                          AppTextInput(
+                            controller: _confirmPasswordController,
+                            label: Locales.string(
+                              context,
+                              'reset_password_page_confirm_password_label',
+                            ),
+                            obscureText: true,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 36),
+                          if (state is ResetPasswordLoading)
+                            const Center(child: CircularProgressIndicator())
+                          else
+                            AppPrimaryButton(
                               label: Locales.string(
                                 context,
-                                "reset_password_page_mobile_number_label",
+                                'reset_password_page_reset_password_button',
                               ),
-                              prefixIcon: const Icon(Icons.phone),
-                              prefix: '+880-',
-                              errorText:
-                                  state is ResetPasswordValidationError
-                                      ? state.errors['mobile']?.isNotEmpty ==
-                                              true
-                                          ? state.errors['mobile']
-                                          : null
-                                      : null,
-                              controller: _mobileNumberController,
-                              readOnly: true,
-                              onChanged: (_) {},
+                              onPressed: _onResetPasswordPressed,
+                              iconBefore: Icon(
+                                Icons.lock_reset,
+                                color: context.theme.colorScheme.onPrimary,
+                              ),
                             ),
-                          ),
                         ],
                       ),
-                      AppTextInput(
-                        controller: _passwordController,
-                        label: Locales.string(
-                          context,
-                          'reset_password_page_password_label',
-                        ),
-                        obscureText: true,
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
-                        errorText:
-                            state is ResetPasswordValidationError
-                                ? state.errors['password']?.isNotEmpty == true
-                                    ? state.errors['password']
-                                    : null
-                                : null,
-                      ),
-                      AppTextInput(
-                        controller: _confirmPasswordController,
-                        label: Locales.string(
-                          context,
-                          'reset_password_page_confirm_password_label',
-                        ),
-                        obscureText: true,
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      if (state is ResetPasswordLoading)
-                        const CircularProgressIndicator()
-                      else
-                        ElevatedButton.icon(
-                          icon: Icon(
-                            Icons.lock_reset,
-                            color: context.theme.colorScheme.onPrimary,
-                          ),
-                          label: Text(
-                            Locales.string(
-                              context,
-                              'reset_password_page_reset_password_button',
-                            ),
-                          ),
-                          onPressed: _onResetPasswordPressed,
-                        ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );

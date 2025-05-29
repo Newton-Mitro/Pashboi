@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 
 class NoticesPage extends StatefulWidget {
   const NoticesPage({super.key});
@@ -36,12 +38,15 @@ class _NoticesPageState extends State<NoticesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
+    return PageContainer(
+      child: ListView.builder(
         itemCount: notices.length,
         itemBuilder: (context, index) {
           final notice = notices[index];
           return Card(
+            elevation: 1,
+            shadowColor: const Color.fromARGB(179, 0, 0, 0),
+            surfaceTintColor: context.theme.colorScheme.primary,
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: ListTile(
               leading: Text(

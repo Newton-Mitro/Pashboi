@@ -7,10 +7,10 @@ part 'theme_selector_event.dart';
 part 'theme_selector_state.dart';
 
 enum ThemeName {
-  primaryDark('primary_dark'),
-  primaryLight('primary_light'),
-  pinkLight('pink_light'),
-  foreverGreenLight('forever_green');
+  darkBlueAbyss('darkBlueAbyss'),
+  blueOcean('blueOcean'),
+  elegance('elegance'),
+  oliverPetal('oliverPetal');
 
   final String themeKey;
   const ThemeName(this.themeKey);
@@ -18,7 +18,7 @@ enum ThemeName {
   static ThemeName fromKey(String key) {
     return ThemeName.values.firstWhere(
       (e) => e.themeKey == key,
-      orElse: () => ThemeName.primaryLight,
+      orElse: () => ThemeName.blueOcean,
     );
   }
 }
@@ -26,13 +26,12 @@ enum ThemeName {
 class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
   final ThemeService themeService;
 
-  ThemeSelectorBloc({required this.themeService})
-    : super(PrimaryLightThemeState()) {
+  ThemeSelectorBloc({required this.themeService}) : super(BlueOceanTheme()) {
     on<LoadTheme>(_onLoadTheme);
-    on<SetPrimaryLightTheme>(_onSetPrimaryLightTheme);
-    on<SetPinkLightTheme>(_onSetPinkLightTheme);
-    on<SetPrimaryDarkTheme>(_onSetPrimaryDarkTheme);
-    on<SetForeverGreenLightTheme>(_onSetForeverGreenLightTheme);
+    on<SetBlueOceanTheme>(_onSetPrimaryLightTheme);
+    on<SetEleganceTheme>(_onSetPinkLightTheme);
+    on<SetDarkBlueAbyssTheme>(_onSetPrimaryDarkTheme);
+    on<SetOliverPetalTheme>(_onSetForeverGreenLightTheme);
   }
 
   Future<void> _onLoadTheme(
@@ -43,50 +42,50 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     final theme = ThemeName.fromKey(storedKey);
 
     switch (theme) {
-      case ThemeName.primaryDark:
-        emit(PrimaryDarkThemeState());
+      case ThemeName.darkBlueAbyss:
+        emit(DarkBlueAbyssTheme());
         break;
-      case ThemeName.foreverGreenLight:
-        emit(ForeverGreenLightThemeState());
+      case ThemeName.oliverPetal:
+        emit(OliverPetalTheme());
         break;
-      case ThemeName.primaryLight:
-        emit(PrimaryLightThemeState());
+      case ThemeName.blueOcean:
+        emit(BlueOceanTheme());
         break;
-      case ThemeName.pinkLight:
-        emit(PinkLightThemeState());
+      case ThemeName.elegance:
+        emit(EleganceTheme());
         break;
     }
   }
 
   Future<void> _onSetPrimaryLightTheme(
-    SetPrimaryLightTheme event,
+    SetBlueOceanTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme(ThemeName.primaryLight.themeKey);
-    emit(PrimaryLightThemeState());
+    await themeService.setTheme(ThemeName.blueOcean.themeKey);
+    emit(BlueOceanTheme());
   }
 
   Future<void> _onSetPinkLightTheme(
-    SetPinkLightTheme event,
+    SetEleganceTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme(ThemeName.pinkLight.themeKey);
-    emit(PinkLightThemeState());
+    await themeService.setTheme(ThemeName.elegance.themeKey);
+    emit(EleganceTheme());
   }
 
   Future<void> _onSetPrimaryDarkTheme(
-    SetPrimaryDarkTheme event,
+    SetDarkBlueAbyssTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme(ThemeName.primaryDark.themeKey);
-    emit(PrimaryDarkThemeState());
+    await themeService.setTheme(ThemeName.darkBlueAbyss.themeKey);
+    emit(DarkBlueAbyssTheme());
   }
 
   Future<void> _onSetForeverGreenLightTheme(
-    SetForeverGreenLightTheme event,
+    SetOliverPetalTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme(ThemeName.foreverGreenLight.themeKey);
-    emit(ForeverGreenLightThemeState());
+    await themeService.setTheme(ThemeName.oliverPetal.themeKey);
+    emit(OliverPetalTheme());
   }
 }

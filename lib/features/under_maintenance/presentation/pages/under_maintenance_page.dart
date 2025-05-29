@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 
 class UnderMaintenancePage extends StatelessWidget {
@@ -13,7 +13,7 @@ class UnderMaintenancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: AppBackground(
+        child: PageContainer(
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(24),

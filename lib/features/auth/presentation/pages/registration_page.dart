@@ -5,7 +5,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
@@ -20,13 +20,10 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  final TextEditingController emailController = TextEditingController(text: '');
-  final TextEditingController passwordController = TextEditingController(
-    text: '',
-  );
-  final TextEditingController confirmPasswordController = TextEditingController(
-    text: '',
-  );
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,119 +36,109 @@ class _RegistrationPageState extends State<RegistrationPage> {
             style: TextStyle(color: context.theme.colorScheme.onPrimary),
           ),
         ),
-        body: BlocListener<RegistrationPageBloc, RegistrationPageState>(
-          listener: (context, state) {
-            if (state is RegistrationErrorState) {
-              if (state.message == "No internet connection") {
-                NetworkErrorDialog.show(context);
-              } else {
-                final snackBar = SnackBar(
-                  /// need to set following properties for best effect of awesome_snackbar_content
-                  elevation: 0,
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.transparent,
-                  content: AwesomeSnackbarContent(
-                    title: 'On Snap!',
-                    message: state.message,
-
-                    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                    contentType: ContentType.failure,
-                  ),
-                );
-
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBar);
+        body: PageContainer(
+          child: BlocListener<RegistrationPageBloc, RegistrationPageState>(
+            listener: (context, state) {
+              if (state is RegistrationErrorState) {
+                if (state.message == "No internet connection") {
+                  NetworkErrorDialog.show(context);
+                } else {
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Oh Snap!',
+                      message: state.message,
+                      contentType: ContentType.failure,
+                    ),
+                  );
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                }
               }
-            }
 
-            if (state is RegistrationSuccessState) {
-              Navigator.pushReplacementNamed(
-                context,
-                PublicRoutesName.homePage,
-              );
-            }
-          },
-          child: AppBackground(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
-              child: SingleChildScrollView(
-                child: BlocBuilder<RegistrationPageBloc, RegistrationPageState>(
+              if (state is RegistrationSuccessState) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  PublicRoutesName.homePage,
+                );
+              }
+            },
+            child: Column(
+              spacing: 10,
+              children: [
+                const AppLogo(width: 150),
+                const SizedBox(height: 20),
+                BlocBuilder<RegistrationPageBloc, RegistrationPageState>(
                   builder: (context, state) {
-                    return Column(
-                      spacing: 10,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AppLogo(width: 150),
-                        SizedBox(height: 20),
-
-                        AppTextInput(
-                          controller: emailController,
-                          label: Locales.string(
-                            context,
-                            'register_page_email_label',
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        spacing: 10,
+                        children: [
+                          AppTextInput(
+                            controller: emailController,
+                            label: Locales.string(
+                              context,
+                              'register_page_email_label',
+                            ),
+                            errorText:
+                                state is RegistrationValidationErrorState &&
+                                        state.errors['email']?.isNotEmpty ==
+                                            true
+                                    ? state.errors['email']![0]
+                                    : null,
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
+                            keyboardType: TextInputType.emailAddress,
                           ),
-                          errorText:
-                              state is RegistrationValidationErrorState
-                                  ? state.errors['email']?.isNotEmpty == true
-                                      ? state.errors['email']![0]
-                                      : null
-                                  : null,
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: context.theme.colorScheme.onSurface,
+                          AppTextInput(
+                            controller: passwordController,
+                            label: Locales.string(
+                              context,
+                              'register_page_password_label',
+                            ),
+                            errorText:
+                                state is RegistrationValidationErrorState &&
+                                        state.errors['password']?.isNotEmpty ==
+                                            true
+                                    ? state.errors['password']![0]
+                                    : null,
+                            obscureText: true,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
                           ),
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        AppTextInput(
-                          controller: passwordController,
-                          label: Locales.string(
-                            context,
-                            'register_page_password_label',
+                          AppTextInput(
+                            controller: confirmPasswordController,
+                            label: Locales.string(
+                              context,
+                              'register_page_confirm_password_label',
+                            ),
+                            errorText:
+                                state is RegistrationValidationErrorState &&
+                                        state
+                                                .errors['confirm_password']
+                                                ?.isNotEmpty ==
+                                            true
+                                    ? state.errors['confirm_password']![0]
+                                    : null,
+                            obscureText: true,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: context.theme.colorScheme.onSurface,
+                            ),
                           ),
-                          errorText:
-                              state is RegistrationValidationErrorState
-                                  ? state.errors['password']?.isNotEmpty == true
-                                      ? state.errors['password']![0]
-                                      : null
-                                  : null,
-                          obscureText: true,
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                        ),
-                        AppTextInput(
-                          controller: confirmPasswordController,
-                          label: Locales.string(
-                            context,
-                            'register_page_confirm_password_label',
-                          ),
-                          errorText:
-                              state is RegistrationValidationErrorState
-                                  ? state
-                                              .errors['confirm_password']
-                                              ?.isNotEmpty ==
-                                          true
-                                      ? state.errors['confirm_password']![0]
-                                      : null
-                                  : null,
-                          obscureText: true,
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        BlocBuilder<
-                          RegistrationPageBloc,
-                          RegistrationPageState
-                        >(
-                          builder: (context, state) {
-                            if (state is RegistrationLoadingState) {
-                              return CircularProgressIndicator();
-                            }
-                            return AppPrimaryButton(
+                          const SizedBox(height: 20),
+                          if (state is RegistrationLoadingState)
+                            const CircularProgressIndicator()
+                          else
+                            AppPrimaryButton(
                               label: Locales.string(
                                 context,
                                 'register_page_create_account_button',
@@ -170,45 +157,45 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   ),
                                 );
                               },
-                            );
-                          },
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              Locales.string(
-                                context,
-                                'register_page_already_have_account_text',
-                              ),
-                              style: TextStyle(
-                                color: context.theme.colorScheme.onSurface,
-                              ),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  PublicRoutesName.loginPage,
-                                );
-                              },
-                              child: Text(
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
                                 Locales.string(
                                   context,
-                                  'register_page_login_button',
+                                  'register_page_already_have_account_text',
                                 ),
                                 style: TextStyle(
                                   color: context.theme.colorScheme.onSurface,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    PublicRoutesName.loginPage,
+                                  );
+                                },
+                                child: Text(
+                                  Locales.string(
+                                    context,
+                                    'register_page_login_button',
+                                  ),
+                                  style: TextStyle(
+                                    color: context.theme.colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),
-              ),
+              ],
             ),
           ),
         ),

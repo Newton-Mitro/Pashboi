@@ -158,10 +158,10 @@ class ForeverGreenLightColor implements AppColors {
   Color get inversePrimary => Color(0xFF7FD3A4); // lighter green
 
   @override
-  Color get selected => _primary;
+  Color get selected => Colors.white;
 
   @override
-  Color get unSelected => const Color(0xFF1B1B1F).withOpacity(0.6);
+  Color get unSelected => const Color.fromARGB(255, 176, 194, 182);
 
   @override
   Color get disabled => const Color(0xFF1B1B1F).withOpacity(0.38);

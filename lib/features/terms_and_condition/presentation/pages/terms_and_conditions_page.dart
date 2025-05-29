@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/buttons/app_error_button.dart';
 import 'package:pashboi/shared/widgets/buttons/app_warning_button.dart';
 
@@ -15,7 +16,7 @@ class TermsAndConditionsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(Locales.string(context, 'terms_and_conditions_page_title')),
       ),
-      body: AppBackground(
+      body: PageContainer(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SingleChildScrollView(
@@ -71,7 +72,10 @@ class TermsAndConditionsPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      iconBefore: Icon(Icons.close, color: Colors.red),
+                      iconBefore: Icon(
+                        Icons.close,
+                        color: context.theme.colorScheme.onError,
+                      ),
                       horizontalPadding: 0,
                     ),
 
@@ -93,7 +97,10 @@ class TermsAndConditionsPage extends StatelessWidget {
                           },
                         );
                       },
-                      iconBefore: Icon(Icons.check, color: Colors.green),
+                      iconBefore: Icon(
+                        Icons.check,
+                        color: context.theme.colorScheme.onTertiary,
+                      ),
                       horizontalPadding: 0,
                     ),
                   ],

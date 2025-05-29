@@ -17,7 +17,7 @@ class ThemeSelector extends StatelessWidget {
       itemBuilder:
           (context) => [
             PopupMenuItem(
-              value: SetPrimaryLightTheme(),
+              value: SetBlueOceanTheme(),
               child: Row(
                 children: [
                   Icon(
@@ -26,12 +26,12 @@ class ThemeSelector extends StatelessWidget {
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Primary Light'),
+                  Text('Blue Ocean'),
                 ],
               ),
             ),
             PopupMenuItem(
-              value: SetPinkLightTheme(),
+              value: SetEleganceTheme(),
               child: Row(
                 children: [
                   Icon(
@@ -40,12 +40,12 @@ class ThemeSelector extends StatelessWidget {
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Pink Light'),
+                  Text('Elegance'),
                 ],
               ),
             ),
             PopupMenuItem(
-              value: SetPrimaryDarkTheme(),
+              value: SetDarkBlueAbyssTheme(),
               child: Row(
                 children: [
                   Icon(
@@ -54,12 +54,12 @@ class ThemeSelector extends StatelessWidget {
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Primary Dark'),
+                  Text('Dark Blue Abyss'),
                 ],
               ),
             ),
             PopupMenuItem(
-              value: SetForeverGreenLightTheme(),
+              value: SetOliverPetalTheme(),
               child: Row(
                 children: [
                   Icon(
@@ -68,7 +68,7 @@ class ThemeSelector extends StatelessWidget {
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Forever Green'),
+                  Text('Oliver Petal'),
                 ],
               ),
             ),

@@ -5,7 +5,7 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_tooltip.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
@@ -53,7 +53,7 @@ class _LandingPageState extends State<LandingPage> {
               const SizedBox(width: 20),
             ],
           ),
-          body: AppBackground(
+          body: PageContainer(
             child: SafeArea(
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -185,7 +185,7 @@ class _LandingPageState extends State<LandingPage> {
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,
-                                PublicRoutesName.publicHomePage,
+                                PublicRoutesName.publicRoot,
                               );
                             },
                             child: Padding(

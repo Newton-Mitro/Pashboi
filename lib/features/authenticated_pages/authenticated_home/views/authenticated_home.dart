@@ -19,7 +19,7 @@ import 'package:pashboi/features/authenticated_pages/authenticated_home/views/me
 import 'package:pashboi/features/authenticated_pages/authenticated_home/widgets/app_bottom_navigation_bar.dart';
 import 'package:pashboi/features/public_pages/public_home/widgets/public_home_drawer.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_dialog.dart';
 import 'package:pashboi/shared/widgets/language_switch/language_switch.dart';
 import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
@@ -46,6 +46,12 @@ class AuthenticatedHome extends StatefulWidget {
 
 class _AuthenticatedHomeState extends State<AuthenticatedHome> {
   int _previousPage = 0;
+
+  @override
+  void initState() {
+    context.read<AuthBloc>().add(AuthUserCheck());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +255,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                   },
                   child: KeyedSubtree(
                     key: ValueKey<int>(selectedPage),
-                    child: AppBackground(child: menuViews[selectedPage]),
+                    child: PageContainer(child: menuViews[selectedPage]),
                   ),
                 ),
 

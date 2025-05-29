@@ -4,10 +4,12 @@ abstract class ThemeSelectorEvent {}
 
 class LoadTheme extends ThemeSelectorEvent {}
 
-class SetPrimaryLightTheme extends ThemeSelectorEvent {}
+class SetBlueOceanTheme extends ThemeSelectorEvent {}
 
-class SetPinkLightTheme extends ThemeSelectorEvent {}
+class SetEleganceTheme extends ThemeSelectorEvent {}
 
-class SetPrimaryDarkTheme extends ThemeSelectorEvent {}
+class SetOliverPetalTheme extends ThemeSelectorEvent {}
 
-class SetForeverGreenLightTheme extends ThemeSelectorEvent {}
+class SetDarkBlueAbyssTheme extends ThemeSelectorEvent {}
+
+class SetDarkBlueOceanTheme extends ThemeSelectorEvent {}
