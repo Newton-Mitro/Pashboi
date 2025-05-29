@@ -26,4 +26,5 @@ class AppImages {
       '${rootPath}bg/primary_light_bg.png';
   static const String pathForeverGreenLightBgImage =
       '${rootPath}bg/ever_green_bg.png';
+  static const String pathPinkLightBgImage = '${rootPath}bg/women.png';
 }

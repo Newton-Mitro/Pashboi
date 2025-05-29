@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/prefixed_mobile_number_input.dart';
 
@@ -95,7 +95,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
       },
       child: Scaffold(
         appBar: AppBar(title: Text(widget.pageTitle)),
-        body: AppBackground(
+        body: PageContainer(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
             child: Column(

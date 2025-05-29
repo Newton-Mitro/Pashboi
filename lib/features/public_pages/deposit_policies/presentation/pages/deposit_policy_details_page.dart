@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 
 class DepositPolicyDetailsPage extends StatelessWidget {
   const DepositPolicyDetailsPage({super.key});
@@ -13,9 +14,9 @@ class DepositPolicyDetailsPage extends StatelessWidget {
     var showIcon = imageUrl.isEmpty ? true : false;
     return Scaffold(
       appBar: AppBar(title: const Text('Page Details'), elevation: 0),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: PageContainer(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

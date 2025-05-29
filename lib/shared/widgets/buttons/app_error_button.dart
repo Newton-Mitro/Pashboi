@@ -31,8 +31,8 @@ class AppErrorButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
                 side: BorderSide(color: theme.colorScheme.primary),
               ),
-              backgroundColor: theme.colorScheme.secondary,
-              foregroundColor: theme.colorScheme.onSecondary,
+              backgroundColor: theme.colorScheme.error,
+              foregroundColor: theme.colorScheme.onError,
               textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,

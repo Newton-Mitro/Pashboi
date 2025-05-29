@@ -1,73 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/forever_green_light_colors.dart';
+import 'package:pashboi/core/theme/values/colors/primary_light_colors.dart';
 
-final _foreverGreenLightColors = ForeverGreenLightColor();
+final _primaryLightColors = PrimaryLightColors();
 
-ThemeData get foreverGreenLightTheme => ThemeData(
+ThemeData get blueOceanThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _foreverGreenLightColors.background,
+  scaffoldBackgroundColor: _primaryLightColors.background,
   colorScheme: ColorScheme.light(
-    primary: _foreverGreenLightColors.primary,
-    onPrimary: _foreverGreenLightColors.onPrimary,
-    primaryContainer: _foreverGreenLightColors.primaryContainer,
-    onPrimaryContainer: _foreverGreenLightColors.onPrimaryContainer,
-    secondary: _foreverGreenLightColors.secondary,
-    onSecondary: _foreverGreenLightColors.onSecondary,
-    secondaryContainer: _foreverGreenLightColors.secondaryContainer,
-    onSecondaryContainer: _foreverGreenLightColors.onSecondaryContainer,
-    tertiary: _foreverGreenLightColors.tertiary,
-    onTertiary: _foreverGreenLightColors.onTertiary,
-    tertiaryContainer: _foreverGreenLightColors.tertiaryContainer,
-    onTertiaryContainer: _foreverGreenLightColors.onTertiaryContainer,
-    error: _foreverGreenLightColors.error,
-    onError: _foreverGreenLightColors.onError,
-    errorContainer: _foreverGreenLightColors.errorContainer,
-    onErrorContainer: _foreverGreenLightColors.onErrorContainer,
-    surface: _foreverGreenLightColors.surface,
-    onSurface: _foreverGreenLightColors.onSurface,
-    surfaceContainerHighest: _foreverGreenLightColors.surfaceContainer,
-    onSurfaceVariant: _foreverGreenLightColors.onSurfaceVariant,
-    outline: _foreverGreenLightColors.outline,
-    shadow: _foreverGreenLightColors.shadow,
-    inverseSurface: _foreverGreenLightColors.inverseSurface,
-    onInverseSurface: _foreverGreenLightColors.onInverseSurface,
-    inversePrimary: _foreverGreenLightColors.inversePrimary,
-    surfaceTint: _foreverGreenLightColors.surfaceTint,
+    primary: _primaryLightColors.primary,
+    onPrimary: _primaryLightColors.onPrimary,
+    primaryContainer: _primaryLightColors.primaryContainer,
+    onPrimaryContainer: _primaryLightColors.onPrimaryContainer,
+    secondary: _primaryLightColors.secondary,
+    onSecondary: _primaryLightColors.onSecondary,
+    secondaryContainer: _primaryLightColors.secondaryContainer,
+    onSecondaryContainer: _primaryLightColors.onSecondaryContainer,
+    tertiary: _primaryLightColors.tertiary,
+    onTertiary: _primaryLightColors.onTertiary,
+    tertiaryContainer: _primaryLightColors.tertiaryContainer,
+    onTertiaryContainer: _primaryLightColors.onTertiaryContainer,
+    error: _primaryLightColors.error,
+    onError: _primaryLightColors.onError,
+    errorContainer: _primaryLightColors.errorContainer,
+    onErrorContainer: _primaryLightColors.onErrorContainer,
+    surface: _primaryLightColors.surface,
+    onSurface: _primaryLightColors.onSurface,
+    surfaceContainerHighest: _primaryLightColors.surfaceContainer,
+    onSurfaceVariant: _primaryLightColors.onSurfaceVariant,
+    outline: _primaryLightColors.outline,
+    shadow: _primaryLightColors.shadow,
+    inverseSurface: _primaryLightColors.inverseSurface,
+    onInverseSurface: _primaryLightColors.onInverseSurface,
+    inversePrimary: _primaryLightColors.inversePrimary,
+    surfaceTint: _primaryLightColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _foreverGreenLightColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _primaryLightColors.surface),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _foreverGreenLightColors.surface, // Background color
+      color: _primaryLightColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _foreverGreenLightColors.onSurface, // Foreground (text) color
+      color: _primaryLightColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_foreverGreenLightColors.primary),
-    trackColor: WidgetStateProperty.all(_foreverGreenLightColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_primaryLightColors.primary),
+    trackColor: WidgetStateProperty.all(_primaryLightColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_foreverGreenLightColors.onSurface),
+  textTheme: _buildTextTheme(_primaryLightColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _foreverGreenLightColors.onPrimary,
+      color: _primaryLightColors.onPrimary,
     ),
-    backgroundColor: _foreverGreenLightColors.primary,
+    backgroundColor: _primaryLightColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _foreverGreenLightColors.onPrimary),
+    iconTheme: IconThemeData(color: _primaryLightColors.onPrimary),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _foreverGreenLightColors.primary,
-    selectedItemColor: _foreverGreenLightColors.selected,
-    unselectedItemColor: _foreverGreenLightColors.unSelected,
+    backgroundColor: _primaryLightColors.primary,
+    selectedItemColor: _primaryLightColors.selected,
+    unselectedItemColor: _primaryLightColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -75,10 +75,10 @@ ThemeData get foreverGreenLightTheme => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _foreverGreenLightColors.secondary),
+        side: BorderSide(color: _primaryLightColors.secondary),
       ),
-      backgroundColor: _foreverGreenLightColors.primary,
-      foregroundColor: _foreverGreenLightColors.onPrimary,
+      backgroundColor: _primaryLightColors.primary,
+      foregroundColor: _primaryLightColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

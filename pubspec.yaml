@@ -21,6 +21,7 @@ dependencies:
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.5
   font_awesome_flutter: ^10.8.0
+  animated_bottom_navigation_bar: ^1.4.0
   get_it: ^8.0.3
   intl: any
   logger: ^2.5.0

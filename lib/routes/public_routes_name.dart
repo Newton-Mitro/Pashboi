@@ -8,5 +8,17 @@ final class PublicRoutesName {
   static const String mobileVerificationPage = '/mobileVerificationPage';
   static const String otpVerificationPage = '/otpVerificationPage';
 
-  static const String publicHomePage = '/publicHomePage';
+  static const String publicRoot = '/publicRoot';
+  static const String developmentCreditsPage = '/developmentCreditsPage';
+  static const String savingPoliciesPage = '/savingPoliciesPage';
+  static const String loanPoliciesPage = '/loanPoliciesPage';
+  static const String noticesPage = '/noticesPage';
+  static const String serviceCentersPage = '/serviceCentersPage';
+  static const String projectsPage = '/projectsPage';
+  static const String servicesPage = '/servicesPage';
+  static const String aboutPage = '/aboutPage';
+  static const String foundersProfilePage = '/foundersProfilePage';
+  static const String missionAndVisionPage = '/missionAndVisionPage';
+  static const String privacyAndPolicyPage = '/privacyAndPolicyPage';
+  static const String termsAndConditionsPage = '/termsAndConditionsPage';
 }

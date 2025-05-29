@@ -6,7 +6,7 @@ import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/widgets/app_background.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
@@ -33,44 +33,47 @@ class _LoginPageState extends State<LoginPage> {
           elevation: 0,
           title: Text(Locales.string(context, 'login_page_title')),
         ),
-        body: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is Authenticated) {
-              Navigator.pushNamed(context, PublicRoutesName.homePage);
-            }
-
-            if (state is AuthError) {
-              if (state.message == "No internet connection") {
-                NetworkErrorDialog.show(context);
-              } else {
-                final snackBar = SnackBar(
-                  elevation: 0,
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.transparent,
-                  content: AwesomeSnackbarContent(
-                    title: 'Oops!',
-                    message: state.message,
-                    contentType: ContentType.failure,
-                  ),
-                );
-
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBar);
+        body: PageContainer(
+          child: BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is Authenticated) {
+                Navigator.pushNamed(context, PublicRoutesName.homePage);
               }
-            }
-          },
-          child: AppBackground(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
-              child: Column(
-                spacing: 10,
-                children: [
-                  const AppLogo(width: 150),
-                  const SizedBox(height: 20),
-                  BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      return Column(
+
+              if (state is AuthError) {
+                if (state.message == "No internet connection") {
+                  NetworkErrorDialog.show(context);
+                } else {
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Oops!',
+                      message: state.message,
+                      contentType: ContentType.failure,
+                    ),
+                  );
+
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                }
+              }
+            },
+
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              spacing: 40,
+              children: [
+                const AppLogo(width: 150),
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        spacing: 16,
                         children: [
                           AppTextInput(
                             controller: usernameController,
@@ -89,7 +92,6 @@ class _LoginPageState extends State<LoginPage> {
                               color: context.theme.colorScheme.onSurface,
                             ),
                           ),
-                          const SizedBox(height: 12),
                           AppTextInput(
                             controller: passwordController,
                             label: Locales.string(
@@ -109,7 +111,6 @@ class _LoginPageState extends State<LoginPage> {
                               color: context.theme.colorScheme.onSurface,
                             ),
                           ),
-                          const SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
@@ -139,7 +140,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
                           if (state is AuthLoading)
                             const CircularProgressIndicator()
                           else
@@ -161,7 +161,6 @@ class _LoginPageState extends State<LoginPage> {
                                 color: context.theme.colorScheme.onPrimary,
                               ),
                             ),
-                          const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -200,11 +199,11 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                         ],
-                      );
-                    },
-                  ),
-                ],
-              ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),

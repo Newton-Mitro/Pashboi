@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
-import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/menu_tile.dart';
+import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoansMenusView extends StatefulWidget {
@@ -39,12 +38,8 @@ class _LoansMenusViewState extends State<LoansMenusView> {
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
-          return MenuTile(
-            icon: Icon(
-              menu['icon'],
-              size: 35,
-              color: context.theme.colorScheme.onPrimary,
-            ),
+          return MenuCard(
+            iconData: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

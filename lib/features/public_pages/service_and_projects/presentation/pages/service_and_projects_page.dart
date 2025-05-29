@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 
 class ServiceAndProjectsPage extends StatefulWidget {
   const ServiceAndProjectsPage({super.key});
@@ -68,12 +70,15 @@ class _ServiceAndProjectsPageState extends State<ServiceAndProjectsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
+    return PageContainer(
+      child: ListView.builder(
         itemCount: services.length,
         itemBuilder: (context, index) {
           final service = services[index];
           return Card(
+            elevation: 1,
+            shadowColor: const Color.fromARGB(179, 0, 0, 0),
+            surfaceTintColor: context.theme.colorScheme.primary,
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: ListTile(
               leading: Text(

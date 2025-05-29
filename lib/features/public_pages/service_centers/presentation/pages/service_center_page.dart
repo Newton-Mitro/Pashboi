@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pashboi/core/constants/app_icons.dart';
-import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/shared/widgets/page_container.dart';
 
 class ServiceCenterPage extends StatefulWidget {
   const ServiceCenterPage({super.key});
@@ -926,67 +926,58 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return PageContainer(
+      child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: context.theme.colorScheme.primaryContainer,
-                width: 5,
-              ),
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              initialCenter: _currentCenter,
+              initialZoom: _currentZoom,
+              onPositionChanged: (position, hasGesture) {
+                setState(() {
+                  _currentCenter = position.center;
+                });
+              },
             ),
-            margin: const EdgeInsets.all(5),
-            child: FlutterMap(
-              mapController: _mapController,
-              options: MapOptions(
-                initialCenter: _currentCenter,
-                initialZoom: _currentZoom,
-                onPositionChanged: (position, hasGesture) {
-                  setState(() {
-                    _currentCenter = position.center;
-                  });
-                },
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.cccul',
               ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.cccul',
-                ),
-                MarkerLayer(
-                  markers:
-                      serviceCenters.map((center) {
-                        return Marker(
-                          point: center['location'],
-                          width: 200,
-                          height: 80,
-                          child: GestureDetector(
-                            onTap: () => _showDetailsDialog(context, center),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  AppIcons.pathPinIcon,
-                                  width: 40,
-                                  height: 40,
+              MarkerLayer(
+                markers:
+                    serviceCenters.map((center) {
+                      return Marker(
+                        point: center['location'],
+                        width: 200,
+                        height: 80,
+                        child: GestureDetector(
+                          onTap: () => _showDetailsDialog(context, center),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                AppIcons.pathPinIcon,
+                                width: 40,
+                                height: 40,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                center['name'],
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 48, 12, 116),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  center['name'],
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 48, 12, 116),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                        );
-                      }).toList(),
-                ),
-              ],
-            ),
+                        ),
+                      );
+                    }).toList(),
+              ),
+            ],
           ),
           Positioned(
             top: 16,

@@ -9,7 +9,7 @@ class ThemeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<ThemeSelectorEvent>(
-      icon: Icon(Icons.color_lens, color: context.theme.colorScheme.onSurface),
+      icon: Icon(Icons.color_lens, color: context.theme.colorScheme.onPrimary),
       tooltip: 'Select Theme',
       onSelected: (event) {
         context.read<ThemeSelectorBloc>().add(event);
@@ -17,44 +17,58 @@ class ThemeSelector extends StatelessWidget {
       itemBuilder:
           (context) => [
             PopupMenuItem(
-              value: SetPrimaryLightTheme(),
+              value: SetBlueOceanTheme(),
               child: Row(
                 children: [
                   Icon(
-                    Icons.wb_sunny,
+                    Icons.color_lens,
                     size: 18,
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Primary Light'),
+                  Text('Blue Ocean'),
                 ],
               ),
             ),
             PopupMenuItem(
-              value: SetPrimaryDarkTheme(),
+              value: SetEleganceTheme(),
               child: Row(
                 children: [
                   Icon(
-                    Icons.wb_sunny,
+                    Icons.color_lens,
                     size: 18,
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Primary Dark'),
+                  Text('Elegance'),
                 ],
               ),
             ),
             PopupMenuItem(
-              value: SetForeverGreenLightTheme(),
+              value: SetDarkBlueAbyssTheme(),
               child: Row(
                 children: [
                   Icon(
-                    Icons.wb_sunny,
+                    Icons.color_lens,
                     size: 18,
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Forever Green'),
+                  Text('Dark Blue Abyss'),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: SetOliverPetalTheme(),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.color_lens,
+                    size: 18,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                  SizedBox(width: 8),
+                  Text('Oliver Petal'),
                 ],
               ),
             ),

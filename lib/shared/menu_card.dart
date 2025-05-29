@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
-class MenuTile extends StatelessWidget {
-  const MenuTile({
+class MenuCard extends StatelessWidget {
+  const MenuCard({
     super.key,
-    required this.icon,
+    required this.iconData,
     required this.menuName,
     required this.menuDescription,
     this.onTap,
   });
 
-  final Icon icon;
+  final IconData iconData;
   final String menuName;
   final String menuDescription;
   final VoidCallback? onTap; // use VoidCallback instead of CallbackAction?
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Card(
+      elevation: 1,
+      borderOnForeground: true,
+      surfaceTintColor: context.theme.colorScheme.primary,
+      shadowColor: const Color.fromARGB(169, 0, 0, 0),
       color: Colors.transparent, // needed for InkWell to show ripple
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(6),
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: context.theme.colorScheme.secondary,
+              color: context.theme.colorScheme.surface,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(6),
@@ -37,7 +40,13 @@ class MenuTile extends StatelessWidget {
                   flex: 3,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: context.theme.colorScheme.primary,
+                      color: context.theme.colorScheme.surface,
+                      border: Border(
+                        right: BorderSide(
+                          color: context.theme.colorScheme.surface,
+                          width: 2,
+                        ),
+                      ),
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(4),
                         bottomLeft: Radius.circular(4),
@@ -45,7 +54,11 @@ class MenuTile extends StatelessWidget {
                     ),
                     child: SizedBox.expand(
                       child: Center(
-                        child: icon, // Replace with `icon` if dynamic
+                        child: Icon(
+                          iconData,
+                          color: context.theme.colorScheme.onSurface,
+                          size: 30,
+                        ), // Replace with `icon` if dynamic
                       ),
                     ),
                   ),

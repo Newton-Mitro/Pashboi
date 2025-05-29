@@ -1,78 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/primary_dark_colors.dart';
+import 'package:pashboi/core/theme/values/colors/pink_light_colors.dart';
 
-final _primaryDarkColors = PrimaryDarkColors();
-ThemeData get primaryDarkTheme => ThemeData(
+final _pinkLightColors = PinkLightColors();
+
+ThemeData get eleganceThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _primaryDarkColors.background,
-  colorScheme: ColorScheme.dark(
-    brightness: Brightness.dark,
-    primary: _primaryDarkColors.primary,
-    onPrimary: _primaryDarkColors.onPrimary,
-    primaryContainer: _primaryDarkColors.primaryContainer,
-    onPrimaryContainer: _primaryDarkColors.onPrimaryContainer,
-    secondary: _primaryDarkColors.secondary,
-    onSecondary: _primaryDarkColors.onSecondary,
-    secondaryContainer: _primaryDarkColors.secondaryContainer,
-    onSecondaryContainer: _primaryDarkColors.onSecondaryContainer,
-    tertiary: _primaryDarkColors.tertiary,
-    onTertiary: _primaryDarkColors.onTertiary,
-    tertiaryContainer: _primaryDarkColors.tertiaryContainer,
-    onTertiaryContainer: _primaryDarkColors.onTertiaryContainer,
-    error: _primaryDarkColors.error,
-    onError: _primaryDarkColors.onError,
-    errorContainer: _primaryDarkColors.errorContainer,
-    onErrorContainer: _primaryDarkColors.onErrorContainer,
-    surface: _primaryDarkColors.surface,
-    onSurface: _primaryDarkColors.onSurface,
-    surfaceContainerHighest: _primaryDarkColors.surfaceContainer,
-    onSurfaceVariant: _primaryDarkColors.onSurfaceVariant,
-    outline: _primaryDarkColors.outline,
-    shadow: _primaryDarkColors.shadow,
-    inverseSurface: _primaryDarkColors.inverseSurface,
-    onInverseSurface: _primaryDarkColors.onInverseSurface,
-    inversePrimary: _primaryDarkColors.inversePrimary,
-    surfaceTint: _primaryDarkColors.surfaceTint,
+  scaffoldBackgroundColor: _pinkLightColors.background,
+  colorScheme: ColorScheme.light(
+    primary: _pinkLightColors.primary,
+    onPrimary: _pinkLightColors.onPrimary,
+    primaryContainer: _pinkLightColors.primaryContainer,
+    onPrimaryContainer: _pinkLightColors.onPrimaryContainer,
+    secondary: _pinkLightColors.secondary,
+    onSecondary: _pinkLightColors.onSecondary,
+    secondaryContainer: _pinkLightColors.secondaryContainer,
+    onSecondaryContainer: _pinkLightColors.onSecondaryContainer,
+    tertiary: _pinkLightColors.tertiary,
+    onTertiary: _pinkLightColors.onTertiary,
+    tertiaryContainer: _pinkLightColors.tertiaryContainer,
+    onTertiaryContainer: _pinkLightColors.onTertiaryContainer,
+    error: _pinkLightColors.error,
+    onError: _pinkLightColors.onError,
+    errorContainer: _pinkLightColors.errorContainer,
+    onErrorContainer: _pinkLightColors.onErrorContainer,
+    surface: _pinkLightColors.surface,
+    onSurface: _pinkLightColors.onSurface,
+    surfaceContainerHighest: _pinkLightColors.surfaceContainer,
+    onSurfaceVariant: _pinkLightColors.onSurfaceVariant,
+    outline: _pinkLightColors.outline,
+    shadow: _pinkLightColors.shadow,
+    inverseSurface: _pinkLightColors.inverseSurface,
+    onInverseSurface: _pinkLightColors.onInverseSurface,
+    inversePrimary: _pinkLightColors.inversePrimary,
+    surfaceTint: _pinkLightColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _primaryDarkColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _pinkLightColors.surface),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _primaryDarkColors.surface, // Background color
+      color: _pinkLightColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _primaryDarkColors.onSurface, // Foreground (text) color
+      color: _pinkLightColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_primaryDarkColors.primary),
-    trackColor: WidgetStateProperty.all(_primaryDarkColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_pinkLightColors.primary),
+    trackColor: WidgetStateProperty.all(_pinkLightColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_primaryDarkColors.onSurface),
+  textTheme: _buildTextTheme(_pinkLightColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _primaryDarkColors.onPrimary,
+      color: _pinkLightColors.onPrimary,
     ),
-    backgroundColor: _primaryDarkColors.primary,
+    backgroundColor: _pinkLightColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _primaryDarkColors.onPrimary),
-  ),
-  tabBarTheme: TabBarTheme(
-    indicatorColor: _primaryDarkColors.error,
-    labelColor: _primaryDarkColors.selected,
-    unselectedLabelColor: _primaryDarkColors.unSelected,
+    iconTheme: IconThemeData(color: _pinkLightColors.onPrimary),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _primaryDarkColors.primary,
-    selectedItemColor: _primaryDarkColors.selected,
-    unselectedItemColor: _primaryDarkColors.unSelected,
+    backgroundColor: _pinkLightColors.primary,
+    selectedItemColor: _pinkLightColors.selected,
+    unselectedItemColor: _pinkLightColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -80,10 +75,10 @@ ThemeData get primaryDarkTheme => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _primaryDarkColors.secondary),
+        side: BorderSide(color: _pinkLightColors.secondary),
       ),
-      backgroundColor: _primaryDarkColors.primary,
-      foregroundColor: _primaryDarkColors.onPrimary,
+      backgroundColor: _pinkLightColors.primary,
+      foregroundColor: _pinkLightColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,
