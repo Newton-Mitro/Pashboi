@@ -13,6 +13,7 @@ import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.d
 import 'package:pashboi/ui/add_family_and_relatives.dart';
 import 'package:pashboi/ui/family_and_relatives.dart';
 import 'package:pashboi/ui/family_and_relatives_submit.dart';
+import 'package:pashboi/ui/surety/surety_status.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -105,9 +106,7 @@ class _MyAppState extends State<MyApp> {
 
       if (onboardingState is OnboardingSeenLoaded) {
         final bool onboardingSeen = onboardingState.seen;
-        return onboardingSeen
-            ? const FamilyAndRelatives()
-            : const OnboardingPage();
+        return onboardingSeen ? const SuretyStatus() : const OnboardingPage();
       }
 
       return const AppErrorPage(message: 'Unexpected onboarding state');
