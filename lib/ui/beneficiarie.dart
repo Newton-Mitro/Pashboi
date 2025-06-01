@@ -4,17 +4,18 @@ import 'package:pashboi/core/extensions/app_context.dart';
 
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
+import 'package:pashboi/ui/new_widget/list_beneficiaries.dart';
 import 'package:pashboi/ui/new_widget/list_family_and_relatives.dart';
 import 'package:pashboi/ui/new_widget/small_card.dart';
 
-class FamilyAndRelatives extends StatefulWidget {
-  const FamilyAndRelatives({super.key});
+class Beneficiarie extends StatefulWidget {
+  const Beneficiarie({super.key});
 
   @override
-  State<FamilyAndRelatives> createState() => _FamilyAndRelativesState();
+  State<Beneficiarie> createState() => _BeneficiarieState();
 }
 
-class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
+class _BeneficiarieState extends State<Beneficiarie> {
   final List<Map<String, dynamic>> accountInfo = [
     {
       "gender": "male",
@@ -58,6 +59,18 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
       "accountNo": "T-5566778899",
       "status": "Pending",
     },
+    {
+      "gender": "female",
+      "name": "Md Shakib Al Hasan",
+      "accountNo": "T-1122334455",
+      "status": "Approved",
+    },
+    {
+      "gender": "female",
+      "name": "Md Sakib Al Hasan",
+      "accountNo": "T-5566778899",
+      "status": "Pending",
+    },
   ];
 
   @override
@@ -68,9 +81,9 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Family and Relatives',
+              'Beneficiaries',
               style: TextStyle(
-                color: context.theme.colorScheme.onSurface,
+                color: context.theme.colorScheme.surface,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
@@ -79,7 +92,7 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
             Icon(
               FontAwesomeIcons.house,
               size: 20,
-              color: context.theme.colorScheme.onSurface,
+              color: context.theme.colorScheme.surface,
             ),
           ],
         ),
@@ -107,30 +120,22 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
                         : ListView.builder(
                           itemCount: accountInfo.length,
                           itemBuilder: (context, index) {
-                            final familyandrelatives = accountInfo[index];
+                            final beneficiary = accountInfo[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: SmallCard(
-                                icon:
-                                    familyandrelatives['gender'] == 'male'
-                                        ? Icons.man
-                                        : Icons.woman,
-                                child: ListFamilyAndRelatives(
-                                  titleText:
-                                      familyandrelatives['name'] ??
-                                      'Unknown Name',
-                                  subtitleText:
-                                      familyandrelatives['accountNo'] ??
-                                      'No Account Number',
-                                  requestStatus:
-                                      familyandrelatives['status'] ??
-                                      'Unknown Status',
+                                icon: FontAwesomeIcons.user,
+                                child: ListBeneficiaries(
+                                  titleText: beneficiary['name'] ?? '',
+                                  subtitleText: beneficiary['accountNo'] ?? '',
+                                  icon: FontAwesomeIcons.trash,
                                 ),
                               ),
                             );
                           },
                         ),
               ),
+
               const SizedBox(height: 32),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

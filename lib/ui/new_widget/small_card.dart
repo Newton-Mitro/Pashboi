@@ -4,18 +4,13 @@ import 'package:pashboi/core/extensions/app_context.dart';
 class SmallCard extends StatelessWidget {
   const SmallCard({
     super.key,
-    required this.gender,
-    required this.titleText,
-    required this.subtitleText,
-    required this.requestStatus,
+    required this.icon,
+    required this.child,
     this.onTap,
   });
-
-  final String gender;
-  final String titleText;
-  final String subtitleText;
-  final String requestStatus; // Added buttonText for consistency
-  final VoidCallback? onTap; // use VoidCallback instead of CallbackAction?
+  final IconData icon;
+  final Widget child;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +43,10 @@ class SmallCard extends StatelessWidget {
                     child: SizedBox.expand(
                       child: Center(
                         child: Icon(
-                          gender == 'male' ? Icons.man : Icons.woman,
+                          icon,
                           size: 30,
-                          color: context.theme.colorScheme.onSurface,
-                        ), // Replace with `icon` if dynamic
+                          color: context.theme.colorScheme.surface,
+                        ),
                       ),
                     ),
                   ),
@@ -63,55 +58,7 @@ class SmallCard extends StatelessWidget {
                       horizontal: 12,
                       vertical: 20,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          titleText,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                        ),
-                        Text(
-                          subtitleText,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Lexend',
-                            fontWeight: FontWeight.normal,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 5,
-                            vertical: 0,
-                          ),
-                          decoration: BoxDecoration(
-                            color:
-                                requestStatus == "Approved"
-                                    ? context.theme.colorScheme.tertiary
-                                    : context.theme.colorScheme.secondary,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            requestStatus,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'Lexend',
-                              fontWeight: FontWeight.normal,
-                              color:
-                                  requestStatus == "Approved"
-                                      ? context.theme.colorScheme.onTertiary
-                                      : context.theme.colorScheme.onSecondary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: child,
                   ),
                 ),
               ],

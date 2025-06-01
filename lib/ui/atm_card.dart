@@ -13,6 +13,16 @@ class AtmCard extends StatefulWidget {
 class _AtmCardState extends State<AtmCard> {
   @override
   Widget build(BuildContext context) {
+    final double cardHeight;
+    if (context.isMobile) {
+      cardHeight = MediaQuery.of(context).size.height * 0.25;
+    } else if (context.isTablet) {
+      cardHeight = MediaQuery.of(context).size.height * 0.5;
+    } else {
+      cardHeight = MediaQuery.of(context).size.height * 0.5;
+    }
+
+    final double cardWidth = cardHeight * 2.0;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -45,8 +55,8 @@ class _AtmCardState extends State<AtmCard> {
                     CrossAxisAlignment.center, // horizontal centering
                 children: [
                   Container(
-                    width: 400,
-                    height: 200,
+                    width: cardWidth,
+                    height: cardHeight,
                     decoration: BoxDecoration(
                       color: context.theme.colorScheme.primary,
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),

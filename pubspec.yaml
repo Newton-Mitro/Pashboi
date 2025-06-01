@@ -41,6 +41,7 @@ dependencies:
   crypto: ^3.0.6
   circular_countdown_timer: ^0.2.4
   accordion: ^2.6.0
+  flutter_otp_text_field: ^1.5.1+1
 
 dev_dependencies:
   flutter_test:
