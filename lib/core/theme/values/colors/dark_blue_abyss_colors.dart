@@ -161,8 +161,8 @@ class DarkBlueAbyssColors extends AppColors {
   Color get selected => _primary;
 
   @override
-  Color get unSelected => Colors.white.withOpacity(0.6);
+  Color get unSelected => const Color.fromARGB(160, 255, 255, 255);
 
   @override
-  Color get disabled => Colors.white.withOpacity(0.38);
+  Color get disabled => const Color.fromARGB(144, 255, 255, 255);
 }

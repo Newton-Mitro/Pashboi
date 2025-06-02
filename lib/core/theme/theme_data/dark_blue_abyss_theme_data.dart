@@ -64,7 +64,7 @@ ThemeData get darkBlueAbyssThemeData => ThemeData(
     elevation: 0,
     iconTheme: IconThemeData(color: _primaryDarkColors.onPrimary),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: TabBarThemeData(
     indicatorColor: _primaryDarkColors.error,
     labelColor: _primaryDarkColors.selected,
     unselectedLabelColor: _primaryDarkColors.unSelected,

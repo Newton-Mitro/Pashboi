@@ -13,6 +13,7 @@ import 'package:pashboi/features/public_pages/public_home/widgets/public_home_dr
 import 'package:pashboi/features/public_pages/service_centers/presentation/pages/service_center_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
+import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
 
 class PublicHomeScreen extends StatefulWidget {
   const PublicHomeScreen({super.key});
@@ -101,6 +102,7 @@ class _PublicHomeScreenState extends State<PublicHomeScreen>
             appBar: AppBar(
               title: Text(titles[homeScreenState.selectedIndex]),
               actions: [
+                ThemeSelector(),
                 IconButton(
                   onPressed: () {
                     Navigator.of(

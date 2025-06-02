@@ -64,6 +64,11 @@ ThemeData get blueOceanThemeData => ThemeData(
     elevation: 0,
     iconTheme: IconThemeData(color: _primaryLightColors.onPrimary),
   ),
+  tabBarTheme: TabBarThemeData(
+    indicatorColor: _primaryLightColors.error,
+    labelColor: _primaryLightColors.selected,
+    unselectedLabelColor: _primaryLightColors.unSelected,
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: _primaryLightColors.primary,
     selectedItemColor: _primaryLightColors.selected,

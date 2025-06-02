@@ -64,6 +64,11 @@ ThemeData get eleganceThemeData => ThemeData(
     elevation: 0,
     iconTheme: IconThemeData(color: _pinkLightColors.onPrimary),
   ),
+  tabBarTheme: TabBarThemeData(
+    indicatorColor: _pinkLightColors.error,
+    labelColor: _pinkLightColors.selected,
+    unselectedLabelColor: _pinkLightColors.unSelected,
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: _pinkLightColors.primary,
     selectedItemColor: _pinkLightColors.selected,

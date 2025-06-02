@@ -64,7 +64,7 @@ ThemeData get darkBlueOceanThemeData => ThemeData(
     elevation: 0,
     iconTheme: IconThemeData(color: _darkBlueOceanColors.onPrimary),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: TabBarThemeData(
     indicatorColor: _darkBlueOceanColors.error,
     labelColor: _darkBlueOceanColors.selected,
     unselectedLabelColor: _darkBlueOceanColors.unSelected,

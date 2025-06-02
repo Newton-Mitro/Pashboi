@@ -115,4 +115,164 @@ void main() {
       );
     });
   });
+
+  group('verifyMobileNumber', () {
+    test('should return message on successful verification', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: HttpStatus.ok,
+          data: {'Data': 'Mobile number verified'},
+        ),
+      );
+
+      final result = await dataSource.verifyMobileNumber('01700000000', true);
+
+      expect(result, 'Mobile number verified');
+    });
+
+    test('should throw Exception on verification failure', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: 400,
+          data: {},
+        ),
+      );
+
+      expect(
+        () => dataSource.verifyMobileNumber('01700000000', true),
+        throwsA(isA<Exception>()),
+      );
+    });
+  });
+
+  group('verifyOtp', () {
+    test('should return message on successful OTP verification', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: HttpStatus.ok,
+          data: {'Data': 'OTP verified'},
+        ),
+      );
+
+      final result = await dataSource.verifyOtp(
+        'otpRegId123',
+        '123456',
+        '01700000000',
+      );
+
+      expect(result, 'OTP verified');
+    });
+
+    test('should throw Exception if Data is null', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: HttpStatus.ok,
+          data: {'Message': 'Invalid OTP'},
+        ),
+      );
+
+      expect(
+        () => dataSource.verifyOtp('otpRegId123', '000000', '01700000000'),
+        throwsA(
+          predicate(
+            (e) => e is Exception && e.toString().contains('Invalid OTP'),
+          ),
+        ),
+      );
+    });
+
+    test('should throw Exception on OTP verification failure', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: 400,
+          data: {},
+        ),
+      );
+
+      expect(
+        () => dataSource.verifyOtp('otpRegId123', '000000', '01700000000'),
+        throwsA(isA<Exception>()),
+      );
+    });
+  });
+
+  group('resetPassword', () {
+    test('should return message on successful password reset', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: HttpStatus.ok,
+          data: {'Data': 'Password reset successful'},
+        ),
+      );
+
+      final result = await dataSource.resetPassword(
+        mobileNumber: '01700000000',
+        password: 'newPassword123',
+      );
+
+      expect(result, 'Password reset successful');
+    });
+
+    test('should throw Exception if Data is null', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: HttpStatus.ok,
+          data: {'Message': 'Invalid request'},
+        ),
+      );
+
+      expect(
+        () => dataSource.resetPassword(
+          mobileNumber: '01700000000',
+          password: 'wrongpass',
+        ),
+        throwsA(
+          predicate(
+            (e) => e is Exception && e.toString().contains('Invalid request'),
+          ),
+        ),
+      );
+    });
+
+    test('should throw Exception on password reset failure', () async {
+      when(
+        () => mockApiService.post(any(), data: any(named: 'data')),
+      ).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: 400,
+          data: {},
+        ),
+      );
+
+      expect(
+        () => dataSource.resetPassword(
+          mobileNumber: '01700000000',
+          password: 'wrongpass',
+        ),
+        throwsA(isA<Exception>()),
+      );
+    });
+  });
 }

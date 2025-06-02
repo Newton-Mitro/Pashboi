@@ -65,6 +65,11 @@ ThemeData get oliverPetalThemeData => ThemeData(
     elevation: 0,
     iconTheme: IconThemeData(color: _foreverGreenLightColors.onPrimary),
   ),
+  tabBarTheme: TabBarThemeData(
+    indicatorColor: _foreverGreenLightColors.error,
+    labelColor: _foreverGreenLightColors.selected,
+    unselectedLabelColor: _foreverGreenLightColors.unSelected,
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: _foreverGreenLightColors.primary,
     selectedItemColor: _foreverGreenLightColors.selected,

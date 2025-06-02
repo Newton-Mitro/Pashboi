@@ -161,8 +161,8 @@ class EleganceColors extends AppColors {
   Color get selected => _primary;
 
   @override
-  Color get unSelected => const Color(0xFF1B1B1F).withOpacity(0.6);
+  Color get unSelected => const Color.fromARGB(160, 255, 255, 255);
 
   @override
-  Color get disabled => const Color(0xFF1B1B1F).withOpacity(0.38);
+  Color get disabled => const Color.fromARGB(144, 255, 255, 255);
 }
