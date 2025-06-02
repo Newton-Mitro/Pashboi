@@ -1,3 +1,18 @@
 final class AuthRoutesName {
-  static const String userProfilePage = '/userProfilePage';
+  static const String profilePage = '/profilePage';
+  static const String suretiesPage = '/suretiesPage';
+  static const String cardPage = '/cardPage';
+
+  static const String myAccountsPage = '/myAccountsPage';
+  static const String createNewAccountPage = '/createNewAccountPage';
+  static const String dependentsPage = '/dependentsPage';
+
+  static const String myLoansPage = '/myLoansPage';
+  static const String applyForLoanPage = '/applyForLoanPage';
+
+  static const String depositNowPage = '/depositNowPage';
+  static const String depositLaterPage = '/depositLaterPage';
+  static const String depositFromBkashPage = '/depositFromBkashPage';
+  static const String depositRequestStatus = '/depositRequestStatus';
+  static const String eReceiptsPage = '/eReceiptsPage';
 }
