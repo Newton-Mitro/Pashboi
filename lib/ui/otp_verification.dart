@@ -67,168 +67,207 @@ class _OtpVerificationState extends State<OtpVerification> {
           ],
         ),
       ),
+
       body: SafeArea(
         child: PageContainer(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: context.theme.colorScheme.primary,
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.mobile,
-                              size: 35,
-                              color: context.theme.colorScheme.surface,
-                            ),
-                            SizedBox(height: 15),
-                            Text(
-                              "OTP Verification",
-                              style: TextStyle(
-                                color: context.theme.colorScheme.surface,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: context.theme.colorScheme.primary,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5.0),
                               ),
                             ),
-                            SizedBox(height: 15),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                              ),
-                              child: Text(
-                                "Please enter the verification code that we have sent to your registered number",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: context.theme.colorScheme.surface,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 30),
-
-                            Center(
-                              child: SizedBox(
-                                width: 120,
-                                height: 120,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 120,
-                                      height: 120,
-                                      child: CircularProgressIndicator(
-                                        value: progress,
-                                        strokeWidth: 4,
-                                        valueColor:
-                                            const AlwaysStoppedAnimation<Color>(
-                                              Color(0xFFCBD4E1),
-                                            ),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                    ),
-                                    Text(
-                                      '$minutes:${seconds.toString().padLeft(2, '0')}',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 30),
-
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: OtpTextField(
-                                numberOfFields: 6,
-                                borderColor:
-                                    context.theme.colorScheme.onPrimary,
-                                showFieldAsBox: true,
-                                textStyle: TextStyle(
-                                  color: context.theme.colorScheme.surface,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                onCodeChanged: (String code) {},
-                                onSubmit: (String verificationCode) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text("Verification Code"),
-                                        content: Text(
-                                          'Code entered is $verificationCode',
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-
-                            SizedBox(height: 15),
-
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                              ),
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Text(
-                                    "Didn’t receive the code? ",
-                                    style: TextStyle(
-                                      color: context.theme.colorScheme.surface,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Reset timer
-                                      setState(() {
-                                        remainingTime = totalTime;
-                                        timer?.cancel();
-                                        startTimer();
-                                      });
-                                    },
-                                    child: Text(
-                                      "Resend OTP",
-                                      style: TextStyle(
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.mobile,
+                                        size: 35,
                                         color:
-                                            context.theme.colorScheme.secondary,
-                                        decoration: TextDecoration.underline,
-                                        fontWeight: FontWeight.bold,
+                                            context.theme.colorScheme.surface,
                                       ),
-                                    ),
+                                      SizedBox(height: 15),
+                                      Text(
+                                        "OTP Verification",
+                                        style: TextStyle(
+                                          color:
+                                              context.theme.colorScheme.surface,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 15),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0,
+                                        ),
+                                        child: Text(
+                                          "Please enter the verification code that we have sent to your registered number",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .surface,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 30),
+
+                                      Center(
+                                        child: SizedBox(
+                                          width: 120,
+                                          height: 120,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 120,
+                                                height: 120,
+                                                child: CircularProgressIndicator(
+                                                  value: progress,
+                                                  strokeWidth: 4,
+                                                  valueColor:
+                                                      const AlwaysStoppedAnimation<
+                                                        Color
+                                                      >(Color(0xFFCBD4E1)),
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                ),
+                                              ),
+                                              Text(
+                                                '$minutes:${seconds.toString().padLeft(2, '0')}',
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 30),
+
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: OtpTextField(
+                                          numberOfFields: 6,
+                                          borderColor:
+                                              context
+                                                  .theme
+                                                  .colorScheme
+                                                  .onPrimary,
+                                          showFieldAsBox: true,
+                                          textStyle: TextStyle(
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .surface,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          onCodeChanged: (String code) {},
+                                          onSubmit: (String verificationCode) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                    "Verification Code",
+                                                  ),
+                                                  content: Text(
+                                                    'Code entered is $verificationCode',
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
+
+                                      SizedBox(height: 15),
+
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0,
+                                        ),
+                                        child: Wrap(
+                                          alignment: WrapAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Didn’t receive the code? ",
+                                              style: TextStyle(
+                                                color:
+                                                    context
+                                                        .theme
+                                                        .colorScheme
+                                                        .surface,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                // Reset timer
+                                                setState(() {
+                                                  remainingTime = totalTime;
+                                                  timer?.cancel();
+                                                  startTimer();
+                                                });
+                                              },
+                                              child: Text(
+                                                "Resend OTP",
+                                                style: TextStyle(
+                                                  color:
+                                                      context
+                                                          .theme
+                                                          .colorScheme
+                                                          .secondary,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          SizedBox(height: 8),
+                          AppPrimaryButton(
+                            iconAfter: Icon(Icons.arrow_forward),
+                            label: "Verify",
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                AppPrimaryButton(
-                  iconAfter: Icon(Icons.arrow_forward),
-                  label: "Verify",
-                  onPressed: () {},
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

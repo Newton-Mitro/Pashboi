@@ -5,7 +5,6 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/ui/new_widget/list_beneficiaries.dart';
-import 'package:pashboi/ui/new_widget/list_family_and_relatives.dart';
 import 'package:pashboi/ui/new_widget/small_card.dart';
 
 class Beneficiarie extends StatefulWidget {

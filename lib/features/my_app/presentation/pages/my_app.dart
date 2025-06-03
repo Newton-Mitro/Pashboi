@@ -10,13 +10,9 @@ import 'package:pashboi/features/under_maintenance/presentation/pages/under_main
 import 'package:pashboi/routes/routes.dart';
 import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
 import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
-import 'package:pashboi/ui/atm_card.dart';
-import 'package:pashboi/ui/beneficiarie.dart';
+import 'package:pashboi/ui/accounts/account_details.dart';
 import 'package:pashboi/ui/family_and_relatives.dart';
-import 'package:pashboi/ui/family_and_relatives_submit.dart';
-import 'package:pashboi/ui/otp_verification.dart';
 import 'package:pashboi/ui/surety/surety_status.dart';
-import 'package:pashboi/ui/user_profile.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -109,9 +105,7 @@ class _MyAppState extends State<MyApp> {
 
       if (onboardingState is OnboardingSeenLoaded) {
         final bool onboardingSeen = onboardingState.seen;
-        return onboardingSeen
-            ? const OtpVerification()
-            : const OnboardingPage();
+        return onboardingSeen ? const AccountDetails() : const OnboardingPage();
       }
 
       return const AppErrorPage(message: 'Unexpected onboarding state');
