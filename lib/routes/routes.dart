@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:pashboi/features/authenticated_pages/beneficiaries/presentation/pages/beneficiaries_page.dart';
 import 'package:pashboi/features/authenticated_pages/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
 import 'package:pashboi/features/authenticated_pages/cards/presentation/pages/card_page.dart';
 import 'package:pashboi/features/authenticated_pages/family_and_friends/presentation/pages/family_and_relatives_page.dart';
+import 'package:pashboi/features/authenticated_pages/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/features/authenticated_pages/user/presentation/pages/profile_page.dart';
 import 'package:pashboi/features/public_pages/public_home/views/public_home.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
@@ -91,6 +93,12 @@ class AppRoutes {
 
       case AuthRoutesName.addFamilyMemberPage:
         return _materialRoute(AddFamilyAndRelativesPage());
+
+      case AuthRoutesName.suretiesPage:
+        return _materialRoute(GivenSuretiesPage());
+
+      case AuthRoutesName.beneficiariesPage:
+        return _materialRoute(BeneficiariesPage());
 
       default:
         return _materialRoute(const AuthenticatedHome());

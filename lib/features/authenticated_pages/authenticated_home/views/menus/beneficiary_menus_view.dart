@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -24,6 +25,7 @@ class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
           context,
           "beneficiary_menu_beneficiaries_description",
         ),
+        "route": AuthRoutesName.beneficiariesPage,
       },
       {
         "icon": FontAwesomeIcons.userPlus,
@@ -35,6 +37,7 @@ class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
           context,
           "beneficiary_menu_add_beneficiaries_description",
         ),
+        "route": AuthRoutesName.addBeneficiaryPage,
       },
     ];
     return SafeArea(
@@ -49,7 +52,7 @@ class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-              debugPrint("Tapped on ${menu['menuName']}");
+              Navigator.pushNamed(context, menu['route']);
             },
           );
         },

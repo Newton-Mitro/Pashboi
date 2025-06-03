@@ -18,4 +18,7 @@ final class AuthRoutesName {
 
   static const String familyAndRelativesPage = '/familyAndRelativesPage';
   static const String addFamilyMemberPage = '/addFamilyMemberPage';
+
+  static const String beneficiariesPage = '/beneficiariesPage';
+  static const String addBeneficiaryPage = '/addBeneficiaryPage';
 }

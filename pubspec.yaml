@@ -40,6 +40,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   crypto: ^3.0.6
   circular_countdown_timer: ^0.2.4
+  accordion: ^2.6.0
 
 dev_dependencies:
   flutter_test:
