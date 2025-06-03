@@ -21,12 +21,7 @@ class _CardPageState extends State<CardPage> {
     final double cardWidth = cardHeight * 2.0;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text('My Cards')],
-        ),
-      ),
+      appBar: AppBar(title: Text('My Cards')),
       body: PageContainer(
         child: Column(
           children: [

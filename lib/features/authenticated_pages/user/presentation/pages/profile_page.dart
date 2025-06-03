@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
               shape: BoxShape.circle,
               color: theme.colorScheme.primary.withOpacity(0.8),
             ),
-            child: Icon(icon, size: 24, color: theme.colorScheme.onPrimary),
+            child: Icon(icon, size: 18, color: theme.colorScheme.onPrimary),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Text(
                 value,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -49,12 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text('Profile')],
-        ),
-      ),
+      appBar: AppBar(title: Text('Profile')),
       body: PageContainer(
         child: Container(
           color: theme.colorScheme.primary.withOpacity(0.1),

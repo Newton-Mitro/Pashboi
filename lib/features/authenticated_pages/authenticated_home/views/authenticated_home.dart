@@ -19,6 +19,7 @@ import 'package:pashboi/features/authenticated_pages/authenticated_home/views/me
 import 'package:pashboi/features/authenticated_pages/authenticated_home/widgets/app_bottom_navigation_bar.dart';
 import 'package:pashboi/features/authenticated_pages/authenticated_home/widgets/authenticated_home_drawer.dart';
 import 'package:pashboi/features/authenticated_pages/authenticated_home/widgets/base64_image_widget.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_dialog.dart';
@@ -176,7 +177,10 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                           ),
                           onSelected: (value) async {
                             if (value == 0) {
-                              debugPrint('Profile tapped');
+                              Navigator.pushNamed(
+                                context,
+                                AuthRoutesName.addFamilyMemberPage,
+                              );
                             } else if (value == 1) {
                               debugPrint('Change password tapped');
                             } else if (value == 2) {

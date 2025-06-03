@@ -22,14 +22,17 @@ class MenuCard extends StatelessWidget {
       borderOnForeground: true,
       surfaceTintColor: context.theme.colorScheme.primary,
       shadowColor: const Color.fromARGB(169, 0, 0, 0),
-      color: Colors.transparent, // needed for InkWell to show ripple
+      color:
+          context
+              .theme
+              .colorScheme
+              .surface, // needed for InkWell to show ripple
       child: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(6)),
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: context.theme.colorScheme.surface,
+              color: context.theme.colorScheme.primary,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(6),
@@ -41,23 +44,13 @@ class MenuCard extends StatelessWidget {
                   flex: 3,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: context.theme.colorScheme.surface,
-                      border: Border(
-                        right: BorderSide(
-                          color: context.theme.colorScheme.surface,
-                          width: 2,
-                        ),
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4),
-                        bottomLeft: Radius.circular(4),
-                      ),
+                      color: context.theme.colorScheme.primary,
                     ),
                     child: SizedBox.expand(
                       child: Center(
                         child: Icon(
                           iconData,
-                          color: context.theme.colorScheme.onSurface,
+                          color: context.theme.colorScheme.onPrimary,
                           size: 30,
                         ), // Replace with `icon` if dynamic
                       ),
@@ -67,10 +60,7 @@ class MenuCard extends StatelessWidget {
                 Expanded(
                   flex: 9,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 20,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -15,45 +15,45 @@ class FamilyAndRelativesPage extends StatefulWidget {
 class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
   final List<Map<String, dynamic>> accountInfo = [
     {
-      "gender": "male",
-      "name": "Md Israfil",
-      "accountNo": "T-1234567890",
+      "gender": "M",
+      "name": "Md Israfil Hossain",
+      "relation": "Father",
       "status": "Approved",
     },
     {
-      "gender": "male",
+      "gender": "F",
+      "name": "Sharmin Akter",
+      "relation": "Mother",
+      "status": "Approved",
+    },
+    {
+      "gender": "M",
       "name": "Md Mahmudul Hasan",
-      "accountNo": "T-0987654321",
+      "relation": "Brother",
       "status": "Pending",
     },
     {
-      "gender": "female",
-      "name": "Md Shakib Al Hasan",
-      "accountNo": "T-1122334455",
+      "gender": "F",
+      "name": "Nusrat Jahan",
+      "relation": "Sister",
       "status": "Approved",
     },
     {
-      "gender": "female",
-      "name": "Md Sakib Al Hasan",
-      "accountNo": "T-5566778899",
+      "gender": "M",
+      "name": "Raihan Kabir",
+      "relation": "Uncle",
       "status": "Approved",
     },
     {
-      "gender": "male",
-      "name": "Md Mahmudul Hasan",
-      "accountNo": "T-0987654321",
+      "gender": "F",
+      "name": "Sumaiya Rahman",
+      "relation": "Aunt",
       "status": "Approved",
     },
     {
-      "gender": "female",
-      "name": "Md Shakib Al Hasan",
-      "accountNo": "T-1122334455",
-      "status": "Approved",
-    },
-    {
-      "gender": "female",
-      "name": "Md Sakib Al Hasan",
-      "accountNo": "T-5566778899",
+      "gender": "F",
+      "name": "Tania Sultana",
+      "relation": "Cousin",
       "status": "Pending",
     },
   ];
@@ -94,7 +94,7 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
                         itemCount: accountInfo.length,
                         itemBuilder: (context, index) {
                           final info = accountInfo[index];
-                          final isMale = info['gender'] == 'male';
+                          final isMale = info['gender'] == 'M';
                           final icon =
                               isMale
                                   ? FontAwesomeIcons.mars
@@ -174,7 +174,7 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                info['accountNo'],
+                                                info['relation'],
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color:
