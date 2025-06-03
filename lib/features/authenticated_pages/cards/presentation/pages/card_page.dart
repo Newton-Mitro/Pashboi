@@ -58,7 +58,7 @@ class _CardPageState extends State<CardPage> {
                                   "Virtual Card".toUpperCase(),
                                   style: TextStyle(
                                     color: context.theme.colorScheme.onSurface,
-                                    fontSize: 26,
+                                    fontSize: 22,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

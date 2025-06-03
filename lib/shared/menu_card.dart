@@ -18,9 +18,8 @@ class MenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 1,
+      elevation: 3,
       borderOnForeground: true,
-      surfaceTintColor: context.theme.colorScheme.primary,
       shadowColor: const Color.fromARGB(169, 0, 0, 0),
       color:
           context

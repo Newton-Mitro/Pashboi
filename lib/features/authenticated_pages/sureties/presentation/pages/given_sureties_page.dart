@@ -139,14 +139,14 @@ class _GivenSuretiesPageState extends State<GivenSuretiesPage> {
                                 leftIcon: Icon(
                                   FontAwesomeIcons.personCircleCheck,
                                   size: 20,
-                                  color: context.theme.colorScheme.onSurface,
+                                  color: context.theme.colorScheme.onPrimary,
                                 ),
                                 header: Text(
                                   surety['MemberName'] ?? 'Unknown',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: context.theme.colorScheme.onSurface,
+                                    color: context.theme.colorScheme.onPrimary,
                                   ),
                                 ),
                                 content: SuerityDetails(surety: surety),
