@@ -262,7 +262,7 @@ class _AccountDetailsState extends State<AccountDetails> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'My Accounts',
+              'Saving’s Account Details',
               style: TextStyle(
                 color: context.theme.colorScheme.surface,
                 fontSize: 16,
