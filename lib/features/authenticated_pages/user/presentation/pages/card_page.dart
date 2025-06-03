@@ -1,162 +1,158 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class DebitCardPage extends StatefulWidget {
-  const DebitCardPage({super.key});
+class CardPage extends StatefulWidget {
+  const CardPage({super.key});
 
   @override
-  State<DebitCardPage> createState() => _DebitCardPageState();
+  State<CardPage> createState() => _CardPageState();
 }
 
-class _DebitCardPageState extends State<DebitCardPage> {
+class _CardPageState extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
-    final double cardHeight;
-    if (context.isMobile) {
-      cardHeight = MediaQuery.of(context).size.height * 0.27;
-    } else if (context.isTablet) {
-      cardHeight = MediaQuery.of(context).size.height * 0.5;
-    } else {
-      cardHeight = MediaQuery.of(context).size.height * 0.5;
-    }
+    final double cardHeight =
+        context.isMobile
+            ? MediaQuery.of(context).size.height * 0.27
+            : MediaQuery.of(context).size.height * 0.5;
 
     final double cardWidth = cardHeight * 2.0;
+
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Cards',
-              style: TextStyle(
-                color: context.theme.colorScheme.surface,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Icon(
-              FontAwesomeIcons.house,
-              size: 20,
-              color: context.theme.colorScheme.surface,
-            ),
-          ],
+          children: [Text('My Cards')],
         ),
       ),
-      body: SafeArea(
-        child: PageContainer(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Container(
-                      width: cardWidth,
-                      height: cardHeight,
-                      padding: const EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                        color: context.theme.colorScheme.primary,
-                        borderRadius: BorderRadius.circular(8.0),
+      body: PageContainer(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+                elevation: 3.0,
+                shadowColor: Colors.black,
+                clipBehavior: Clip.antiAlias,
+                child: SizedBox(
+                  width: cardWidth,
+                  height: cardHeight,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // Background image
+                      Image.asset(
+                        'assets/images/bg/card_bg.png', // update this path as needed
+                        fit: BoxFit.cover,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              "Virtual Card".toUpperCase(),
-                              style: TextStyle(
-                                color: context.theme.colorScheme.surface,
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: Column(
+
+                      // Foreground content
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                    vertical: 1,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: const Text(
-                                    "ACTIVE",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 5,
-                                    ),
-                                  ),
-                                ),
+                                AppLogo(width: 80, showOrganizationName: false),
                                 Text(
-                                  "1234456845681235".replaceAllMapped(
-                                    RegExp(r".{1,4}"),
-                                    (match) =>
-                                        match.end < 16
-                                            ? "${match.group(0)}   "
-                                            : match.group(0)!,
-                                  ),
+                                  "Virtual Card".toUpperCase(),
                                   style: TextStyle(
-                                    color: context.theme.colorScheme.surface,
+                                    color: context.theme.colorScheme.onSurface,
+                                    fontSize: 26,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 22,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "MD ISRAFIL",
-                                style: TextStyle(
-                                  color: context.theme.colorScheme.surface,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                            Center(
+                              child: Column(
                                 children: [
-                                  Text(
-                                    "Valid Thru",
-                                    style: TextStyle(
-                                      color: context.theme.colorScheme.surface,
-                                      fontSize: 12,
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 1,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Text(
+                                      "ACTIVE",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 5,
+                                      ),
                                     ),
                                   ),
                                   Text(
-                                    "12/26",
+                                    "1234456845681235".replaceAllMapped(
+                                      RegExp(r".{1,4}"),
+                                      (match) =>
+                                          match.end < 16
+                                              ? "${match.group(0)}   "
+                                              : match.group(0)!,
+                                    ),
                                     style: TextStyle(
-                                      color: context.theme.colorScheme.surface,
-                                      fontSize: 15,
+                                      color:
+                                          context.theme.colorScheme.onSurface,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 22,
                                     ),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "eLina Jane Smith".toUpperCase(),
+                                  style: TextStyle(
+                                    color: context.theme.colorScheme.onSurface,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "Valid Thru",
+                                      style: TextStyle(
+                                        color:
+                                            context.theme.colorScheme.onSurface,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    Text(
+                                      "12/26",
+                                      style: TextStyle(
+                                        color:
+                                            context.theme.colorScheme.onSurface,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

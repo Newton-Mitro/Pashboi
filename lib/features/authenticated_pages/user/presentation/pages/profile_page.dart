@@ -27,9 +27,9 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 40,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              color: theme.colorScheme.primary.withOpacity(0.8),
             ),
-            child: Icon(icon, size: 24, color: theme.colorScheme.primary),
+            child: Icon(icon, size: 24, color: theme.colorScheme.onPrimary),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: ClipOval(
                           child: Image.network(
-                            'https://example.com/profile.jpeg',
+                            'https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?cs=srgb&dl=pexels-sulimansallehi-1704488.jpg&fm=jpg',
                             fit: BoxFit.cover,
                             width: 80,
                             height: 80,
@@ -101,14 +101,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             shape: BoxShape.circle,
                             color: theme.colorScheme.primary,
                             border: Border.all(
-                              color: theme.colorScheme.onSurface,
+                              color: theme.colorScheme.secondary,
                               width: 3,
                             ),
                           ),
                           child: Icon(
                             FontAwesomeIcons.camera,
                             size: 18,
-                            color: theme.colorScheme.onSurface,
+                            color: theme.colorScheme.onPrimary,
                           ),
                         ),
                       ),
@@ -150,6 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
+
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -161,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 16,

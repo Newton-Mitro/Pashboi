@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class FamilyAndRelatives extends StatefulWidget {
-  const FamilyAndRelatives({super.key});
+class FamilyAndRelativesPage extends StatefulWidget {
+  const FamilyAndRelativesPage({super.key});
 
   @override
-  State<FamilyAndRelatives> createState() => _FamilyAndRelativesState();
+  State<FamilyAndRelativesPage> createState() => _FamilyAndRelativesPageState();
 }
 
-class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
+class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
   final List<Map<String, dynamic>> accountInfo = [
     {
       "gender": "male",
@@ -66,27 +67,7 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
     final theme = context.theme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Family and Relatives',
-              style: TextStyle(
-                color: theme.colorScheme.onSurface,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Roboto',
-              ),
-            ),
-            Icon(
-              FontAwesomeIcons.house,
-              size: 20,
-              color: theme.colorScheme.onSurface,
-            ),
-          ],
-        ),
-      ),
+      appBar: AppBar(title: Text('Family and Relatives')),
       body: PageContainer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -127,8 +108,9 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
                               borderRadius: BorderRadius.circular(6),
                               child: Container(
                                 decoration: BoxDecoration(
+                                  color: context.theme.colorScheme.surface,
                                   border: Border.all(
-                                    color: context.theme.colorScheme.secondary,
+                                    color: context.theme.colorScheme.primary,
                                     width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(6),
@@ -162,7 +144,7 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
                                                     context
                                                         .theme
                                                         .colorScheme
-                                                        .surface,
+                                                        .onPrimary,
                                               ),
                                             ),
                                           ),
@@ -265,9 +247,12 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
                 const SizedBox(height: 16),
                 AppPrimaryButton(
                   iconBefore: const Icon(Icons.person_add),
-                  label: "Add Person",
+                  label: "Add Family or Relative",
                   onPressed: () {
-                    // TODO: Implement the add person functionality
+                    Navigator.pushNamed(
+                      context,
+                      AuthRoutesName.addFamilyMemberPage,
+                    );
                   },
                 ),
               ],
@@ -278,4 +263,3 @@ class _FamilyAndRelativesState extends State<FamilyAndRelatives> {
     );
   }
 }
-

@@ -7,7 +7,8 @@ import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.d
 
 class AppLogo extends StatefulWidget {
   final double width;
-  const AppLogo({super.key, this.width = 25});
+  final bool showOrganizationName;
+  const AppLogo({super.key, this.showOrganizationName = true, this.width = 25});
 
   @override
   State<AppLogo> createState() => AppLogoState();
@@ -26,14 +27,16 @@ class AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin {
                   : AppImages.pathLogo,
               width: widget.width,
             ),
-            Text(
-              Locales.string(context, 'organization_name'),
-              style: TextStyle(
-                fontSize: 18,
-                color: context.theme.colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            widget.showOrganizationName
+                ? Text(
+                  Locales.string(context, 'organization_name'),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: context.theme.colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+                : const SizedBox.shrink(),
           ],
         );
       },

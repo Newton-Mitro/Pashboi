@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:pashboi/features/authenticated_pages/user/presentation/pages/add_family_and_relative_page.dart';
+import 'package:pashboi/features/authenticated_pages/user/presentation/pages/card_page.dart';
+import 'package:pashboi/features/authenticated_pages/user/presentation/pages/family_and_relatives_page.dart';
 import 'package:pashboi/features/authenticated_pages/user/presentation/pages/profile_page.dart';
 import 'package:pashboi/features/public_pages/public_home/views/public_home.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
@@ -76,8 +79,18 @@ class AppRoutes {
           ); // Default route name if no arguments
         }
 
+      // Authenticated Routes
       case AuthRoutesName.profilePage:
         return _materialRoute(ProfilePage());
+
+      case AuthRoutesName.cardPage:
+        return _materialRoute(CardPage());
+
+      case AuthRoutesName.familyAndRelativesPage:
+        return _materialRoute(FamilyAndRelativesPage());
+
+      case AuthRoutesName.addFamilyMemberPage:
+        return _materialRoute(AddFamilyAndRelativesPage());
 
       default:
         return _materialRoute(const AuthenticatedHome());
