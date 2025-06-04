@@ -136,18 +136,61 @@ class _GivenSuretiesPageState extends State<GivenSuretiesPage> {
                                         : context.theme.colorScheme.primary,
                                 isOpen: false,
                                 contentVerticalPadding: 20,
-                                leftIcon: Icon(
-                                  FontAwesomeIcons.personCircleCheck,
-                                  size: 20,
-                                  color: context.theme.colorScheme.onPrimary,
-                                ),
-                                header: Text(
-                                  surety['MemberName'] ?? 'Unknown',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: context.theme.colorScheme.onPrimary,
+                                paddingBetweenClosedSections: 20,
+                                leftIcon: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    surety['DefaulterStatus'] == true
+                                        ? FontAwesomeIcons.personCircleXmark
+                                        : FontAwesomeIcons.personCircleCheck,
+                                    size: 30,
+                                    color:
+                                        surety['DefaulterStatus'] == true
+                                            ? context.theme.colorScheme.onError
+                                            : context
+                                                .theme
+                                                .colorScheme
+                                                .onPrimary,
                                   ),
+                                ),
+                                header: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${surety['LoanId']}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            surety['DefaulterStatus'] == true
+                                                ? context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onError
+                                                : context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onPrimary,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${surety['MemberName'] ?? 'Unknown'}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            surety['DefaulterStatus'] == true
+                                                ? context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onError
+                                                : context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onPrimary,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 content: SuerityDetails(surety: surety),
                               );

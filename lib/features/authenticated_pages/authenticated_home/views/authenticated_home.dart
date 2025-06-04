@@ -61,42 +61,52 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
       {
         "icon": FontAwesomeIcons.circleUser,
         "label": Locales.string(context, 'auth_bottom_nav_menu_info'),
+        "index": 0,
       },
       {
         "icon": FontAwesomeIcons.buildingColumns,
         "label": Locales.string(context, 'auth_bottom_nav_menu_accounts'),
+        "index": 1,
       },
       {
         "icon": FontAwesomeIcons.fileInvoiceDollar,
         "label": Locales.string(context, 'auth_bottom_nav_menu_loan'),
+        "index": 2,
       },
       {
         "icon": FontAwesomeIcons.piggyBank,
         "label": Locales.string(context, 'auth_bottom_nav_menu_deposit'),
+        "index": 3,
       },
       {
         "icon": FontAwesomeIcons.rightLeft,
         "label": Locales.string(context, 'auth_bottom_nav_menu_transfer'),
+        "index": 4,
       },
       {
         "icon": FontAwesomeIcons.moneyBill,
         "label": Locales.string(context, 'auth_bottom_nav_menu_withdraw'),
+        "index": 5,
       },
       {
         "icon": FontAwesomeIcons.wallet,
         "label": Locales.string(context, 'auth_bottom_nav_menu_payment'),
+        "index": 6,
       },
       {
         "icon": FontAwesomeIcons.peopleRoof,
         "label": Locales.string(context, 'auth_bottom_nav_menu_family'),
+        "index": 7,
       },
       {
         "icon": FontAwesomeIcons.userGroup,
         "label": Locales.string(context, 'auth_bottom_nav_menu_beneficiary'),
+        "index": 8,
       },
       {
         "icon": FontAwesomeIcons.idBadge,
         "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
+        "index": 9,
       },
     ];
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
+import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key});
@@ -21,31 +22,41 @@ class _CardPageState extends State<CardPage> {
     final double cardWidth = cardHeight * 2.0;
 
     return Scaffold(
-      appBar: AppBar(title: Text('My Cards')),
+      appBar: AppBar(title: const Text('My Cards')),
       body: PageContainer(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Card(
                 elevation: 3.0,
                 shadowColor: Colors.black,
                 clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(
+                    color: context.theme.colorScheme.primary,
+                    width: 2,
+                  ),
+                ),
                 child: SizedBox(
                   width: cardWidth,
                   height: cardHeight,
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      // Background image
-                      Image.asset(
-                        'assets/images/bg/card_bg.png', // update this path as needed
-                        fit: BoxFit.cover,
+                      // Background image fills entire card with no padding
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/images/bg/card_bg.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
 
-                      // Foreground content
+                      // Foreground content - reduced padding to 12 for a bit of spacing inside
                       Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(12.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,8 +157,23 @@ class _CardPageState extends State<CardPage> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: ProgressSubmitButton(
+          width: MediaQuery.of(context).size.width - 10,
+          height: 150,
+          backgroundColor: context.theme.colorScheme.primary,
+          progressColor: context.theme.colorScheme.secondary,
+          foregroundColor: context.theme.colorScheme.onPrimary,
+          duration: 3,
+          label: 'Hold to Submit',
+          onSubmit: () {
+            print('Submitted!');
+          },
         ),
       ),
     );

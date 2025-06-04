@@ -38,6 +38,14 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
 
   @override
   Widget build(BuildContext context) {
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(
+        color: context.theme.colorScheme.primary,
+        width: 1.0,
+      ),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,38 +55,34 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
             controller: widget.controller,
             obscureText: isObscured,
             keyboardType: widget.keyboardType,
+            style: TextStyle(color: context.theme.colorScheme.onSurface),
             decoration: InputDecoration(
               labelText: widget.label,
               labelStyle: TextStyle(color: context.theme.colorScheme.onSurface),
               prefixIcon: widget.prefixIcon,
               filled: true,
-              hintStyle: TextStyle(color: context.theme.colorScheme.onSurface),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                  color: context.theme.colorScheme.secondary,
-                  width: 2.0,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(
-                  color: context.theme.colorScheme.secondary,
-                  width: 1.0,
-                ),
-              ),
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 10,
               ),
+              focusedBorder: border.copyWith(
+                borderSide: BorderSide(
+                  color: context.theme.colorScheme.secondary,
+                  width: 2.0,
+                ),
+              ),
+              enabledBorder: border,
+              errorBorder: border.copyWith(
+                borderSide: const BorderSide(color: Colors.red),
+              ),
               suffixIcon:
                   widget.obscureText
-                      ? IconButton(
-                        icon: Icon(
-                          isObscured ? Icons.visibility_off : Icons.visibility,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
+                      ? _buildIconButton(
+                        icon:
+                            isObscured
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                         onPressed: () {
                           setState(() {
                             isObscured = !isObscured;
@@ -86,11 +90,8 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
                         },
                       )
                       : widget.isSearch
-                      ? IconButton(
-                        icon: Icon(
-                          Icons.search,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
+                      ? _buildIconButton(
+                        icon: Icons.search,
                         onPressed:
                             widget.onSearchPressed ??
                             () {
@@ -101,7 +102,6 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
                       )
                       : null,
             ),
-            style: TextStyle(color: context.theme.colorScheme.onSurface),
           ),
         ),
         if (widget.errorText != null)
@@ -113,6 +113,27 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
             ),
           ),
       ],
+    );
+  }
+
+  Widget _buildIconButton({
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+      decoration: BoxDecoration(
+        color: context.theme.colorScheme.primary,
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: context.theme.colorScheme.onSurface),
+        onPressed: onPressed,
+        splashRadius: 20,
+      ),
     );
   }
 }

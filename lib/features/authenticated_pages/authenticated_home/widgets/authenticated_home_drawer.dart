@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:pashboi/features/authenticated_pages/authenticated_home/bloc/authenticated_home_bloc.dart';
 import 'package:pashboi/features/authenticated_pages/authenticated_home/widgets/base64_image_widget.dart';
 import 'package:pashboi/features/authenticated_pages/user/domain/entities/user_entity.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
@@ -78,7 +79,10 @@ class AuthenticatedHomeDrawer extends StatelessWidget {
                     icon: item['icon'],
                     label: item['label'],
                     onTap: () {
-                      Navigator.of(context).pushNamed(item['route']);
+                      context.read<AuthenticatedHomeBloc>().add(
+                        ChangePageEvent(item['index']),
+                      );
+                      Navigator.of(context).pop();
                     },
                   ),
                 ),

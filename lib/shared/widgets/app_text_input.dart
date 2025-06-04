@@ -60,7 +60,7 @@ class _AppTextInputState extends State<AppTextInput> {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(
-                  color: context.theme.colorScheme.secondary,
+                  color: context.theme.colorScheme.primary,
                   width: 1.0,
                 ),
               ),
