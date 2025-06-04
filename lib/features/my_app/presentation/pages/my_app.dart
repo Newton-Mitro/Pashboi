@@ -11,7 +11,9 @@ import 'package:pashboi/routes/routes.dart';
 import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
 import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
 import 'package:pashboi/ui/accounts/account_details.dart';
+import 'package:pashboi/ui/accounts/my_accounts.dart';
 import 'package:pashboi/ui/accounts/open_account.dart';
+import 'package:pashboi/ui/accounts/open_account_stapper/pension_benefit_scheme_stepper.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -104,7 +106,7 @@ class _MyAppState extends State<MyApp> {
 
       if (onboardingState is OnboardingSeenLoaded) {
         final bool onboardingSeen = onboardingState.seen;
-        return onboardingSeen ? const OpenAccount() : const OnboardingPage();
+        return onboardingSeen ? const MyAccounts() : const OnboardingPage();
       }
 
       return const AppErrorPage(message: 'Unexpected onboarding state');
