@@ -72,6 +72,21 @@ class ThemeSelector extends StatelessWidget {
                 ],
               ),
             ),
+
+            PopupMenuItem(
+              value: SetDarkBlueOceanTheme(),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.color_lens,
+                    size: 18,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                  SizedBox(width: 8),
+                  Text('Dark Blue Ocean'),
+                ],
+              ),
+            ),
           ],
     );
   }

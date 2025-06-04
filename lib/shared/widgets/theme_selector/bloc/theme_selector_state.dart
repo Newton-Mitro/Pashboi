@@ -9,6 +9,10 @@ class BlueOceanTheme extends ThemeSelectorState {
   BlueOceanTheme() : super(AppTheme.blueOcean);
 }
 
+class DarkBlueOceanTheme extends ThemeSelectorState {
+  DarkBlueOceanTheme() : super(AppTheme.darkBlueOcean);
+}
+
 class EleganceTheme extends ThemeSelectorState {
   EleganceTheme() : super(AppTheme.elegance);
 }

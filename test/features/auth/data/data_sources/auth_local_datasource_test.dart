@@ -99,4 +99,44 @@ void main() {
       verify(() => mockLocalStorage.remove('auth_user')).called(1);
     });
   });
+
+  group('setRegisteredMobile', () {
+    test('should store registered mobile in local storage', () async {
+      const mobile = '01700000000';
+
+      when(
+        () => mockLocalStorage.saveString(any(), any()),
+      ).thenAnswer((_) async {});
+
+      await dataSource.setRegisteredMobile(mobile);
+
+      verify(() => mockLocalStorage.saveString('reg_mobile', mobile)).called(1);
+    });
+  });
+
+  group('getRegisteredMobile', () {
+    test('should return registered mobile from local storage', () async {
+      const mobile = '01700000000';
+
+      when(
+        () => mockLocalStorage.getString('reg_mobile'),
+      ).thenAnswer((_) async => mobile);
+
+      final result = await dataSource.getRegisteredMobile();
+
+      expect(result, mobile);
+    });
+  });
+
+  group('clearRegisteredMobile', () {
+    test('should remove registered mobile from local storage', () async {
+      when(
+        () => mockLocalStorage.remove('reg_mobile'),
+      ).thenAnswer((_) async {});
+
+      await dataSource.clearRegisteredMobile();
+
+      verify(() => mockLocalStorage.remove('reg_mobile')).called(1);
+    });
+  });
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -9,7 +10,6 @@ class InfoMenusView extends StatefulWidget {
   @override
   State<InfoMenusView> createState() => _InfoMenusViewState();
 }
-// <i class="fa-solid fa-users-gear"></i>
 
 class _InfoMenusViewState extends State<InfoMenusView> {
   @override
@@ -22,6 +22,7 @@ class _InfoMenusViewState extends State<InfoMenusView> {
           context,
           "info_menu_profile_description",
         ),
+        "route": AuthRoutesName.profilePage,
       },
       {
         "icon": FontAwesomeIcons.userShield,
@@ -30,6 +31,7 @@ class _InfoMenusViewState extends State<InfoMenusView> {
           context,
           "info_menu_surety_status_description",
         ),
+        "route": AuthRoutesName.suretiesPage,
       },
       {
         "icon": Icons.credit_card,
@@ -38,8 +40,10 @@ class _InfoMenusViewState extends State<InfoMenusView> {
           context,
           "info_menu_card_description",
         ),
+        "route": AuthRoutesName.cardPage,
       },
     ];
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
@@ -52,7 +56,7 @@ class _InfoMenusViewState extends State<InfoMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-              debugPrint("Tapped on ${menu['menuName']}");
+              Navigator.pushNamed(context, menu['route']);
             },
           );
         },

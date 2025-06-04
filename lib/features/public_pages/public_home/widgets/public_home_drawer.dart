@@ -21,7 +21,7 @@ class PublicHomeDrawer extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "Employment Creation is Our Goal; \nSelf-Reliant Community is Our Dream.",
+              "Employment Creation is Our Goal;\nSelf-Reliant Community is Our Dream.",
               style: TextStyle(
                 fontSize: 11,
                 color: context.theme.colorScheme.onPrimary,
@@ -29,77 +29,73 @@ class PublicHomeDrawer extends StatelessWidget {
             ),
             currentAccountPicture: Image.asset(
               AppImages.pathLogo,
-              color: Colors.white,
+              color: context.theme.colorScheme.onPrimary,
             ),
           ),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.circleInfo),
-            title: Text(
-              "About Us",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
-            onTap: () {},
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.circleInfo,
+            label: "About Us",
+            onTap: () {
+              // TODO: Add navigation or logic
+            },
           ),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.userTie),
-            title: Text(
-              "Founders Profile",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
-            onTap: () {},
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.userTie,
+            label: "Founders Profile",
+            onTap: () {
+              // TODO: Add navigation or logic
+            },
           ),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.bullseye),
-            title: Text(
-              "Mission and Vision",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
-            onTap: () {},
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.bullseye,
+            label: "Mission and Vision",
+            onTap: () {
+              // TODO: Add navigation or logic
+            },
           ),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.helmetUn),
-            title: Text(
-              "Projects",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
-            onTap: () {},
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.helmetUn,
+            label: "Projects",
+            onTap: () {
+              // TODO: Add navigation or logic
+            },
           ),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.personBiking),
-            title: Text(
-              "Services",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
-            onTap: () {},
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.personBiking,
+            label: "Services",
+            onTap: () {
+              // TODO: Add navigation or logic
+            },
           ),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.userShield),
-            title: Text(
-              "Privacy Policy",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
-            onTap: () {},
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.userShield,
+            label: "Privacy Policy",
+            onTap: () {
+              // TODO: Add navigation or logic
+            },
           ),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.code),
-            title: Text(
-              "Development Credits",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.code,
+            label: "Development Credits",
             onTap: () {
               Navigator.of(
                 context,
               ).pushNamed(PublicRoutesName.developmentCreditsPage);
             },
           ),
-
           const Spacer(),
-          ListTile(
-            leading: const FaIcon(FontAwesomeIcons.houseChimney),
-            title: Text(
-              "Home",
-              style: TextStyle(color: context.theme.colorScheme.onSurface),
-            ),
+          Divider(height: 1),
+          _buildDrawerItem(
+            context,
+            icon: FontAwesomeIcons.houseChimney,
+            label: "Home",
             onTap: () {
               Navigator.of(context).pushNamed(PublicRoutesName.landingPage);
             },
@@ -107,6 +103,22 @@ class PublicHomeDrawer extends StatelessWidget {
           const SizedBox(height: 10),
         ],
       ),
+    );
+  }
+
+  Widget _buildDrawerItem(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: FaIcon(icon, color: context.theme.iconTheme.color),
+      title: Text(
+        label,
+        style: TextStyle(color: context.theme.colorScheme.onSurface),
+      ),
+      onTap: onTap,
     );
   }
 }

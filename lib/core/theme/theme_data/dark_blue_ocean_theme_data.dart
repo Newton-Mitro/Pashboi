@@ -1,73 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/primary_light_colors.dart';
+import 'package:pashboi/core/theme/values/colors/dark_blue_ocean_colors.dart';
 
-final _primaryLightColors = PrimaryLightColors();
-
-ThemeData get blueOceanThemeData => ThemeData(
+final _darkBlueOceanColors = DarkBlueOceanColors();
+ThemeData get darkBlueOceanThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _primaryLightColors.background,
-  colorScheme: ColorScheme.light(
-    primary: _primaryLightColors.primary,
-    onPrimary: _primaryLightColors.onPrimary,
-    primaryContainer: _primaryLightColors.primaryContainer,
-    onPrimaryContainer: _primaryLightColors.onPrimaryContainer,
-    secondary: _primaryLightColors.secondary,
-    onSecondary: _primaryLightColors.onSecondary,
-    secondaryContainer: _primaryLightColors.secondaryContainer,
-    onSecondaryContainer: _primaryLightColors.onSecondaryContainer,
-    tertiary: _primaryLightColors.tertiary,
-    onTertiary: _primaryLightColors.onTertiary,
-    tertiaryContainer: _primaryLightColors.tertiaryContainer,
-    onTertiaryContainer: _primaryLightColors.onTertiaryContainer,
-    error: _primaryLightColors.error,
-    onError: _primaryLightColors.onError,
-    errorContainer: _primaryLightColors.errorContainer,
-    onErrorContainer: _primaryLightColors.onErrorContainer,
-    surface: _primaryLightColors.surface,
-    onSurface: _primaryLightColors.onSurface,
-    surfaceContainerHighest: _primaryLightColors.surfaceContainer,
-    onSurfaceVariant: _primaryLightColors.onSurfaceVariant,
-    outline: _primaryLightColors.outline,
-    shadow: _primaryLightColors.shadow,
-    inverseSurface: _primaryLightColors.inverseSurface,
-    onInverseSurface: _primaryLightColors.onInverseSurface,
-    inversePrimary: _primaryLightColors.inversePrimary,
-    surfaceTint: _primaryLightColors.surfaceTint,
+  scaffoldBackgroundColor: _darkBlueOceanColors.background,
+  colorScheme: ColorScheme.dark(
+    brightness: Brightness.dark,
+    primary: _darkBlueOceanColors.primary,
+    onPrimary: _darkBlueOceanColors.onPrimary,
+    primaryContainer: _darkBlueOceanColors.primaryContainer,
+    onPrimaryContainer: _darkBlueOceanColors.onPrimaryContainer,
+    secondary: _darkBlueOceanColors.secondary,
+    onSecondary: _darkBlueOceanColors.onSecondary,
+    secondaryContainer: _darkBlueOceanColors.secondaryContainer,
+    onSecondaryContainer: _darkBlueOceanColors.onSecondaryContainer,
+    tertiary: _darkBlueOceanColors.tertiary,
+    onTertiary: _darkBlueOceanColors.onTertiary,
+    tertiaryContainer: _darkBlueOceanColors.tertiaryContainer,
+    onTertiaryContainer: _darkBlueOceanColors.onTertiaryContainer,
+    error: _darkBlueOceanColors.error,
+    onError: _darkBlueOceanColors.onError,
+    errorContainer: _darkBlueOceanColors.errorContainer,
+    onErrorContainer: _darkBlueOceanColors.onErrorContainer,
+    surface: _darkBlueOceanColors.surface,
+    onSurface: _darkBlueOceanColors.onSurface,
+    surfaceContainerHighest: _darkBlueOceanColors.surfaceContainer,
+    onSurfaceVariant: _darkBlueOceanColors.onSurfaceVariant,
+    outline: _darkBlueOceanColors.outline,
+    shadow: _darkBlueOceanColors.shadow,
+    inverseSurface: _darkBlueOceanColors.inverseSurface,
+    onInverseSurface: _darkBlueOceanColors.onInverseSurface,
+    inversePrimary: _darkBlueOceanColors.inversePrimary,
+    surfaceTint: _darkBlueOceanColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _primaryLightColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _darkBlueOceanColors.surface),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _primaryLightColors.surface, // Background color
+      color: _darkBlueOceanColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _primaryLightColors.onSurface, // Foreground (text) color
+      color: _darkBlueOceanColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_primaryLightColors.primary),
-    trackColor: WidgetStateProperty.all(_primaryLightColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_darkBlueOceanColors.primary),
+    trackColor: WidgetStateProperty.all(_darkBlueOceanColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_primaryLightColors.onSurface),
+  textTheme: _buildTextTheme(_darkBlueOceanColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _primaryLightColors.onPrimary,
+      color: _darkBlueOceanColors.onPrimary,
     ),
-    backgroundColor: _primaryLightColors.primary,
+    backgroundColor: _darkBlueOceanColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _primaryLightColors.onPrimary),
+    iconTheme: IconThemeData(color: _darkBlueOceanColors.onPrimary),
+  ),
+  tabBarTheme: TabBarThemeData(
+    indicatorColor: _darkBlueOceanColors.error,
+    labelColor: _darkBlueOceanColors.selected,
+    unselectedLabelColor: _darkBlueOceanColors.unSelected,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _primaryLightColors.primary,
-    selectedItemColor: _primaryLightColors.selected,
-    unselectedItemColor: _primaryLightColors.unSelected,
+    backgroundColor: _darkBlueOceanColors.primary,
+    selectedItemColor: _darkBlueOceanColors.selected,
+    unselectedItemColor: _darkBlueOceanColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -75,10 +80,10 @@ ThemeData get blueOceanThemeData => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _primaryLightColors.secondary),
+        side: BorderSide(color: _darkBlueOceanColors.secondary),
       ),
-      backgroundColor: _primaryLightColors.primary,
-      foregroundColor: _primaryLightColors.onPrimary,
+      backgroundColor: _darkBlueOceanColors.primary,
+      foregroundColor: _darkBlueOceanColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

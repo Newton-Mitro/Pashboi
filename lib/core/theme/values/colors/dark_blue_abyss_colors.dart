@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-class PrimaryDarkColors extends AppColors {
+class DarkBlueAbyssColors extends AppColors {
   static const Color _primary = Color.fromARGB(255, 29, 36, 48);
 
   @override
@@ -59,7 +59,7 @@ class PrimaryDarkColors extends AppColors {
   Color get onSecondaryFixedVariant => Colors.white70;
 
   @override
-  Color get tertiary => Color(0xFF7A91B5);
+  Color get tertiary => Color.fromARGB(255, 159, 184, 224);
 
   @override
   Color get onTertiary => Colors.white;
@@ -161,8 +161,8 @@ class PrimaryDarkColors extends AppColors {
   Color get selected => _primary;
 
   @override
-  Color get unSelected => Colors.white.withOpacity(0.6);
+  Color get unSelected => const Color.fromARGB(160, 255, 255, 255);
 
   @override
-  Color get disabled => Colors.white.withOpacity(0.38);
+  Color get disabled => const Color.fromARGB(144, 255, 255, 255);
 }

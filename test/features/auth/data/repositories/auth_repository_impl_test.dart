@@ -163,4 +163,157 @@ void main() {
       expect(result.fold((l) => l, (_) => null), isA<Failure>());
     });
   });
+
+  group('verifyMobileNumber', () {
+    const mobileNumber = '01700000000';
+    const verificationResponse = 'OTP sent';
+    const isRegistered = true;
+
+    test(
+      'should return Right(String) and cache mobile number on success',
+      () async {
+        when(
+          () => mockRemote.verifyMobileNumber(mobileNumber, isRegistered),
+        ).thenAnswer((_) async => verificationResponse);
+        when(
+          () => mockLocal.setRegisteredMobile(mobileNumber),
+        ).thenAnswer((_) async => {});
+
+        final result = await repository.verifyMobileNumber(
+          mobileNumber,
+          isRegistered,
+        );
+
+        expect(result, Right(verificationResponse));
+        verify(
+          () => mockRemote.verifyMobileNumber(mobileNumber, isRegistered),
+        ).called(1);
+        verify(() => mockLocal.setRegisteredMobile(mobileNumber)).called(1);
+      },
+    );
+
+    test('should return Left(Failure) on exception', () async {
+      when(
+        () => mockRemote.verifyMobileNumber(mobileNumber, isRegistered),
+      ).thenThrow(Exception('Network error'));
+
+      final result = await repository.verifyMobileNumber(
+        mobileNumber,
+        isRegistered,
+      );
+
+      expect(result.isLeft(), true);
+      expect(result.fold((l) => l, (_) => null), isA<Failure>());
+    });
+  });
+
+  group('verifyOtp', () {
+    const otpRegId = 'otp123';
+    const otpValue = '123456';
+    const mobileNumber = '01700000000';
+    const verificationResult = 'Verified';
+
+    test('should return Right(String) on success', () async {
+      when(
+        () => mockRemote.verifyOtp(otpRegId, otpValue, mobileNumber),
+      ).thenAnswer((_) async => verificationResult);
+
+      final result = await repository.verifyOtp(
+        otpRegId,
+        otpValue,
+        mobileNumber,
+      );
+
+      expect(result, Right(verificationResult));
+      verify(
+        () => mockRemote.verifyOtp(otpRegId, otpValue, mobileNumber),
+      ).called(1);
+    });
+
+    test('should return Left(Failure) on exception', () async {
+      when(
+        () => mockRemote.verifyOtp(otpRegId, otpValue, mobileNumber),
+      ).thenThrow(Exception('OTP failed'));
+
+      final result = await repository.verifyOtp(
+        otpRegId,
+        otpValue,
+        mobileNumber,
+      );
+
+      expect(result.isLeft(), true);
+      expect(result.fold((l) => l, (_) => null), isA<Failure>());
+    });
+  });
+
+  group('getRegisteredMobile', () {
+    const registeredMobile = '01700000000';
+
+    test('should return Right(String) from local storage', () async {
+      when(
+        () => mockLocal.getRegisteredMobile(),
+      ).thenAnswer((_) async => registeredMobile);
+
+      final result = await repository.getRegisteredMobile();
+
+      expect(result, Right(registeredMobile));
+      verify(() => mockLocal.getRegisteredMobile()).called(1);
+    });
+
+    test('should return Left(Failure) on exception', () async {
+      when(
+        () => mockLocal.getRegisteredMobile(),
+      ).thenThrow(Exception('Cache error'));
+
+      final result = await repository.getRegisteredMobile();
+
+      expect(result.isLeft(), true);
+      expect(result.fold((l) => l, (_) => null), isA<Failure>());
+    });
+  });
+
+  group('resetPassword', () {
+    const mobileNumber = '01700000000';
+    const newPassword = 'new_password';
+    const response = 'Password reset successful';
+
+    test('should return Right(String) on success', () async {
+      when(
+        () => mockRemote.resetPassword(
+          mobileNumber: mobileNumber,
+          password: newPassword,
+        ),
+      ).thenAnswer((_) async => response);
+
+      final result = await repository.resetPassword(
+        mobileNumber: mobileNumber,
+        password: newPassword,
+      );
+
+      expect(result, Right(response));
+      verify(
+        () => mockRemote.resetPassword(
+          mobileNumber: mobileNumber,
+          password: newPassword,
+        ),
+      ).called(1);
+    });
+
+    test('should return Left(Failure) on exception', () async {
+      when(
+        () => mockRemote.resetPassword(
+          mobileNumber: mobileNumber,
+          password: newPassword,
+        ),
+      ).thenThrow(Exception('Reset failed'));
+
+      final result = await repository.resetPassword(
+        mobileNumber: mobileNumber,
+        password: newPassword,
+      );
+
+      expect(result.isLeft(), true);
+      expect(result.fold((l) => l, (_) => null), isA<Failure>());
+    });
+  });
 }

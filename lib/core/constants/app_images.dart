@@ -20,11 +20,12 @@ class AppImages {
       '${rootPath}onboarding/onboarding_four.jpg';
 
   //icons
-  static const String pathPrimaryDarkBgImage =
-      '${rootPath}bg/primary_dark_bg.png';
-  static const String pathPrimaryLightBgImage =
-      '${rootPath}bg/primary_light_bg.png';
-  static const String pathForeverGreenLightBgImage =
-      '${rootPath}bg/ever_green_bg.png';
-  static const String pathPinkLightBgImage = '${rootPath}bg/women.png';
+  static const String blueOceanThemeBackground = '${rootPath}bg/blue_ocean.png';
+  static const String darkBlueAbyssthemeBackground =
+      '${rootPath}bg/dark_blue_abyss.png';
+  static const String oliverPetalThemeBackground =
+      '${rootPath}bg/oliver_petal.png';
+  static const String darkBlueOceanThemeBackground =
+      '${rootPath}bg/dark_blue_ocean.png';
+  static const String eleganceThemeBackground = '${rootPath}bg/elegance.png';
 }

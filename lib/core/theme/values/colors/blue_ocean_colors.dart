@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/values/colors/app_colors.dart';
 
-class PrimaryLightColors implements AppColors {
+class BlueOceanColors implements AppColors {
   // Base Colors
   static const Color _primary = Color.fromARGB(255, 1, 34, 83);
   static const Color _secondary = Color(0xFF00639A);
@@ -47,7 +47,7 @@ class PrimaryLightColors implements AppColors {
   Color get onSecondaryFixedVariant => secondaryVariant;
 
   @override
-  Color get tertiary => _tertiary;
+  Color get tertiary => const Color.fromARGB(255, 224, 188, 247);
   @override
   Color get onTertiary => Colors.white;
   @override

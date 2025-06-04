@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-class ForeverGreenLightColor implements AppColors {
+class OliverPetalColors implements AppColors {
   static const Color _primary = Color.fromARGB(255, 26, 124, 70); // #1A7C46
 
   @override
@@ -59,7 +59,7 @@ class ForeverGreenLightColor implements AppColors {
   Color get onSecondaryFixedVariant => Colors.white70;
 
   @override
-  Color get tertiary => Color(0xFF65A86D); // more vibrant green
+  Color get tertiary => Color.fromARGB(255, 205, 248, 210); // more vibrant green
 
   @override
   Color get onTertiary => Colors.white;
@@ -161,8 +161,8 @@ class ForeverGreenLightColor implements AppColors {
   Color get selected => Colors.white;
 
   @override
-  Color get unSelected => const Color.fromARGB(255, 176, 194, 182);
+  Color get unSelected => const Color.fromARGB(160, 255, 255, 255);
 
   @override
-  Color get disabled => const Color(0xFF1B1B1F).withOpacity(0.38);
+  Color get disabled => const Color.fromARGB(144, 255, 255, 255);
 }

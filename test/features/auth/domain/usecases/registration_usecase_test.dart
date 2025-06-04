@@ -13,7 +13,6 @@ void main() {
   const tEmail = 'test@example.com';
   const tPassword = 'password123';
   const tConfirmPassword = 'password123';
-  const tRequestFrom = 'Pashboi';
   const tSuccessMessage = 'Registration successful';
 
   final tParams = RegistrationParams(

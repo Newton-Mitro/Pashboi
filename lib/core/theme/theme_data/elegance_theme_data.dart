@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/pink_light_colors.dart';
+import 'package:pashboi/core/theme/values/colors/elegance_colors.dart';
 
-final _pinkLightColors = PinkLightColors();
+final _pinkLightColors = EleganceColors();
 
 ThemeData get eleganceThemeData => ThemeData(
   useMaterial3: true,
@@ -63,6 +63,11 @@ ThemeData get eleganceThemeData => ThemeData(
     backgroundColor: _pinkLightColors.primary,
     elevation: 0,
     iconTheme: IconThemeData(color: _pinkLightColors.onPrimary),
+  ),
+  tabBarTheme: TabBarThemeData(
+    indicatorColor: _pinkLightColors.error,
+    labelColor: _pinkLightColors.selected,
+    unselectedLabelColor: _pinkLightColors.unSelected,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: _pinkLightColors.primary,
