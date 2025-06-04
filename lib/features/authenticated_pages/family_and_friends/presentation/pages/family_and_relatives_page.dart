@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/app_icon_card.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -58,10 +59,6 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
     },
   ];
 
-  void onTap() {
-    // TODO: Implement tap functionality
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -90,8 +87,9 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
                         : ListView.builder(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
-                            vertical: 30,
+                            vertical: 20,
                           ),
+
                           itemCount: accountInfo.length,
                           itemBuilder: (context, index) {
                             final info = accountInfo[index];
@@ -103,136 +101,127 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
                             final requestStatus = info['status'];
 
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: InkWell(
-                                onTap: onTap,
-                                borderRadius: BorderRadius.circular(6),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: context.theme.colorScheme.surface,
-                                    border: Border.all(
-                                      color: context.theme.colorScheme.primary,
-                                      width: 2,
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: AppIconCard(
+                                showRightIcon: false,
+                                leftIcon: icon,
+                                cardBody: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      info['name'],
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: theme.colorScheme.onSurface,
+                                      ),
                                     ),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: IntrinsicHeight(
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  context
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      info['relation'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: theme.colorScheme.onSurface,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            requestStatus == "Approved"
+                                                ? Colors.green
+                                                : Colors.orange,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        requestStatus,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'Lexend',
+                                          fontWeight: FontWeight.normal,
+                                          color:
+                                              requestStatus == "Approved"
+                                                  ? context
                                                       .theme
                                                       .colorScheme
-                                                      .primary,
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                    topLeft: Radius.circular(4),
-                                                    bottomLeft: Radius.circular(
-                                                      4,
-                                                    ),
-                                                  ),
-                                            ),
-                                            child: SizedBox.expand(
-                                              child: Center(
-                                                child: Icon(
-                                                  icon,
-                                                  size: 30,
-                                                  color:
-                                                      context
-                                                          .theme
-                                                          .colorScheme
-                                                          .onPrimary,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                                      .onTertiary
+                                                  : context
+                                                      .theme
+                                                      .colorScheme
+                                                      .onSecondary,
                                         ),
-                                        Expanded(
-                                          flex: 9,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 20,
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  info['name'],
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        theme
-                                                            .colorScheme
-                                                            .onSurface,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Text(
-                                                  info['relation'],
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color:
-                                                        theme
-                                                            .colorScheme
-                                                            .onSurface,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                        horizontal: 5,
-                                                        vertical: 0,
-                                                      ),
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        requestStatus ==
-                                                                "Approved"
-                                                            ? Colors.green
-                                                            : Colors.orange,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          4,
-                                                        ),
-                                                  ),
-                                                  child: Text(
-                                                    requestStatus,
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      fontFamily: 'Lexend',
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color:
-                                                          requestStatus ==
-                                                                  "Approved"
-                                                              ? context
-                                                                  .theme
-                                                                  .colorScheme
-                                                                  .onTertiary
-                                                              : context
-                                                                  .theme
-                                                                  .colorScheme
-                                                                  .onSecondary,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
+                                boarderColor: context.theme.colorScheme.primary,
+                                onTap: () {},
                               ),
                             );
+
+                            // return Padding(
+                            //   padding: const EdgeInsets.only(bottom: 12),
+                            //   child: InkWell(
+                            //     onTap: onTap,
+                            //     borderRadius: BorderRadius.circular(6),
+                            //     child: Container(
+                            //       decoration: BoxDecoration(
+                            //         color: context.theme.colorScheme.surface,
+                            //         border: Border.all(
+                            //           color: context.theme.colorScheme.primary,
+                            //           width: 2,
+                            //         ),
+                            //         borderRadius: BorderRadius.circular(6),
+                            //       ),
+                            //       child: IntrinsicHeight(
+                            //         child: Row(
+                            //           children: [
+                            //             Expanded(
+                            //               flex: 3,
+                            //               child: Container(
+                            //                 decoration: BoxDecoration(
+                            //                   color:
+                            //                       context
+                            //                           .theme
+                            //                           .colorScheme
+                            //                           .primary,
+                            //                   borderRadius:
+                            //                       const BorderRadius.only(
+                            //                         topLeft: Radius.circular(4),
+                            //                         bottomLeft: Radius.circular(
+                            //                           4,
+                            //                         ),
+                            //                       ),
+                            //                 ),
+                            //                 child: SizedBox.expand(
+                            //                   child: Center(
+                            //                     child: Icon(
+                            //                       icon,
+                            //                       size: 30,
+                            //                       color:
+                            //                           context
+                            //                               .theme
+                            //                               .colorScheme
+                            //                               .onPrimary,
+                            //                     ),
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //             Expanded(
+                            //               flex: 9,
+                            //               child:
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // );
                           },
                         ),
               ),

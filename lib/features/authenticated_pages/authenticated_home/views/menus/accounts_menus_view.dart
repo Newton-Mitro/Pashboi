@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,6 +22,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
           context,
           "accounts_menu_accounts_description",
         ),
+        "route": AuthRoutesName.myAccountsPage,
       },
       {
         "icon": Icons.credit_card,
@@ -32,6 +34,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
           context,
           "accounts_menu_open_an_account_description",
         ),
+        "route": AuthRoutesName.myAccountsPage,
       },
       {
         "icon": FontAwesomeIcons.children,
@@ -43,6 +46,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
           context,
           "accounts_menu_dependents_accounts_description",
         ),
+        "route": AuthRoutesName.myAccountsPage,
       },
     ];
     return SafeArea(
@@ -57,7 +61,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-              debugPrint("Tapped on ${menu['menuName']}");
+              Navigator.pushNamed(context, menu['route']);
             },
           );
         },

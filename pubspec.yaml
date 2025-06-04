@@ -41,6 +41,8 @@ dependencies:
   crypto: ^3.0.6
   circular_countdown_timer: ^0.2.4
   accordion: ^2.6.0
+  progress_stepper: ^3.1.0
+  syncfusion_flutter_charts: ^29.2.7
 
 dev_dependencies:
   flutter_test:

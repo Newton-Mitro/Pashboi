@@ -1066,6 +1066,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.4"
+  progress_stepper:
+    dependency: "direct main"
+    description:
+      name: progress_stepper
+      sha256: cd822639bd536c92cdc99b8fbed66e6c642761fb26d05c0aa5e1a37cded5d24a
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   proj4dart:
     dependency: transitive
     description:
@@ -1367,6 +1375,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.9"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: "62c085db25866e12c4439169376efbb4d86a25c43292d667daf6af093aa17a36"
+      url: "https://pub.dev"
+    source: hosted
+    version: "29.2.8"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "73904e5db0c4181b179c4d3b28ed40e6c2898ad4d081f2c999a5b8a8f8475e3f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "29.2.8"
   synchronized:
     dependency: transitive
     description:
