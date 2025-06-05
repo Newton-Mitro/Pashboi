@@ -162,66 +162,6 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
                                 onTap: () {},
                               ),
                             );
-
-                            // return Padding(
-                            //   padding: const EdgeInsets.only(bottom: 12),
-                            //   child: InkWell(
-                            //     onTap: onTap,
-                            //     borderRadius: BorderRadius.circular(6),
-                            //     child: Container(
-                            //       decoration: BoxDecoration(
-                            //         color: context.theme.colorScheme.surface,
-                            //         border: Border.all(
-                            //           color: context.theme.colorScheme.primary,
-                            //           width: 2,
-                            //         ),
-                            //         borderRadius: BorderRadius.circular(6),
-                            //       ),
-                            //       child: IntrinsicHeight(
-                            //         child: Row(
-                            //           children: [
-                            //             Expanded(
-                            //               flex: 3,
-                            //               child: Container(
-                            //                 decoration: BoxDecoration(
-                            //                   color:
-                            //                       context
-                            //                           .theme
-                            //                           .colorScheme
-                            //                           .primary,
-                            //                   borderRadius:
-                            //                       const BorderRadius.only(
-                            //                         topLeft: Radius.circular(4),
-                            //                         bottomLeft: Radius.circular(
-                            //                           4,
-                            //                         ),
-                            //                       ),
-                            //                 ),
-                            //                 child: SizedBox.expand(
-                            //                   child: Center(
-                            //                     child: Icon(
-                            //                       icon,
-                            //                       size: 30,
-                            //                       color:
-                            //                           context
-                            //                               .theme
-                            //                               .colorScheme
-                            //                               .onPrimary,
-                            //                     ),
-                            //                   ),
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //             Expanded(
-                            //               flex: 9,
-                            //               child:
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // );
                           },
                         ),
               ),

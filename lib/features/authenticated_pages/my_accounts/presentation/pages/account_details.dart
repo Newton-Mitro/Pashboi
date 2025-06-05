@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_statment_details.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -10,7 +11,6 @@ import 'package:accordion/accordion.dart';
 
 class TransactionAmount {
   TransactionAmount(this.month, this.amount);
-
   final String month;
   final double amount;
 }
@@ -103,309 +103,268 @@ final List<TransactionAmount> withdrawTransactionData =
         )
         .toList();
 
-class AccountDetails extends StatefulWidget {
-  const AccountDetails({super.key});
-
-  @override
-  State<AccountDetails> createState() => _AccountDetailsState();
-}
-
 String formatDate(String inputDate) {
   DateTime date = DateTime.parse(inputDate);
   return DateFormat('dd-MMM-yyyy').format(date);
 }
 
-class _AccountDetailsState extends State<AccountDetails> {
+class AccountDetailsPage extends StatefulWidget {
+  const AccountDetailsPage({super.key});
+  @override
+  State<AccountDetailsPage> createState() => _AccountDetailsPageState();
+}
+
+class _AccountDetailsPageState extends State<AccountDetailsPage> {
+  Widget buildInfoRow(
+    BuildContext context,
+    String title,
+    String value, {
+    IconData icon = Icons.info_outline,
+  }) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      padding: const EdgeInsets.all(5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Center(
+              child: Icon(icon, size: 20, color: colorScheme.onSurface),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: colorScheme.onSurface.withOpacity(0.8),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Account Details')),
+      appBar: AppBar(title: const Text('Account Details')),
       body: PageContainer(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 30,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: context.theme.colorScheme.surface,
-                ),
+                color: context.theme.colorScheme.primary,
+                padding: const EdgeInsets.all(10),
                 child: Column(
-                  spacing: 15,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Account Name",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  accountInfo["AccHolderName"],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    Icon(
+                      FontAwesomeIcons.solidCircleUser,
+                      size: 60,
+                      color: context.theme.colorScheme.onSurface,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Account Number",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  accountInfo['AccountNo'],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 10),
+                    Text(
+                      accountInfo["AccHolderName"].toString().toTitleCase(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.onSurface,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Account Balance",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  TakaFormatter.format(
-                                    int.parse(accountInfo['Balance']),
-                                  ),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 5),
+                    Text(
+                      accountInfo["AccountTypeName"].toString().toTitleCase(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.theme.colorScheme.onSurface,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Withdrawable Balance",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  accountInfo['WithdrawableBalance'].toString(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 5),
+                    Text(
+                      accountInfo["AccountNo"],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.theme.colorScheme.onSurface,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "LastDepositDate",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: context.theme.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                if (accountData['LastDepositDate'] != null)
-                                  Text(
-                                    formatDate(accountInfo['LastPaidDate']),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
-                                      color:
-                                          context.theme.colorScheme.onPrimary,
-                                    ),
-                                  )
-                                else
-                                  Text(
-                                    'No deposit',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
-                                      color:
-                                          context.theme.colorScheme.onPrimary,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    const SizedBox(height: 5),
                   ],
                 ),
               ),
-              const SizedBox(height: 40),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              const SizedBox(height: 30),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 15,
                 children: [
-                  Text(
-                    "Half Yearly Transactions",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: context.theme.colorScheme.onSurface,
+                  Chip(
+                    label: Text(
+                      accountInfo["STATUS"] ?? "Unknown",
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: context.theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    backgroundColor: context.theme.colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    side: BorderSide(
+                      color: context.theme.colorScheme.primary,
+                      width: 1,
+                    ),
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Chip(
+                    label: Text(
+                      (accountInfo["IsDefaulter"]?.toString().isEmpty ?? true)
+                          ? "Regular"
+                          : accountInfo["IsDefaulter"],
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: context.theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    backgroundColor: Colors.redAccent.withOpacity(0.85),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    side: BorderSide(
+                      color: context.theme.colorScheme.primary,
+                      width: 1,
+                    ),
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Available Balance",
+                          style: TextStyle(fontSize: 11),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          TakaFormatter.format(
+                            int.tryParse(accountInfo["Balance"] ?? '0') ?? 0,
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  SfCartesianChart(
-                    primaryXAxis: CategoryAxis(title: AxisTitle(text: '')),
-                    primaryYAxis: NumericAxis(title: AxisTitle(text: '')),
-                    backgroundColor: Colors.transparent,
-                    legend: Legend(isVisible: true),
-                    tooltipBehavior: TooltipBehavior(enable: true),
-                    series: <CartesianSeries<TransactionAmount, String>>[
-                      LineSeries<TransactionAmount, String>(
-                        color: Colors.green,
-                        dataSource: depositTransactionData,
-                        xValueMapper: (txn, _) => txn.month,
-                        yValueMapper: (txn, _) => txn.amount,
-                        name: 'Cash IN',
-                        dataLabelSettings: const DataLabelSettings(
-                          isVisible: true,
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Withdrawable Balance",
+                          style: TextStyle(fontSize: 11),
                         ),
-                      ),
-                      LineSeries<TransactionAmount, String>(
-                        color: Colors.red,
-                        dataSource: withdrawTransactionData,
-                        xValueMapper: (txn, _) => txn.month,
-                        yValueMapper: (txn, _) => txn.amount,
-                        name: 'Cash OUT',
-                        dataLabelSettings: const DataLabelSettings(
-                          isVisible: true,
+                        const SizedBox(height: 5),
+                        Text(
+                          TakaFormatter.format(
+                            int.tryParse(
+                                  accountInfo["WithdrawableBalance"] ?? '0',
+                                ) ??
+                                0,
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              buildInfoRow(
+                context,
+                "Last Deposit Date",
+                accountInfo["LastPaidDate"] != null
+                    ? formatDate(accountInfo["LastPaidDate"])
+                    : 'No deposit',
+              ),
+              buildInfoRow(
+                context,
+                "Maturity Date",
+                formatDate(accountInfo["MaturityDate"]),
+              ),
+              buildInfoRow(
+                context,
+                "Nominee",
+                accountInfo["AccountNominee"].toString().toTitleCase(),
+              ),
+              const SizedBox(height: 40),
+              SfCartesianChart(
+                title: ChartTitle(
+                  text: 'Half Yearly Transactions',
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                legend: Legend(
+                  isVisible: true,
+                  position: LegendPosition.top,
+                  overflowMode: LegendItemOverflowMode.wrap,
+                ),
+                tooltipBehavior: TooltipBehavior(enable: true),
+                primaryXAxis: CategoryAxis(),
+                primaryYAxis: NumericAxis(),
+                series: <CartesianSeries>[
+                  LineSeries<TransactionAmount, String>(
+                    name: 'Cash IN',
+                    dataSource: depositTransactionData,
+                    xValueMapper: (txn, _) => txn.month,
+                    yValueMapper: (txn, _) => txn.amount,
+                    color: Colors.green,
+                    markerSettings: const MarkerSettings(isVisible: true),
+                  ),
+                  LineSeries<TransactionAmount, String>(
+                    name: 'Cash OUT',
+                    dataSource: withdrawTransactionData,
+                    xValueMapper: (txn, _) => txn.month,
+                    yValueMapper: (txn, _) => txn.amount,
+                    color: Colors.red,
+                    markerSettings: const MarkerSettings(isVisible: true),
                   ),
                 ],
               ),

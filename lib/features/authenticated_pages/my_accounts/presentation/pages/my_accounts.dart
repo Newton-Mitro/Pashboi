@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/app_icon_card.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_card_body.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -97,21 +98,24 @@ class _MyAccountsPageState extends State<MyAccountsPage> {
               // Chart Section
               Column(
                 children: [
-                  Center(
-                    child: Text(
-                      "Accounts Summary",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
                     backgroundColor: Colors.transparent,
-                    legend: Legend(isVisible: true),
+                    legend: Legend(
+                      isVisible: true,
+                      position: LegendPosition.top,
+
+                      overflowMode: LegendItemOverflowMode.wrap,
+                    ),
+                    enableSideBySideSeriesPlacement: true,
+                    title: ChartTitle(
+                      text: 'Account Summary',
+                      textStyle: TextStyle(
+                        color: context.theme.colorScheme.onSurface,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                     tooltipBehavior: TooltipBehavior(enable: true),
                     series: <CartesianSeries<AccountData, String>>[
                       BarSeries<AccountData, String>(
@@ -119,6 +123,9 @@ class _MyAccountsPageState extends State<MyAccountsPage> {
                         xValueMapper: (data, _) => data.accountShortName,
                         yValueMapper: (data, _) => data.balance,
                         name: 'Amount',
+                        color: context.theme.colorScheme.primary,
+                        pointColorMapper:
+                            (data, _) => context.theme.colorScheme.primary,
                         dataLabelMapper:
                             (data, _) => data.balance.toStringAsFixed(0),
                         dataLabelSettings: const DataLabelSettings(
@@ -150,7 +157,10 @@ class _MyAccountsPageState extends State<MyAccountsPage> {
                             icon: FontAwesomeIcons.angleRight,
                           ),
                           onTap: () {
-                            print("object");
+                            Navigator.pushNamed(
+                              context,
+                              AuthRoutesName.accountsDetailsPage,
+                            );
                           },
                         ),
                       );
