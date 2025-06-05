@@ -4,7 +4,7 @@ class TakaFormatter {
   static final _currencyFormat = NumberFormat.currency(
     locale: 'en_BD',
     symbol: '৳',
-    decimalDigits: 2,
+    decimalDigits: 0,
     customPattern: '#,###.## ৳', // Places symbol after amount
   );
 

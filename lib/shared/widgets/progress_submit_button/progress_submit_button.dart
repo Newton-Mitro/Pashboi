@@ -92,7 +92,7 @@ class _ProgressSubmitButtonState extends State<ProgressSubmitButton> {
                 style: TextStyle(
                   color: widget.foregroundColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 14,
                 ),
               ),
             ),

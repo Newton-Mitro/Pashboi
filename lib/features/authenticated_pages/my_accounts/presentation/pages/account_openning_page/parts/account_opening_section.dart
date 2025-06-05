@@ -57,9 +57,8 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
-                  spacing: 15,
+                  spacing: 10,
                   children: [
-                    SizedBox(height: 5),
                     AppTextInput(
                       controller: _accountSearchController,
                       label: "Account Name",
@@ -81,10 +80,7 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                               )
                               .toList(),
                       onChanged: (p0) {},
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.user,
-                        color: context.theme.colorScheme.onPrimary,
-                      ),
+                      prefixIcon: FontAwesomeIcons.user,
                     ),
                     AppTextInput(
                       controller: _accountSearchController,
@@ -104,9 +100,9 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                     ),
                     AppDropdownSelect(
                       value: _dropdownController,
-                      label: "    ",
+                      label: "Installment Amount",
                       items:
-                          ["Father", "Mother", "Sibling", "Other"]
+                          ["500", "1000", "1500", "2000"]
                               .map(
                                 (gender) => DropdownMenuItem(
                                   value: gender,
@@ -115,14 +111,11 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                               )
                               .toList(),
                       onChanged: (p0) {},
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.user,
-                        color: context.theme.colorScheme.onPrimary,
-                      ),
+                      prefixIcon: FontAwesomeIcons.user,
                     ),
                     AppTextInput(
                       controller: _accountSearchController,
-                      label: "Interest Transfer To",
+                      label: "Interest Transfer Account",
                       prefixIcon: Icon(
                         FontAwesomeIcons.buildingColumns,
                         color: context.theme.colorScheme.onSurface,

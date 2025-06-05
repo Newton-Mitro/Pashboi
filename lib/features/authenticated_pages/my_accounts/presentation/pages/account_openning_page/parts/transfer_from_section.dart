@@ -22,7 +22,7 @@ class _TransferFromSectionState extends State<TransferFromSection> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: context.theme.colorScheme.surface,
             border: Border.all(color: context.theme.colorScheme.primary),
             borderRadius: BorderRadius.circular(6),
           ),
@@ -44,7 +44,7 @@ class _TransferFromSectionState extends State<TransferFromSection> {
                 ),
                 child: Center(
                   child: Text(
-                    "Transfer From",
+                    "Money Will Be Transferred From",
                     style: TextStyle(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: 15,
@@ -71,10 +71,7 @@ class _TransferFromSectionState extends State<TransferFromSection> {
                                 ),
                               )
                               .toList(),
-                      prefixIcon: Icon(
-                        Icons.account_balance,
-                        color: context.theme.colorScheme.onPrimary,
-                      ),
+                      prefixIcon: Icons.account_balance,
                       onChanged: (p0) {},
                     ),
                     AppTextInput(

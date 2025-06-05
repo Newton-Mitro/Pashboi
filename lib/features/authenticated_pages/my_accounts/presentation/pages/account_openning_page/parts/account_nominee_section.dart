@@ -21,7 +21,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: context.theme.colorScheme.surface,
             border: Border.all(color: context.theme.colorScheme.primary),
             borderRadius: BorderRadius.circular(6),
           ),
@@ -43,7 +43,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
                 ),
                 child: Center(
                   child: Text(
-                    "Account For",
+                    "Select Account Nominee",
                     style: TextStyle(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: 15,
@@ -62,10 +62,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
                       children: [
                         AppDropdownSelect(
                           label: "Select Nominee",
-                          prefixIcon: Icon(
-                            FontAwesomeIcons.user,
-                            color: context.theme.colorScheme.onPrimary,
-                          ),
+                          prefixIcon: FontAwesomeIcons.user,
                           value: _dropdownController,
                           onChanged: (p0) {
                             setState(() {
@@ -84,10 +81,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
                         ),
                         AppDropdownSelect(
                           label: "Share Percentage",
-                          prefixIcon: Icon(
-                            FontAwesomeIcons.percent,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
+                          prefixIcon: FontAwesomeIcons.percent,
                           value: _sharePercentage,
                           onChanged: (value) {
                             setState(() {
@@ -119,7 +113,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
         SizedBox(height: 25),
         Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: context.theme.colorScheme.surface,
             border: Border.all(color: context.theme.colorScheme.primary),
             borderRadius: BorderRadius.circular(2),
           ),
@@ -141,7 +135,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
                 ),
                 child: Center(
                   child: Text(
-                    "Appointed Nominee",
+                    "Appointed Nominee's",
                     style: TextStyle(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: 15,

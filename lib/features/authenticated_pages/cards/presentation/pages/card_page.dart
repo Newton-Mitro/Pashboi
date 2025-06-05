@@ -165,12 +165,12 @@ class _CardPageState extends State<CardPage> {
         padding: const EdgeInsets.all(5.0),
         child: ProgressSubmitButton(
           width: MediaQuery.of(context).size.width - 10,
-          height: 150,
+          height: 100,
           backgroundColor: context.theme.colorScheme.primary,
           progressColor: context.theme.colorScheme.secondary,
           foregroundColor: context.theme.colorScheme.onPrimary,
           duration: 3,
-          label: 'Hold to Submit',
+          label: 'Hold & Press to Submit',
           onSubmit: () {
             print('Submitted!');
           },

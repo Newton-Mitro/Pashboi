@@ -22,7 +22,7 @@ class _CardPinVerificationSectionState
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: context.theme.colorScheme.surface,
             border: Border.all(color: context.theme.colorScheme.primary),
             borderRadius: BorderRadius.circular(6),
           ),
@@ -44,7 +44,7 @@ class _CardPinVerificationSectionState
                 ),
                 child: Center(
                   child: Text(
-                    "Card PIN Verification",
+                    "Verify Card PIN",
                     style: TextStyle(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: 15,

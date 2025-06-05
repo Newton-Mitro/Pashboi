@@ -7,7 +7,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
   final void Function(T?) onChanged;
   final String label;
   final String? errorText;
-  final Icon? prefixIcon;
+  final IconData? prefixIcon;
 
   const AppDropdownSelect({
     super.key,
@@ -74,7 +74,13 @@ class AppDropdownSelect<T> extends StatelessWidget {
               labelStyle: TextStyle(color: context.theme.colorScheme.onSurface),
               filled: true,
               isDense: true,
-              prefixIcon: prefixIcon,
+              prefixIcon:
+                  prefixIcon != null
+                      ? Icon(
+                        prefixIcon,
+                        color: context.theme.colorScheme.onSurface,
+                      )
+                      : null,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 8,

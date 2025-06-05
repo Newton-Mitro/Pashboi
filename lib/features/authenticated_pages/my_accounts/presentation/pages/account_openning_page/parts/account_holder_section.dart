@@ -4,14 +4,14 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
-class AccountOperatorSection extends StatefulWidget {
-  const AccountOperatorSection({super.key});
+class AccountHolderSection extends StatefulWidget {
+  const AccountHolderSection({super.key});
 
   @override
-  State<AccountOperatorSection> createState() => _AccountOperatorSectionState();
+  State<AccountHolderSection> createState() => _AccountHolderSectionState();
 }
 
-class _AccountOperatorSectionState extends State<AccountOperatorSection> {
+class _AccountHolderSectionState extends State<AccountHolderSection> {
   String? _dropdownController;
   final TextEditingController _accountSearchController =
       TextEditingController();
@@ -21,7 +21,7 @@ class _AccountOperatorSectionState extends State<AccountOperatorSection> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: context.theme.colorScheme.surface,
             border: Border.all(color: context.theme.colorScheme.primary),
             borderRadius: BorderRadius.circular(6),
           ),
@@ -43,7 +43,7 @@ class _AccountOperatorSectionState extends State<AccountOperatorSection> {
                 ),
                 child: Center(
                   child: Text(
-                    "Account For",
+                    "Select An Account Holder",
                     style: TextStyle(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: 15,
@@ -60,10 +60,7 @@ class _AccountOperatorSectionState extends State<AccountOperatorSection> {
                     SizedBox(height: 1),
                     AppDropdownSelect(
                       label: "Select Account Type",
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.tag,
-                        color: context.theme.colorScheme.onPrimary,
-                      ),
+                      prefixIcon: FontAwesomeIcons.tag,
                       value: _dropdownController,
                       onChanged: (p0) {},
                       items:
@@ -89,10 +86,7 @@ class _AccountOperatorSectionState extends State<AccountOperatorSection> {
                               )
                               .toList(),
                       onChanged: (p0) {},
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.user,
-                        color: context.theme.colorScheme.onPrimary,
-                      ),
+                      prefixIcon: FontAwesomeIcons.user,
                     ),
                   ],
                 ),
@@ -103,7 +97,7 @@ class _AccountOperatorSectionState extends State<AccountOperatorSection> {
         SizedBox(height: 25),
         Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: context.theme.colorScheme.surface,
             border: Border.all(color: context.theme.colorScheme.primary),
             borderRadius: BorderRadius.circular(6),
           ),
@@ -125,7 +119,7 @@ class _AccountOperatorSectionState extends State<AccountOperatorSection> {
                 ),
                 child: Center(
                   child: Text(
-                    "Account Operator",
+                    "Selected Account Operator",
                     style: TextStyle(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: 15,
@@ -142,7 +136,7 @@ class _AccountOperatorSectionState extends State<AccountOperatorSection> {
                     SizedBox(height: 5),
                     AppTextInput(
                       controller: _accountSearchController,
-                      label: "Select Operator",
+                      label: "Selected Operator",
                       prefixIcon: Icon(
                         FontAwesomeIcons.user,
                         color: context.theme.colorScheme.onSurface,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/shared/widgets/app_date_picker.dart';
-import 'package:pashboi/shared/widgets/app_date_time_picker.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
@@ -90,7 +88,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                       selectedRelationship = value;
                     });
                   },
-                  prefixIcon: const Icon(Icons.person_outline),
+                  prefixIcon: Icons.person_outline,
                   errorText:
                       selectedRelationship == null
                           ? "Please select a relationship"
@@ -105,12 +103,12 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
         padding: const EdgeInsets.all(5.0),
         child: ProgressSubmitButton(
           width: MediaQuery.of(context).size.width - 10,
-          height: 150,
+          height: 100,
           backgroundColor: context.theme.colorScheme.primary,
           progressColor: context.theme.colorScheme.secondary,
           foregroundColor: context.theme.colorScheme.onPrimary,
           duration: 3,
-          label: 'Hold to Submit',
+          label: 'Hold & Press to Submit',
           onSubmit: () {
             if (selectedRelationship == null ||
                 _accountHolderController.text.isEmpty) {

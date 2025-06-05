@@ -18,7 +18,7 @@ class _AccountOpeningPreviewSectionState
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: context.theme.colorScheme.surface,
             border: Border.all(color: context.theme.colorScheme.primary),
             borderRadius: BorderRadius.circular(6),
           ),
@@ -40,7 +40,7 @@ class _AccountOpeningPreviewSectionState
                 ),
                 child: Center(
                   child: Text(
-                    "Preview",
+                    "Account Preview",
                     style: TextStyle(
                       color: context.theme.colorScheme.onPrimary,
                       fontSize: 15,
@@ -196,7 +196,7 @@ class _AccountOpeningPreviewSectionState
                           ),
 
                           Text(
-                            "Appointed Nominee",
+                            "Appointed Nominee's",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
