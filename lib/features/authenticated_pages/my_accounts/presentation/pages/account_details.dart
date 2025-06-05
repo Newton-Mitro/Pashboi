@@ -39,7 +39,7 @@ final Map<String, dynamic> accountInfo = {
   "LedgerId": 1500,
   "MaturityDate": "2031-05-22T12:42:25.71",
   "AccountTypeCode": 30,
-  "IsDefaulter": "",
+  "IsDefaulter": true,
 };
 
 final Map<String, dynamic> accountData = {
@@ -222,13 +222,13 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               const SizedBox(height: 30),
               Wrap(
                 alignment: WrapAlignment.center,
-                spacing: 15,
+                spacing: 20,
                 children: [
                   Chip(
                     label: Text(
                       accountInfo["STATUS"] ?? "Unknown",
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         color: context.theme.colorScheme.onSurface,
                       ),
                     ),
@@ -245,20 +245,26 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   ),
                   Chip(
                     label: Text(
-                      (accountInfo["IsDefaulter"]?.toString().isEmpty ?? true)
-                          ? "Regular"
-                          : accountInfo["IsDefaulter"],
+                      (accountInfo["IsDefaulter"] as bool)
+                          ? "Defaulter"
+                          : "Regular",
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         color: context.theme.colorScheme.onSurface,
                       ),
                     ),
-                    backgroundColor: Colors.redAccent.withOpacity(0.85),
+                    backgroundColor:
+                        (accountInfo["IsDefaulter"] as bool)
+                            ? context.theme.colorScheme.error
+                            : context.theme.colorScheme.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     side: BorderSide(
-                      color: context.theme.colorScheme.primary,
+                      color:
+                          (accountInfo["IsDefaulter"] as bool)
+                              ? context.theme.colorScheme.error
+                              : context.theme.colorScheme.primary,
                       width: 1,
                     ),
                     visualDensity: VisualDensity.compact,
@@ -332,7 +338,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 "Nominee",
                 accountInfo["AccountNominee"].toString().toTitleCase(),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               SfCartesianChart(
                 title: ChartTitle(
                   text: 'Half Yearly Transactions',

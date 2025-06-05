@@ -34,7 +34,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
           context,
           "accounts_menu_open_an_account_description",
         ),
-        "route": AuthRoutesName.myAccountsPage,
+        "route": AuthRoutesName.createNewAccountPage,
       },
       {
         "icon": FontAwesomeIcons.children,

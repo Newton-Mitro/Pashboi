@@ -6,6 +6,7 @@ import 'package:pashboi/features/authenticated_pages/family_and_friends/presenta
 import 'package:pashboi/features/authenticated_pages/cards/presentation/pages/card_page.dart';
 import 'package:pashboi/features/authenticated_pages/family_and_friends/presentation/pages/family_and_relatives_page.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_details.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/my_accounts.dart';
 import 'package:pashboi/features/authenticated_pages/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/features/authenticated_pages/user/presentation/pages/profile_page.dart';
@@ -107,6 +108,9 @@ class AppRoutes {
 
       case AuthRoutesName.accountsDetailsPage:
         return _materialRoute(AccountDetailsPage());
+
+      case AuthRoutesName.createNewAccountPage:
+        return _materialRoute(AccountOpeningPage());
 
       default:
         return _materialRoute(const AuthenticatedHome());

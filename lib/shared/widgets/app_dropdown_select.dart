@@ -77,7 +77,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
               prefixIcon: prefixIcon,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 10,
-                vertical: 16,
+                vertical: 8,
               ),
               focusedBorder: border.copyWith(
                 borderSide: BorderSide(
