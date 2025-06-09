@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 40,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: theme.colorScheme.primary.withOpacity(0.8),
+              color: theme.colorScheme.primary.withValues(alpha: 0.8),
             ),
             child: Icon(icon, size: 18, color: theme.colorScheme.onPrimary),
           ),
@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(title: Text('Profile')),
       body: PageContainer(
         child: Container(
-          color: theme.colorScheme.primary.withOpacity(0.1),
+          color: theme.colorScheme.primary.withValues(alpha: 0.1),
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
             child: Column(

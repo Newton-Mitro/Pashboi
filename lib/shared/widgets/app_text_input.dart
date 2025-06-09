@@ -8,6 +8,7 @@ class AppTextInput extends StatefulWidget {
   final Icon? prefixIcon;
   final bool obscureText;
   final TextInputType keyboardType;
+  final bool enabled; // ✅ Added: Controls whether input is enabled or not
 
   const AppTextInput({
     super.key,
@@ -17,6 +18,7 @@ class AppTextInput extends StatefulWidget {
     this.prefixIcon,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.enabled = true, // ✅ Default to true
   });
 
   @override
@@ -29,8 +31,7 @@ class _AppTextInputState extends State<AppTextInput> {
   @override
   void initState() {
     super.initState();
-    isObscured =
-        widget.obscureText; // Initialize with widget's obscureText value
+    isObscured = widget.obscureText;
   }
 
   @override
@@ -44,23 +45,36 @@ class _AppTextInputState extends State<AppTextInput> {
             controller: widget.controller,
             obscureText: isObscured,
             keyboardType: widget.keyboardType,
+            enabled: widget.enabled, // ✅ Apply enabled/disabled state
             decoration: InputDecoration(
               labelText: widget.label,
-              labelStyle: TextStyle(color: context.theme.colorScheme.onSurface),
+              labelStyle: TextStyle(
+                color:
+                    widget.enabled
+                        ? context.theme.colorScheme.onSurface
+                        : context.theme.disabledColor,
+              ),
               prefixIcon: widget.prefixIcon,
               filled: true,
               hintStyle: TextStyle(color: context.theme.colorScheme.onSurface),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(
                   color: context.theme.colorScheme.secondary,
                   width: 2.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(
                   color: context.theme.colorScheme.primary,
+                  width: 1.0,
+                ),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(
+                  color: context.theme.colorScheme.primary.withOpacity(0.3),
                   width: 1.0,
                 ),
               ),
@@ -76,15 +90,23 @@ class _AppTextInputState extends State<AppTextInput> {
                           isObscured ? Icons.visibility_off : Icons.visibility,
                           color: context.theme.colorScheme.onSurface,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            isObscured = !isObscured;
-                          });
-                        },
+                        onPressed:
+                            widget.enabled
+                                ? () {
+                                  setState(() {
+                                    isObscured = !isObscured;
+                                  });
+                                }
+                                : null, // Disable toggle if disabled
                       )
                       : null,
             ),
-            style: TextStyle(color: context.theme.colorScheme.onSurface),
+            style: TextStyle(
+              color:
+                  widget.enabled
+                      ? context.theme.colorScheme.onSurface
+                      : context.theme.disabledColor,
+            ),
           ),
         ),
         if (widget.errorText != null)

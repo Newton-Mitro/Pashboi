@@ -47,7 +47,7 @@ class _AccountStatmentDetailsState extends State<AccountStatmentDetails> {
             if (deposit == 0 && withdraw == 0) {
               amount = balance;
             } else {
-              amount = deposit > 0 ? '+${deposit}' : '-${withdraw}';
+              amount = deposit > 0 ? '+$deposit' : '-$withdraw';
             }
 
             return Row(

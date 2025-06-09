@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/widgets/stepper_setp.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
-class AccountHolderSection extends StatefulWidget {
-  const AccountHolderSection({super.key});
+class AccountHolderSection extends StepperStep {
+  const AccountHolderSection({
+    super.key,
+    super.onNext,
+    super.onPrevious,
+    super.isFirstStep,
+    super.isLastStep,
+  });
 
   @override
   State<AccountHolderSection> createState() => _AccountHolderSectionState();
 }
 
 class _AccountHolderSectionState extends State<AccountHolderSection> {
-  String? _dropdownController;
+  String? _accountType;
+  String? _accountHolder;
   final TextEditingController _accountSearchController =
       TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,38 +64,45 @@ class _AccountHolderSectionState extends State<AccountHolderSection> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
-                  spacing: 20,
                   children: [
-                    SizedBox(height: 1),
                     AppDropdownSelect(
                       label: "Select Account Type",
                       prefixIcon: FontAwesomeIcons.tag,
-                      value: _dropdownController,
-                      onChanged: (p0) {},
+                      value: _accountType,
+                      onChanged: (value) {
+                        setState(() {
+                          _accountType = value;
+                        });
+                      },
                       items:
                           ["Father", "Mother", "Sibling", "Other"]
                               .map(
-                                (gender) => DropdownMenuItem(
-                                  value: gender,
-                                  child: Text(gender),
+                                (type) => DropdownMenuItem(
+                                  value: type,
+                                  child: Text(type),
                                 ),
                               )
                               .toList(),
                     ),
+                    const SizedBox(height: 20),
                     AppDropdownSelect(
-                      value: _dropdownController,
                       label: "Select Account Holder",
+                      prefixIcon: FontAwesomeIcons.user,
+                      value: _accountHolder,
+                      onChanged: (value) {
+                        setState(() {
+                          _accountHolder = value;
+                        });
+                      },
                       items:
                           ["Father", "Mother", "Sibling", "Other"]
                               .map(
-                                (gender) => DropdownMenuItem(
-                                  value: gender,
-                                  child: Text(gender),
+                                (holder) => DropdownMenuItem(
+                                  value: holder,
+                                  child: Text(holder),
                                 ),
                               )
                               .toList(),
-                      onChanged: (p0) {},
-                      prefixIcon: FontAwesomeIcons.user,
                     ),
                   ],
                 ),
@@ -94,7 +110,7 @@ class _AccountHolderSectionState extends State<AccountHolderSection> {
             ],
           ),
         ),
-        SizedBox(height: 25),
+        const SizedBox(height: 25),
         Container(
           decoration: BoxDecoration(
             color: context.theme.colorScheme.surface,
@@ -131,9 +147,8 @@ class _AccountHolderSectionState extends State<AccountHolderSection> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
-                  spacing: 10,
                   children: [
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     AppTextInput(
                       controller: _accountSearchController,
                       label: "Selected Operator",

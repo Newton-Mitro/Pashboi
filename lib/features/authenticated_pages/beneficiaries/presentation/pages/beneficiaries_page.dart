@@ -25,10 +25,30 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
     {"id": 10, "name": "David Martinez", "accountNo": "T-5566778899"},
   ];
 
+  final Map<int, GlobalKey> _dismissKeys = {};
+
+  @override
+  void initState() {
+    super.initState();
+    for (var item in accountInfo) {
+      _dismissKeys[item['id']] = GlobalKey();
+    }
+  }
+
   void _handleTap(Map<String, dynamic> beneficiary) {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Selected: ${beneficiary["name"]}')));
+  }
+
+  void _deleteItem(int index) {
+    final removedItem = accountInfo[index];
+    setState(() {
+      accountInfo.removeAt(index);
+    });
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('${removedItem["name"]} removed')));
   }
 
   @override
@@ -43,14 +63,26 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
               child:
                   accountInfo.isEmpty
                       ? Center(
-                        child: Text(
-                          'You don’t have any family or relative accounts added',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: context.theme.colorScheme.onSurface,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.boxOpen,
+                              size: 60,
+                              color: context.theme.colorScheme.onSurface
+                                  .withValues(alpha: 0.4),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'You don’t have any family or relative accounts added',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: context.theme.colorScheme.onSurface,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
                       )
                       : ListView.separated(
@@ -62,101 +94,120 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final beneficiary = accountInfo[index];
-                          return InkWell(
-                            onTap: () => _handleTap(beneficiary),
-                            borderRadius: BorderRadius.circular(6),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: context.theme.colorScheme.surface,
-                                border: Border.all(
-                                  color: context.theme.colorScheme.primary,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(6),
+                          final id = beneficiary["id"];
+                          final dismissKey = _dismissKeys[id]!;
+                          return Dismissible(
+                            key: dismissKey,
+                            direction: DismissDirection.endToStart,
+                            onDismissed: (direction) {
+                              _deleteItem(index);
+                            },
+                            background: Container(
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
                               ),
-                              child: IntrinsicHeight(
-                                child: Row(
-                                  children: [
-                                    // Left Icon Box
-                                    Expanded(
-                                      flex: 3,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color:
-                                              context.theme.colorScheme.primary,
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4),
-                                            bottomLeft: Radius.circular(4),
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Icon(
-                                            FontAwesomeIcons.personCirclePlus,
-                                            size: 30,
+                              color: Colors.red,
+                              child: const Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                            ),
+                            child: InkWell(
+                              onTap: () => _handleTap(beneficiary),
+                              borderRadius: BorderRadius.circular(6),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: context.theme.colorScheme.surface,
+                                  border: Border.all(
+                                    color: context.theme.colorScheme.primary,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: IntrinsicHeight(
+                                  child: Row(
+                                    children: [
+                                      // Left Icon
+                                      Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                          decoration: BoxDecoration(
                                             color:
                                                 context
                                                     .theme
                                                     .colorScheme
-                                                    .onPrimary,
+                                                    .primary,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                  topLeft: Radius.circular(4),
+                                                  bottomLeft: Radius.circular(
+                                                    4,
+                                                  ),
+                                                ),
+                                          ),
+                                          child: Center(
+                                            child: Icon(
+                                              FontAwesomeIcons.personCirclePlus,
+                                              size: 30,
+                                              color:
+                                                  context
+                                                      .theme
+                                                      .colorScheme
+                                                      .onPrimary,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
 
-                                    // Info Section
-                                    Expanded(
-                                      flex: 7,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 20,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              beneficiary["name"],
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
+                                      // Info
+                                      Expanded(
+                                        flex: 7,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 20,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                beneficiary["name"],
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              "${beneficiary["accountNo"]}",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey,
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                "${beneficiary["accountNo"]}",
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
 
-                                    // Delete Button
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 8.0,
-                                      ),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.delete,
+                                      // Static Delete Icon
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 8.0,
+                                        ),
+                                        child: Icon(
+                                          Icons.delete_sweep,
                                           color:
                                               context
                                                   .theme
                                                   .colorScheme
                                                   .onSurface,
                                         ),
-                                        onPressed: () {
-                                          setState(() {
-                                            accountInfo.removeAt(index);
-                                          });
-                                        },
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -181,7 +232,7 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
                   horizontalPadding: 6,
                   label: "Add Beneficiary",
                   onPressed: () {
-                    // Add new person logic here
+                    // Add new person logic
                   },
                 ),
               ],

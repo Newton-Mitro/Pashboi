@@ -8,6 +8,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
   final String label;
   final String? errorText;
   final IconData? prefixIcon;
+  final bool enabled; // ✅ Added
 
   const AppDropdownSelect({
     super.key,
@@ -17,9 +18,11 @@ class AppDropdownSelect<T> extends StatelessWidget {
     required this.label,
     this.errorText,
     this.prefixIcon,
+    this.enabled = true, // ✅ Default true
   });
 
   void _showBottomSheet(BuildContext context) {
+    if (!enabled) return; // ✅ Prevent interaction if disabled
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -68,49 +71,71 @@ class AppDropdownSelect<T> extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () => _showBottomSheet(context),
-          child: InputDecorator(
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: context.theme.colorScheme.onSurface),
-              filled: true,
-              isDense: true,
-              prefixIcon:
-                  prefixIcon != null
-                      ? Icon(
-                        prefixIcon,
-                        color: context.theme.colorScheme.onSurface,
-                      )
-                      : null,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
-              ),
-              focusedBorder: border.copyWith(
-                borderSide: BorderSide(
-                  color: context.theme.colorScheme.secondary,
-                  width: 2,
+          child: AbsorbPointer(
+            absorbing: !enabled, // ✅ Prevent gestures when disabled
+            child: InputDecorator(
+              decoration: InputDecoration(
+                labelText: label,
+                labelStyle: TextStyle(
+                  color:
+                      enabled
+                          ? context.theme.colorScheme.onSurface
+                          : context.theme.disabledColor,
                 ),
-              ),
-              enabledBorder: border,
-              errorBorder: border.copyWith(
-                borderSide: BorderSide(color: Colors.red),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DefaultTextStyle(
-                  style: TextStyle(
-                    color: context.theme.colorScheme.onSurface,
-                    fontSize: 16,
+                filled: true,
+                isDense: true,
+                prefixIcon:
+                    prefixIcon != null
+                        ? Icon(
+                          prefixIcon,
+                          color:
+                              enabled
+                                  ? context.theme.colorScheme.onSurface
+                                  : context.theme.disabledColor,
+                        )
+                        : null,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
+                focusedBorder: border.copyWith(
+                  borderSide: BorderSide(
+                    color: context.theme.colorScheme.secondary,
+                    width: 2,
                   ),
-                  child: selectedItemText,
                 ),
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: context.theme.colorScheme.onSurface,
+                enabledBorder: border,
+                disabledBorder: border.copyWith(
+                  borderSide: BorderSide(
+                    color: context.theme.colorScheme.primary.withOpacity(0.3),
+                  ),
                 ),
-              ],
+                errorBorder: border.copyWith(
+                  borderSide: const BorderSide(color: Colors.red),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DefaultTextStyle(
+                    style: TextStyle(
+                      color:
+                          enabled
+                              ? context.theme.colorScheme.onSurface
+                              : context.theme.disabledColor,
+                      fontSize: 16,
+                    ),
+                    child: selectedItemText,
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color:
+                        enabled
+                            ? context.theme.colorScheme.onSurface
+                            : context.theme.disabledColor,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

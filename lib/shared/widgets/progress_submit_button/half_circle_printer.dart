@@ -20,7 +20,7 @@ class HalfCirclePainter extends CustomPainter {
     // Draw shadow
     canvas.drawShadow(
       Path()..addArc(arcRect, pi, pi),
-      Colors.black.withOpacity(0.4),
+      Colors.black.withValues(alpha: 0.4),
       4.0,
       false,
     );
