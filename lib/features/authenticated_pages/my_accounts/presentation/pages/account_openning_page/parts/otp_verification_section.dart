@@ -8,21 +8,24 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/domain/usecases/open_deposit_account_usecase.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/widgets/stepper_setp.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
-class OtpVerificationSection extends StepperStep {
+class OtpVerificationSection extends StatefulWidget {
   final String routeName;
   final OpenDepositAccountUseCaseParams requestObject;
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
+  final bool? isFirstStep;
+  final bool? isLastStep;
 
   const OtpVerificationSection({
     super.key,
     required this.routeName,
     required this.requestObject,
-    super.onNext,
-    super.onPrevious,
-    super.isFirstStep,
-    super.isLastStep,
+    this.onNext,
+    this.onPrevious,
+    this.isFirstStep,
+    this.isLastStep,
   });
 
   @override
@@ -30,26 +33,28 @@ class OtpVerificationSection extends StepperStep {
 }
 
 class _OtpVerificationSectionState extends State<OtpVerificationSection> {
-  final List<TextEditingController> _otpControllers = List.generate(
-    6,
-    (_) => TextEditingController(),
-  );
-  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
-
+  late final List<TextEditingController> _otpControllers;
+  late final List<FocusNode> _focusNodes;
   bool _isWaiting = true;
   final int _otpDuration = 60;
-  final CountDownController _countDownController = CountDownController();
+  late final CountDownController _countDownController;
   late String _otpRegId;
 
   @override
   void initState() {
     super.initState();
+    _otpControllers = List.generate(6, (_) => TextEditingController());
+    _focusNodes = List.generate(6, (_) => FocusNode());
+    _countDownController = CountDownController();
+
     _otpRegId = widget.requestObject.otpRegId;
     _countDownController.start();
 
     for (int i = 0; i < _focusNodes.length; i++) {
       _focusNodes[i].addListener(() {
-        if (_focusNodes[i].hasFocus) _otpControllers[i].clear();
+        if (_focusNodes[i].hasFocus) {
+          _otpControllers[i].clear();
+        }
       });
     }
   }
@@ -326,19 +331,16 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Left side: Previous button or empty box
               widget.isFirstStep == true
-                  ? const SizedBox(width: 100) // reserve space
+                  ? const SizedBox(width: 100)
                   : AppPrimaryButton(
                     horizontalPadding: 10,
                     iconBefore: const Icon(FontAwesomeIcons.angleLeft),
                     label: "Previous",
                     onPressed: widget.onPrevious,
                   ),
-
-              // Right side: Next button or empty box
               widget.isLastStep == true
-                  ? const SizedBox(width: 100) // reserve space
+                  ? const SizedBox(width: 100)
                   : AppPrimaryButton(
                     horizontalPadding: 10,
                     iconAfter: const Icon(FontAwesomeIcons.angleRight),

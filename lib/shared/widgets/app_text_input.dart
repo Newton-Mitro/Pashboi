@@ -8,7 +8,8 @@ class AppTextInput extends StatefulWidget {
   final Icon? prefixIcon;
   final bool obscureText;
   final TextInputType keyboardType;
-  final bool enabled; // ✅ Added: Controls whether input is enabled or not
+  final bool enabled;
+  final void Function(String)? onChanged; // <-- Add this line
 
   const AppTextInput({
     super.key,
@@ -18,7 +19,8 @@ class AppTextInput extends StatefulWidget {
     this.prefixIcon,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
-    this.enabled = true, // ✅ Default to true
+    this.enabled = true,
+    this.onChanged, // <-- Add this line
   });
 
   @override
@@ -45,7 +47,8 @@ class _AppTextInputState extends State<AppTextInput> {
             controller: widget.controller,
             obscureText: isObscured,
             keyboardType: widget.keyboardType,
-            enabled: widget.enabled, // ✅ Apply enabled/disabled state
+            enabled: widget.enabled,
+            onChanged: widget.onChanged, // <-- Pass it here
             decoration: InputDecoration(
               labelText: widget.label,
               labelStyle: TextStyle(
@@ -97,7 +100,7 @@ class _AppTextInputState extends State<AppTextInput> {
                                     isObscured = !isObscured;
                                   });
                                 }
-                                : null, // Disable toggle if disabled
+                                : null,
                       )
                       : null,
             ),

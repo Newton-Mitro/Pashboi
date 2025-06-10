@@ -6,6 +6,7 @@ class AppPrimaryButton extends StatelessWidget {
   final Widget? iconBefore;
   final Widget? iconAfter;
   final double horizontalPadding;
+  final bool enabled;
 
   const AppPrimaryButton({
     super.key,
@@ -14,6 +15,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.iconBefore,
     this.iconAfter,
     this.horizontalPadding = 30.0,
+    this.enabled = true,
   });
 
   @override
@@ -26,20 +28,43 @@ class AppPrimaryButton extends StatelessWidget {
         SizedBox(
           height: 36,
           child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: BorderSide(color: theme.colorScheme.secondary),
+            onPressed: enabled ? onPressed : null,
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(color: theme.colorScheme.secondary),
+                ),
               ),
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+              backgroundColor: MaterialStateProperty.resolveWith<Color>((
+                states,
+              ) {
+                if (states.contains(MaterialState.disabled)) {
+                  return theme.disabledColor.withOpacity(0.12);
+                }
+                return theme.colorScheme.primary;
+              }),
+              foregroundColor: MaterialStateProperty.resolveWith<Color>((
+                states,
+              ) {
+                if (states.contains(MaterialState.disabled)) {
+                  return theme.disabledColor.withOpacity(0.38);
+                }
+                return theme.colorScheme.onPrimary;
+              }),
+              textStyle: MaterialStateProperty.all<TextStyle>(
+                const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                (states) =>
+                    states.contains(MaterialState.pressed)
+                        ? theme.colorScheme.primary.withOpacity(0.1)
+                        : null,
+              ),
             ),
-            onPressed: onPressed,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Row(

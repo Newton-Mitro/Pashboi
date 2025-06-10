@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/widgets/stepper_setp.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
-class CardPinVerificationSection extends StepperStep {
+class CardPinVerificationSection extends StatefulWidget {
   const CardPinVerificationSection({
     super.key,
-    super.onNext,
-    super.onPrevious,
-    super.isFirstStep,
-    super.isLastStep,
+    required this.onNext,
+    required this.onPrevious,
+    this.isFirstStep = false,
+    this.isLastStep = false,
   });
+
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
+  final bool isFirstStep;
+  final bool isLastStep;
 
   @override
   State<CardPinVerificationSection> createState() =>
@@ -102,7 +106,7 @@ class _CardPinVerificationSectionState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            widget.isFirstStep == true
+            widget.isFirstStep
                 ? const SizedBox(width: 100)
                 : AppPrimaryButton(
                   horizontalPadding: 10,
@@ -110,7 +114,7 @@ class _CardPinVerificationSectionState
                   label: "Previous",
                   onPressed: widget.onPrevious,
                 ),
-            widget.isLastStep == true
+            widget.isLastStep
                 ? const SizedBox(width: 100)
                 : AppPrimaryButton(
                   horizontalPadding: 10,

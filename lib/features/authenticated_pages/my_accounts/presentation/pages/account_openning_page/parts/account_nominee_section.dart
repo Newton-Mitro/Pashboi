@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/widgets/stepper_setp.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
@@ -9,7 +8,7 @@ class AccountNomineeController {
   String? selectedNominee;
   String? sharePercentage;
 
-  final List<Map<String, String>> nominees = [];
+  final ValueNotifier<List<Map<String, String>>> nominees = ValueNotifier([]);
 
   void addNominee() {
     final currentShare = int.tryParse(sharePercentage ?? '0') ?? 0;
@@ -17,20 +16,24 @@ class AccountNomineeController {
     if (selectedNominee != null &&
         sharePercentage != null &&
         totalSharePercentage() + currentShare <= 100) {
-      nominees.add({'name': selectedNominee!, 'share': sharePercentage!});
+      final updated = List<Map<String, String>>.from(nominees.value);
+      updated.add({'name': selectedNominee!, 'share': sharePercentage!});
+      nominees.value = updated;
       selectedNominee = null;
       sharePercentage = null;
     }
   }
 
   void removeNominee(int index) {
-    if (index >= 0 && index < nominees.length) {
-      nominees.removeAt(index);
+    final updated = List<Map<String, String>>.from(nominees.value);
+    if (index >= 0 && index < updated.length) {
+      updated.removeAt(index);
+      nominees.value = updated;
     }
   }
 
   int totalSharePercentage() {
-    return nominees.fold(0, (sum, item) {
+    return nominees.value.fold(0, (sum, item) {
       return sum + (int.tryParse(item['share'] ?? '0') ?? 0);
     });
   }
@@ -48,21 +51,21 @@ class AccountNomineeController {
   }
 }
 
-class AccountNomineeSection extends StepperStep {
+class AccountNomineeSection extends StatelessWidget {
   const AccountNomineeSection({
     super.key,
-    super.onNext,
-    super.onPrevious,
-    super.isFirstStep,
-    super.isLastStep,
+    required this.controller,
+    this.onNext,
+    this.onPrevious,
+    this.isFirstStep = false,
+    this.isLastStep = false,
   });
 
-  @override
-  State<AccountNomineeSection> createState() => _AccountNomineeSectionState();
-}
-
-class _AccountNomineeSectionState extends State<AccountNomineeSection> {
-  final controller = AccountNomineeController();
+  final AccountNomineeController controller;
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
+  final bool isFirstStep;
+  final bool isLastStep;
 
   @override
   Widget build(BuildContext context) {
@@ -75,17 +78,17 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (!(widget.isFirstStep))
+            if (!isFirstStep)
               AppPrimaryButton(
                 iconBefore: const Icon(FontAwesomeIcons.arrowLeft),
                 label: "Previous",
-                onPressed: widget.onPrevious,
+                onPressed: onPrevious,
               ),
-            if (!(widget.isLastStep))
+            if (!isLastStep)
               AppPrimaryButton(
                 iconBefore: const Icon(FontAwesomeIcons.arrowRight),
                 label: "Next",
-                onPressed: widget.onNext,
+                onPressed: onNext,
               ),
           ],
         ),
@@ -103,19 +106,19 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader("Select Account Nominee"),
+          _buildHeader(context, "Select Account Nominee"),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                AppDropdownSelect(
+                AppDropdownSelect<String>(
                   label: "Select Nominee",
                   prefixIcon: FontAwesomeIcons.user,
                   value: controller.selectedNominee,
                   onChanged: (value) {
-                    setState(() {
-                      controller.selectedNominee = value;
-                    });
+                    controller.selectedNominee = value;
+                    // Force rebuild by notifying listeners for nominees list (hacky but works here)
+                    controller.nominees.notifyListeners();
                   },
                   items:
                       [
@@ -135,14 +138,13 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
                           .toList(),
                 ),
                 const SizedBox(height: 12),
-                AppDropdownSelect(
+                AppDropdownSelect<String>(
                   label: "Share Percentage",
                   prefixIcon: FontAwesomeIcons.percent,
                   value: controller.sharePercentage,
                   onChanged: (value) {
-                    setState(() {
-                      controller.sharePercentage = value;
-                    });
+                    controller.sharePercentage = value;
+                    controller.nominees.notifyListeners();
                   },
                   items: List.generate(10, (index) {
                     final percentage = (index + 1) * 10;
@@ -153,25 +155,33 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
                   }),
                 ),
                 const SizedBox(height: 16),
-                AppPrimaryButton(
-                  iconBefore: const Icon(FontAwesomeIcons.userPlus),
-                  label: "Add nominee",
-                  onPressed:
-                      controller.canAddNominee()
-                          ? () {
-                            setState(() {
-                              controller.addNominee();
-                            });
-                          }
-                          : null,
+                ValueListenableBuilder<List<Map<String, String>>>(
+                  valueListenable: controller.nominees,
+                  builder: (_, __, ___) {
+                    return AppPrimaryButton(
+                      iconBefore: const Icon(FontAwesomeIcons.userPlus),
+                      label: "Add nominee",
+                      onPressed:
+                          controller.canAddNominee()
+                              ? () {
+                                controller.addNominee();
+                              }
+                              : null,
+                    );
+                  },
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  "Remaining: ${controller.remainingPercentage()}%",
-                  style: TextStyle(
-                    color: context.theme.colorScheme.onSurface,
-                    fontWeight: FontWeight.bold,
-                  ),
+                ValueListenableBuilder<List<Map<String, String>>>(
+                  valueListenable: controller.nominees,
+                  builder: (_, __, ___) {
+                    return Text(
+                      "Remaining: ${controller.remainingPercentage()}%",
+                      style: TextStyle(
+                        color: context.theme.colorScheme.onSurface,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -191,89 +201,91 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader("Appointed Nominee's"),
+          _buildHeader(context, "Appointed Nominee's"),
           Padding(
             padding: const EdgeInsets.all(16),
             child: SizedBox(
               height: 120, // fixed height for scrolling list
-              child:
-                  controller.nominees.isEmpty
-                      ? Center(
-                        child: Text(
-                          "No nominees added yet.",
-                          style: TextStyle(
-                            color: context.theme.colorScheme.onSurface
-                                .withValues(alpha: 0.6),
-                          ),
+              child: ValueListenableBuilder<List<Map<String, String>>>(
+                valueListenable: controller.nominees,
+                builder: (context, nominees, _) {
+                  if (nominees.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "No nominees added yet.",
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface
+                              .withOpacity(0.6),
                         ),
-                      )
-                      : Scrollbar(
-                        thumbVisibility: true,
-                        child: ListView.builder(
-                          itemCount: controller.nominees.length,
-                          itemBuilder: (context, index) {
-                            final nominee = controller.nominees[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 10,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 8,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color:
-                                              context.theme.colorScheme.primary,
-                                        ),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                      ),
+                    );
+                  }
+                  return Scrollbar(
+                    thumbVisibility: true,
+                    child: ListView.builder(
+                      itemCount: nominees.length,
+                      itemBuilder: (context, index) {
+                        final nominee = nominees[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 10,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: context.theme.colorScheme.primary,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                FontAwesomeIcons.user,
-                                                size: 16,
-                                              ),
-                                              const SizedBox(width: 10),
-                                              Text(nominee['name'] ?? ''),
-                                            ],
+                                          const Icon(
+                                            FontAwesomeIcons.user,
+                                            size: 16,
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(nominee['share'] ?? ''),
-                                              const SizedBox(width: 4),
-                                              const Icon(
-                                                FontAwesomeIcons.percent,
-                                                size: 12,
-                                              ),
-                                            ],
+                                          const SizedBox(width: 10),
+                                          Text(nominee['name'] ?? ''),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(nominee['share'] ?? ''),
+                                          const SizedBox(width: 4),
+                                          const Icon(
+                                            FontAwesomeIcons.percent,
+                                            size: 12,
                                           ),
                                         ],
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  const SizedBox(width: 10),
-                                  IconButton(
-                                    icon: const Icon(FontAwesomeIcons.trash),
-                                    onPressed: () {
-                                      setState(() {
-                                        controller.removeNominee(index);
-                                      });
-                                    },
-                                  ),
-                                ],
+                                ),
                               ),
-                            );
-                          },
-                        ),
-                      ),
+                              const SizedBox(width: 10),
+                              IconButton(
+                                icon: const Icon(FontAwesomeIcons.trash),
+                                onPressed: () {
+                                  controller.removeNominee(index);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -281,7 +293,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
     );
   }
 
-  Widget _buildHeader(String title) {
+  Widget _buildHeader(BuildContext context, String title) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),

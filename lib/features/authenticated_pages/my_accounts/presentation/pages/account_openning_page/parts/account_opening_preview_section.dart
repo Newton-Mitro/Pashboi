@@ -1,90 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/widgets/stepper_setp.dart';
-import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
-import 'package:pashboi/shared/widgets/app_text_input.dart';
-import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
-class TransferFromSection extends StepperStep {
-  const TransferFromSection({
+class AccountOpeningPreviewSection extends StatelessWidget {
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
+  final bool isFirstStep;
+  final bool isLastStep;
+
+  const AccountOpeningPreviewSection({
     super.key,
-    super.onNext,
-    super.onPrevious,
-    super.isFirstStep,
-    super.isLastStep,
+    this.onNext,
+    this.onPrevious,
+    this.isFirstStep = false,
+    this.isLastStep = false,
   });
 
   @override
-  State<TransferFromSection> createState() => _TransferFromSectionState();
-}
-
-class _TransferFromSectionState extends State<TransferFromSection> {
-  String? _selectedAccountNumber;
-
-  final TextEditingController _cardNumberController = TextEditingController();
-  final TextEditingController _accountTypeController = TextEditingController();
-  final TextEditingController _availableBalanceController =
-      TextEditingController();
-  final TextEditingController _withdrawableBalanceController =
-      TextEditingController();
-
-  // Dummy account data
-  final Map<String, Map<String, String>> accountData = {
-    "T-00156": {
-      "cardNumber": "1234-5678-9012-3456",
-      "accountType": "Savings",
-      "availableBalance": "1500.00",
-      "withdrawableBalance": "1400.00",
-    },
-    "T-00157": {
-      "cardNumber": "2345-6789-0123-4567",
-      "accountType": "Checking",
-      "availableBalance": "2500.00",
-      "withdrawableBalance": "2400.00",
-    },
-    "T-00158": {
-      "cardNumber": "3456-7890-1234-5678",
-      "accountType": "Fixed Deposit",
-      "availableBalance": "3500.00",
-      "withdrawableBalance": "3000.00",
-    },
-  };
-
-  @override
-  void dispose() {
-    _cardNumberController.dispose();
-    _accountTypeController.dispose();
-    _availableBalanceController.dispose();
-    _withdrawableBalanceController.dispose();
-    super.dispose();
-  }
-
-  // Updates text controllers based on selected account
-  void _updateFields(String? selectedAccount) {
-    if (selectedAccount != null && accountData.containsKey(selectedAccount)) {
-      final data = accountData[selectedAccount]!;
-      _cardNumberController.text = data['cardNumber'] ?? '';
-      _accountTypeController.text = data['accountType'] ?? '';
-      _availableBalanceController.text = data['availableBalance'] ?? '';
-      _withdrawableBalanceController.text = data['withdrawableBalance'] ?? '';
-    } else {
-      _cardNumberController.clear();
-      _accountTypeController.clear();
-      _availableBalanceController.clear();
-      _withdrawableBalanceController.clear();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final colorScheme = context.theme.colorScheme;
+
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
-            color: context.theme.colorScheme.surface,
-            border: Border.all(color: context.theme.colorScheme.primary),
-            borderRadius: BorderRadius.circular(6),
+            color: colorScheme.surface,
+            border: Border.all(color: colorScheme.primary, width: 1.2),
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.primary.withOpacity(0.1),
+                blurRadius: 6,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,127 +41,181 @@ class _TransferFromSectionState extends State<TransferFromSection> {
               // Header
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 12,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 14),
                 decoration: BoxDecoration(
-                  color: context.theme.colorScheme.primary,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
+                  color: colorScheme.primary,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(8),
                   ),
                 ),
                 child: Center(
                   child: Text(
-                    "Money Will Be Transferred From",
+                    "Account Preview",
                     style: TextStyle(
-                      color: context.theme.colorScheme.onPrimary,
-                      fontSize: 15,
+                      color: colorScheme.onPrimary,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ),
               ),
 
-              // Form fields
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 5),
-                    AppDropdownSelect(
-                      label: "Select Account Number",
-                      value: _selectedAccountNumber,
-                      items:
-                          accountData.keys
-                              .map(
-                                (acc) => DropdownMenuItem(
-                                  value: acc,
-                                  child: Text(acc),
-                                ),
-                              )
-                              .toList(),
-                      prefixIcon: Icons.account_balance,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedAccountNumber = value;
-                          _updateFields(value);
-                        });
-                      },
+              // Scrollable Content with Scrollbar
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 450),
+                child: Scrollbar(
+                  thumbVisibility: true, // Always show the scrollbar thumb
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: const [
+                        SectionTitle("Account Info"),
+                        InfoRow("Tenure", "5 Years"),
+                        InfoRow(
+                          "Interest Rate",
+                          "12%",
+                          icon: FontAwesomeIcons.percent,
+                        ),
+                        InfoRow(
+                          "Deposit Amount",
+                          "50,000",
+                          icon: FontAwesomeIcons.bangladeshiTakaSign,
+                        ),
+                        InfoRow("Interest Transfer To", "L-1356"),
+                        Divider(height: 30),
+
+                        SectionTitle("Account Holder"),
+                        InfoRow("Full Name", "Mr. Johnson"),
+
+                        Divider(height: 30),
+
+                        SectionTitle("Account Operator"),
+                        InfoRow("Full Name", "Mrs. Johnson"),
+
+                        Divider(height: 30),
+
+                        SectionTitle("Appointed Nominees"),
+                        InfoRow(
+                          "Md Israfil",
+                          "60%",
+                          icon: FontAwesomeIcons.percent,
+                        ),
+                        InfoRow(
+                          "Jeremy Johnson",
+                          "40%",
+                          icon: FontAwesomeIcons.percent,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    AppTextInput(
-                      controller: _cardNumberController,
-                      enabled: false,
-                      label: "Card Number",
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.creditCard,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    AppTextInput(
-                      controller: _accountTypeController,
-                      enabled: false,
-                      label: "Account Type",
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.tag,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    AppTextInput(
-                      controller: _availableBalanceController,
-                      enabled: false,
-                      label: "Available Balance",
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.coins,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    AppTextInput(
-                      controller: _withdrawableBalanceController,
-                      enabled: false,
-                      label: "Withdrawable Balance",
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.coins,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
+        // Buttons Row
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Row(
+            children: [
+              if (!isFirstStep)
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton.icon(
+                      icon: const FaIcon(FontAwesomeIcons.angleLeft),
+                      label: const Text("Previous"),
+                      onPressed: onPrevious,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              else
+                const Spacer(),
 
-        const SizedBox(height: 20),
-
-        // Navigation buttons
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            widget.isFirstStep == true
-                ? const SizedBox(width: 100)
-                : AppPrimaryButton(
-                  horizontalPadding: 10,
-                  iconBefore: const Icon(FontAwesomeIcons.angleLeft),
-                  label: "Previous",
-                  onPressed: widget.onPrevious,
-                ),
-            widget.isLastStep == true
-                ? const SizedBox(width: 100)
-                : AppPrimaryButton(
-                  horizontalPadding: 10,
-                  iconAfter: const Icon(FontAwesomeIcons.angleRight),
-                  label: "Next",
-                  onPressed: widget.onNext,
-                ),
-          ],
+              if (!isLastStep)
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton.icon(
+                      icon: const FaIcon(FontAwesomeIcons.angleRight),
+                      label: const Text("Next"),
+                      onPressed: onNext,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              else
+                const Spacer(),
+            ],
+          ),
         ),
       ],
+    );
+  }
+}
+
+class SectionTitle extends StatelessWidget {
+  final String title;
+  const SectionTitle(this.title, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: context.theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+  final IconData? icon;
+
+  const InfoRow(this.label, this.value, {this.icon, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = context.theme.textTheme.bodyMedium;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: textStyle?.copyWith(fontWeight: FontWeight.w600)),
+          Row(
+            children: [
+              Text(value, style: textStyle),
+              if (icon != null) ...[
+                const SizedBox(width: 4),
+                Icon(icon, size: 14),
+              ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

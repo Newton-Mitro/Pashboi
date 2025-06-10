@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated_pages/cards/domain/entities/card_entity.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
+import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
-import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key});
@@ -12,168 +13,260 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
+  CardEntity? card;
+
+  @override
+  void initState() {
+    super.initState();
+    // Simulated existing card; set to null to simulate no card
+    card = CardEntity(
+      id: 1,
+      nameOnCard: "Sunit Corneleous Sarker",
+      cardNumber: "0010101700689166",
+      type: "Virtual Debit Card",
+      expiryDate: "21/08/2024",
+      isActive: true,
+      cardsAccounts: [],
+      isVirtual: true,
+      isBlock: true,
+      stageCode: '07',
+      stageName: 'Virtual Card',
+    );
+    // card = null;
+  }
+
+  bool _isExpired(String expiryDate) {
+    // expiryDate format assumed: "dd/MM/yyyy"
+    try {
+      final parts = expiryDate.split('/');
+      if (parts.length != 3) return false;
+      final expiry = DateTime(
+        int.parse(parts[2]),
+        int.parse(parts[1]),
+        int.parse(parts[0]),
+      );
+      return DateTime.now().isAfter(expiry);
+    } catch (_) {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double cardHeight =
         context.isMobile
             ? MediaQuery.of(context).size.height * 0.27
             : MediaQuery.of(context).size.height * 0.5;
-
     final double cardWidth = cardHeight * 2.0;
+
+    final hasCard = card != null;
+    final expired = hasCard ? _isExpired(card!.expiryDate) : false;
 
     return Scaffold(
       appBar: AppBar(title: const Text('My Cards')),
       body: PageContainer(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Card(
-                elevation: 3.0,
-                shadowColor: Colors.black,
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(
-                    color: context.theme.colorScheme.primary,
-                    width: 2,
-                  ),
-                ),
-                child: SizedBox(
-                  width: cardWidth,
-                  height: cardHeight,
-                  child: Stack(
-                    fit: StackFit.expand,
+          child:
+              hasCard
+                  ? Column(
                     children: [
-                      // Background image fills entire card with no padding
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'assets/images/bg/card_bg.png',
-                          fit: BoxFit.cover,
+                      Card(
+                        elevation: 3.0,
+                        shadowColor: Colors.black,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                            color: context.theme.colorScheme.primary,
+                            width: 2,
+                          ),
                         ),
-                      ),
-
-                      // Foreground content - reduced padding to 12 for a bit of spacing inside
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AppLogo(width: 80, showOrganizationName: false),
-                                Text(
-                                  "Virtual Card".toUpperCase(),
-                                  style: TextStyle(
-                                    color: context.theme.colorScheme.onSurface,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        child: SizedBox(
+                          width: cardWidth,
+                          height: cardHeight,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  'assets/images/bg/card_bg.png',
+                                  fit: BoxFit.cover,
                                 ),
-                              ],
-                            ),
-                            Center(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6,
-                                      vertical: 1,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: const Text(
-                                      "ACTIVE",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 5,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "1234456845681235".replaceAllMapped(
-                                      RegExp(r".{1,4}"),
-                                      (match) =>
-                                          match.end < 16
-                                              ? "${match.group(0)}   "
-                                              : match.group(0)!,
-                                    ),
-                                    style: TextStyle(
-                                      color:
-                                          context.theme.colorScheme.onSurface,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ],
                               ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "eLina Jane Smith".toUpperCase(),
-                                  style: TextStyle(
-                                    color: context.theme.colorScheme.onSurface,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                  ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 15.0,
+                                  right: 15.0,
+                                  bottom: 15.0,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      "Valid Thru",
-                                      style: TextStyle(
-                                        color:
-                                            context.theme.colorScheme.onSurface,
-                                        fontSize: 12,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AppLogo(
+                                          width: 80,
+                                          showOrganizationName: false,
+                                        ),
+                                        Text(
+                                          card!.type.toUpperCase(),
+                                          style: TextStyle(
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onSurface,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 6,
+                                              vertical: 1,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  card!.isBlock
+                                                      ? Colors.orange
+                                                      : card!.isActive
+                                                      ? Colors.green
+                                                      : Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Text(
+                                              card!.isBlock
+                                                  ? "BLOCKED"
+                                                  : card!.isActive
+                                                  ? "ACTIVE"
+                                                  : "INACTIVE",
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 5,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            card!.cardNumber.replaceAllMapped(
+                                              RegExp(r".{1,4}"),
+                                              (match) => "${match.group(0)}   ",
+                                            ),
+                                            style: TextStyle(
+                                              color:
+                                                  context
+                                                      .theme
+                                                      .colorScheme
+                                                      .onSurface,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 22,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    Text(
-                                      "12/26",
-                                      style: TextStyle(
-                                        color:
-                                            context.theme.colorScheme.onSurface,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          card!.nameOnCard.toUpperCase(),
+                                          style: TextStyle(
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onSurface,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "Valid Thru",
+                                              style: TextStyle(
+                                                color:
+                                                    context
+                                                        .theme
+                                                        .colorScheme
+                                                        .onSurface,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Text(
+                                              card!.expiryDate,
+                                              style: TextStyle(
+                                                color:
+                                                    context
+                                                        .theme
+                                                        .colorScheme
+                                                        .onSurface,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      expired
+                          ? Column(
+                            children: [
+                              const SizedBox(height: 10),
+                              const Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: Color.fromARGB(106, 158, 158, 158),
+                              ),
+                              const SizedBox(height: 10),
+                              AppPrimaryButton(
+                                label: "Apply For Re-Issue",
+                                enabled: expired,
+                                onPressed:
+                                    expired
+                                        ? () {
+                                          // Your re-issue logic here
+                                        }
+                                        : null,
+                              ),
+                            ],
+                          )
+                          : SizedBox.shrink(),
                     ],
+                  )
+                  : Center(
+                    child: AppPrimaryButton(
+                      label: "Issue a Card",
+                      enabled: true,
+                      onPressed: () {
+                        // Your issue card logic here
+                      },
+                    ),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: ProgressSubmitButton(
-          width: MediaQuery.of(context).size.width - 10,
-          height: 100,
-          backgroundColor: context.theme.colorScheme.primary,
-          progressColor: context.theme.colorScheme.secondary,
-          foregroundColor: context.theme.colorScheme.onPrimary,
-          duration: 3,
-          label: 'Hold & Press to Submit',
-          onSubmit: () {
-            print('Submitted!');
-          },
         ),
       ),
     );
