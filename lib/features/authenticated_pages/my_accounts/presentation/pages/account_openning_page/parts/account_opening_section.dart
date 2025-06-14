@@ -5,38 +5,38 @@ import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
-class AccountOpeningSection extends StatefulWidget {
+class AccountOpeningSection extends StatelessWidget {
   const AccountOpeningSection({
     super.key,
-    super.onNext,
-    super.onPrevious,
-    super.isFirstStep,
-    super.isLastStep,
+    this.onNext,
+    this.onPrevious,
+    this.isFirstStep = false,
+    this.isLastStep = false,
+    required this.accountSearchController,
+    required this.durationController,
+    required this.interestRateController,
+    required this.interestTransferAccountController,
+    required this.selectedTenure,
+    required this.onTenureChanged,
+    required this.selectedInstallmentAmount,
+    required this.onInstallmentAmountChanged,
   });
 
-  @override
-  State<AccountOpeningSection> createState() => _AccountOpeningSectionState();
-}
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
+  final bool isFirstStep;
+  final bool isLastStep;
 
-class _AccountOpeningSectionState extends State<AccountOpeningSection> {
-  final TextEditingController _accountSearchController =
-      TextEditingController();
-  final TextEditingController _durationController = TextEditingController();
-  final TextEditingController _interestRateController = TextEditingController();
-  final TextEditingController _interestTransferAccountController =
-      TextEditingController();
+  final TextEditingController accountSearchController;
+  final TextEditingController durationController;
+  final TextEditingController interestRateController;
+  final TextEditingController interestTransferAccountController;
 
-  String? _selectedTenure;
-  String? _selectedInstallmentAmount;
+  final String? selectedTenure;
+  final ValueChanged<String?> onTenureChanged;
 
-  @override
-  void dispose() {
-    _accountSearchController.dispose();
-    _durationController.dispose();
-    _interestRateController.dispose();
-    _interestTransferAccountController.dispose();
-    super.dispose();
-  }
+  final String? selectedInstallmentAmount;
+  final ValueChanged<String?> onInstallmentAmountChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                 child: Column(
                   children: [
                     AppTextInput(
-                      controller: _accountSearchController,
+                      controller: accountSearchController,
                       label: "Account Name",
                       prefixIcon: Icon(
                         FontAwesomeIcons.user,
@@ -89,7 +89,7 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                     ),
                     const SizedBox(height: 10),
                     AppDropdownSelect<String>(
-                      value: _selectedTenure,
+                      value: selectedTenure,
                       label: "Select Tenure",
                       items:
                           ["3 Months", "6 Months", "12 Months"]
@@ -100,16 +100,12 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                                 ),
                               )
                               .toList(),
-                      onChanged: (val) {
-                        setState(() {
-                          _selectedTenure = val;
-                        });
-                      },
+                      onChanged: onTenureChanged,
                       prefixIcon: Icons.calendar_today,
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: _durationController,
+                      controller: durationController,
                       enabled: false,
                       label: "Duration In Months",
                       prefixIcon: Icon(
@@ -119,7 +115,7 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: _interestRateController,
+                      controller: interestRateController,
                       enabled: false,
                       label: "Interest Rate",
                       prefixIcon: Icon(
@@ -129,7 +125,7 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                     ),
                     const SizedBox(height: 10),
                     AppDropdownSelect<String>(
-                      value: _selectedInstallmentAmount,
+                      value: selectedInstallmentAmount,
                       label: "Installment Amount",
                       items:
                           ["500", "1000", "1500", "2000"]
@@ -140,16 +136,12 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
                                 ),
                               )
                               .toList(),
-                      onChanged: (val) {
-                        setState(() {
-                          _selectedInstallmentAmount = val;
-                        });
-                      },
+                      onChanged: onInstallmentAmountChanged,
                       prefixIcon: Icons.attach_money,
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: _interestTransferAccountController,
+                      controller: interestTransferAccountController,
                       label: "Interest Transfer Account",
                       prefixIcon: Icon(
                         FontAwesomeIcons.buildingColumns,
@@ -166,19 +158,19 @@ class _AccountOpeningSectionState extends State<AccountOpeningSection> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (!(widget.isFirstStep ?? true))
+            if (!isFirstStep)
               AppPrimaryButton(
                 horizontalPadding: 10,
                 iconBefore: const Icon(FontAwesomeIcons.angleLeft),
                 label: "Previous",
-                onPressed: widget.onPrevious,
+                onPressed: onPrevious,
               ),
-            if (!(widget.isLastStep ?? false))
+            if (!isLastStep)
               AppPrimaryButton(
                 horizontalPadding: 10,
                 iconAfter: const Icon(FontAwesomeIcons.angleRight),
                 label: "Next",
-                onPressed: widget.onNext,
+                onPressed: onNext,
               ),
           ],
         ),

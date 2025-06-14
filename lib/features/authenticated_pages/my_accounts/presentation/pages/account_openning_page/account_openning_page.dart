@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/domain/usecases/open_deposit_account_usecase.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_opening_preview_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_opening_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/transfer_from_section.dart';
-import 'package:progress_stepper/progress_stepper.dart';
-
-import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/domain/usecases/open_deposit_account_usecase.dart';
-
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
+import 'package:progress_stepper/progress_stepper.dart';
 
 class AccountOpeningPage extends StatefulWidget {
   const AccountOpeningPage({super.key});
@@ -25,6 +23,16 @@ class AccountOpeningPage extends StatefulWidget {
 class _AccountOpeningPageState extends State<AccountOpeningPage> {
   int currentStep = 1;
 
+  late final TextEditingController accountSearchController;
+  late final TextEditingController durationController;
+  late final TextEditingController interestRateController;
+  late final TextEditingController interestTransferAccountController;
+
+  String? selectedNominee;
+  String? sharePercentage;
+
+  final ValueNotifier<List<Map<String, String>>> nominees = ValueNotifier([]);
+
   late final List<IconData> steps = [
     FontAwesomeIcons.moneyBillTransfer,
     FontAwesomeIcons.piggyBank,
@@ -34,12 +42,70 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     FontAwesomeIcons.key,
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    accountSearchController = TextEditingController();
+    durationController = TextEditingController();
+    interestRateController = TextEditingController();
+    interestTransferAccountController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    accountSearchController.dispose();
+    durationController.dispose();
+    interestRateController.dispose();
+    interestTransferAccountController.dispose();
+    super.dispose();
+  }
+
   void _goNext() {
     if (currentStep < steps.length) setState(() => currentStep++);
   }
 
   void _goPrevious() {
     if (currentStep > 1) setState(() => currentStep--);
+  }
+
+  void addNominee() {
+    final currentShare = int.tryParse(sharePercentage ?? '0') ?? 0;
+
+    if (selectedNominee != null &&
+        sharePercentage != null &&
+        totalSharePercentage() + currentShare <= 100) {
+      final updated = List<Map<String, String>>.from(nominees.value);
+      updated.add({'name': selectedNominee!, 'share': sharePercentage!});
+      nominees.value = updated;
+      selectedNominee = null;
+      sharePercentage = null;
+    }
+  }
+
+  void removeNominee(int index) {
+    final updated = List<Map<String, String>>.from(nominees.value);
+    if (index >= 0 && index < updated.length) {
+      updated.removeAt(index);
+      nominees.value = updated;
+    }
+  }
+
+  int totalSharePercentage() {
+    return nominees.value.fold(0, (sum, item) {
+      return sum + (int.tryParse(item['share'] ?? '0') ?? 0);
+    });
+  }
+
+  bool canAddNominee() {
+    final newShare = int.tryParse(sharePercentage ?? '0') ?? 0;
+    return selectedNominee != null &&
+        sharePercentage != null &&
+        newShare > 0 &&
+        (totalSharePercentage() + newShare) <= 100;
+  }
+
+  int remainingPercentage() {
+    return 100 - totalSharePercentage();
   }
 
   List<Widget> get stepWidgets {
@@ -52,18 +118,44 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         onPrevious: _goPrevious,
         isFirstStep: isFirstStep,
         isLastStep: isLastStep,
+        selectedAccountNumber: '',
+        onAccountChanged: (val) {},
+        cardNumber: '',
+        accountType: '',
+        availableBalance: '',
+        withdrawableBalance: '',
+        accountNumbers: ['1234567890', '9876543210'],
       ),
       AccountOpeningSection(
         onNext: _goNext,
         onPrevious: _goPrevious,
         isFirstStep: isFirstStep,
         isLastStep: isLastStep,
+        accountSearchController: accountSearchController,
+        durationController: durationController,
+        interestRateController: interestRateController,
+        interestTransferAccountController: interestTransferAccountController,
+        selectedTenure: '',
+        onTenureChanged: (String? value) {},
+        selectedInstallmentAmount: '',
+        onInstallmentAmountChanged: (String? value) {},
       ),
       AccountNomineeSection(
         onNext: _goNext,
         onPrevious: _goPrevious,
         isFirstStep: isFirstStep,
         isLastStep: isLastStep,
+        selectedNominee: selectedNominee,
+        onNomineeChanged: (String? value) {},
+        sharePercentage: sharePercentage ?? '',
+        onSharePercentageChanged: (String? value) {
+          sharePercentage = value;
+        },
+        nominees: nominees,
+        onAddNominee: addNominee,
+        onRemoveNominee: removeNominee,
+        remainingPercentage: remainingPercentage(),
+        canAddNominee: () => canAddNominee(),
       ),
       AccountOpeningPreviewSection(
         onNext: _goNext,
@@ -179,7 +271,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
                   duration: 3,
                   label: 'Hold & Press to Submit',
                   onSubmit: () {
-                    // Final submission logic here
+                    // Final submission logic
                   },
                 ),
               )

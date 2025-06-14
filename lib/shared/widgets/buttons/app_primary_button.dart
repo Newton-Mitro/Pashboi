@@ -30,37 +30,33 @@ class AppPrimaryButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: enabled ? onPressed : null,
             style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                   side: BorderSide(color: theme.colorScheme.secondary),
                 ),
               ),
-              backgroundColor: MaterialStateProperty.resolveWith<Color>((
-                states,
-              ) {
-                if (states.contains(MaterialState.disabled)) {
+              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.disabled)) {
                   return theme.disabledColor.withOpacity(0.12);
                 }
                 return theme.colorScheme.primary;
               }),
-              foregroundColor: MaterialStateProperty.resolveWith<Color>((
-                states,
-              ) {
-                if (states.contains(MaterialState.disabled)) {
+              foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.disabled)) {
                   return theme.disabledColor.withOpacity(0.38);
                 }
                 return theme.colorScheme.onPrimary;
               }),
-              textStyle: MaterialStateProperty.all<TextStyle>(
+              textStyle: WidgetStateProperty.all<TextStyle>(
                 const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 16),
               ),
-              overlayColor: MaterialStateProperty.resolveWith<Color?>(
+              overlayColor: WidgetStateProperty.resolveWith<Color?>(
                 (states) =>
-                    states.contains(MaterialState.pressed)
+                    states.contains(WidgetState.pressed)
                         ? theme.colorScheme.primary.withOpacity(0.1)
                         : null,
               ),

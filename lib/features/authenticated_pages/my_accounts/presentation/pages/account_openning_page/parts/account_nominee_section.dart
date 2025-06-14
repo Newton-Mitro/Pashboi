@@ -1,71 +1,44 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
-class AccountNomineeController {
-  String? selectedNominee;
-  String? sharePercentage;
-
-  final ValueNotifier<List<Map<String, String>>> nominees = ValueNotifier([]);
-
-  void addNominee() {
-    final currentShare = int.tryParse(sharePercentage ?? '0') ?? 0;
-
-    if (selectedNominee != null &&
-        sharePercentage != null &&
-        totalSharePercentage() + currentShare <= 100) {
-      final updated = List<Map<String, String>>.from(nominees.value);
-      updated.add({'name': selectedNominee!, 'share': sharePercentage!});
-      nominees.value = updated;
-      selectedNominee = null;
-      sharePercentage = null;
-    }
-  }
-
-  void removeNominee(int index) {
-    final updated = List<Map<String, String>>.from(nominees.value);
-    if (index >= 0 && index < updated.length) {
-      updated.removeAt(index);
-      nominees.value = updated;
-    }
-  }
-
-  int totalSharePercentage() {
-    return nominees.value.fold(0, (sum, item) {
-      return sum + (int.tryParse(item['share'] ?? '0') ?? 0);
-    });
-  }
-
-  bool canAddNominee() {
-    final newShare = int.tryParse(sharePercentage ?? '0') ?? 0;
-    return selectedNominee != null &&
-        sharePercentage != null &&
-        newShare > 0 &&
-        (totalSharePercentage() + newShare) <= 100;
-  }
-
-  int remainingPercentage() {
-    return 100 - totalSharePercentage();
-  }
-}
-
 class AccountNomineeSection extends StatelessWidget {
   const AccountNomineeSection({
     super.key,
-    required this.controller,
     this.onNext,
     this.onPrevious,
     this.isFirstStep = false,
     this.isLastStep = false,
+    required this.selectedNominee,
+    required this.onNomineeChanged,
+    required this.sharePercentage,
+    required this.onSharePercentageChanged,
+    required this.nominees,
+    required this.onAddNominee,
+    required this.onRemoveNominee,
+    required this.remainingPercentage,
+    required this.canAddNominee,
   });
 
-  final AccountNomineeController controller;
   final VoidCallback? onNext;
   final VoidCallback? onPrevious;
   final bool isFirstStep;
   final bool isLastStep;
+
+  final String? selectedNominee;
+  final ValueChanged<String?> onNomineeChanged;
+
+  final String? sharePercentage;
+  final ValueChanged<String?> onSharePercentageChanged;
+
+  final ValueListenable<List<Map<String, String>>> nominees;
+  final VoidCallback onAddNominee;
+  final void Function(int index) onRemoveNominee;
+  final int remainingPercentage;
+  final bool Function() canAddNominee;
 
   @override
   Widget build(BuildContext context) {
@@ -114,12 +87,8 @@ class AccountNomineeSection extends StatelessWidget {
                 AppDropdownSelect<String>(
                   label: "Select Nominee",
                   prefixIcon: FontAwesomeIcons.user,
-                  value: controller.selectedNominee,
-                  onChanged: (value) {
-                    controller.selectedNominee = value;
-                    // Force rebuild by notifying listeners for nominees list (hacky but works here)
-                    controller.nominees.notifyListeners();
-                  },
+                  value: selectedNominee,
+                  onChanged: onNomineeChanged,
                   items:
                       [
                             'John Doe',
@@ -130,9 +99,9 @@ class AccountNomineeSection extends StatelessWidget {
                             'Michael Davis',
                           ]
                           .map(
-                            (relation) => DropdownMenuItem(
-                              value: relation,
-                              child: Text(relation),
+                            (name) => DropdownMenuItem(
+                              value: name,
+                              child: Text(name),
                             ),
                           )
                           .toList(),
@@ -141,47 +110,34 @@ class AccountNomineeSection extends StatelessWidget {
                 AppDropdownSelect<String>(
                   label: "Share Percentage",
                   prefixIcon: FontAwesomeIcons.percent,
-                  value: controller.sharePercentage,
-                  onChanged: (value) {
-                    controller.sharePercentage = value;
-                    controller.nominees.notifyListeners();
-                  },
-                  items: List.generate(10, (index) {
-                    final percentage = (index + 1) * 10;
+                  value: sharePercentage,
+                  onChanged: onSharePercentageChanged,
+                  items: List.generate(10, (i) {
+                    final percent = (i + 1) * 10;
                     return DropdownMenuItem(
-                      value: percentage.toString(),
-                      child: Text("$percentage %"),
+                      value: percent.toString(),
+                      child: Text("$percent %"),
                     );
                   }),
                 ),
                 const SizedBox(height: 16),
                 ValueListenableBuilder<List<Map<String, String>>>(
-                  valueListenable: controller.nominees,
+                  valueListenable: nominees,
                   builder: (_, __, ___) {
                     return AppPrimaryButton(
                       iconBefore: const Icon(FontAwesomeIcons.userPlus),
                       label: "Add nominee",
-                      onPressed:
-                          controller.canAddNominee()
-                              ? () {
-                                controller.addNominee();
-                              }
-                              : null,
+                      onPressed: canAddNominee() ? onAddNominee : null,
                     );
                   },
                 ),
                 const SizedBox(height: 10),
-                ValueListenableBuilder<List<Map<String, String>>>(
-                  valueListenable: controller.nominees,
-                  builder: (_, __, ___) {
-                    return Text(
-                      "Remaining: ${controller.remainingPercentage()}%",
-                      style: TextStyle(
-                        color: context.theme.colorScheme.onSurface,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  },
+                Text(
+                  "Remaining: $remainingPercentage%",
+                  style: TextStyle(
+                    color: context.theme.colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -205,11 +161,11 @@ class AccountNomineeSection extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: SizedBox(
-              height: 120, // fixed height for scrolling list
+              height: 120,
               child: ValueListenableBuilder<List<Map<String, String>>>(
-                valueListenable: controller.nominees,
-                builder: (context, nominees, _) {
-                  if (nominees.isEmpty) {
+                valueListenable: nominees,
+                builder: (context, nomineeList, _) {
+                  if (nomineeList.isEmpty) {
                     return Center(
                       child: Text(
                         "No nominees added yet.",
@@ -223,9 +179,9 @@ class AccountNomineeSection extends StatelessWidget {
                   return Scrollbar(
                     thumbVisibility: true,
                     child: ListView.builder(
-                      itemCount: nominees.length,
+                      itemCount: nomineeList.length,
                       itemBuilder: (context, index) {
-                        final nominee = nominees[index];
+                        final nominee = nomineeList[index];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Row(
@@ -274,9 +230,7 @@ class AccountNomineeSection extends StatelessWidget {
                               const SizedBox(width: 10),
                               IconButton(
                                 icon: const Icon(FontAwesomeIcons.trash),
-                                onPressed: () {
-                                  controller.removeNominee(index);
-                                },
+                                onPressed: () => onRemoveNominee(index),
                               ),
                             ],
                           ),
