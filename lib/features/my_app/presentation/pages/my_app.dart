@@ -5,12 +5,13 @@ import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
 import 'package:pashboi/features/my_app/presentation/pages/app_error_page.dart';
 import 'package:pashboi/features/my_app/presentation/pages/new_version_required_page.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
-import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:pashboi/features/under_maintenance/presentation/pages/under_maintenance_page.dart';
 import 'package:pashboi/routes/routes.dart';
 import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
 import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
+import 'package:pashboi/ui/add_beneficiary.dart';
+import 'package:pashboi/ui/add_dependent_account.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -103,7 +104,10 @@ class _MyAppState extends State<MyApp> {
 
       if (onboardingState is OnboardingSeenLoaded) {
         final bool onboardingSeen = onboardingState.seen;
-        return onboardingSeen ? const LandingPage() : const OnboardingPage();
+        return onboardingSeen
+            ? const AddDependedAccount()
+            : const OnboardingPage();
+        // return onboardingSeen ? const LandingPage() : const OnboardingPage();
       }
 
       return const AppErrorPage(message: 'Unexpected onboarding state');
