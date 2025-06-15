@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated_pages/cards/domain/entities/card_entity.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/tenure_amount_entity.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/domain/usecases/open_deposit_account_usecase.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_opening_preview_section.dart';
@@ -8,6 +11,7 @@ import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pa
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/transfer_from_section.dart';
+import 'package:pashboi/features/authenticated_pages/savings/domain/entities/saving_account_entity.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
@@ -23,37 +27,54 @@ class AccountOpeningPage extends StatefulWidget {
 class _AccountOpeningPageState extends State<AccountOpeningPage> {
   int currentStep = 1;
 
-  late final TextEditingController accountSearchController;
+  // Money will be transfer from section
+  String? selectedAccount;
+  late final TextEditingController cardNumberController;
+  late final TextEditingController accounTypeController;
+  late final TextEditingController accountBalanceController;
+  late final TextEditingController accountWithdrawableController;
+
+  // Account opening section
+  late final TextEditingController accountNameController;
+  String? selectedTenure;
   late final TextEditingController durationController;
   late final TextEditingController interestRateController;
+  String? selectedInstallmentAmount;
   late final TextEditingController interestTransferAccountController;
 
+  // Nominee section
   String? selectedNominee;
   String? sharePercentage;
-
+  int remainingSharePercentage = 100;
   final ValueNotifier<List<Map<String, String>>> nominees = ValueNotifier([]);
 
-  late final List<IconData> steps = [
-    FontAwesomeIcons.moneyBillTransfer,
-    FontAwesomeIcons.piggyBank,
-    FontAwesomeIcons.userShield,
-    FontAwesomeIcons.eye,
-    FontAwesomeIcons.creditCard,
-    FontAwesomeIcons.key,
-  ];
+  // Verify Card PIN Section
+  late final TextEditingController pinController;
+
+  // Otp Verification Section
+  late final TextEditingController otpController;
+  // pass props
+
+  // API data
+  late final CardEntity myCards;
+  List<TenureEntity> tenures = [];
+  List<TenureAmountEntity> installmentAmounts = [];
 
   @override
   void initState() {
     super.initState();
-    accountSearchController = TextEditingController();
+    accountNameController = TextEditingController();
     durationController = TextEditingController();
     interestRateController = TextEditingController();
     interestTransferAccountController = TextEditingController();
+    getMyCards();
+    getTenures();
+    getInstallmentAmounts();
   }
 
   @override
   void dispose() {
-    accountSearchController.dispose();
+    accountNameController.dispose();
     durationController.dispose();
     interestRateController.dispose();
     interestTransferAccountController.dispose();
@@ -80,6 +101,8 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       selectedNominee = null;
       sharePercentage = null;
     }
+
+    changeRemainingPercentage();
   }
 
   void removeNominee(int index) {
@@ -88,6 +111,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       updated.removeAt(index);
       nominees.value = updated;
     }
+    changeRemainingPercentage();
   }
 
   int totalSharePercentage() {
@@ -104,9 +128,118 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         (totalSharePercentage() + newShare) <= 100;
   }
 
-  int remainingPercentage() {
-    return 100 - totalSharePercentage();
+  void changeRemainingPercentage() {
+    setState(() {
+      remainingSharePercentage = 100 - totalSharePercentage();
+    });
   }
+
+  void getTenures() {
+    // This method can be used to fetch tenures from an API or database
+    // For now, we are using hardcoded values
+    tenures = [
+      TenureEntity(
+        id: 1,
+        durationInMonths: 6,
+        durationName: 'Six Months',
+        interestRate: 7.5,
+      ),
+      TenureEntity(
+        id: 2,
+        durationInMonths: 12,
+        durationName: 'Twelve Months',
+        interestRate: 8.0,
+      ),
+      TenureEntity(
+        id: 3,
+        durationInMonths: 24,
+        durationName: 'Twenty Four Months',
+        interestRate: 8.5,
+      ),
+      TenureEntity(
+        id: 4,
+        durationInMonths: 36,
+        durationName: 'Thirty Six Months',
+        interestRate: 9.0,
+      ),
+    ];
+  }
+
+  void getInstallmentAmounts() {
+    // This method can be used to fetch installment amounts from an API or database
+    // For now, we are using hardcoded values
+    installmentAmounts = [
+      TenureAmountEntity(id: 1, depositAmount: 1000, durationInMonths: 6),
+      TenureAmountEntity(id: 2, depositAmount: 2000, durationInMonths: 12),
+      TenureAmountEntity(id: 3, depositAmount: 3000, durationInMonths: 24),
+      TenureAmountEntity(id: 4, depositAmount: 4000, durationInMonths: 36),
+    ];
+  }
+
+  void getMyCards() {
+    myCards = CardEntity(
+      id: 1,
+      cardsAccounts: [
+        SavingAccountEntity(
+          id: 1,
+          number: '1234567890',
+          type: 'Savings',
+          typeCode: 'SAV',
+          accountName: 'John Doe',
+          balance: 5000,
+          withdrawableBalance: 4600,
+          ledgerId: 123,
+          interestReate: 3.0,
+          accountFor: 'Personal',
+          status: 'Active',
+          defaultAccount: false,
+          nominees: [],
+        ),
+        SavingAccountEntity(
+          id: 2,
+          number: '1234567891',
+          type: 'Short Term Deposit',
+          typeCode: 'STD',
+          accountName: 'John Doe',
+          balance: 6000,
+          withdrawableBalance: 3600,
+          ledgerId: 123,
+          interestReate: 3.0,
+          accountFor: 'Personal',
+          status: 'Active',
+          defaultAccount: false,
+          nominees: [],
+        ),
+      ],
+      isActive: true,
+      nameOnCard: 'John Doe',
+      cardNumber: '1234 5678 9012 3456',
+      type: 'Debit',
+      expiryDate: '12/25',
+      isVirtual: false,
+      isBlock: false,
+      stageCode: '123456',
+      stageName: 'John Doe',
+    );
+
+    cardNumberController = TextEditingController(text: myCards.cardNumber);
+    accounTypeController = TextEditingController(text: myCards.type);
+    accountBalanceController = TextEditingController(
+      text: myCards.cardsAccounts[0].balance.toString(),
+    );
+    accountWithdrawableController = TextEditingController(
+      text: myCards.cardsAccounts[0].withdrawableBalance.toString(),
+    );
+  }
+
+  late final List<IconData> steps = [
+    FontAwesomeIcons.moneyBillTransfer,
+    FontAwesomeIcons.piggyBank,
+    FontAwesomeIcons.userShield,
+    FontAwesomeIcons.eye,
+    FontAwesomeIcons.creditCard,
+    FontAwesomeIcons.key,
+  ];
 
   List<Widget> get stepWidgets {
     final isFirstStep = currentStep == 1;
@@ -118,27 +251,56 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         onPrevious: _goPrevious,
         isFirstStep: isFirstStep,
         isLastStep: isLastStep,
-        selectedAccountNumber: '',
-        onAccountChanged: (val) {},
-        cardNumber: '',
-        accountType: '',
-        availableBalance: '',
-        withdrawableBalance: '',
-        accountNumbers: ['1234567890', '9876543210'],
+        selectedAccountNumber: selectedAccount,
+        onAccountChanged: (val) {
+          setState(() {
+            selectedAccount = val;
+          });
+
+          myCards.cardsAccounts
+              .where((account) => account.number == val)
+              .forEach((account) {
+                accounTypeController.text = account.type;
+                accountBalanceController.text = account.balance.toString();
+                accountWithdrawableController.text =
+                    account.withdrawableBalance.toString();
+              });
+        },
+        cardNumberController: cardNumberController,
+        accounTypeController: accounTypeController,
+        accountBalanceController: accountBalanceController,
+        accountWithdrawableController: accountWithdrawableController,
+        accountNumbers: myCards.cardsAccounts,
       ),
       AccountOpeningSection(
         onNext: _goNext,
         onPrevious: _goPrevious,
         isFirstStep: isFirstStep,
         isLastStep: isLastStep,
-        accountSearchController: accountSearchController,
+        accountNameController: accountNameController,
         durationController: durationController,
         interestRateController: interestRateController,
         interestTransferAccountController: interestTransferAccountController,
-        selectedTenure: '',
-        onTenureChanged: (String? value) {},
-        selectedInstallmentAmount: '',
-        onInstallmentAmountChanged: (String? value) {},
+        selectedTenure: selectedTenure,
+        tenures: tenures,
+        onTenureChanged: (String? value) {
+          setState(() {
+            selectedTenure = value;
+          });
+          tenures
+              .where((tenure) => tenure.durationInMonths.toString() == value)
+              .forEach((tenure) {
+                durationController.text = tenure.durationInMonths.toString();
+                interestRateController.text = tenure.interestRate.toString();
+              });
+        },
+        selectedInstallmentAmount: selectedInstallmentAmount,
+        installmentAmounts: installmentAmounts,
+        onInstallmentAmountChanged: (String? value) {
+          setState(() {
+            selectedInstallmentAmount = value;
+          });
+        },
       ),
       AccountNomineeSection(
         onNext: _goNext,
@@ -146,15 +308,21 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         isFirstStep: isFirstStep,
         isLastStep: isLastStep,
         selectedNominee: selectedNominee,
-        onNomineeChanged: (String? value) {},
-        sharePercentage: sharePercentage ?? '',
+        onNomineeChanged: (String? value) {
+          setState(() {
+            selectedNominee = value;
+          });
+        },
+        sharePercentage: sharePercentage,
         onSharePercentageChanged: (String? value) {
-          sharePercentage = value;
+          setState(() {
+            sharePercentage = value;
+          });
         },
         nominees: nominees,
         onAddNominee: addNominee,
         onRemoveNominee: removeNominee,
-        remainingPercentage: remainingPercentage(),
+        remainingPercentage: remainingSharePercentage,
         canAddNominee: () => canAddNominee(),
       ),
       AccountOpeningPreviewSection(
@@ -172,9 +340,9 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       OtpVerificationSection(
         routeName: AuthRoutesName.myAccountsPage,
         requestObject: OpenDepositAccountUseCaseParams(
-          accountType: 'Deposit',
-          accountName: 'John Doe',
-          accountNumber: '1234567890',
+          accountType: myCards.type,
+          accountName: accountNameController.text,
+          accountNumber: selectedAccount ?? '',
           accountBalance: '1000',
           accountCurrency: 'USD',
           accountDescription: 'Savings Account',
@@ -227,7 +395,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
                         color:
                             isCompleted
                                 ? theme.onPrimary
-                                : theme.onSurface.withAlpha(150),
+                                : theme.onSurface.withAlpha(220),
                       ),
                     ),
                   );

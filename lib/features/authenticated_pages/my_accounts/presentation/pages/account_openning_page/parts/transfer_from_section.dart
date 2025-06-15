@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated_pages/savings/domain/entities/saving_account_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
@@ -9,10 +10,10 @@ class TransferFromSection extends StatelessWidget {
   final String? selectedAccountNumber;
   final void Function(String?)? onAccountChanged;
 
-  final String cardNumber;
-  final String accountType;
-  final String availableBalance;
-  final String withdrawableBalance;
+  final TextEditingController cardNumberController;
+  final TextEditingController accounTypeController;
+  final TextEditingController accountBalanceController;
+  final TextEditingController accountWithdrawableController;
 
   final VoidCallback? onNext;
   final VoidCallback? onPrevious;
@@ -20,17 +21,17 @@ class TransferFromSection extends StatelessWidget {
   final bool isLastStep;
 
   // The available account options to select from
-  final List<String> accountNumbers;
+  final List<SavingAccountEntity> accountNumbers;
 
   const TransferFromSection({
     super.key,
     required this.selectedAccountNumber,
     required this.onAccountChanged,
-    required this.cardNumber,
-    required this.accountType,
-    required this.availableBalance,
-    required this.withdrawableBalance,
     required this.accountNumbers,
+    required this.cardNumberController,
+    required this.accounTypeController,
+    required this.accountBalanceController,
+    required this.accountWithdrawableController,
     this.onNext,
     this.onPrevious,
     this.isFirstStep = false,
@@ -91,8 +92,8 @@ class TransferFromSection extends StatelessWidget {
                           accountNumbers
                               .map(
                                 (acc) => DropdownMenuItem(
-                                  value: acc,
-                                  child: Text(acc),
+                                  value: acc.number,
+                                  child: Text(acc.number),
                                 ),
                               )
                               .toList(),
@@ -101,7 +102,7 @@ class TransferFromSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: TextEditingController(text: cardNumber),
+                      controller: cardNumberController,
                       enabled: false,
                       label: "Card Number",
                       prefixIcon: Icon(
@@ -111,7 +112,7 @@ class TransferFromSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: TextEditingController(text: accountType),
+                      controller: accounTypeController,
                       enabled: false,
                       label: "Account Type",
                       prefixIcon: Icon(
@@ -121,7 +122,7 @@ class TransferFromSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: TextEditingController(text: availableBalance),
+                      controller: accountBalanceController,
                       enabled: false,
                       label: "Available Balance",
                       prefixIcon: Icon(
@@ -131,9 +132,7 @@ class TransferFromSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: TextEditingController(
-                        text: withdrawableBalance,
-                      ),
+                      controller: accountWithdrawableController,
                       enabled: false,
                       label: "Withdrawable Balance",
                       prefixIcon: Icon(

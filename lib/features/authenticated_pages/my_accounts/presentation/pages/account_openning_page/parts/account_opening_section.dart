@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/tenure_amount_entity.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
@@ -12,11 +14,13 @@ class AccountOpeningSection extends StatelessWidget {
     this.onPrevious,
     this.isFirstStep = false,
     this.isLastStep = false,
-    required this.accountSearchController,
+    required this.accountNameController,
     required this.durationController,
     required this.interestRateController,
     required this.interestTransferAccountController,
     required this.selectedTenure,
+    required this.tenures,
+    required this.installmentAmounts,
     required this.onTenureChanged,
     required this.selectedInstallmentAmount,
     required this.onInstallmentAmountChanged,
@@ -27,10 +31,12 @@ class AccountOpeningSection extends StatelessWidget {
   final bool isFirstStep;
   final bool isLastStep;
 
-  final TextEditingController accountSearchController;
+  final TextEditingController accountNameController;
   final TextEditingController durationController;
   final TextEditingController interestRateController;
   final TextEditingController interestTransferAccountController;
+  final List<TenureEntity> tenures;
+  final List<TenureAmountEntity> installmentAmounts;
 
   final String? selectedTenure;
   final ValueChanged<String?> onTenureChanged;
@@ -80,7 +86,7 @@ class AccountOpeningSection extends StatelessWidget {
                 child: Column(
                   children: [
                     AppTextInput(
-                      controller: accountSearchController,
+                      controller: accountNameController,
                       label: "Account Name",
                       prefixIcon: Icon(
                         FontAwesomeIcons.user,
@@ -92,11 +98,11 @@ class AccountOpeningSection extends StatelessWidget {
                       value: selectedTenure,
                       label: "Select Tenure",
                       items:
-                          ["3 Months", "6 Months", "12 Months"]
+                          tenures
                               .map(
                                 (tenure) => DropdownMenuItem(
-                                  value: tenure,
-                                  child: Text(tenure),
+                                  value: tenure.durationInMonths.toString(),
+                                  child: Text(tenure.durationName),
                                 ),
                               )
                               .toList(),
@@ -128,11 +134,11 @@ class AccountOpeningSection extends StatelessWidget {
                       value: selectedInstallmentAmount,
                       label: "Installment Amount",
                       items:
-                          ["500", "1000", "1500", "2000"]
+                          installmentAmounts
                               .map(
                                 (amount) => DropdownMenuItem(
-                                  value: amount,
-                                  child: Text(amount),
+                                  value: amount.depositAmount.toString(),
+                                  child: Text(amount.depositAmount.toString()),
                                 ),
                               )
                               .toList(),
