@@ -5,15 +5,10 @@ import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities
 import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
-import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
 class AccountOpeningSection extends StatelessWidget {
   const AccountOpeningSection({
     super.key,
-    this.onNext,
-    this.onPrevious,
-    this.isFirstStep = false,
-    this.isLastStep = false,
     required this.accountNameController,
     required this.durationController,
     required this.interestRateController,
@@ -24,14 +19,13 @@ class AccountOpeningSection extends StatelessWidget {
     required this.onTenureChanged,
     required this.selectedInstallmentAmount,
     required this.onInstallmentAmountChanged,
+    this.accountNameError,
+    this.tenureError,
+    this.installmentAmountError,
   });
 
-  final VoidCallback? onNext;
-  final VoidCallback? onPrevious;
-  final bool isFirstStep;
-  final bool isLastStep;
-
   final TextEditingController accountNameController;
+  final String? accountNameError;
   final TextEditingController durationController;
   final TextEditingController interestRateController;
   final TextEditingController interestTransferAccountController;
@@ -39,9 +33,11 @@ class AccountOpeningSection extends StatelessWidget {
   final List<TenureAmountEntity> installmentAmounts;
 
   final String? selectedTenure;
+  final String? tenureError;
   final ValueChanged<String?> onTenureChanged;
 
   final String? selectedInstallmentAmount;
+  final String? installmentAmountError;
   final ValueChanged<String?> onInstallmentAmountChanged;
 
   @override
@@ -88,6 +84,7 @@ class AccountOpeningSection extends StatelessWidget {
                     AppTextInput(
                       controller: accountNameController,
                       label: "Account Name",
+                      errorText: accountNameError,
                       prefixIcon: Icon(
                         FontAwesomeIcons.user,
                         color: context.theme.colorScheme.onSurface,
@@ -96,6 +93,7 @@ class AccountOpeningSection extends StatelessWidget {
                     const SizedBox(height: 10),
                     AppDropdownSelect<String>(
                       value: selectedTenure,
+                      errorText: tenureError,
                       label: "Select Tenure",
                       items:
                           tenures
@@ -132,6 +130,7 @@ class AccountOpeningSection extends StatelessWidget {
                     const SizedBox(height: 10),
                     AppDropdownSelect<String>(
                       value: selectedInstallmentAmount,
+                      errorText: installmentAmountError,
                       label: "Installment Amount",
                       items:
                           installmentAmounts
@@ -159,26 +158,6 @@ class AccountOpeningSection extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (!isFirstStep)
-              AppPrimaryButton(
-                horizontalPadding: 10,
-                iconBefore: const Icon(FontAwesomeIcons.angleLeft),
-                label: "Previous",
-                onPressed: onPrevious,
-              ),
-            if (!isLastStep)
-              AppPrimaryButton(
-                horizontalPadding: 10,
-                iconAfter: const Icon(FontAwesomeIcons.angleRight),
-                label: "Next",
-                onPressed: onNext,
-              ),
-          ],
         ),
       ],
     );

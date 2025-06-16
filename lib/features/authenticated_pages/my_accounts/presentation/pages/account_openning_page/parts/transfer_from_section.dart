@@ -4,10 +4,10 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated_pages/savings/domain/entities/saving_account_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
-import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
 class TransferFromSection extends StatelessWidget {
   final String? selectedAccountNumber;
+  final String? accountError;
   final void Function(String?)? onAccountChanged;
 
   final TextEditingController cardNumberController;
@@ -15,27 +15,19 @@ class TransferFromSection extends StatelessWidget {
   final TextEditingController accountBalanceController;
   final TextEditingController accountWithdrawableController;
 
-  final VoidCallback? onNext;
-  final VoidCallback? onPrevious;
-  final bool isFirstStep;
-  final bool isLastStep;
-
   // The available account options to select from
   final List<SavingAccountEntity> accountNumbers;
 
   const TransferFromSection({
     super.key,
     required this.selectedAccountNumber,
+    this.accountError,
     required this.onAccountChanged,
     required this.accountNumbers,
     required this.cardNumberController,
     required this.accounTypeController,
     required this.accountBalanceController,
     required this.accountWithdrawableController,
-    this.onNext,
-    this.onPrevious,
-    this.isFirstStep = false,
-    this.isLastStep = false,
   });
 
   @override
@@ -88,6 +80,7 @@ class TransferFromSection extends StatelessWidget {
                     AppDropdownSelect(
                       label: "Select Account Number",
                       value: selectedAccountNumber,
+                      errorText: accountError,
                       items:
                           accountNumbers
                               .map(
@@ -145,31 +138,6 @@ class TransferFromSection extends StatelessWidget {
               ),
             ],
           ),
-        ),
-
-        const SizedBox(height: 20),
-
-        // Navigation buttons
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            isFirstStep
-                ? const SizedBox(width: 100)
-                : AppPrimaryButton(
-                  horizontalPadding: 10,
-                  iconBefore: const Icon(FontAwesomeIcons.angleLeft),
-                  label: "Previous",
-                  onPressed: onPrevious,
-                ),
-            isLastStep
-                ? const SizedBox(width: 100)
-                : AppPrimaryButton(
-                  horizontalPadding: 10,
-                  iconAfter: const Icon(FontAwesomeIcons.angleRight),
-                  label: "Next",
-                  onPressed: onNext,
-                ),
-          ],
         ),
       ],
     );

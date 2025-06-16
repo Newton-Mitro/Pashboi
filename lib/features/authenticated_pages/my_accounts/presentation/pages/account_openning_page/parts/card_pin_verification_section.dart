@@ -2,38 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
-import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
-class CardPinVerificationSection extends StatefulWidget {
+class CardPinVerificationSection extends StatelessWidget {
   const CardPinVerificationSection({
     super.key,
-    required this.onNext,
-    required this.onPrevious,
-    this.isFirstStep = false,
-    this.isLastStep = false,
+    required this.cardNumberController,
+    required this.cardPinController,
+    this.pinError,
   });
 
-  final VoidCallback? onNext;
-  final VoidCallback? onPrevious;
-  final bool isFirstStep;
-  final bool isLastStep;
-
-  @override
-  State<CardPinVerificationSection> createState() =>
-      _CardPinVerificationSectionState();
-}
-
-class _CardPinVerificationSectionState
-    extends State<CardPinVerificationSection> {
-  final TextEditingController _cardNumberController = TextEditingController();
-  final TextEditingController _cardPinController = TextEditingController();
-
-  @override
-  void dispose() {
-    _cardNumberController.dispose();
-    _cardPinController.dispose();
-    super.dispose();
-  }
+  final TextEditingController cardNumberController;
+  final TextEditingController cardPinController;
+  final String? pinError;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +58,7 @@ class _CardPinVerificationSectionState
                   children: [
                     const SizedBox(height: 5),
                     AppTextInput(
-                      controller: _cardNumberController,
+                      controller: cardNumberController,
                       enabled: false,
                       label: "Card Number",
                       prefixIcon: Icon(
@@ -88,8 +68,9 @@ class _CardPinVerificationSectionState
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: _cardPinController,
+                      controller: cardPinController,
                       label: "Card PIN",
+                      errorText: pinError,
                       prefixIcon: Icon(
                         FontAwesomeIcons.lock,
                         color: context.theme.colorScheme.onSurface,
@@ -101,28 +82,6 @@ class _CardPinVerificationSectionState
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            widget.isFirstStep
-                ? const SizedBox(width: 100)
-                : AppPrimaryButton(
-                  horizontalPadding: 10,
-                  iconBefore: const Icon(FontAwesomeIcons.angleLeft),
-                  label: "Previous",
-                  onPressed: widget.onPrevious,
-                ),
-            widget.isLastStep
-                ? const SizedBox(width: 100)
-                : AppPrimaryButton(
-                  horizontalPadding: 10,
-                  iconAfter: const Icon(FontAwesomeIcons.angleRight),
-                  label: "Next",
-                  onPressed: widget.onNext,
-                ),
-          ],
         ),
       ],
     );

@@ -3,17 +3,29 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
 class AccountOpeningPreviewSection extends StatelessWidget {
-  final VoidCallback? onNext;
-  final VoidCallback? onPrevious;
-  final bool isFirstStep;
-  final bool isLastStep;
+  final String selectedAccount;
+  final TextEditingController accountNameController;
+  final TextEditingController durationController;
+  final String selectedInstallmentAmount;
+  final TextEditingController interestRateController;
+  final TextEditingController interestTransferAccountController;
+  final List<Map<String, String>> nominees;
+  final String accountType;
+  final String accountHolderName;
+  final String accountOperatorName;
 
   const AccountOpeningPreviewSection({
     super.key,
-    this.onNext,
-    this.onPrevious,
-    this.isFirstStep = false,
-    this.isLastStep = false,
+    required this.selectedAccount,
+    required this.accountNameController,
+    required this.durationController,
+    required this.interestRateController,
+    required this.interestTransferAccountController,
+    required this.nominees,
+    required this.accountType,
+    required this.accountHolderName,
+    required this.accountOperatorName,
+    required this.selectedInstallmentAmount,
   });
 
   @override
@@ -65,99 +77,53 @@ class AccountOpeningPreviewSection extends StatelessWidget {
               ConstrainedBox(
                 constraints: const BoxConstraints(maxHeight: 450),
                 child: Scrollbar(
-                  thumbVisibility: true, // Always show the scrollbar thumb
+                  thumbVisibility: true,
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
                     child: Column(
-                      children: const [
-                        SectionTitle("Account Info"),
-                        InfoRow("Tenure", "5 Years"),
+                      children: [
+                        const SectionTitle("Account Info"),
+                        InfoRow("Account Type", accountType),
+                        InfoRow("Account Name", accountNameController.text),
+                        InfoRow("Tenure", durationController.text),
                         InfoRow(
                           "Interest Rate",
-                          "12%",
+                          interestRateController.text,
                           icon: FontAwesomeIcons.percent,
                         ),
                         InfoRow(
                           "Deposit Amount",
-                          "50,000",
+                          selectedInstallmentAmount,
                           icon: FontAwesomeIcons.bangladeshiTakaSign,
                         ),
-                        InfoRow("Interest Transfer To", "L-1356"),
-                        Divider(height: 30),
-
-                        SectionTitle("Account Holder"),
-                        InfoRow("Full Name", "Mr. Johnson"),
-
-                        Divider(height: 30),
-
-                        SectionTitle("Account Operator"),
-                        InfoRow("Full Name", "Mrs. Johnson"),
-
-                        Divider(height: 30),
-
-                        SectionTitle("Appointed Nominees"),
                         InfoRow(
-                          "Md Israfil",
-                          "60%",
-                          icon: FontAwesomeIcons.percent,
+                          "Interest Transfer To",
+                          interestTransferAccountController.text,
                         ),
-                        InfoRow(
-                          "Jeremy Johnson",
-                          "40%",
-                          icon: FontAwesomeIcons.percent,
-                        ),
+                        const Divider(height: 30),
+
+                        const SectionTitle("Account Holder"),
+                        InfoRow("Full Name", accountHolderName),
+
+                        const Divider(height: 30),
+
+                        const SectionTitle("Account Operator"),
+                        InfoRow("Full Name", accountOperatorName),
+
+                        const Divider(height: 30),
+
+                        const SectionTitle("Appointed Nominees"),
+                        for (final nominee in nominees)
+                          InfoRow(
+                            nominee['name'] ?? '',
+                            nominee['share'] ?? '',
+                            icon: FontAwesomeIcons.percent,
+                          ),
                       ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-        // Buttons Row
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: Row(
-            children: [
-              if (!isFirstStep)
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: ElevatedButton.icon(
-                      icon: const FaIcon(FontAwesomeIcons.angleLeft),
-                      label: const Text("Previous"),
-                      onPressed: onPrevious,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              else
-                const Spacer(),
-
-              if (!isLastStep)
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton.icon(
-                      icon: const FaIcon(FontAwesomeIcons.angleRight),
-                      label: const Text("Next"),
-                      onPressed: onNext,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              else
-                const Spacer(),
             ],
           ),
         ),

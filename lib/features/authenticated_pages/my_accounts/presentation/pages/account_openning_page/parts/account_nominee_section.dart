@@ -8,10 +8,6 @@ import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 class AccountNomineeSection extends StatelessWidget {
   const AccountNomineeSection({
     super.key,
-    this.onNext,
-    this.onPrevious,
-    this.isFirstStep = false,
-    this.isLastStep = false,
     required this.selectedNominee,
     required this.onNomineeChanged,
     required this.sharePercentage,
@@ -21,12 +17,8 @@ class AccountNomineeSection extends StatelessWidget {
     required this.onRemoveNominee,
     required this.remainingPercentage,
     required this.canAddNominee,
+    this.nomineeError,
   });
-
-  final VoidCallback? onNext;
-  final VoidCallback? onPrevious;
-  final bool isFirstStep;
-  final bool isLastStep;
 
   final String? selectedNominee;
   final ValueChanged<String?> onNomineeChanged;
@@ -35,6 +27,7 @@ class AccountNomineeSection extends StatelessWidget {
   final ValueChanged<String?> onSharePercentageChanged;
 
   final ValueListenable<List<Map<String, String>>> nominees;
+  final String? nomineeError;
   final VoidCallback onAddNominee;
   final void Function(int index) onRemoveNominee;
   final int remainingPercentage;
@@ -47,24 +40,6 @@ class AccountNomineeSection extends StatelessWidget {
         _buildNomineeSelectionCard(context),
         const SizedBox(height: 25),
         _buildAppointedNomineesCard(context),
-        const SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (!isFirstStep)
-              AppPrimaryButton(
-                iconBefore: const Icon(FontAwesomeIcons.arrowLeft),
-                label: "Previous",
-                onPressed: onPrevious,
-              ),
-            if (!isLastStep)
-              AppPrimaryButton(
-                iconBefore: const Icon(FontAwesomeIcons.arrowRight),
-                label: "Next",
-                onPressed: onNext,
-              ),
-          ],
-        ),
       ],
     );
   }
@@ -135,7 +110,10 @@ class AccountNomineeSection extends StatelessWidget {
                 Text(
                   "Remaining: $remainingPercentage%",
                   style: TextStyle(
-                    color: context.theme.colorScheme.onSurface,
+                    color:
+                        nomineeError != null
+                            ? context.theme.colorScheme.error
+                            : context.theme.colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -151,7 +129,12 @@ class AccountNomineeSection extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: context.theme.colorScheme.surface,
-        border: Border.all(color: context.theme.colorScheme.primary),
+        border: Border.all(
+          color:
+              nomineeError != null
+                  ? context.theme.colorScheme.error
+                  : context.theme.colorScheme.primary,
+        ),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
