@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated_pages/cards/domain/entities/card_entity.dart';
+import 'package:pashboi/features/authenticated_pages/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/shared/widgets/app_logo.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -13,13 +13,13 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
-  CardEntity? card;
+  DebitCardEntity? card;
 
   @override
   void initState() {
     super.initState();
     // Simulated existing card; set to null to simulate no card
-    card = CardEntity(
+    card = DebitCardEntity(
       id: 1,
       nameOnCard: "Sunit Corneleous Sarker",
       cardNumber: "0010101700689166",

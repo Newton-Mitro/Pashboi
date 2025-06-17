@@ -8,7 +8,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
   final String label;
   final String? errorText;
   final IconData? prefixIcon;
-  final bool enabled; // ✅ Added
+  final bool enabled;
 
   const AppDropdownSelect({
     super.key,
@@ -18,11 +18,11 @@ class AppDropdownSelect<T> extends StatelessWidget {
     required this.label,
     this.errorText,
     this.prefixIcon,
-    this.enabled = true, // ✅ Default true
+    this.enabled = true,
   });
 
   void _showBottomSheet(BuildContext context) {
-    if (!enabled) return; // ✅ Prevent interaction if disabled
+    if (!enabled) return;
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -62,7 +62,11 @@ class AppDropdownSelect<T> extends StatelessWidget {
         items
             .firstWhere(
               (element) => element.value == value,
-              orElse: () => DropdownMenuItem<T>(value: null, child: Text('')),
+              orElse:
+                  () => DropdownMenuItem<T>(
+                    value: null,
+                    child: Text("Select $label"),
+                  ),
             )
             .child;
 

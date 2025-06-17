@@ -83,7 +83,7 @@ class EleganceColors extends AppColors {
   Color get onTertiaryFixedVariant => Colors.white70;
 
   @override
-  Color get error => const Color(0xFFB00020);
+  Color get error => const Color.fromARGB(255, 221, 66, 5);
 
   @override
   Color get onError => Colors.white;

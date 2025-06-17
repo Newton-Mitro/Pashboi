@@ -1,7 +1,7 @@
-import 'package:pashboi/features/authenticated_pages/cards/domain/entities/card_entity.dart';
-import 'package:pashboi/features/authenticated_pages/savings/data/models/saving_account_model.dart';
+import 'package:pashboi/features/authenticated_pages/cards/domain/entities/debit_card_entity.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/data/models/saving_account_model.dart';
 
-class CardModel extends CardEntity {
+class CardModel extends DebitCardEntity {
   CardModel({
     required super.id,
     required super.cardsAccounts,

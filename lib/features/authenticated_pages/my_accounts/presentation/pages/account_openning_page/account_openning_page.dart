@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
-import 'package:pashboi/features/authenticated_pages/cards/domain/entities/card_entity.dart';
+import 'package:pashboi/features/authenticated_pages/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/tenure_amount_entity.dart';
 import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/tenure_entity.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_opening_preview_section.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_opening_section.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/transfer_from_section.dart';
-import 'package:pashboi/features/authenticated_pages/savings/domain/entities/saving_account_entity.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section/account_nominee_section.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_preview_section/account_preview_section.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/account_opening_details_section.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section/card_pin_verification_section.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section/otp_verification_section.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/parts/transfer_from_section/transfer_from_section.dart';
+import 'package:pashboi/features/authenticated_pages/my_accounts/domain/entities/saving_account_entity.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -54,7 +54,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   bool _isWaiting = true;
 
   // Data
-  late final CardEntity _myCards;
+  late final DebitCardEntity _myCards;
   final List<TenureEntity> _tenures = [];
   final List<TenureAmountEntity> _installmentAmounts = [];
 
@@ -323,7 +323,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
 
   // Data loading methods
   void _loadMyCards() {
-    _myCards = CardEntity(
+    _myCards = DebitCardEntity(
       id: 1,
       cardsAccounts: [
         SavingAccountEntity(
@@ -447,7 +447,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         accountWithdrawableController: _accountControllers.accountWithdrawable,
         accountNumbers: _myCards.cardsAccounts,
       ),
-      AccountOpeningSection(
+      AccountOpeningDetailsSection(
         accountNameController: _accountOpeningControllers.accountName,
         accountNameError: _accountOpeningState.accountNameError,
         durationController: _accountOpeningControllers.duration,
@@ -485,7 +485,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         remainingPercentage: _nomineeState.remainingSharePercentage,
         canAddNominee: _nomineeState.canAddNominee,
       ),
-      AccountOpeningPreviewSection(
+      AccountPreviewSection(
         selectedAccount: _transferFromState.selectedAccount ?? '',
         accountNameController: _accountOpeningControllers.accountName,
         durationController: _accountOpeningControllers.duration,
@@ -662,7 +662,7 @@ class _AccountControllers {
 
   _AccountControllers();
 
-  void initializeFromCard(CardEntity card) {
+  void initializeFromCard(DebitCardEntity card) {
     cardNumber = TextEditingController(text: card.cardNumber);
     accountType = TextEditingController(text: card.type);
     accountBalance = TextEditingController(
