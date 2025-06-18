@@ -6,7 +6,9 @@ final class AuthRoutesName {
   static const String myAccountsPage = '/myAccountsPage';
   static const String accountsDetailsPage = '/accountsDetailsPage';
   static const String createNewAccountPage = '/createNewAccountPage';
+
   static const String dependentsPage = '/dependentsPage';
+  static const String addOperatingAccountPage = '/addOperatingAccountPage';
 
   static const String myLoansPage = '/myLoansPage';
   static const String applyForLoanPage = '/applyForLoanPage';

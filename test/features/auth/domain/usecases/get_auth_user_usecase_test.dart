@@ -5,7 +5,7 @@ import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated_pages/user/domain/entities/user_entity.dart';
+import 'package:pashboi/features/authenticated/user/domain/entities/user_entity.dart';
 
 import '../../../../mock.helper/mock.helper.dart';
 

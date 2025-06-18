@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
-import 'package:pashboi/features/authenticated_pages/beneficiaries/presentation/pages/beneficiaries_page.dart';
-import 'package:pashboi/features/authenticated_pages/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
-import 'package:pashboi/features/authenticated_pages/cards/presentation/pages/card_page.dart';
-import 'package:pashboi/features/authenticated_pages/family_and_friends/presentation/pages/family_and_relatives_page.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_details_page.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
-import 'package:pashboi/features/authenticated_pages/my_accounts/presentation/pages/my_accounts_page.dart';
-import 'package:pashboi/features/authenticated_pages/sureties/presentation/pages/given_sureties_page.dart';
-import 'package:pashboi/features/authenticated_pages/user/presentation/pages/profile_page.dart';
-import 'package:pashboi/features/public_pages/public_home/views/public_home.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_page.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_page.dart';
+import 'package:pashboi/features/authenticated/dependent/presentation/pages/add_operating_account_page.dart';
+import 'package:pashboi/features/authenticated/dependent/presentation/pages/dependents_page.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
+import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_relatives_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_accounts_page.dart';
+import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
+import 'package:pashboi/features/authenticated/user/presentation/pages/profile_page.dart';
+import 'package:pashboi/features/public/public_home/views/public_home.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/features/auth/presentation/pages/login_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/registration_page.dart';
-import 'package:pashboi/features/authenticated_pages/authenticated_home/views/authenticated_home.dart';
+import 'package:pashboi/features/authenticated/authenticated_home/views/authenticated_home.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 
@@ -102,6 +105,13 @@ class AppRoutes {
 
       case AuthRoutesName.beneficiariesPage:
         return _materialRoute(BeneficiariesPage());
+      case AuthRoutesName.addBeneficiaryPage:
+        return _materialRoute(AddBeneficiaryPage());
+
+      case AuthRoutesName.dependentsPage:
+        return _materialRoute(DependentsPage());
+      case AuthRoutesName.addOperatingAccountPage:
+        return _materialRoute(AddOperatingAccountPage());
 
       case AuthRoutesName.myAccountsPage:
         return _materialRoute(MyAccountsPage());

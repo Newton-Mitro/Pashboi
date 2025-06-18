@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pashboi/features/auth/data/models/auth_user_model.dart';
-import 'package:pashboi/features/authenticated_pages/user/data/models/user_model.dart';
+import 'package:pashboi/features/authenticated/user/data/models/user_model.dart';
 import 'package:pashboi/features/auth/domain/entities/auth_user_entity.dart';
 
 void main() {

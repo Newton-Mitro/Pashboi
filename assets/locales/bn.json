@@ -93,8 +93,8 @@
   "accounts_menu_accounts_description": "আপনার অ্যাকাউন্ট, ব্যালেন্স ও লেনদেন এখান থেকে দেখুন ও পরিচালনা করুন",
   "accounts_menu_open_an_account_title": "নতুন অ্যাকাউন্ট খুলুন",
   "accounts_menu_open_an_account_description": "এখান থেকে সহজেই একটি নতুন অ্যাকাউন্ট খোলার প্রক্রিয়া সম্পন্ন করুন",
-  "accounts_menu_dependents_accounts_title": "অবলম্বিতদের অ্যাকাউন্ট",
-  "accounts_menu_dependents_accounts_description": "আপনার সমস্ত অবলম্বিত অ্যাকাউন্ট এখানে থাকবে। আরও যুক্ত করতে পারেন।",
+  "accounts_menu_dependents_title": "নির্ভরশীল",
+  "accounts_menu_dependents_description": "আপনার সমস্ত নির্ভরশীল অ্যাকাউন্ট এখানে থাকবে। আরও যুক্ত করতে পারেন।",
 
   "loan_menu_my_loans_title": "আমার ঋণসমূহ",
   "loan_menu_my_loans_description": "আপনার সক্রিয় ঋণ ও বকেয়া পরিশোধের বিবরণ দেখুন",

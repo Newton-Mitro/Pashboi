@@ -79,7 +79,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
             absorbing: !enabled, // ✅ Prevent gestures when disabled
             child: InputDecorator(
               decoration: InputDecoration(
-                labelText: label,
+                labelText: value != null ? label : "",
                 labelStyle: TextStyle(
                   color:
                       enabled
