@@ -33,7 +33,7 @@ class PageContainer extends StatelessWidget {
             Positioned.fill(
               child: Image.asset(backgroundImage, fit: BoxFit.cover),
             ),
-            SafeArea(child: child),
+            child,
           ],
         );
       },
