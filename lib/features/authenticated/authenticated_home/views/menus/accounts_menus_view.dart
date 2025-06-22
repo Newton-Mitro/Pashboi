@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AccountsMenusView extends StatefulWidget {
   const AccountsMenusView({super.key});

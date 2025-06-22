@@ -1,3 +1,4 @@
+import 'package:pashboi/features/authenticated/my_accounts/injection.dart';
 import 'package:pashboi/features/my_app/injection.dart';
 import 'package:pashboi/features/onboarding/injection.dart';
 
@@ -9,4 +10,5 @@ Future<void> setupDependencies() async {
   registerOnboardingModule(); // Onboarding module
   registerAppStatusModule(); // MyApp module
   registerAuthModule(); // Auth module
+  registerMyAccountsModule();
 }

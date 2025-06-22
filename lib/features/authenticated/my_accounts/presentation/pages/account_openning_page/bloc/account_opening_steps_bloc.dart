@@ -6,31 +6,45 @@ part 'account_opening_steps_state.dart';
 
 class AccountOpeningStepsBloc
     extends Bloc<AccountOpeningStepsEvent, AccountOpeningStepsState> {
+  // Define step range constants
+  static const int firstStep = 0;
+  static const int lastStep = 5;
+  static const int totalSteps = lastStep + 1;
+
   AccountOpeningStepsBloc()
-    : super(AccountOpeningStepsState(currentStep: 0, stepData: {})) {
-    on<GoToNextStep>((event, emit) {
-      if (state.currentStep < 2) {
-        emit(state.copyWith(currentStep: state.currentStep + 1));
-      }
-    });
+    : super(const AccountOpeningStepsState(currentStep: 0, stepData: {})) {
+    on<GoToNextStep>(_onGoToNextStep);
+    on<GoToPreviousStep>(_onGoToPreviousStep);
+    on<UpdateStepData>(_onUpdateStepData);
+  }
 
-    on<GoToPreviousStep>((event, emit) {
-      if (state.currentStep > 0) {
-        emit(state.copyWith(currentStep: state.currentStep - 1));
-      }
-    });
+  void _onGoToNextStep(
+    GoToNextStep event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    if (state.currentStep < lastStep) {
+      emit(state.copyWith(currentStep: state.currentStep + 1));
+    }
+  }
 
-    on<JumpToStep>((event, emit) {
-      emit(state.copyWith(currentStep: event.step));
-    });
+  void _onGoToPreviousStep(
+    GoToPreviousStep event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    if (state.currentStep > firstStep) {
+      emit(state.copyWith(currentStep: state.currentStep - 1));
+    }
+  }
 
-    on<UpdateStepData>((event, emit) {
-      final newData = Map<int, Map<String, dynamic>>.from(state.stepData);
-      newData[event.step] = {
-        ...(newData[event.step] ?? {}),
-        event.key: event.value,
-      };
-      emit(state.copyWith(stepData: newData));
-    });
+  void _onUpdateStepData(
+    UpdateStepData event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    final updatedStepData = Map<int, Map<String, dynamic>>.from(state.stepData);
+    final currentStepData = updatedStepData[event.step] ?? {};
+
+    updatedStepData[event.step] = {...currentStepData, event.key: event.value};
+
+    emit(state.copyWith(stepData: updatedStepData));
   }
 }
