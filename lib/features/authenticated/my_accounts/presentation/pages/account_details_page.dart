@@ -26,15 +26,11 @@ final Map<String, dynamic> accountInfo = {
   "AccHolderName": "BAPPY BESRA",
   "AccountTypeName": "Double Deposit Scheme Project",
   "Balance": "1000000",
-  "WithdrawableBalance": "0",
+  "WithdrawableBalance": "50000",
   "LoanBalance": 0,
   "STATUS": "Active",
   "LastPaidDate": "2023-05-23T12:31:00",
   "AccountNominee": "SUJAN DOMINIC GOMES ",
-  "PendingTotalDepositAmount": 4005,
-  "PendingTotalDepositRequest": 37,
-  "PendingTotalTransferAmount": 0,
-  "PendingTotalTransferRequest": 0,
   "AccountId": 293908,
   "LedgerId": 1500,
   "MaturityDate": "2031-05-22T12:42:25.71",
@@ -124,9 +120,20 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: colorScheme.primary,
+            width: 2,
+            style: BorderStyle.solid,
+          ),
+        ),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+
         children: [
           Container(
             width: 50,
@@ -176,108 +183,102 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                color: context.theme.colorScheme.primary,
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.solidCircleUser,
-                      size: 60,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 35),
+                  Icon(
+                    FontAwesomeIcons.solidCircleUser,
+                    size: 60,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    accountInfo["AccHolderName"].toString().toTitleCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                       color: context.theme.colorScheme.onSurface,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      accountInfo["AccHolderName"].toString().toTitleCase(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    accountInfo["AccountTypeName"].toString().toTitleCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: context.theme.colorScheme.onSurface,
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      accountInfo["AccountTypeName"].toString().toTitleCase(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    accountInfo["AccountNo"],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: context.theme.colorScheme.onSurface,
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      accountInfo["AccountNo"],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 20,
-                      children: [
-                        Chip(
-                          label: Text(
-                            accountInfo["STATUS"] ?? "Unknown",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: context.theme.colorScheme.onSecondary,
-                            ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 20,
+                    children: [
+                      Chip(
+                        label: Text(
+                          accountInfo["STATUS"] ?? "Unknown",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.theme.colorScheme.onSecondary,
                           ),
-                          backgroundColor: context.theme.colorScheme.secondary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          side: BorderSide(
-                            color: context.theme.colorScheme.secondary,
-                            width: 1,
-                          ),
-                          visualDensity: VisualDensity.compact,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
                         ),
-                        Chip(
-                          label: Text(
-                            (accountInfo["IsDefaulter"] as bool)
-                                ? "Defaulter"
-                                : "Regular",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: context.theme.colorScheme.onSurface,
-                            ),
+                        backgroundColor: context.theme.colorScheme.secondary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        side: BorderSide(
+                          color: context.theme.colorScheme.secondary,
+                          width: 1,
+                        ),
+                        visualDensity: VisualDensity.compact,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      Chip(
+                        label: Text(
+                          (accountInfo["IsDefaulter"] as bool)
+                              ? "Defaulter"
+                              : "Regular",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.theme.colorScheme.onSurface,
                           ),
-                          backgroundColor:
+                        ),
+                        backgroundColor:
+                            (accountInfo["IsDefaulter"] as bool)
+                                ? context.theme.colorScheme.error
+                                : context.theme.colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        side: BorderSide(
+                          color:
                               (accountInfo["IsDefaulter"] as bool)
                                   ? context.theme.colorScheme.error
                                   : context.theme.colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          side: BorderSide(
-                            color:
-                                (accountInfo["IsDefaulter"] as bool)
-                                    ? context.theme.colorScheme.error
-                                    : context.theme.colorScheme.primary,
-                            width: 1,
-                          ),
-                          visualDensity: VisualDensity.compact,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
+                          width: 1,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                  ],
-                ),
+                        visualDensity: VisualDensity.compact,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+                ],
               ),
-
               const SizedBox(height: 30),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     width: 120,
@@ -287,7 +288,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       color: context.theme.colorScheme.secondary,
                       border: Border.all(
                         color: context.theme.colorScheme.onSecondary,
-                        width: 6,
+                        width: 3,
                       ),
                     ),
                     padding: const EdgeInsets.all(12),
@@ -295,9 +296,12 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Available Balance",
+                          "Balance",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 11),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -321,7 +325,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       color: context.theme.colorScheme.primary,
                       border: Border.all(
                         color: context.theme.colorScheme.onPrimary,
-                        width: 6,
+                        width: 3,
                       ),
                     ),
                     padding: const EdgeInsets.all(12),
@@ -329,9 +333,13 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Withdrawable Balance",
+                          "Withdrawable",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 11),
+
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -353,25 +361,29 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 ],
               ),
               const SizedBox(height: 30),
-              buildInfoRow(
-                context,
-                "Last Deposit Date",
-                accountInfo["LastPaidDate"] != null
-                    ? formatDate(accountInfo["LastPaidDate"])
-                    : 'No deposit',
-                icon: FontAwesomeIcons.calendarCheck,
-              ),
-              buildInfoRow(
-                context,
-                "Maturity Date",
-                formatDate(accountInfo["MaturityDate"]),
-                icon: FontAwesomeIcons.hourglassEnd,
-              ),
-              buildInfoRow(
-                context,
-                "Nominee",
-                accountInfo["AccountNominee"].toString().toTitleCase(),
-                icon: FontAwesomeIcons.userShield,
+              Column(
+                children: [
+                  buildInfoRow(
+                    context,
+                    "Last Deposit Date",
+                    accountInfo["LastPaidDate"] != null
+                        ? formatDate(accountInfo["LastPaidDate"])
+                        : 'No deposit',
+                    icon: FontAwesomeIcons.calendarCheck,
+                  ),
+                  buildInfoRow(
+                    context,
+                    "Maturity Date",
+                    formatDate(accountInfo["MaturityDate"]),
+                    icon: FontAwesomeIcons.hourglassEnd,
+                  ),
+                  buildInfoRow(
+                    context,
+                    "Nominee",
+                    accountInfo["AccountNominee"].toString().toTitleCase(),
+                    icon: FontAwesomeIcons.userShield,
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               SfCartesianChart(

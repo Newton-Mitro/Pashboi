@@ -10,7 +10,7 @@ class LanguageSwitchBloc
   final LocaleService localeService;
 
   LanguageSwitchBloc({required this.localeService})
-    : super(LanguageSwitchState(language: 'bn')) {
+    : super(LanguageSwitchState(language: 'en')) {
     on<LanguageSwitchEvent>(_changeLanguage);
     on<LoadLocaleEvent>(_loadLocale);
   }

@@ -2,8 +2,8 @@ class AppImages {
   static const String rootPath = 'assets/images/';
 
   //brand
-  static const String pathLogo = '${rootPath}brand/logo.png';
-  static const String pathLogoDark = '${rootPath}brand/logo_dark.png';
+  static const String pathLogo = '${rootPath}brand/company_logo.png';
+  static const String pathLogoDark = '${rootPath}brand/company_logo_dark.png';
   static const String pathSplash = '${rootPath}brand/splash.png';
   static const String pathSplashDark = '${rootPath}brand/splash_dark.png';
   static const String pathAppIcon = '${rootPath}brand/app_icon.png';

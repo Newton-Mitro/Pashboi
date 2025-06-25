@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 
 part 'account_opening_setps_event.dart';
 part 'account_opening_steps_state.dart';
@@ -16,6 +17,8 @@ class AccountOpeningStepsBloc
     on<GoToNextStep>(_onGoToNextStep);
     on<GoToPreviousStep>(_onGoToPreviousStep);
     on<UpdateStepData>(_onUpdateStepData);
+    on<AddNominee>(_onAddNominee);
+    on<RemoveNominee>(_onRemoveNominee);
   }
 
   void _onGoToNextStep(
@@ -44,6 +47,43 @@ class AccountOpeningStepsBloc
     final currentStepData = updatedStepData[event.step] ?? {};
 
     updatedStepData[event.step] = {...currentStepData, event.key: event.value};
+
+    emit(state.copyWith(stepData: updatedStepData));
+  }
+
+  void _onAddNominee(AddNominee event, Emitter<AccountOpeningStepsState> emit) {
+    final updatedStepData = Map<int, Map<String, dynamic>>.from(state.stepData);
+    final currentStepData = updatedStepData[event.step] ?? {};
+
+    final existingNominees = List<NomineeEntity>.from(
+      currentStepData['selectedNominees'] ?? [],
+    );
+    existingNominees.add(event.nominee);
+
+    updatedStepData[event.step] = {
+      ...currentStepData,
+      'selectedNominees': existingNominees,
+    };
+
+    emit(state.copyWith(stepData: updatedStepData));
+  }
+
+  void _onRemoveNominee(
+    RemoveNominee event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    final updatedStepData = Map<int, Map<String, dynamic>>.from(state.stepData);
+    final currentStepData = updatedStepData[event.step] ?? {};
+
+    final existingNominees = List<NomineeEntity>.from(
+      currentStepData['selectedNominees'] ?? [],
+    );
+    existingNominees.removeWhere((n) => n.id == event.nominee.id);
+
+    updatedStepData[event.step] = {
+      ...currentStepData,
+      'selectedNominees': existingNominees,
+    };
 
     emit(state.copyWith(stepData: updatedStepData));
   }

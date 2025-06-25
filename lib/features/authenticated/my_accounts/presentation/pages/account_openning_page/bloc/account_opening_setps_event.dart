@@ -25,3 +25,23 @@ class UpdateStepData extends AccountOpeningStepsEvent {
   @override
   List<Object> get props => [step, key, value];
 }
+
+class AddNominee extends AccountOpeningStepsEvent {
+  final int step;
+  final NomineeEntity nominee;
+
+  const AddNominee({required this.step, required this.nominee});
+
+  @override
+  List<Object> get props => [step, nominee];
+}
+
+class RemoveNominee extends AccountOpeningStepsEvent {
+  final int step;
+  final NomineeEntity nominee;
+
+  const RemoveNominee({required this.step, required this.nominee});
+
+  @override
+  List<Object> get props => [step, nominee];
+}
