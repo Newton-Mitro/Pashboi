@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 abstract class BaseRequestProps extends Equatable {
   final String email;
-  final String userId;
+  final int userId;
   final String rolePermissionId;
-  final String personId;
+  final int personId;
   final String employeeCode;
   final String mobileNumber;
   final String requestFrom;

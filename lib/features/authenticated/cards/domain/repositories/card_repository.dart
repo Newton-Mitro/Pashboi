@@ -1,31 +1,25 @@
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
-import 'package:pashboi/features/authenticated/user/domain/entities/user_entity.dart';
+import 'package:pashboi/features/authenticated/cards/domain/usecases/get_my_card_usecase.dart';
+import 'package:pashboi/features/authenticated/cards/domain/usecases/issue_debit_card_usecase.dart';
+import 'package:pashboi/features/authenticated/cards/domain/usecases/lock_the_card_usecase.dart';
+import 'package:pashboi/features/authenticated/cards/domain/usecases/re_issue_debit_card_usecase.dart';
+import 'package:pashboi/features/authenticated/cards/domain/usecases/verify_card_pin_usecase.dart';
 
 abstract class CardRepository {
   ResultFuture<String> issueDebitCard(
-    UserEntity user,
-    String cardTypeCode,
-    bool withCard,
+    IssueDebitCardUseCaseProps issueDebitCardUseCaseProps,
   );
   ResultFuture<String> reIssueDebitCard(
-    UserEntity user,
-    String cardNumber,
-    String cardTypeCode,
-    bool virtualCard,
-    String nameOnCard,
+    ReIssueDebitCardUsecaseProps reIssueDebitCardUsecaseProps,
   );
-  ResultFuture<DebitCardEntity> getMyCard(UserEntity user);
+  ResultFuture<DebitCardEntity> getMyCard(
+    GetMyCardUseCaseProps getMyCardUseCaseProps,
+  );
   ResultFuture<String> lockTheCard(
-    UserEntity user,
-    String cardNumber,
-    String accountNumber,
-    String nameOnCard,
+    LockTheCardUseCaseProps lockTheCardUseCaseProps,
   );
   ResultFuture<Object> verifyCardPIN(
-    UserEntity user,
-    String cardNumber,
-    String nameOnCare,
-    String cardPIN,
+    VerifyCardPinUseCaseProps verifyCardPinUseCaseProps,
   );
 }

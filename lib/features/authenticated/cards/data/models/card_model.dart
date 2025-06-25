@@ -1,8 +1,8 @@
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/data/models/saving_account_model.dart';
 
-class CardModel extends DebitCardEntity {
-  CardModel({
+class DebitCardModel extends DebitCardEntity {
+  DebitCardModel({
     required super.id,
     required super.cardsAccounts,
     required super.isActive,
@@ -16,8 +16,8 @@ class CardModel extends DebitCardEntity {
     required super.stageName,
   });
 
-  factory CardModel.fromJson(Map<String, dynamic> json) {
-    return CardModel(
+  factory DebitCardModel.fromJson(Map<String, dynamic> json) {
+    return DebitCardModel(
       id: json['CardId'] ?? 0, // Fallback if CardId is missing
       cardsAccounts:
           (json['CardsAccounts'] as List<dynamic>?)

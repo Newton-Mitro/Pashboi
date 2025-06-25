@@ -7,22 +7,22 @@ sealed class DebitCardEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadMyDebitCard extends DebitCardEvent {
-  const LoadMyDebitCard();
+class DebitCardLoad extends DebitCardEvent {
+  const DebitCardLoad();
 }
 
-class IssueDebitCard extends DebitCardEvent {
-  const IssueDebitCard();
+class DebitCardIssue extends DebitCardEvent {
+  const DebitCardIssue();
 }
 
-class ReIssueDebitCard extends DebitCardEvent {
-  const ReIssueDebitCard();
+class DebitCardReIssue extends DebitCardEvent {
+  const DebitCardReIssue();
 }
 
-class BlocDebitCard extends DebitCardEvent {
-  const BlocDebitCard();
+class DebitCardBlock extends DebitCardEvent {
+  const DebitCardBlock();
 }
 
-class VerifyCardPIN extends DebitCardEvent {
-  const VerifyCardPIN();
+class DebitCardPinVerify extends DebitCardEvent {
+  const DebitCardPinVerify();
 }

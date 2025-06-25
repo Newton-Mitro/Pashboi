@@ -11,12 +11,19 @@ final class DebitCardInitial extends DebitCardState {}
 
 class DebitCardLoading extends DebitCardState {}
 
-class DebitCardLoaded extends DebitCardState {
+class DebitCardRequestProcessing extends DebitCardState {}
+
+class DebitCardLoadingSuccess extends DebitCardState {
   final DebitCardEntity debitCard;
-  const DebitCardLoaded(this.debitCard);
+  const DebitCardLoadingSuccess(this.debitCard);
+}
+
+class DebitCardRequestSuccess extends DebitCardState {
+  final String message;
+  const DebitCardRequestSuccess(this.message);
 }
 
 class DebitCardError extends DebitCardState {
-  final String message;
-  const DebitCardError(this.message);
+  final String error;
+  const DebitCardError(this.error);
 }
