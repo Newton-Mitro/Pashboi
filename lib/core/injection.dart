@@ -6,6 +6,7 @@ import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/services/network/network_info_impl.dart';
 import 'package:pashboi/core/services/local_storage/local_storage.dart';
 import 'package:pashboi/core/services/local_storage/local_storage_impl.dart';
+import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:pashboi/shared/widgets/language_switch/bloc/language_switch_bloc.dart';
 import 'package:pashboi/core/locale/services/locale_service.dart';
 import 'package:pashboi/core/locale/services/locale_service_impl.dart';
@@ -23,7 +24,7 @@ Future<void> registerCoreServices() async {
   sl.registerLazySingleton<LocalStorage>(() => LocalStorageImpl());
   sl.registerLazySingleton<ApiService>(
     () => ApiService(
-      localStorage: sl<LocalStorage>(),
+      authLocalDataSource: sl<AuthLocalDataSource>(),
       loggerService: sl<LoggerService>(),
     ),
   );

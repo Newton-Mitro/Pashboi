@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/saving_account_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
@@ -16,7 +16,7 @@ class TransferFromSection extends StatelessWidget {
   final TextEditingController accountWithdrawableController;
 
   // The available account options to select from
-  final List<SavingAccountEntity> accountNumbers;
+  final List<DepositAccountEntity> accountNumbers;
 
   const TransferFromSection({
     super.key,
@@ -81,19 +81,27 @@ class TransferFromSection extends StatelessWidget {
                       label: "Account Number",
                       value: selectedAccountNumber,
                       errorText: accountError,
+                      enabled: accountNumbers.isEmpty ? false : true,
                       items:
-                          accountNumbers
-                              .map(
-                                (acc) => DropdownMenuItem(
-                                  value: acc.number,
-                                  child: Text(acc.number),
+                          accountNumbers.isNotEmpty
+                              ? accountNumbers
+                                  .map(
+                                    (acc) => DropdownMenuItem(
+                                      value: acc.number,
+                                      child: Text(acc.number),
+                                    ),
+                                  )
+                                  .toList()
+                              : [
+                                DropdownMenuItem(
+                                  value: '',
+                                  child: Text("Accounts loading..."),
                                 ),
-                              )
-                              .toList(),
+                              ],
                       prefixIcon: Icons.account_balance,
                       onChanged: onAccountChanged ?? (_) {},
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     AppTextInput(
                       controller: cardNumberController,
                       enabled: false,

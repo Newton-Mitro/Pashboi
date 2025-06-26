@@ -19,25 +19,13 @@ import 'package:pashboi/features/authenticated/authenticated_home/views/menus/wi
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/app_bottom_navigation_bar.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/authenticated_home_drawer.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/base64_image_widget.dart';
+import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_dialog.dart';
 import 'package:pashboi/shared/widgets/language_switch/language_switch.dart';
 import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
-
-final List<Widget> menuViews = [
-  InfoMenusView(),
-  AccountsMenusView(),
-  LoansMenusView(),
-  DepositMenusView(),
-  TransferMenusView(),
-  WithdrawMenusView(),
-  PaymentMenusView(),
-  FamilyMenusView(),
-  BeneficiaryMenusView(),
-  PersonnelMenusView(),
-];
 
 class AuthenticatedHome extends StatefulWidget {
   const AuthenticatedHome({super.key});
@@ -48,11 +36,24 @@ class AuthenticatedHome extends StatefulWidget {
 
 class _AuthenticatedHomeState extends State<AuthenticatedHome> {
   int _previousPage = 0;
+  final List<Widget> menuViews = [
+    InfoMenusView(),
+    AccountsMenusView(),
+    LoansMenusView(),
+    DepositMenusView(),
+    TransferMenusView(),
+    WithdrawMenusView(),
+    PaymentMenusView(),
+    FamilyMenusView(),
+    BeneficiaryMenusView(),
+    PersonnelMenusView(),
+  ];
 
   @override
   void initState() {
     super.initState();
     context.read<AuthBloc>().add(AuthUserCheck());
+    context.read<DebitCardBloc>().add(DebitCardLoad());
   }
 
   @override

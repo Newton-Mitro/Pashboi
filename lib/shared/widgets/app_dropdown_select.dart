@@ -25,23 +25,29 @@ class AppDropdownSelect<T> extends StatelessWidget {
     if (!enabled) return;
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true, // 👈 Enable full control of height
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) {
+        final sheetHeight =
+            MediaQuery.of(context).size.height * 0.4; // 👈 Adjust height here
         return SafeArea(
-          child: ListView(
-            shrinkWrap: true,
-            children:
-                items.map((item) {
-                  return ListTile(
-                    title: item.child,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      onChanged(item.value);
-                    },
-                  );
-                }).toList(),
+          child: SizedBox(
+            height: sheetHeight,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              children:
+                  items.map((item) {
+                    return ListTile(
+                      title: item.child,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        onChanged(item.value);
+                      },
+                    );
+                  }).toList(),
+            ),
           ),
         );
       },
@@ -76,7 +82,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
         GestureDetector(
           onTap: () => _showBottomSheet(context),
           child: AbsorbPointer(
-            absorbing: !enabled, // ✅ Prevent gestures when disabled
+            absorbing: !enabled,
             child: InputDecorator(
               decoration: InputDecoration(
                 labelText: value != null ? label : "",
@@ -143,7 +149,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
             ),
           ),
         ),
-        if (errorText != null)
+        if (errorText != null && errorText!.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 1.0, left: 8),
             child: Text(

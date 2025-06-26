@@ -1,8 +1,8 @@
 import 'package:pashboi/core/entities/entity.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/saving_account_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 
 class DebitCardEntity extends Entity<int> {
-  final List<SavingAccountEntity> cardsAccounts;
+  final List<DepositAccountEntity> cardsAccounts;
   final bool isActive;
   final String nameOnCard;
   final String cardNumber;

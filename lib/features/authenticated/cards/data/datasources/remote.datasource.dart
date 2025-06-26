@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
+import 'package:pashboi/features/authenticated/cards/data/models/card_model.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/cards/domain/usecases/get_my_card_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/usecases/issue_debit_card_usecase.dart';
@@ -70,26 +72,143 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
   @override
   Future<DebitCardEntity> getMyCard(
     GetMyCardUseCaseProps getMyCardUseCaseProps,
-  ) {
-    throw UnimplementedError();
+  ) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.getMyCards,
+        data: {
+          "UserName": getMyCardUseCaseProps.email,
+          "MobileNumber": getMyCardUseCaseProps.mobileNumber,
+          "RolePermissionId": getMyCardUseCaseProps.rolePermissionId,
+          "ByUserId": getMyCardUseCaseProps.userId,
+          "EmployeeCode": getMyCardUseCaseProps.employeeCode,
+          "PersonId": getMyCardUseCaseProps.personId,
+          "UID": getMyCardUseCaseProps.userId,
+          "MobileNo": getMyCardUseCaseProps.mobileNumber,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+
+        if (dataString == null) throw Exception('Invalid response format');
+
+        final decoded = jsonDecode(dataString);
+
+        if (decoded is List && decoded.isNotEmpty) {
+          final firstItem = decoded.first;
+          return DebitCardModel.fromJson(firstItem);
+        } else {
+          throw Exception('Card list is empty or invalid');
+        }
+      } else {
+        throw Exception('Login failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<String> lockTheCard(LockTheCardUseCaseProps lockTheCardUseCaseProps) {
-    throw UnimplementedError();
+  Future<String> lockTheCard(
+    LockTheCardUseCaseProps lockTheCardUseCaseProps,
+  ) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.login,
+        data: {
+          "UserName": lockTheCardUseCaseProps.email,
+          "CardNumber": lockTheCardUseCaseProps.cardNumber,
+          "AccountNumber": lockTheCardUseCaseProps.accountNumber,
+          "NameOnCard": lockTheCardUseCaseProps.nameOnCard,
+          "MobileNumber": lockTheCardUseCaseProps.mobileNumber,
+          "RolePermission": lockTheCardUseCaseProps.rolePermissionId,
+          "ByUserId": lockTheCardUseCaseProps.userId,
+          "EmployeeCode": lockTheCardUseCaseProps.employeeCode,
+          "PersonId": lockTheCardUseCaseProps.personId,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        if (dataString == null) throw Exception('Invalid response format');
+
+        return dataString;
+      } else {
+        throw Exception('Login failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<String> reIssueDebitCard(
     ReIssueDebitCardUsecaseProps reIssueDebitCardUsecaseProps,
-  ) {
-    throw UnimplementedError();
+  ) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.login,
+        data: {
+          "UserName": reIssueDebitCardUsecaseProps.email,
+          "CardTypeCode": reIssueDebitCardUsecaseProps.cardTypeCode,
+          "CardNumber": reIssueDebitCardUsecaseProps.cardNumber,
+          "IsVirtual": reIssueDebitCardUsecaseProps.virtualCard,
+          "NameOnCard": reIssueDebitCardUsecaseProps.nameOnCard,
+          "MobileNumber": reIssueDebitCardUsecaseProps.mobileNumber,
+          "RolePermission": reIssueDebitCardUsecaseProps.rolePermissionId,
+          "ByUserId": reIssueDebitCardUsecaseProps.userId,
+          "EmployeeCode": reIssueDebitCardUsecaseProps.employeeCode,
+          "PersonId": reIssueDebitCardUsecaseProps.personId,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        if (dataString == null) throw Exception('Invalid response format');
+
+        return dataString;
+      } else {
+        throw Exception('Login failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<String> verifyCardPIN(
     VerifyCardPinUseCaseProps verifyCardPinUseCaseProps,
-  ) {
-    throw UnimplementedError();
+  ) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.login,
+        data: {
+          "UserName": verifyCardPinUseCaseProps.email,
+          "CardNumber": verifyCardPinUseCaseProps.cardNumber,
+          "NameOnCard": verifyCardPinUseCaseProps.nameOnCard,
+          "MobileNumber": verifyCardPinUseCaseProps.mobileNumber,
+          "RolePermission": verifyCardPinUseCaseProps.rolePermissionId,
+          "ByUserId": verifyCardPinUseCaseProps.userId,
+          "EmployeeCode": verifyCardPinUseCaseProps.employeeCode,
+          "PersonId": verifyCardPinUseCaseProps.personId,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        if (dataString == null) throw Exception('Invalid response format');
+
+        return dataString;
+      } else {
+        throw Exception('Login failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 }

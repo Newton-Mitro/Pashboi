@@ -10,7 +10,6 @@ import 'package:pashboi/features/authenticated/cards/domain/usecases/issue_debit
 import 'package:pashboi/features/authenticated/cards/domain/usecases/lock_the_card_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/usecases/re_issue_debit_card_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/usecases/verify_card_pin_usecase.dart';
-import 'package:pashboi/features/authenticated/user/domain/entities/user_entity.dart';
 
 class CardRepositoryImpl implements CardRepository {
   final CardRemoteDataSource cardRemoteDataSource;
@@ -38,32 +37,56 @@ class CardRepositoryImpl implements CardRepository {
   @override
   ResultFuture<String> issueDebitCard(
     IssueDebitCardUseCaseProps issueDebitCardUseCaseProps,
-  ) {
-    // TODO: implement issueDebitCard
-    throw UnimplementedError();
+  ) async {
+    try {
+      final result = await cardRemoteDataSource.issueDebitCard(
+        issueDebitCardUseCaseProps,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
   }
 
   @override
   ResultFuture<String> lockTheCard(
     LockTheCardUseCaseProps lockTheCardUseCaseProps,
-  ) {
-    // TODO: implement lockTheCard
-    throw UnimplementedError();
+  ) async {
+    try {
+      final result = await cardRemoteDataSource.lockTheCard(
+        lockTheCardUseCaseProps,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
   }
 
   @override
   ResultFuture<String> reIssueDebitCard(
     ReIssueDebitCardUsecaseProps reIssueDebitCardUsecaseProps,
-  ) {
-    // TODO: implement reIssueDebitCard
-    throw UnimplementedError();
+  ) async {
+    try {
+      final result = await cardRemoteDataSource.reIssueDebitCard(
+        reIssueDebitCardUsecaseProps,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
   }
 
   @override
   ResultFuture<Object> verifyCardPIN(
     VerifyCardPinUseCaseProps verifyCardPinUseCaseProps,
-  ) {
-    // TODO: implement verifyCardPIN
-    throw UnimplementedError();
+  ) async {
+    try {
+      final result = await cardRemoteDataSource.verifyCardPIN(
+        verifyCardPinUseCaseProps,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
   }
 }

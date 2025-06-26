@@ -8,6 +8,7 @@ import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/reset_password_bloc/reset_password_bloc.dart';
+import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/injection.dart';
@@ -17,9 +18,10 @@ import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Locales.init(['en', 'bn']);
   Bloc.observer = AppBlocObserver();
   await dotenv.load(fileName: ".env");
-  await Locales.init(['en', 'bn']);
+
   await setupDependencies();
 
   runApp(
@@ -35,6 +37,7 @@ void main() async {
         BlocProvider(create: (_) => sl<VerifyMobileNumberBloc>()),
         BlocProvider(create: (_) => sl<OtpVerificationBloc>()),
         BlocProvider(create: (_) => sl<ResetPasswordBloc>()),
+        BlocProvider(create: (context) => sl<DebitCardBloc>()),
       ],
       child: const MyApp(),
     ),

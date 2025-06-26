@@ -5,7 +5,7 @@ import 'package:pashboi/features/authenticated/cards/domain/repositories/card_re
 
 class VerifyCardPinUseCaseProps extends BaseRequestProps {
   final String cardNumber;
-  final String nameOnCare;
+  final String nameOnCard;
   final String cardPIN;
 
   const VerifyCardPinUseCaseProps({
@@ -16,7 +16,7 @@ class VerifyCardPinUseCaseProps extends BaseRequestProps {
     required super.employeeCode,
     required super.mobileNumber,
     required this.cardNumber,
-    required this.nameOnCare,
+    required this.nameOnCard,
     required this.cardPIN,
   });
 }

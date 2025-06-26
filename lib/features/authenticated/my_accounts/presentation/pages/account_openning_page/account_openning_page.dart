@@ -6,7 +6,7 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/saving_account_entity.dart';
+import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_amount_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
@@ -57,7 +57,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   bool _isWaiting = true;
 
   // Data
-  late final DebitCardEntity? _myCards = null;
+  late DebitCardEntity? _myCards;
   final List<TenureEntity> _tenures = [];
   final List<TenureAmountEntity> _installmentAmounts = [];
 
@@ -170,40 +170,33 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
-        widget: TransferFromSection(
-          selectedAccountNumber:
-              accountOpeningStepsState.stepData[AccountOpeningStepsBloc
-                  .firstStep]?['selectedAccountNumber'] ??
-              '',
-          accountError: '',
-          onAccountChanged: (val) {
-            context.read<AccountOpeningStepsBloc>().add(
-              UpdateStepData(step: 0, key: 'selectedAccountNumber', value: val),
+        widget: BlocBuilder<DebitCardBloc, DebitCardState>(
+          builder: (context, state) {
+            if (state is DebitCardLoadingSuccess) {
+              _myCards = state.debitCard;
+            }
+            return TransferFromSection(
+              selectedAccountNumber:
+                  accountOpeningStepsState.stepData[AccountOpeningStepsBloc
+                      .firstStep]?['selectedAccountNumber'] ??
+                  '',
+              accountError: '',
+              onAccountChanged: (val) {
+                context.read<AccountOpeningStepsBloc>().add(
+                  UpdateStepData(
+                    step: 0,
+                    key: 'selectedAccountNumber',
+                    value: val,
+                  ),
+                );
+              },
+              cardNumberController: cardNumber,
+              accounTypeController: accountType,
+              accountBalanceController: accountBalance,
+              accountWithdrawableController: accountWithdrawable,
+              accountNumbers: _myCards!.cardsAccounts,
             );
           },
-          cardNumberController: cardNumber,
-          accounTypeController: accountType,
-          accountBalanceController: accountBalance,
-          accountWithdrawableController: accountWithdrawable,
-          accountNumbers:
-              _myCards?.cardsAccounts ??
-              [
-                SavingAccountEntity(
-                  id: 1,
-                  number: '1234567890',
-                  type: 'Savings',
-                  typeCode: 'SAV',
-                  accountName: 'John Doe',
-                  balance: 1000.0,
-                  withdrawableBalance: 800.0,
-                  ledgerId: 1,
-                  interestReate: 1.5,
-                  accountFor: 'Personal',
-                  status: 'Active',
-                  defaultAccount: true,
-                  nominees: [],
-                ),
-              ],
         ),
       ),
       StepItem(

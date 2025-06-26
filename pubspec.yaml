@@ -24,6 +24,7 @@ dependencies:
   animated_bottom_navigation_bar: ^1.4.0
   get_it: ^8.0.3
   intl: any
+  jwt_decoder: ^2.0.1
   logger: ^2.5.0
   shared_preferences: ^2.5.2
   smooth_page_indicator: ^1.2.1
