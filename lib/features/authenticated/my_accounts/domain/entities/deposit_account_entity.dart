@@ -3,7 +3,8 @@ import 'package:pashboi/core/entities/entity.dart';
 class DepositAccountEntity extends Entity<int> {
   final String number;
   final String name;
-  final String type;
+  final String shortTypeName;
+  final String typeName;
   final String typeCode;
   final double balance;
   final double withdrawableBalance;
@@ -13,6 +14,8 @@ class DepositAccountEntity extends Entity<int> {
   final int ledgerId;
   final double interestReate;
   final String accountFor;
+  final String accountHolderName;
+  final int accountHolderId;
   final String status;
   final bool defaultAccount;
 
@@ -20,7 +23,8 @@ class DepositAccountEntity extends Entity<int> {
     required int id,
     required this.number,
     required this.name,
-    required this.type,
+    this.shortTypeName = '',
+    required this.typeName,
     this.typeCode = '00',
     this.balance = 0.0,
     this.withdrawableBalance = 0.0,
@@ -30,6 +34,8 @@ class DepositAccountEntity extends Entity<int> {
     this.ledgerId = 0,
     this.interestReate = 0.0,
     this.accountFor = 'Individual',
+    this.accountHolderName = '',
+    this.accountHolderId = 0,
     this.status = 'Active',
     this.defaultAccount = false,
   }) : super(id: id);
@@ -39,7 +45,7 @@ class DepositAccountEntity extends Entity<int> {
     id,
     number,
     name,
-    type,
+    typeName,
     typeCode,
     balance,
     withdrawableBalance,

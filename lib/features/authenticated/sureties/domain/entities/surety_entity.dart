@@ -11,6 +11,7 @@ class SuretyEntity extends Entity<int> {
   final double suretyAmount;
   final double loanBalance;
   final double suretyReleaseAmount;
+  final DateTime? loanStartDate;
   final DateTime? loanEndDate;
   final DateTime? lastPaidDate;
   final bool defaulter;
@@ -29,6 +30,7 @@ class SuretyEntity extends Entity<int> {
     required this.suretyAmount,
     required this.loanBalance,
     required this.suretyReleaseAmount,
+    required this.loanStartDate,
     required this.loanEndDate,
     required this.lastPaidDate,
     required this.defaulter,
@@ -49,6 +51,7 @@ class SuretyEntity extends Entity<int> {
     suretyAmount,
     loanBalance,
     suretyReleaseAmount,
+    loanStartDate,
     loanEndDate,
     lastPaidDate,
     defaulter,
