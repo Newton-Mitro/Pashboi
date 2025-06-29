@@ -1,5 +1,5 @@
 import 'package:pashboi/core/utils/json_util.dart';
-import 'package:pashboi/features/authenticated/user/data/models/user_model.dart';
+import 'package:pashboi/features/auth/data/models/user_model.dart';
 
 final mockLoginResponse = {
   "Data":

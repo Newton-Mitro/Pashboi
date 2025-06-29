@@ -4,8 +4,8 @@ class FamilyAndFriendEntity extends Entity<int> {
   final String relationName;
   final int userPersonId;
   final int familyMemberId;
-  final bool familyMemberName;
-  final bool familyMemberAge;
+  final String familyMemberName;
+  final int familyMemberAge;
   final String familyMemberGender;
   final String requestStatus;
 

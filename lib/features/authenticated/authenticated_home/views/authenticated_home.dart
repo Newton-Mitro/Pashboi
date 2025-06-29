@@ -13,13 +13,13 @@ import 'package:pashboi/features/authenticated/authenticated_home/views/menus/fa
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/info_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/loans_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/payment_menus_view.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/views/menus/personnel_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/transfer_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/withdraw_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/app_bottom_navigation_bar.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/authenticated_home_drawer.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/base64_image_widget.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
+import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -46,7 +46,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
     PaymentMenusView(),
     FamilyMenusView(),
     BeneficiaryMenusView(),
-    PersonnelMenusView(),
+    GivenSuretiesPage(),
   ];
 
   @override
@@ -105,8 +105,8 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
         "index": 8,
       },
       {
-        "icon": FontAwesomeIcons.idBadge,
-        "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
+        "icon": FontAwesomeIcons.userShield,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_surety'),
         "index": 9,
       },
     ];

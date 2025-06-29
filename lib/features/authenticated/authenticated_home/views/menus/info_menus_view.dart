@@ -24,15 +24,7 @@ class _InfoMenusViewState extends State<InfoMenusView> {
         ),
         "route": AuthRoutesName.profilePage,
       },
-      {
-        "icon": FontAwesomeIcons.userShield,
-        "menuName": Locales.string(context, "info_menu_surety_status_title"),
-        "menuDescription": Locales.string(
-          context,
-          "info_menu_surety_status_description",
-        ),
-        "route": AuthRoutesName.suretiesPage,
-      },
+
       {
         "icon": FontAwesomeIcons.children,
         "menuName": Locales.string(context, "accounts_menu_dependents_title"),

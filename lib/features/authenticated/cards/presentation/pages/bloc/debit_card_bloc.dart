@@ -8,7 +8,7 @@ import 'package:pashboi/features/authenticated/cards/domain/usecases/issue_debit
 import 'package:pashboi/features/authenticated/cards/domain/usecases/lock_the_card_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/usecases/re_issue_debit_card_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/usecases/verify_card_pin_usecase.dart';
-import 'package:pashboi/features/authenticated/user/domain/entities/user_entity.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 
 part 'debit_card_event.dart';
 part 'debit_card_state.dart';

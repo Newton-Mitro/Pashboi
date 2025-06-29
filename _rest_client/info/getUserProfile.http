@@ -1,6 +1,6 @@
 ### Login Request
 # @name login
-POST https://staging.cccul.com/api/Auth_V2/UserLogin
+POST  {{host}}/Auth_V2/UserLogin
 Content-Type: application/json
 Accept: application/json
 
@@ -31,16 +31,38 @@ Token: {{token}}
   "MobileNo": "{{MobileNumber}}",
   "MobileNumber": "{{MobileNumber}}",
   "RolePermissionId": "6,1,1209,1210",
-  "ByUserId": 10,
+  "ByUserId": "{{ByUserId}}",
   "UID": "{{ByUserId}}",
   "EmployeeCode": "{{EmployeeCode}}",
-  "PersonId": 12345,
+  "PersonId": "{{PersonId}}",
   "RequestFrom":"{{RequestFrom}}"
 }
 
 ### Response
 # {
-#     "Data": "find_out",
-#     "Status": "success",
-#     "Message": null
+#   "Data": [
+#     {
+#       "FullName": "SUJON DOMINIC GOMES",
+#       "FathersName": "LATE. CHRISTOPHER GOMES",
+#       "MothersName": "MRS. SABITA JACINTA GOMES",
+#       "SpouseName": "MRS. SILVIA ANTHONIA CORRAYA",
+#       "DateOfBirth": "1984-11-01T00:00:00",
+#       "MobileNumber": "+880-1716281408",
+#       "Email": "sujon_gomes2004@yahoo.com",
+#       "NID": "3313497650235",
+#       "BaseNo": "0013815",
+#       "PresentAddressLine1": "70/1/A",
+#       "PresentAddressLine2": "1215",
+#       "PresentAddressLine3": "TEJGAON",
+#       "PresentAddressLine4": "DHAKA",
+#       "PermanentAddressLine1": "RANGAMATIA",
+#       "PermanentAddressLine2": "1720",
+#       "PermanentAddressLine3": "KALIGANJ",
+#       "PermanentAddressLine4": "GAZIPUR",
+#       "DeviceId": 29365,
+#       "UserPhoto": "",
+#       "IsBloodDonor": true,
+#       "BloodGroup": "O (+)"
+#     }
+#   ]
 # }

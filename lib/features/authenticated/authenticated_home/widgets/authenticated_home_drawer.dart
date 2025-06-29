@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/bloc/authenticated_home_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/base64_image_widget.dart';
-import 'package:pashboi/features/authenticated/user/domain/entities/user_entity.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 
 class AuthenticatedHomeDrawer extends StatelessWidget {
@@ -85,6 +87,19 @@ class AuthenticatedHomeDrawer extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: FontAwesomeIcons.helmetSafety,
+                  label: Locales.string(
+                    context,
+                    'auth_bottom_nav_menu_personnel',
+                  ),
+                  onTap: () {
+                    Navigator.of(
+                      context,
+                    ).pushNamed(AuthRoutesName.personnelPage);
+                  },
                 ),
                 _buildDrawerItem(
                   context,

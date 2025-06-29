@@ -12,7 +12,7 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_accounts_page.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
-import 'package:pashboi/features/authenticated/user/presentation/pages/profile_page.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';

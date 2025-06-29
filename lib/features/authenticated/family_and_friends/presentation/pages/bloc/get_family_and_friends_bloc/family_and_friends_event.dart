@@ -8,8 +8,3 @@ sealed class FamilyAndFriendsEvent extends Equatable {
 }
 
 class LoadFamilyAndFriends extends FamilyAndFriendsEvent {}
-
-class AddFamilyAndFriend extends FamilyAndFriendsEvent {
-  final FamilyAndFriendEntity familyAndFriend;
-  const AddFamilyAndFriend(this.familyAndFriend);
-}

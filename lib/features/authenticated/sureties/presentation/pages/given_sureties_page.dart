@@ -75,7 +75,6 @@ class _GivenSuretiesPageState extends State<GivenSuretiesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Surety Status')),
       body: PageContainer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
