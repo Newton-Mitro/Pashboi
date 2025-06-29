@@ -8,9 +8,9 @@ import 'package:pashboi/features/authenticated/dependent/presentation/pages/depe
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_relatives_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_details_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_accounts_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/my_accounts_page.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';

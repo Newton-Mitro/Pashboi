@@ -23,10 +23,10 @@ class DepositAccountModel extends DepositAccountEntity {
   factory DepositAccountModel.fromJson(Map<String, dynamic> json) {
     return DepositAccountModel(
       id: json['AccountId'],
-      number: json['AccountNumber'] ?? '',
+      number: json['AccountNo'] ?? '',
       name: json['DCAccountNo'] ?? '',
       typeName: json['AccountTypeName'] ?? '',
-      shortTypeName: json['AccountShortTypeName'] ?? '',
+      shortTypeName: json['AccountTypeShortName'] ?? '',
       typeCode: json['AccountTypeCode'] ?? '00',
       balance: (json['Balance'] ?? 0).toDouble(),
       withdrawableBalance: (json['WithdrawableBalance'] ?? 0).toDouble(),

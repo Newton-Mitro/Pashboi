@@ -5,6 +5,7 @@ import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/features/authenticated/my_accounts/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/deposit_account_repository.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_details_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_my_accounts_usecase.dart';
 
 class DepositAccountRepositoryImpl implements DepositAccountRepository {
@@ -22,6 +23,20 @@ class DepositAccountRepositoryImpl implements DepositAccountRepository {
   ) async {
     try {
       final result = await depositAccountRemoteDataSource.getMyAccounts(props);
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<DepositAccountEntity> getAccountDetails(
+    GetAccountDetailsProps props,
+  ) async {
+    try {
+      final result = await depositAccountRemoteDataSource.getAccountDetails(
+        props,
+      );
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));

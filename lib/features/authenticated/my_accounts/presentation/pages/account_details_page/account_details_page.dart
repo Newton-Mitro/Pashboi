@@ -9,101 +9,6 @@ import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:accordion/accordion.dart';
 
-class TransactionAmount {
-  TransactionAmount(this.month, this.amount);
-  final String month;
-  final double amount;
-}
-
-String monthName(String dateStr) {
-  DateTime date = DateTime.parse(dateStr);
-  return DateFormat.MMM().format(date);
-}
-
-final Map<String, dynamic> accountInfo = {
-  "AccountNo": "DDS-0058818",
-  "DCAccountNo": "DDS-0058818",
-  "AccHolderName": "BAPPY BESRA",
-  "AccountTypeName": "Double Deposit Scheme Project",
-  "Balance": "1000000",
-  "WithdrawableBalance": "50000",
-  "LoanBalance": 0,
-  "STATUS": "Active",
-  "LastPaidDate": "2023-05-23T12:31:00",
-  "AccountNominee": "SUJAN DOMINIC GOMES ",
-  "AccountId": 293908,
-  "LedgerId": 1500,
-  "MaturityDate": "2031-05-22T12:42:25.71",
-  "AccountTypeCode": 30,
-  "IsDefaulter": true,
-};
-
-final Map<String, dynamic> accountData = {
-  "Transactions": [
-    {
-      "TxnDate": "2024-07-01T00:00:00",
-      "Particulars": "B/F               ",
-      "DepositAmount": 0,
-      "WithdrawAmount": 0,
-      "Balance": 1029,
-      "AccountNo": "T-0063366       ",
-      "AccountName": "NEWTON MITRA",
-    },
-    {
-      "TxnDate": "2025-01-07T15:02:05",
-      "Particulars": "JVDC202501070006/1 Transfer Deposit from Saving Accounts",
-      "DepositAmount": 0,
-      "WithdrawAmount": 300,
-      "Balance": 999672,
-      "AccountNo": "T-0063366       ",
-      "AccountName": "NEWTON MITRA",
-    },
-    {
-      "TxnDate": "2025-01-07T15:03:26",
-      "Particulars": "JVDC202501070007/1 Transfer MMS Collection Deposit",
-      "DepositAmount": 10000,
-      "WithdrawAmount": 0,
-      "Balance": 999647,
-      "AccountNo": "T-0063366       ",
-      "AccountName": "NEWTON MITRA",
-    },
-    {
-      "TxnDate": "2025-03-23T16:54:21",
-      "Particulars": "JVDC202503230003/1 Transfer Web Transfer",
-      "DepositAmount": 0,
-      "WithdrawAmount": 10,
-      "Balance": 999547,
-      "AccountNo": "T-0063366       ",
-      "AccountName": "NEWTON MITRA",
-    },
-  ],
-};
-
-final List<TransactionAmount> depositTransactionData =
-    (accountData['Transactions'] as List<dynamic>)
-        .map(
-          (e) => TransactionAmount(
-            monthName(e['TxnDate']),
-            (e['DepositAmount'] ?? 0.0).toDouble(),
-          ),
-        )
-        .toList();
-
-final List<TransactionAmount> withdrawTransactionData =
-    (accountData['Transactions'] as List<dynamic>)
-        .map(
-          (e) => TransactionAmount(
-            monthName(e['TxnDate']),
-            (e['WithdrawAmount'] ?? 0.0).toDouble(),
-          ),
-        )
-        .toList();
-
-String formatDate(String inputDate) {
-  DateTime date = DateTime.parse(inputDate);
-  return DateFormat('dd-MMM-yyyy').format(date);
-}
-
 class AccountDetailsPage extends StatefulWidget {
   const AccountDetailsPage({super.key});
   @override
@@ -188,13 +93,13 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 children: [
                   const SizedBox(height: 35),
                   Icon(
-                    FontAwesomeIcons.solidCircleUser,
+                    FontAwesomeIcons.piggyBank,
                     size: 60,
                     color: context.theme.colorScheme.onSurface,
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    accountInfo["AccHolderName"].toString().toTitleCase(),
+                    "Account Holder",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
@@ -204,7 +109,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    accountInfo["AccountTypeName"].toString().toTitleCase(),
+                    "AccountTypeName",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
@@ -213,7 +118,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    accountInfo["AccountNo"],
+                    "AccountNo",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 11,
@@ -227,7 +132,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                     children: [
                       Chip(
                         label: Text(
-                          accountInfo["STATUS"] ?? "Unknown",
+                          "STATUS",
                           style: TextStyle(
                             fontSize: 12,
                             color: context.theme.colorScheme.onSecondary,
@@ -246,16 +151,14 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       ),
                       Chip(
                         label: Text(
-                          (accountInfo["IsDefaulter"] as bool)
-                              ? "Defaulter"
-                              : "Regular",
+                          (false) ? "Defaulter" : "Regular",
                           style: TextStyle(
                             fontSize: 12,
                             color: context.theme.colorScheme.onSurface,
                           ),
                         ),
                         backgroundColor:
-                            (accountInfo["IsDefaulter"] as bool)
+                            (false)
                                 ? context.theme.colorScheme.error
                                 : context.theme.colorScheme.primary,
                         shape: RoundedRectangleBorder(
@@ -263,7 +166,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         ),
                         side: BorderSide(
                           color:
-                              (accountInfo["IsDefaulter"] as bool)
+                              (false)
                                   ? context.theme.colorScheme.error
                                   : context.theme.colorScheme.primary,
                           width: 1,
@@ -305,9 +208,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          TakaFormatter.format(
-                            int.tryParse(accountInfo["Balance"] ?? '0') ?? 0,
-                          ),
+                          TakaFormatter.format(0),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 12,
@@ -343,12 +244,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          TakaFormatter.format(
-                            int.tryParse(
-                                  accountInfo["WithdrawableBalance"] ?? '0',
-                                ) ??
-                                0,
-                          ),
+                          TakaFormatter.format(0),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 12,
@@ -366,91 +262,89 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   buildInfoRow(
                     context,
                     "Last Deposit Date",
-                    accountInfo["LastPaidDate"] != null
-                        ? formatDate(accountInfo["LastPaidDate"])
-                        : 'No deposit',
+                    true ? "Date" : 'No deposit',
                     icon: FontAwesomeIcons.calendarCheck,
                   ),
                   buildInfoRow(
                     context,
                     "Maturity Date",
-                    formatDate(accountInfo["MaturityDate"]),
+                    "Date",
                     icon: FontAwesomeIcons.hourglassEnd,
                   ),
                   buildInfoRow(
                     context,
                     "Nominee",
-                    accountInfo["AccountNominee"].toString().toTitleCase(),
+                    "AccountNominee",
                     icon: FontAwesomeIcons.userShield,
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-              SfCartesianChart(
-                title: ChartTitle(
-                  text: 'Half Yearly Transactions',
-                  textStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                legend: Legend(
-                  isVisible: true,
-                  position: LegendPosition.top,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                ),
-                tooltipBehavior: TooltipBehavior(enable: true),
-                primaryXAxis: CategoryAxis(),
-                primaryYAxis: NumericAxis(),
-                series: <CartesianSeries>[
-                  LineSeries<TransactionAmount, String>(
-                    name: 'Cash IN',
-                    dataSource: depositTransactionData,
-                    xValueMapper: (txn, _) => txn.month,
-                    yValueMapper: (txn, _) => txn.amount,
-                    color: Colors.green,
-                    markerSettings: const MarkerSettings(isVisible: true),
-                  ),
-                  LineSeries<TransactionAmount, String>(
-                    name: 'Cash OUT',
-                    dataSource: withdrawTransactionData,
-                    xValueMapper: (txn, _) => txn.month,
-                    yValueMapper: (txn, _) => txn.amount,
-                    color: Colors.red,
-                    markerSettings: const MarkerSettings(isVisible: true),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Accordion(
-                headerBackgroundColorOpened: context.theme.colorScheme.primary,
-                headerPadding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 20,
-                ),
-                children: [
-                  AccordionSection(
-                    isOpen: true,
-                    leftIcon: const Icon(FontAwesomeIcons.fileContract),
-                    headerBackgroundColor: context.theme.colorScheme.primary,
-                    contentBackgroundColor: context.theme.colorScheme.surface,
-                    headerBackgroundColorOpened:
-                        context.theme.colorScheme.primary,
-                    contentBorderColor: context.theme.colorScheme.primary,
-                    contentHorizontalPadding: 0,
-                    contentVerticalPadding: 0,
-                    header: Text(
-                      'Account Statement',
-                      textAlign: TextAlign.left,
-                    ),
-                    content: Column(
-                      children: [
-                        AccountStatmentSection(accountStatment: accountData),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              // SfCartesianChart(
+              //   title: ChartTitle(
+              //     text: 'Half Yearly Transactions',
+              //     textStyle: const TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 16,
+              //     ),
+              //   ),
+              //   legend: Legend(
+              //     isVisible: true,
+              //     position: LegendPosition.top,
+              //     overflowMode: LegendItemOverflowMode.wrap,
+              //   ),
+              //   tooltipBehavior: TooltipBehavior(enable: true),
+              //   primaryXAxis: CategoryAxis(),
+              //   primaryYAxis: NumericAxis(),
+              //   series: <CartesianSeries>[
+              //     LineSeries<TransactionAmount, String>(
+              //       name: 'Cash IN',
+              //       dataSource: depositTransactionData,
+              //       xValueMapper: (txn, _) => txn.month,
+              //       yValueMapper: (txn, _) => txn.amount,
+              //       color: Colors.green,
+              //       markerSettings: const MarkerSettings(isVisible: true),
+              //     ),
+              //     LineSeries<TransactionAmount, String>(
+              //       name: 'Cash OUT',
+              //       dataSource: withdrawTransactionData,
+              //       xValueMapper: (txn, _) => txn.month,
+              //       yValueMapper: (txn, _) => txn.amount,
+              //       color: Colors.red,
+              //       markerSettings: const MarkerSettings(isVisible: true),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(height: 20),
+              // Accordion(
+              //   headerBackgroundColorOpened: context.theme.colorScheme.primary,
+              //   headerPadding: const EdgeInsets.symmetric(
+              //     vertical: 16,
+              //     horizontal: 20,
+              //   ),
+              //   children: [
+              //     AccordionSection(
+              //       isOpen: true,
+              //       leftIcon: const Icon(FontAwesomeIcons.fileContract),
+              //       headerBackgroundColor: context.theme.colorScheme.primary,
+              //       contentBackgroundColor: context.theme.colorScheme.surface,
+              //       headerBackgroundColorOpened:
+              //           context.theme.colorScheme.primary,
+              //       contentBorderColor: context.theme.colorScheme.primary,
+              //       contentHorizontalPadding: 0,
+              //       contentVerticalPadding: 0,
+              //       header: Text(
+              //         'Account Statement',
+              //         textAlign: TextAlign.left,
+              //       ),
+              //       content: Column(
+              //         children: [
+              //           AccountStatmentSection(accountStatment: accountData),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
