@@ -1,6 +1,13 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/core/utils/my_date_utils.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -14,24 +21,43 @@ class _ProfilePageState extends State<ProfilePage> {
   bool? _isCheck = false;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.theme;
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(FetchProfileEvent());
+  }
 
-    Widget buildInfoRow(IconData icon, String title, String value) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 16,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: theme.colorScheme.primary.withValues(alpha: 0.8),
-            ),
-            child: Icon(icon, size: 18, color: theme.colorScheme.onPrimary),
+  void _pickImage(BuildContext context) async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      final bytes = await picked.readAsBytes();
+      context.read<ProfileBloc>().add(
+        UpdateProfileImageEvent(imageData: base64Encode(bytes)),
+      );
+    }
+  }
+
+  Widget buildInfoRow(IconData icon, String title, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          margin: const EdgeInsets.only(right: 16),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.theme.colorScheme.primary.withOpacity(0.8),
           ),
-          Column(
+          child: Icon(
+            icon,
+            size: 18,
+            color: context.theme.colorScheme.onPrimary,
+          ),
+        ),
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: const TextStyle(fontSize: 14)),
@@ -44,151 +70,176 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
+  }
 
-    return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
-      body: PageContainer(
-        child: Container(
-          color: theme.colorScheme.primary.withValues(alpha: 0.1),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 30),
-            child: Column(
-              children: [
-                Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: theme.colorScheme.surface,
-                          border: Border.all(
-                            color: theme.colorScheme.secondary,
-                            width: 5,
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: Image.network(
-                            'https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?cs=srgb&dl=pexels-sulimansallehi-1704488.jpg&fm=jpg',
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
-                            errorBuilder:
-                                (context, error, stackTrace) =>
-                                    Icon(Icons.error),
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(child: CircularProgressIndicator());
-                            },
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        right: 5,
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: theme.colorScheme.primary,
-                            border: Border.all(
-                              color: theme.colorScheme.secondary,
-                              width: 3,
-                            ),
-                          ),
-                          child: Icon(
-                            FontAwesomeIcons.camera,
-                            size: 18,
-                            color: theme.colorScheme.onPrimary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Md Israfil",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "israfil@gmail.com",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<ProfileBloc>()..add(FetchProfileEvent()),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Profile')),
+        body: BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, state) {
+            if (state is ProfileLoading || state is ProfileInitial) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is ProfileError) {
+              return Center(child: Text(state.error));
+            }
+
+            if (state is ProfileSuccess) {
+              final person = state.personEntity;
+
+              return PageContainer(
+                child: Container(
+                  color: context.theme.colorScheme.primary.withOpacity(0.1),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 22,
+                      vertical: 30,
+                    ),
+                    child: Column(
                       children: [
+                        Center(
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: context.theme.colorScheme.surface,
+                                  border: Border.all(
+                                    color: context.theme.colorScheme.secondary,
+                                    width: 5,
+                                  ),
+                                ),
+                                child: ClipOval(
+                                  child: Image.memory(
+                                    person.photo.isNotEmpty
+                                        ? base64Decode(person.photo)
+                                        : Uint8List(0),
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 10,
+                                right: 5,
+                                child: GestureDetector(
+                                  onTap: () => _pickImage(context),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(6),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: context.theme.colorScheme.primary,
+                                      border: Border.all(
+                                        color:
+                                            context.theme.colorScheme.secondary,
+                                        width: 3,
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      FontAwesomeIcons.camera,
+                                      size: 18,
+                                      color:
+                                          context.theme.colorScheme.onPrimary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
                         Text(
-                          "Are you available for blood donation?",
-                          style: TextStyle(
-                            fontSize: 16,
+                          person.name,
+                          style: const TextStyle(
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Checkbox(
-                          value: _isCheck,
-                          onChanged:
-                              (value) => setState(() => _isCheck = value),
+                        const SizedBox(height: 5),
+                        Text(
+                          person.email,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: context.theme.colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        // Row(
+                        //   children: [
+                        //     Text(
+                        //       "Are you available for blood donation?",
+                        //       style: const TextStyle(
+                        //         fontSize: 16,
+                        //         fontWeight: FontWeight.bold,
+                        //       ),
+                        //     ),
+                        //     Checkbox(
+                        //       value: person.isBloodDonor,
+                        //       onChanged: null, // make interactive if needed
+                        //     ),
+                        //   ],
+                        // ),
+                        // Text(
+                        //   "Join our community of life-savers. If you're eligible and willing, you can now register as a blood donor and help someone in need—because saving lives is priceless.",
+                        //   style: const TextStyle(fontSize: 12),
+                        // ),
+                        // const SizedBox(height: 40),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 10,
+                          children: [
+                            buildInfoRow(
+                              FontAwesomeIcons.baby,
+                              "Date Of Birth",
+                              MyDateUtils.formatDate(person.dateOfBirth),
+                            ),
+                            buildInfoRow(
+                              FontAwesomeIcons.droplet,
+                              "Blood Group",
+                              person.bloodGroup,
+                            ),
+                            buildInfoRow(
+                              FontAwesomeIcons.idCard,
+                              "NID",
+                              person.nid,
+                            ),
+                            buildInfoRow(
+                              FontAwesomeIcons.phoneVolume,
+                              "Mobile Number",
+                              person.mobileNumber,
+                            ),
+                            buildInfoRow(
+                              FontAwesomeIcons.locationPin,
+                              "Present Address",
+                              person.presentAddress,
+                            ),
+                            buildInfoRow(
+                              FontAwesomeIcons.locationPinLock,
+                              "Permanent Address",
+                              person.permanentAddress,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
+              );
+            }
 
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "Join our community of life-savers. If you're eligible and willing, you can now register as a blood donor and help someone in need—because saving lives is priceless.",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 40),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 16,
-                  children: [
-                    buildInfoRow(
-                      FontAwesomeIcons.baby,
-                      "Date Of Birth",
-                      "1984-11-01",
-                    ),
-                    buildInfoRow(FontAwesomeIcons.droplet, "Blood Group", "A+"),
-                    buildInfoRow(FontAwesomeIcons.idCard, "NID", "7311223056"),
-                    buildInfoRow(
-                      FontAwesomeIcons.phoneVolume,
-                      "Mobile Number",
-                      "+880-1815458842",
-                    ),
-                    buildInfoRow(
-                      FontAwesomeIcons.locationPin,
-                      "Present Address",
-                      "345, East Street, NY",
-                    ),
-                    buildInfoRow(
-                      FontAwesomeIcons.locationPinLock,
-                      "Permanent Address",
-                      "345, East Street, NY",
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );

@@ -8,5 +8,9 @@ sealed class AccountDetailsEvent extends Equatable {
 }
 
 class FetchAccountDetailsEvent extends AccountDetailsEvent {
-  const FetchAccountDetailsEvent();
+  final String accountNumber;
+  const FetchAccountDetailsEvent({required this.accountNumber});
+
+  @override
+  List<Object> get props => [accountNumber];
 }

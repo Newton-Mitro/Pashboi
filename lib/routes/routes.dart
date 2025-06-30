@@ -117,7 +117,15 @@ class AppRoutes {
         return _materialRoute(MyAccountsPage());
 
       case AuthRoutesName.accountsDetailsPage:
-        return _materialRoute(AccountDetailsPage());
+        if (args is Map<String, String>) {
+          final accountNumber = args['accountNumber'] ?? '';
+
+          return _materialRoute(
+            AccountDetailsPage(accountNumber: accountNumber),
+          );
+        } else {
+          return _materialRoute(AccountDetailsPage(accountNumber: ""));
+        }
 
       case AuthRoutesName.createNewAccountPage:
         return _materialRoute(AccountOpeningPage());

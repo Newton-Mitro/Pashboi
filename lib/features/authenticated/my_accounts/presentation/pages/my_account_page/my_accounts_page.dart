@@ -114,7 +114,9 @@ class MyAccountsPage extends StatelessWidget {
                                     Navigator.pushNamed(
                                       context,
                                       AuthRoutesName.accountsDetailsPage,
-                                      arguments: account, // optional
+                                      arguments: {
+                                        'accountNumber': account.number.trim(),
+                                      },
                                     );
                                   },
                                 ),

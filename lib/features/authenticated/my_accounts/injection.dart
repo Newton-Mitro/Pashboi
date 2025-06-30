@@ -6,9 +6,11 @@ import 'package:pashboi/features/authenticated/my_accounts/data/datasources/remo
 import 'package:pashboi/features/authenticated/my_accounts/data/repositories/deposit_account_repository.impl.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/deposit_account_repository.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_details_usecase.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_statement_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_my_accounts_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/bloc/my_account_bloc.dart';
 
 void registerMyAccountsModule() async {
@@ -32,6 +34,18 @@ void registerMyAccountsModule() async {
     ),
   );
 
+  sl.registerLazySingleton<GetAccountDetailsUseCase>(
+    () => GetAccountDetailsUseCase(
+      depositAccountRepository: sl<DepositAccountRepository>(),
+    ),
+  );
+
+  sl.registerLazySingleton<GetAccountStatementUseCase>(
+    () => GetAccountStatementUseCase(
+      depositAccountRepository: sl<DepositAccountRepository>(),
+    ),
+  );
+
   // Register Bloc
   sl.registerFactory<AccountOpeningStepsBloc>(() => AccountOpeningStepsBloc());
 
@@ -45,6 +59,13 @@ void registerMyAccountsModule() async {
   sl.registerFactory<AccountDetailsBloc>(
     () => AccountDetailsBloc(
       getAccountDetailsUseCase: sl<GetAccountDetailsUseCase>(),
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+    ),
+  );
+
+  sl.registerFactory<AccountStatementBloc>(
+    () => AccountStatementBloc(
+      getAccountStatementUseCase: sl<GetAccountStatementUseCase>(),
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
     ),
   );

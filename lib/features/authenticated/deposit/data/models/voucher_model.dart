@@ -1,4 +1,4 @@
-import 'package:pashboi/features/authenticated/cards/domain/entities/transaction_model.dart';
+import 'package:pashboi/features/authenticated/deposit/data/models/transaction_model.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/entities/voucher_entity.dart';
 
 class VoucherModel extends VoucherEntity {
