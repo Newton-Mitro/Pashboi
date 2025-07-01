@@ -6,6 +6,7 @@ import 'package:pashboi/features/authenticated/sureties/injection.dart';
 import 'package:pashboi/features/my_app/injection.dart';
 import 'package:pashboi/features/onboarding/injection.dart';
 import 'package:pashboi/features/public/deposit_policies/injection.dart';
+import 'package:pashboi/features/public/loan_policies/injection.dart';
 
 import 'core/injection.dart';
 import 'features/auth/injection.dart';
@@ -21,4 +22,5 @@ Future<void> setupDependencies() async {
   registerProfileModule();
   registerDepositPolicyModule();
   registerSuretyModule();
+  registerLoanPolicyModule();
 }
