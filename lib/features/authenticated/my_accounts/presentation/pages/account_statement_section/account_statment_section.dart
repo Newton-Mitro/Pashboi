@@ -128,7 +128,7 @@ class _AccountStatmentSectionState extends State<AccountStatmentSection> {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );
