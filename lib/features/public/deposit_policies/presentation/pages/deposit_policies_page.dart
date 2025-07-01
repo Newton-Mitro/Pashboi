@@ -6,6 +6,7 @@ import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/bloc/deposit_policy_bloc.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DepositPoliciesPage extends StatelessWidget {
   const DepositPoliciesPage({super.key});
@@ -42,7 +43,11 @@ class DepositPoliciesPage extends StatelessWidget {
                       vertical: 8,
                     ),
                     child: ListTile(
-                      leading: const Text('💰', style: TextStyle(fontSize: 28)),
+                      leading: FaIcon(
+                        FontAwesomeIcons.piggyBank,
+                        size: 24,
+                        color: context.theme.colorScheme.onPrimary,
+                      ),
                       title: Text(product.title),
                       subtitle: Text(product.shortDescription),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
