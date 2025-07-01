@@ -11,7 +11,7 @@ class DepositPolicyDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? imageUrl =
+    final String imageUrl =
         depositPolicy.attachmentUrl; // optional: add this field in entity
     final bool showIcon = imageUrl == null || imageUrl.isEmpty;
 
