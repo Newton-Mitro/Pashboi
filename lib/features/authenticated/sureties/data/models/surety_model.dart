@@ -22,35 +22,31 @@ class SuretyModel extends SuretyEntity {
   });
 
   factory SuretyModel.fromJson(Map<String, dynamic> json) => SuretyModel(
-    id: json['id'],
-    loanNumber: json['loanNumber'],
+    id: json['id'] ?? 0,
+    loanNumber: json['LoanId'] ?? '',
     loanOpenDate:
-        json['loanOpenDate'] != null
-            ? DateTime.parse(json['loanOpenDate'])
+        json['LoanOpenDate'] != null
+            ? DateTime.parse(json['LoanOpenDate'])
             : null,
-    suretyAccountNumber: json['suretyAccountNumber'],
-    accountHolderName: json['accountHolderName'],
-    mobileNumber: json['mobileNumber'],
-    collateralType: json['collateralType'],
-    loanAmount: (json['loanAmount'] ?? 0).toDouble(),
-    suretyAmount: (json['suretyAmount'] ?? 0).toDouble(),
-    loanBalance: (json['loanBalance'] ?? 0).toDouble(),
-    suretyReleaseAmount: (json['suretyReleaseAmount'] ?? 0).toDouble(),
+    suretyAccountNumber: json['MemberAccount'] ?? json['AccountNo'],
+    accountHolderName: json['MemberName'] ?? '',
+    mobileNumber: json['MemberMobileNo'] ?? '',
+    collateralType: json['CollateralName'] ?? '',
+    loanAmount: (json['LoanAmount'] ?? 0).toDouble(),
+    suretyAmount: (json['SuretyAmount'] ?? 0).toDouble(),
+    loanBalance: (json['LoanBalance'] ?? 0).toDouble(),
+    suretyReleaseAmount: (json['SuretyRelaseAmount'] ?? 0).toDouble(),
     loanStartDate:
-        json['loanStartDate'] != null
-            ? DateTime.parse(json['loanStartDate'])
-            : null,
+        json['StartDate'] != null ? DateTime.parse(json['StartDate']) : null,
     loanEndDate:
-        json['loanEndDate'] != null
-            ? DateTime.parse(json['loanEndDate'])
-            : null,
+        json['EndDate'] != null ? DateTime.parse(json['EndDate']) : null,
     lastPaidDate:
-        json['lastPaidDate'] != null
-            ? DateTime.parse(json['lastPaidDate'])
+        json['LastPaidDate'] != null
+            ? DateTime.parse(json['LastPaidDate'])
             : null,
-    defaulter: json['defaulter'] ?? false,
-    defaulterReason: json['defaulterReason'] ?? '',
-    status: json['status'] ?? '',
+    defaulter: json['DefaulterStatus'] ?? false,
+    defaulterReason: json['DefaultDetails'] ?? '',
+    status: json['SurityStatus'] ?? '',
   );
 
   Map<String, dynamic> toJson() => {

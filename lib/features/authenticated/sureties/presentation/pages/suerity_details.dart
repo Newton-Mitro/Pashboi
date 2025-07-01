@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/utils/my_date_utils.dart';
+import 'package:pashboi/features/authenticated/sureties/domain/entities/surety_entity.dart';
 
 class SuerityDetails extends StatelessWidget {
-  final Map<String, dynamic> surety;
+  final SuretyEntity surety;
   const SuerityDetails({super.key, required this.surety});
-
-  String _formatDate(String? dateStr) {
-    if (dateStr == null || dateStr.isEmpty) return '';
-    try {
-      return DateTime.parse(
-        dateStr,
-      ).toLocal().toIso8601String().split('T').first;
-    } catch (_) {
-      return dateStr; // fallback if parsing fails
-    }
-  }
 
   String _boolToYesNo(bool? value) {
     if (value == null) return '';
@@ -39,12 +30,14 @@ class SuerityDetails extends StatelessWidget {
       bool isBool = false,
     }) {
       if (_isNullOrEmpty(value)) return;
+
       final displayValue =
           isDate
-              ? _formatDate(value)
+              ? MyDateUtils.formatDate(value)
               : isBool
               ? _boolToYesNo(value)
               : value.toString();
+
       if (displayValue.isEmpty) return;
 
       items.add(
@@ -55,76 +48,76 @@ class SuerityDetails extends StatelessWidget {
     addItem(
       icon: Icons.confirmation_num,
       label: 'Loan ID',
-      value: surety['LoanId'],
+      value: surety.loanNumber,
     );
     addItem(
       icon: Icons.date_range,
       label: 'Loan Open Date',
-      value: surety['LoanOpenDate'],
+      value: surety.loanOpenDate,
       isDate: true,
     );
     addItem(
       icon: Icons.account_circle,
       label: 'Account',
-      value: surety['MemberAccount'],
+      value: surety.suretyAccountNumber,
     );
-    addItem(icon: Icons.person, label: 'Name', value: surety['MemberName']);
+    addItem(icon: Icons.person, label: 'Name', value: surety.accountHolderName);
+    addItem(icon: Icons.phone, label: 'Mobile', value: surety.mobileNumber);
     addItem(
-      icon: Icons.phone,
-      label: 'Mobile',
-      value: surety['MemberMobileNo'],
+      icon: Icons.shield,
+      label: 'Collateral',
+      value: surety.collateralType,
     );
     addItem(
       icon: Icons.monetization_on,
       label: 'Loan Amount',
-      value: surety['LoanAmount'],
+      value: surety.loanAmount,
     );
     addItem(
       icon: Icons.balance,
       label: 'Loan Balance',
-      value: surety['LoanBalance'],
+      value: surety.loanBalance,
     );
     addItem(
       icon: Icons.lock,
       label: 'Surety Amount',
-      value: surety['SuretyAmount'],
+      value: surety.suretyAmount,
     );
     addItem(
       icon: Icons.lock_open,
       label: 'Surety Released',
-      value: surety['SuretyReleaseAmount'],
+      value: surety.suretyReleaseAmount,
     );
     addItem(
       icon: Icons.date_range,
       label: 'Start Date',
-      value: surety['StartDate'],
+      value: surety.loanStartDate,
       isDate: true,
     );
     addItem(
       icon: Icons.calendar_today,
       label: 'End Date',
-      value: surety['EndDate'],
+      value: surety.loanEndDate,
       isDate: true,
     );
     addItem(
       icon: Icons.event_available,
       label: 'Last Paid Date',
-      value: surety['LastPaidDate'],
+      value: surety.lastPaidDate,
       isDate: true,
     );
     addItem(
       icon: Icons.report_problem,
       label: 'Defaulter',
-      value: surety['DefaulterStatus'],
+      value: surety.defaulter,
       isBool: true,
     );
     addItem(
       icon: Icons.note,
       label: 'Default Details',
-      value: surety['DefaultDetails'],
+      value: surety.defaulterReason,
     );
-    addItem(icon: Icons.info, label: 'Status', value: surety['SuretyStatus']);
-    addItem(icon: Icons.note_alt, label: 'Remarks', value: surety['Remarks']);
+    addItem(icon: Icons.info, label: 'Status', value: surety.status);
 
     return Column(children: items);
   }

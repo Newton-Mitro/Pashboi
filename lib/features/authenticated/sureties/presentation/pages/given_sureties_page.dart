@@ -1,202 +1,135 @@
 import 'package:flutter/material.dart';
-import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
-import 'package:pashboi/features/authenticated/sureties/presentation/pages/suerity_details.dart';
 
+import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/features/authenticated/sureties/domain/entities/surety_entity.dart';
+import 'package:pashboi/features/authenticated/sureties/presentation/pages/bloc/surety_bloc.dart';
+import 'package:pashboi/features/authenticated/sureties/presentation/pages/suerity_details.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class GivenSuretiesPage extends StatefulWidget {
+class GivenSuretiesPage extends StatelessWidget {
   const GivenSuretiesPage({super.key});
 
   @override
-  State<GivenSuretiesPage> createState() => _GivenSuretiesPageState();
-}
-
-class _GivenSuretiesPageState extends State<GivenSuretiesPage> {
-  final List<Map<String, dynamic>> sureties = [
-    {
-      "LoanId": "D20230729105897",
-      "LoanOpenDate": "2023-07-29T18:08:47.503",
-      "MemberAccount": "0050829",
-      "MemberName": "BAPPY BESRA",
-      "MemberMobileNo": "+8801815458842",
-      "LoanAmount": 40000,
-      "LoanBalance": 40000,
-      "SuretyAmount": 1000,
-      "StartDate": "2023-07-29T18:08:47.503",
-      "EndDate": "2024-01-24T18:08:47.503",
-      "Remarks": "",
-      "LastPaidDate": "2023-08-07T00:00:00",
-      "DefaulterStatus": false,
-      "DefaultDetails": "",
-      "SuretyStatus": "Active Surety",
-      "SuretyReleaseAmount": 1000,
-    },
-    {
-      "LoanId": "D20230729105898",
-      "LoanOpenDate": "2023-07-29T18:08:47.503",
-      "MemberAccount": "0050830",
-      "MemberName": "JOHN DOE",
-      "MemberMobileNo": "+8801815458843",
-      "LoanAmount": 50000,
-      "LoanBalance": 50000,
-      "SuretyAmount": 2000,
-      "StartDate": "2023-07-29T18:08:47.503",
-      "EndDate": "2024-01-24T18:08:47.503",
-      "Remarks": "",
-      "LastPaidDate": "2023-08-07T00:00:00",
-      "DefaulterStatus": true,
-      "DefaultDetails": "",
-      "SuretyStatus": "Active Surety",
-      "SuretyReleaseAmount": 2000,
-    },
-    {
-      "LoanId": "D20230729105899",
-      "LoanOpenDate": "2023-07-29T18:08:47.503",
-      "MemberAccount": "0050831",
-      "MemberName": "JOHN DOE",
-      "MemberMobileNo": "+8801815458844",
-      "LoanAmount": 60000,
-      "LoanBalance": 60000,
-      "SuretyAmount": 3000,
-      "StartDate": "2023-07-29T18:08:47.503",
-      "EndDate": "2024-01-24T18:08:47.503",
-      "Remarks": "",
-      "LastPaidDate": "2023-08-07T00:00:00",
-      "DefaulterStatus": false,
-      "DefaultDetails": "",
-      "SuretyStatus": "Active Surety",
-      "SuretyReleaseAmount": 3000,
-    },
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageContainer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child:
-                  sureties.isEmpty
-                      ? Center(
-                        child: Text(
-                          'You don’t have any surety accounts',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
+    return BlocProvider(
+      create: (context) => sl<SuretyBloc>()..add(FetchGivenSuretiesEvent()),
+      child: Scaffold(
+        body: PageContainer(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16.0),
+            height: double.infinity,
+            child: BlocBuilder<SuretyBloc, SuretyState>(
+              builder: (context, state) {
+                if (state is SuretyLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (state is SuretyError) {
+                  return Center(child: Text(state.error));
+                }
+
+                if (state is SuretyLoadingSuccess) {
+                  final List<SuretyEntity> sureties = state.sureties;
+
+                  if (sureties.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'You don’t have any surety accounts',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: context.theme.colorScheme.onSurface,
                         ),
-                      )
-                      : Accordion(
-                        headerBorderWidth: 3,
-                        headerBorderColor: context.theme.colorScheme.primary,
-                        headerBorderColorOpened:
-                            context.theme.colorScheme.primary,
-                        headerBackgroundColorOpened:
-                            context.theme.colorScheme.primary,
-                        contentBackgroundColor:
-                            context.theme.colorScheme.surface,
-                        contentBorderColor: context.theme.colorScheme.primary,
-                        contentBorderWidth: 3,
-                        contentHorizontalPadding: 20,
-                        scaleWhenAnimating: true,
-                        openAndCloseAnimation: true,
-                        headerPadding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
-                        sectionOpeningHapticFeedback:
-                            SectionHapticFeedback.heavy,
-                        sectionClosingHapticFeedback:
-                            SectionHapticFeedback.light,
-                        children:
-                            sureties.map((surety) {
-                              return AccordionSection(
-                                headerBackgroundColor:
-                                    surety['DefaulterStatus'] == true
-                                        ? context.theme.colorScheme.error
-                                        : context.theme.colorScheme.primary,
-                                headerBackgroundColorOpened:
-                                    surety['DefaulterStatus'] == true
-                                        ? context.theme.colorScheme.error
-                                        : context.theme.colorScheme.primary,
-                                headerBorderColor:
-                                    surety['DefaulterStatus'] == true
-                                        ? context.theme.colorScheme.error
-                                        : context.theme.colorScheme.primary,
-                                contentBorderColor:
-                                    surety['DefaulterStatus'] == true
-                                        ? context.theme.colorScheme.error
-                                        : context.theme.colorScheme.primary,
-                                isOpen: false,
-                                contentVerticalPadding: 20,
-                                paddingBetweenClosedSections: 20,
-                                leftIcon: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Icon(
-                                    surety['DefaulterStatus'] == true
-                                        ? FontAwesomeIcons.personCircleXmark
-                                        : FontAwesomeIcons.personCircleCheck,
-                                    size: 30,
-                                    color:
-                                        surety['DefaulterStatus'] == true
-                                            ? context.theme.colorScheme.onError
-                                            : context
-                                                .theme
-                                                .colorScheme
-                                                .onPrimary,
+                      ),
+                    );
+                  }
+
+                  return Accordion(
+                    headerBorderWidth: 3,
+                    headerBorderColor: context.theme.colorScheme.primary,
+                    headerBorderColorOpened: context.theme.colorScheme.primary,
+                    headerBackgroundColorOpened:
+                        context.theme.colorScheme.primary,
+                    contentBackgroundColor: context.theme.colorScheme.surface,
+                    contentBorderColor: context.theme.colorScheme.primary,
+                    contentBorderWidth: 3,
+                    contentHorizontalPadding: 20,
+                    scaleWhenAnimating: true,
+                    openAndCloseAnimation: true,
+                    headerPadding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 15,
+                    ),
+                    sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
+                    sectionClosingHapticFeedback: SectionHapticFeedback.light,
+                    children:
+                        sureties.map((surety) {
+                          final isDefaulter = surety.defaulter;
+
+                          final headerColor =
+                              isDefaulter
+                                  ? context.theme.colorScheme.error
+                                  : context.theme.colorScheme.primary;
+
+                          final iconColor =
+                              isDefaulter
+                                  ? context.theme.colorScheme.onError
+                                  : context.theme.colorScheme.onPrimary;
+
+                          return AccordionSection(
+                            isOpen: false,
+                            headerBackgroundColor: headerColor,
+                            headerBackgroundColorOpened: headerColor,
+                            headerBorderColor: headerColor,
+                            contentBorderColor: headerColor,
+                            contentVerticalPadding: 20,
+                            paddingBetweenClosedSections: 20,
+                            leftIcon: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Icon(
+                                isDefaulter
+                                    ? FontAwesomeIcons.personCircleXmark
+                                    : FontAwesomeIcons.personCircleCheck,
+                                size: 30,
+                                color: iconColor,
+                              ),
+                            ),
+                            header: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  surety.loanNumber,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: iconColor,
                                   ),
                                 ),
-                                header: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${surety['LoanId']}',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            surety['DefaulterStatus'] == true
-                                                ? context
-                                                    .theme
-                                                    .colorScheme
-                                                    .onError
-                                                : context
-                                                    .theme
-                                                    .colorScheme
-                                                    .onPrimary,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${surety['MemberName'] ?? 'Unknown'}',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            surety['DefaulterStatus'] == true
-                                                ? context
-                                                    .theme
-                                                    .colorScheme
-                                                    .onError
-                                                : context
-                                                    .theme
-                                                    .colorScheme
-                                                    .onPrimary,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  surety.accountHolderName,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: iconColor,
+                                  ),
                                 ),
-                                content: SuerityDetails(surety: surety),
-                              );
-                            }).toList(),
-                      ),
+                              ],
+                            ),
+                            content: SuerityDetails(surety: surety),
+                          );
+                        }).toList(),
+                  );
+                }
+
+                return const SizedBox.shrink(); // fallback
+              },
             ),
-          ],
+          ),
         ),
       ),
     );

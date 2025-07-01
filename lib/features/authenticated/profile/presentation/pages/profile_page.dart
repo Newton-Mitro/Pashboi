@@ -95,106 +95,103 @@ class _ProfilePageState extends State<ProfilePage> {
 
               return PageContainer(
                 child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 25),
                   color: context.theme.colorScheme.primary.withOpacity(0.1),
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 30,
-                    ),
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 150,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: context.theme.colorScheme.surface,
-                                  border: Border.all(
-                                    color: context.theme.colorScheme.secondary,
-                                    width: 5,
-                                  ),
-                                ),
-                                child: ClipOval(
-                                  child: Image.memory(
-                                    person.photo.isNotEmpty
-                                        ? base64Decode(person.photo)
-                                        : Uint8List(0),
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Icon(Icons.error),
-                                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Center(
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: 150,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: context.theme.colorScheme.surface,
+                                border: Border.all(
+                                  color: context.theme.colorScheme.secondary,
+                                  width: 5,
                                 ),
                               ),
-                              Positioned(
-                                bottom: 10,
-                                right: 5,
-                                child: GestureDetector(
-                                  onTap: () => _pickImage(context),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context.theme.colorScheme.primary,
-                                      border: Border.all(
-                                        color:
-                                            context.theme.colorScheme.secondary,
-                                        width: 3,
-                                      ),
-                                    ),
-                                    child: Icon(
-                                      FontAwesomeIcons.camera,
-                                      size: 18,
+                              child: ClipOval(
+                                child: Image.memory(
+                                  person.photo.isNotEmpty
+                                      ? base64Decode(person.photo)
+                                      : Uint8List(0),
+                                  fit: BoxFit.cover,
+                                  errorBuilder:
+                                      (context, error, stackTrace) =>
+                                          Icon(Icons.error),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              right: 5,
+                              child: GestureDetector(
+                                onTap: () => _pickImage(context),
+                                child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: context.theme.colorScheme.primary,
+                                    border: Border.all(
                                       color:
-                                          context.theme.colorScheme.onPrimary,
+                                          context.theme.colorScheme.secondary,
+                                      width: 3,
                                     ),
+                                  ),
+                                  child: Icon(
+                                    FontAwesomeIcons.camera,
+                                    size: 18,
+                                    color: context.theme.colorScheme.onPrimary,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        Text(
-                          person.name.toTitleCase(),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        person.name.toTitleCase(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          person.email,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: context.theme.colorScheme.onSurface,
-                          ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        person.email,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: context.theme.colorScheme.onSurface,
                         ),
-                        const SizedBox(height: 30),
-                        // Row(
-                        //   children: [
-                        //     Text(
-                        //       "Are you available for blood donation?",
-                        //       style: const TextStyle(
-                        //         fontSize: 16,
-                        //         fontWeight: FontWeight.bold,
-                        //       ),
-                        //     ),
-                        //     Checkbox(
-                        //       value: person.isBloodDonor,
-                        //       onChanged: null, // make interactive if needed
-                        //     ),
-                        //   ],
-                        // ),
-                        // Text(
-                        //   "Join our community of life-savers. If you're eligible and willing, you can now register as a blood donor and help someone in need—because saving lives is priceless.",
-                        //   style: const TextStyle(fontSize: 12),
-                        // ),
-                        // const SizedBox(height: 40),
-                        Column(
+                      ),
+                      const SizedBox(height: 30),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       "Are you available for blood donation?",
+                      //       style: const TextStyle(
+                      //         fontSize: 16,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //     Checkbox(
+                      //       value: person.isBloodDonor,
+                      //       onChanged: null, // make interactive if needed
+                      //     ),
+                      //   ],
+                      // ),
+                      // Text(
+                      //   "Join our community of life-savers. If you're eligible and willing, you can now register as a blood donor and help someone in need—because saving lives is priceless.",
+                      //   style: const TextStyle(fontSize: 12),
+                      // ),
+                      // const SizedBox(height: 40),
+                      SingleChildScrollView(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
                           children: [
@@ -230,8 +227,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
