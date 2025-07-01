@@ -9,6 +9,7 @@ import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verificati
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/reset_password_bloc/reset_password_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
 import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/injection.dart';
@@ -38,6 +39,7 @@ void main() async {
         BlocProvider(create: (_) => sl<OtpVerificationBloc>()),
         BlocProvider(create: (_) => sl<ResetPasswordBloc>()),
         BlocProvider(create: (context) => sl<DebitCardBloc>()),
+        BlocProvider(create: (context) => sl<ProfileBloc>()),
       ],
       child: const MyApp(),
     ),

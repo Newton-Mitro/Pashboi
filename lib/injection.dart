@@ -1,6 +1,7 @@
 import 'package:pashboi/features/authenticated/cards/injection.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/injection.dart';
 import 'package:pashboi/features/authenticated/my_accounts/injection.dart';
+import 'package:pashboi/features/authenticated/profile/injection.dart';
 import 'package:pashboi/features/my_app/injection.dart';
 import 'package:pashboi/features/onboarding/injection.dart';
 import 'package:pashboi/features/public/deposit_policies/injection_container.dart';
@@ -16,5 +17,9 @@ Future<void> setupDependencies() async {
   registerFamilyAndFriendsModule();
   registerAuthModule(); // Auth module
   registerMyAccountsModule();
+<<<<<<< HEAD
   initializeDepositPolices();
+=======
+  registerProfileModule();
+>>>>>>> 894b15fe4ca3a8fd4d78dda6a255d3c810183fcc
 }

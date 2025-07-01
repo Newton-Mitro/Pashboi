@@ -1,4 +1,5 @@
 import 'package:pashboi/features/authenticated/family_and_friends/data/models/family_and_friend_model.dart';
+import 'package:pashboi/features/authenticated/profile/domain/entities/person_entity.dart';
 
 class AddressModel {
   final String street;
@@ -134,15 +135,12 @@ class ExpenseModel {
   };
 }
 
-class AttachmentModel {
-  final String fileName;
-  final String fileType;
-  final String url;
-
+class AttachmentModel extends AttachmentEntity {
   AttachmentModel({
-    required this.fileName,
-    required this.fileType,
-    required this.url,
+    super.id,
+    required super.fileName,
+    required super.fileType,
+    required super.url,
   });
 
   factory AttachmentModel.fromJson(Map<String, dynamic> json) =>
@@ -159,105 +157,75 @@ class AttachmentModel {
   };
 }
 
-class PersonModel {
-  final int? id;
-  final String name;
-  final DateTime dateOfBirth;
-  final String mobileNumber;
-  final String email;
-  final String nid;
-  final String bloodGroup;
-  final bool isBloodDonor;
-  final String photo;
-  final String presentAddress;
-  final String permanentAddress;
-  final List<AddressModel> addresses;
-  final List<FamilyAndFriendModel> familyAndFriends;
-  final List<WorkHistoryModel> workHistories;
-  final List<EducationModel> educations;
-  final List<IncomeModel> incomes;
-  final List<ExpenseModel> expenses;
-  final List<AttachmentModel> attachments;
-
+class PersonModel extends PersonEntity {
   PersonModel({
-    this.id,
-    required this.name,
-    required this.dateOfBirth,
-    required this.mobileNumber,
-    required this.email,
-    required this.nid,
-    required this.bloodGroup,
-    required this.isBloodDonor,
-    required this.photo,
-    required this.presentAddress,
-    required this.permanentAddress,
-    required this.addresses,
-    required this.familyAndFriends,
-    required this.workHistories,
-    required this.educations,
-    required this.incomes,
-    required this.expenses,
-    required this.attachments,
+    super.id,
+    required super.name,
+    required super.dateOfBirth,
+    required super.mobileNumber,
+    required super.email,
+    required super.nid,
+    required super.bloodGroup,
+    required super.isBloodDonor,
+    required super.photo,
+    required super.presentAddress,
+    required super.permanentAddress,
+    required super.fathersName,
+    required super.mothersName,
+    required super.spouseName,
+    required super.addresses,
+    required super.familyAndFriends,
+    required super.workHistories,
+    required super.educations,
+    required super.incomes,
+    required super.expenses,
+    required super.attachments,
   });
 
   factory PersonModel.fromJson(Map<String, dynamic> json) => PersonModel(
-    id: json['id'],
-    name: json['name'],
-    dateOfBirth: DateTime.parse(json['dateOfBirth']),
-    mobileNumber: json['mobileNumber'],
-    email: json['email'],
-    nid: json['nid'],
-    bloodGroup: json['bloodGroup'],
-    isBloodDonor: json['isBloodDonor'],
-    photo: json['photo'],
-    presentAddress: json['presentAddress'],
-    permanentAddress: json['permanentAddress'],
+    id: json['id'] ?? 0,
+    name: json['FullName'],
+    dateOfBirth: DateTime.parse(json['DateOfBirth']),
+    mobileNumber: json['MobileNumber'],
+    email: json['Email'],
+    nid: json['NID'],
+    bloodGroup: json['BloodGroup'],
+    isBloodDonor: json['IsBloodDonor'],
+    photo: json['UserPhoto'],
+    presentAddress:
+        "${json['PresentAddressLine1']}, ${json['PresentAddressLine2']}, ${json['PresentAddressLine3']}, ${json['PresentAddressLine4']}",
+    permanentAddress:
+        "${json['PermanentAddressLine1']}, ${json['PermanentAddressLine2']}, ${json['PermanentAddressLine3']}, ${json['PermanentAddressLine4']}",
+    fathersName: json['FathersName'],
+    mothersName: json['MothersName'],
+    spouseName: json['SpouseName'],
     addresses:
-        (json['addresses'] as List)
-            .map((e) => AddressModel.fromJson(e))
+        (json['addresses'] as List<dynamic>? ?? [])
+            .map((e) => AddressModel.fromJson(e) as AddressEntity)
             .toList(),
     familyAndFriends:
-        (json['familyAndFriends'] as List)
+        (json['familyAndFriends'] as List<dynamic>? ?? [])
             .map((e) => FamilyAndFriendModel.fromJson(e))
             .toList(),
     workHistories:
-        (json['workHistories'] as List)
-            .map((e) => WorkHistoryModel.fromJson(e))
+        (json['workHistories'] as List<dynamic>? ?? [])
+            .map((e) => WorkHistoryModel.fromJson(e) as WorkHistoryEntity)
             .toList(),
     educations:
-        (json['educations'] as List)
-            .map((e) => EducationModel.fromJson(e))
+        (json['educations'] as List<dynamic>? ?? [])
+            .map((e) => EducationModel.fromJson(e) as EducationEntity)
             .toList(),
     incomes:
-        (json['incomes'] as List).map((e) => IncomeModel.fromJson(e)).toList(),
+        (json['incomes'] as List<dynamic>? ?? [])
+            .map((e) => IncomeModel.fromJson(e) as IncomeEntity)
+            .toList(),
     expenses:
-        (json['expenses'] as List)
-            .map((e) => ExpenseModel.fromJson(e))
+        (json['expenses'] as List<dynamic>? ?? [])
+            .map((e) => ExpenseModel.fromJson(e) as ExpenseEntity)
             .toList(),
     attachments:
-        (json['attachments'] as List)
+        (json['attachments'] as List<dynamic>? ?? [])
             .map((e) => AttachmentModel.fromJson(e))
             .toList(),
   );
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'dateOfBirth': dateOfBirth.toIso8601String(),
-    'mobileNumber': mobileNumber,
-    'email': email,
-    'nid': nid,
-    'bloodGroup': bloodGroup,
-    'isBloodDonor': isBloodDonor,
-    'photo': photo,
-    'presentAddress': presentAddress,
-    'permanentAddress': permanentAddress,
-    'addresses': addresses.map((e) => e.toJson()).toList(),
-    'familyAndFriends': familyAndFriends.map((e) => e.toJson()).toList(),
-    'workHistories': workHistories.map((e) => e.toJson()).toList(),
-    'educations': educations.map((e) => e.toJson()).toList(),
-    'incomes': incomes.map((e) => e.toJson()).toList(),
-    'expenses': expenses.map((e) => e.toJson()).toList(),
-    'attachments': attachments.map((e) => e.toJson()).toList(),
-  };
 }

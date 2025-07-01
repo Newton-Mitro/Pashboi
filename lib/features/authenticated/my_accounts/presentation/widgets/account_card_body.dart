@@ -6,12 +6,10 @@ class AccountCardBody extends StatelessWidget {
     super.key,
     required this.accountName,
     required this.accountNumber,
-    required this.icon,
   });
 
   final String accountName;
   final String accountNumber;
-  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class AccountCardBody extends StatelessWidget {
         Text(
           accountName,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.bold,
             color: context.theme.colorScheme.onSurface,
           ),
