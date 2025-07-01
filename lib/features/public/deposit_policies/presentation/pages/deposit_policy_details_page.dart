@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
@@ -26,12 +27,12 @@ class DepositPolicyDetailsPage extends StatelessWidget {
               showIcon
                   ? Container(
                     alignment: Alignment.center,
-                    height: 200,
+                    height: 150,
                     width: double.infinity,
                     child: FaIcon(
                       FontAwesomeIcons.piggyBank,
-                      size: 150,
-                      color: context.theme.colorScheme.primary,
+                      size: 100,
+                      color: context.theme.colorScheme.onPrimary,
                     ),
                   )
                   : Container(
@@ -46,35 +47,10 @@ class DepositPolicyDetailsPage extends StatelessWidget {
                     ),
                   ),
               const SizedBox(height: 16),
-              Text(
-                depositPolicy.title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Icon(Icons.calendar_today, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    'Published on: ${DateTime.now().toLocal().toString().split(' ')[0]}',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Posted by: Dhaka Credit',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                depositPolicy.longDescription,
-                style: const TextStyle(fontSize: 16, height: 1.6),
-              ),
-              const SizedBox(height: 24),
+
+              Html(data: depositPolicy.longDescription),
+
+              // HtmlContentWebView(htmlContent: depositPolicy.longDescription),
             ],
           ),
         ),
