@@ -109,6 +109,7 @@ class MyAccountsPage extends StatelessWidget {
                                   cardBody: AccountCardBody(
                                     accountName: account.typeName.trim(),
                                     accountNumber: account.number,
+                                    balance: account.balance,
                                   ),
                                   onTap: () {
                                     Navigator.pushNamed(

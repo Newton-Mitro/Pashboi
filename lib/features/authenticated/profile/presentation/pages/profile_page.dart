@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
@@ -158,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          person.name,
+                          person.name.toTitleCase(),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -220,12 +221,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             buildInfoRow(
                               FontAwesomeIcons.locationPin,
                               "Present Address",
-                              person.presentAddress,
+                              person.presentAddress.toTitleCase(),
                             ),
                             buildInfoRow(
                               FontAwesomeIcons.locationPinLock,
                               "Permanent Address",
-                              person.permanentAddress,
+                              person.permanentAddress.toTitleCase(),
                             ),
                           ],
                         ),

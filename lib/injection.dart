@@ -4,6 +4,7 @@ import 'package:pashboi/features/authenticated/my_accounts/injection.dart';
 import 'package:pashboi/features/authenticated/profile/injection.dart';
 import 'package:pashboi/features/my_app/injection.dart';
 import 'package:pashboi/features/onboarding/injection.dart';
+import 'package:pashboi/features/public/deposit_policies/injection.dart';
 
 import 'core/injection.dart';
 import 'features/auth/injection.dart';
@@ -17,4 +18,5 @@ Future<void> setupDependencies() async {
   registerAuthModule(); // Auth module
   registerMyAccountsModule();
   registerProfileModule();
+  registerDepositPolicyModule();
 }

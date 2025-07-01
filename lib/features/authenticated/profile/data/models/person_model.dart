@@ -111,15 +111,12 @@ class IncomeModel {
   };
 }
 
-class ExpenseModel {
-  final String category;
-  final double amount;
-  final String frequency;
-
+class ExpenseModel extends ExpenseEntity {
   ExpenseModel({
-    required this.category,
-    required this.amount,
-    required this.frequency,
+    super.id,
+    required super.category,
+    required super.amount,
+    required super.frequency,
   });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(
@@ -193,7 +190,7 @@ class PersonModel extends PersonEntity {
     isBloodDonor: json['IsBloodDonor'],
     photo: json['UserPhoto'],
     presentAddress:
-        "${json['PresentAddressLine1']}, ${json['PresentAddressLine2']}, ${json['PresentAddressLine3']}, ${json['PresentAddressLine4']}",
+        "${json['PresentAddressLine1'].toString().split(',')}, ${json['PresentAddressLine2']}, ${json['PresentAddressLine3']}, ${json['PresentAddressLine4']}",
     permanentAddress:
         "${json['PermanentAddressLine1']}, ${json['PermanentAddressLine2']}, ${json['PermanentAddressLine3']}, ${json['PermanentAddressLine4']}",
     fathersName: json['FathersName'],

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/utils/taka_formatter.dart';
 
 class AccountCardBody extends StatelessWidget {
   const AccountCardBody({
     super.key,
     required this.accountName,
     required this.accountNumber,
+    required this.balance,
   });
 
   final String accountName;
   final String accountNumber;
+  final double balance;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class AccountCardBody extends StatelessWidget {
           ),
         ),
         Text(
-          accountNumber,
+          "${accountNumber.trim()} - (${TakaFormatter.format(balance)})",
           style: TextStyle(
             fontSize: 12,
             fontFamily: 'Lexend',
