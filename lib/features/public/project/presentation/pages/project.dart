@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class ServiceAndProjectsPage extends StatefulWidget {
-  const ServiceAndProjectsPage({super.key});
+class ProjectPage extends StatefulWidget {
+  const ProjectPage({super.key});
 
   @override
-  State<ServiceAndProjectsPage> createState() => _ServiceAndProjectsPageState();
+  State<ProjectPage> createState() => _ProjectPageState();
 }
 
-class _ServiceAndProjectsPageState extends State<ServiceAndProjectsPage> {
+class _ProjectPageState extends State<ProjectPage> {
   final List<Map<String, String>> services = [
     {
       'name': 'Mobile Banking',

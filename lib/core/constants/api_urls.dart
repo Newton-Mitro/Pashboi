@@ -83,4 +83,6 @@ class ApiUrls {
 
   // API URLs for Others service
   static const String getDepositPolicies = 'GetAllProductByCategoryId';
+
+  static const String getNotices = 'getAllNotice';
 }

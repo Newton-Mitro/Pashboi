@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class NoticesPage extends StatefulWidget {
-  const NoticesPage({super.key});
+class ServicePage extends StatefulWidget {
+  const ServicePage({super.key});
 
   @override
-  State<NoticesPage> createState() => _NoticesPageState();
+  State<ServicePage> createState() => _ServicePageState();
 }
 
-class _NoticesPageState extends State<NoticesPage> {
+class _ServicePageState extends State<ServicePage> {
   final List<Map<String, String>> notices = [
     {
       'title': 'Holiday Notice',
