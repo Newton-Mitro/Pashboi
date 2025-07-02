@@ -34,7 +34,7 @@ Token: {{token}}
   "EmployeeCode": "{{EmployeeCode}}",
   "MobileNumber": "{{MobileNumber}}",
   "MobileNo": "{{MobileNumber}}",
-  "SearchText": "0050725",
+  "SearchText": "50725",
   "RequestFrom":"{{RequestFrom}}"
 }
 

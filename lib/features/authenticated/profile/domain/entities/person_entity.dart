@@ -109,6 +109,7 @@ class PersonEntity extends Entity<int> {
   final String mobileNumber;
   final String email;
   final String nid;
+  final String gender;
   final String bloodGroup;
   final bool isBloodDonor;
   final String photo;
@@ -132,6 +133,7 @@ class PersonEntity extends Entity<int> {
     required this.mobileNumber,
     required this.email,
     required this.nid,
+    required this.gender,
     required this.bloodGroup,
     required this.isBloodDonor,
     required this.photo,
@@ -156,6 +158,7 @@ class PersonEntity extends Entity<int> {
     String? mobileNumber,
     String? email,
     String? nid,
+    String? gender,
     String? bloodGroup,
     bool? isBloodDonor,
     String? photo,
@@ -179,6 +182,7 @@ class PersonEntity extends Entity<int> {
       mobileNumber: mobileNumber ?? this.mobileNumber,
       email: email ?? this.email,
       nid: nid ?? this.nid,
+      gender: gender ?? this.gender,
       bloodGroup: bloodGroup ?? this.bloodGroup,
       isBloodDonor: isBloodDonor ?? this.isBloodDonor,
       photo: photo ?? this.photo,
@@ -205,6 +209,7 @@ class PersonEntity extends Entity<int> {
     mobileNumber,
     email,
     nid,
+    gender,
     bloodGroup,
     isBloodDonor,
     photo,

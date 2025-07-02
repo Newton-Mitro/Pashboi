@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
@@ -22,110 +25,180 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
       TextEditingController();
 
   String? selectedRelationship;
+  String? gender;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Family or Relative')),
-      body: PageContainer(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.users,
-                      size: 40,
-                      color: theme.colorScheme.onSurface,
-                    ),
-                    const SizedBox(height: 4),
-                    const Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Add Family or Relative",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+      appBar: AppBar(title: const Text('Add Family or Relative')),
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<CollectionLedgerBloc, CollectionLedgerState>(
+            listener: (context, state) {
+              if (state is CollectionLedgerLoaded) {
+                final person = state.collectionAggregate.accountHolderInfo;
+                _accountHolderController.text = person.name;
+                gender = person.gender;
+
+                if (gender != null && gender!.isNotEmpty) {
+                  context.read<RelationshipBloc>().add(
+                    FetchRelationshipsEvent(gender: gender!),
+                  );
+                }
+              }
+
+              if (state is CollectionLedgerError) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+              }
+            },
+          ),
+          BlocListener<RelationshipBloc, RelationshipState>(
+            listener: (context, state) {
+              if (state is RelationshipError) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+              }
+            },
+          ),
+        ],
+        child: PageContainer(
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.users,
+                        size: 40,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                      const SizedBox(height: 8),
+                      const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Add Family or Relative",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 45),
-                    AppSearchTextInput(
-                      controller: _accountSearchController,
-                      label: "Account Number",
-                      isSearch: true,
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.piggyBank,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      onSearchPressed: () {
-                        print(
-                          "User searched: ${_accountSearchController.text}",
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    AppTextInput(
-                      controller: _accountHolderController,
-                      label: "Account Holder Name",
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    AppDropdownSelect<String>(
-                      value: selectedRelationship,
-                      label: "Relationship",
-                      items:
-                          ["Father", "Mother", "Sibling", "Other"]
-                              .map(
-                                (gender) => DropdownMenuItem(
-                                  value: gender,
-                                  child: Text(gender),
+                      const SizedBox(height: 36),
+                      BlocBuilder<CollectionLedgerBloc, CollectionLedgerState>(
+                        builder: (context, state) {
+                          return AppSearchTextInput(
+                            controller: _accountSearchController,
+                            label: "Account Number",
+                            isSearch: true,
+                            enabled: state is! CollectionLedgerLoading,
+                            prefixIcon: Icon(
+                              FontAwesomeIcons.piggyBank,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                            onSearchPressed: () {
+                              final searchText =
+                                  _accountSearchController.text.trim();
+
+                              if (searchText.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "Please enter account number",
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              context.read<CollectionLedgerBloc>().add(
+                                FetchCollectionLedgersEvent(
+                                  searchText: searchText,
+                                  moduleCode: '16',
                                 ),
-                              )
-                              .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedRelationship = value;
-                        });
-                      },
-                      prefixIcon: FontAwesomeIcons.usersViewfinder,
-                      errorText:
-                          selectedRelationship == null
-                              ? "Please select a relationship"
-                              : null,
-                    ),
-                  ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      AppTextInput(
+                        controller: _accountHolderController,
+                        label: "Member Name",
+                        enabled: false,
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: theme.colorScheme.onSurface,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      BlocBuilder<RelationshipBloc, RelationshipState>(
+                        builder: (context, state) {
+                          if (state is RelationshipLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (state is RelationshipLoaded) {
+                            return AppDropdownSelect<String>(
+                              value: selectedRelationship,
+                              label: "Relationship",
+                              items:
+                                  state.relationships
+                                      .map(
+                                        (rel) => DropdownMenuItem(
+                                          value: rel.code,
+                                          child: Text(rel.name),
+                                        ),
+                                      )
+                                      .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRelationship = value;
+                                });
+                              },
+                              prefixIcon: FontAwesomeIcons.usersViewfinder,
+                              errorText:
+                                  selectedRelationship == null
+                                      ? "Please select a relationship"
+                                      : null,
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            ProgressSubmitButton(
-              width: MediaQuery.of(context).size.width - 10,
-              height: 100,
-              backgroundColor: context.theme.colorScheme.primary,
-              progressColor: context.theme.colorScheme.secondary,
-              foregroundColor: context.theme.colorScheme.onPrimary,
-              duration: 3,
-              label: 'Hold & Press to Submit',
-              onSubmit: () {
-                if (selectedRelationship == null ||
-                    _accountHolderController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Please fill all fields")),
-                  );
-                  return;
-                }
-              },
-            ),
-          ],
+              ProgressSubmitButton(
+                width: MediaQuery.of(context).size.width - 10,
+                height: 100,
+                backgroundColor: context.theme.colorScheme.primary,
+                progressColor: context.theme.colorScheme.secondary,
+                foregroundColor: context.theme.colorScheme.onPrimary,
+                duration: 3,
+                label: 'Hold & Press to Submit',
+                onSubmit: () {
+                  if (!mounted) return;
+
+                  if (selectedRelationship == null ||
+                      _accountHolderController.text.isEmpty) {
+                    print('selectedRelationship: $selectedRelationship');
+                    return;
+                  }
+
+                  print('success');
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

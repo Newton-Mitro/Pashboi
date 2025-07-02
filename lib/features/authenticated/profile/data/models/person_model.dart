@@ -162,6 +162,7 @@ class PersonModel extends PersonEntity {
     required super.mobileNumber,
     required super.email,
     required super.nid,
+    required super.gender,
     required super.bloodGroup,
     required super.isBloodDonor,
     required super.photo,
@@ -181,21 +182,22 @@ class PersonModel extends PersonEntity {
 
   factory PersonModel.fromJson(Map<String, dynamic> json) => PersonModel(
     id: json['id'] ?? 0,
-    name: json['FullName'],
+    name: json['FullName'] ?? '',
     dateOfBirth: DateTime.parse(json['DateOfBirth']),
-    mobileNumber: json['MobileNumber'],
-    email: json['Email'],
-    nid: json['NID'],
-    bloodGroup: json['BloodGroup'],
+    mobileNumber: json['MobileNumber'] ?? '',
+    email: json['Email'] ?? '',
+    nid: json['NID'] ?? '',
+    gender: json['Gender'] ?? '',
+    bloodGroup: json['BloodGroup'] ?? '',
     isBloodDonor: json['IsBloodDonor'],
-    photo: json['UserPhoto'],
+    photo: json['UserPhoto'] ?? '',
     presentAddress:
         "${json['PresentAddressLine1'].toString().split(',')}, ${json['PresentAddressLine2']}, ${json['PresentAddressLine3']}, ${json['PresentAddressLine4']}",
     permanentAddress:
         "${json['PermanentAddressLine1']}, ${json['PermanentAddressLine2']}, ${json['PermanentAddressLine3']}, ${json['PermanentAddressLine4']}",
-    fathersName: json['FathersName'],
-    mothersName: json['MothersName'],
-    spouseName: json['SpouseName'],
+    fathersName: json['FathersName'] ?? '',
+    mothersName: json['MothersName'] ?? '',
+    spouseName: json['SpouseName'] ?? '',
     addresses:
         (json['addresses'] as List<dynamic>? ?? [])
             .map((e) => AddressModel.fromJson(e) as AddressEntity)

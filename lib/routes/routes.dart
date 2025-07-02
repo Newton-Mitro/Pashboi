@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_page.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_page.dart';
+import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/dependent/presentation/pages/add_operating_account_page.dart';
 import 'package:pashboi/features/authenticated/dependent/presentation/pages/dependents_page.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_relatives_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_details_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
@@ -98,7 +102,15 @@ class AppRoutes {
         return _materialRoute(FamilyAndRelativesPage());
 
       case AuthRoutesName.addFamilyMemberPage:
-        return _materialRoute(AddFamilyAndRelativesPage());
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
+              BlocProvider(create: (context) => sl<RelationshipBloc>()),
+            ],
+            child: AddFamilyAndRelativesPage(),
+          ),
+        );
 
       case AuthRoutesName.suretiesPage:
         return _materialRoute(GivenSuretiesPage());
