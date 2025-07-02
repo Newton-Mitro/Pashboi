@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/data/datasources/remote.datasource.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/data/datasources/family_and_friend_remote.datasource.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/entities/family_and_friend_entity.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/repositories/family_and_friend_repository.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/add_family_and_friend_usecase.dart';

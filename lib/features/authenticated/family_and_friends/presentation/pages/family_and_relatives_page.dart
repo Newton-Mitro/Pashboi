@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/get_family_and_friends_bloc/family_and_friends_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/get_family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
