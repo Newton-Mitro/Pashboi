@@ -10,6 +10,7 @@ class AppSearchTextInput extends StatefulWidget {
   final TextInputType keyboardType;
   final bool isSearch;
   final VoidCallback? onSearchPressed;
+  final bool enabled; // ✅ NEW
 
   const AppSearchTextInput({
     super.key,
@@ -21,6 +22,7 @@ class AppSearchTextInput extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.isSearch = false,
     this.onSearchPressed,
+    this.enabled = true, // ✅ default to true
   });
 
   @override
@@ -55,10 +57,21 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
             controller: widget.controller,
             obscureText: isObscured,
             keyboardType: widget.keyboardType,
-            style: TextStyle(color: context.theme.colorScheme.onSurface),
+            enabled: widget.enabled, // ✅ Disable text input
+            style: TextStyle(
+              color:
+                  widget.enabled
+                      ? context.theme.colorScheme.onSurface
+                      : context.theme.disabledColor,
+            ),
             decoration: InputDecoration(
               labelText: widget.label,
-              labelStyle: TextStyle(color: context.theme.colorScheme.onSurface),
+              labelStyle: TextStyle(
+                color:
+                    widget.enabled
+                        ? context.theme.colorScheme.onSurface
+                        : context.theme.disabledColor,
+              ),
               prefixIcon: widget.prefixIcon,
               filled: true,
               isDense: true,
@@ -73,6 +86,9 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
                 ),
               ),
               enabledBorder: border,
+              disabledBorder: border.copyWith(
+                borderSide: BorderSide(color: context.theme.disabledColor),
+              ),
               errorBorder: border.copyWith(
                 borderSide: const BorderSide(color: Colors.red),
               ),
@@ -83,22 +99,27 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
                             isObscured
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                        onPressed: () {
-                          setState(() {
-                            isObscured = !isObscured;
-                          });
-                        },
+                        onPressed:
+                            widget.enabled
+                                ? () {
+                                  setState(() {
+                                    isObscured = !isObscured;
+                                  });
+                                }
+                                : null,
                       )
                       : widget.isSearch
                       ? _buildIconButton(
                         icon: Icons.search,
                         onPressed:
-                            widget.onSearchPressed ??
-                            () {
-                              debugPrint(
-                                'Searching: ${widget.controller.text}',
-                              );
-                            },
+                            widget.enabled
+                                ? (widget.onSearchPressed ??
+                                    () {
+                                      debugPrint(
+                                        'Searching: ${widget.controller.text}',
+                                      );
+                                    })
+                                : null,
                       )
                       : null,
             ),
@@ -118,19 +139,30 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
 
   Widget _buildIconButton({
     required IconData icon,
-    required VoidCallback onPressed,
+    required VoidCallback? onPressed,
   }) {
+    final disabled = onPressed == null;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.primary,
+        color:
+            disabled
+                ? context.theme.disabledColor.withOpacity(0.2)
+                : context.theme.colorScheme.primary,
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(10),
           bottomRight: Radius.circular(10),
         ),
       ),
       child: IconButton(
-        icon: Icon(icon, color: context.theme.colorScheme.onSurface),
+        icon: Icon(
+          icon,
+          color:
+              disabled
+                  ? context.theme.disabledColor
+                  : context.theme.colorScheme.onSurface,
+        ),
         onPressed: onPressed,
         splashRadius: 20,
       ),

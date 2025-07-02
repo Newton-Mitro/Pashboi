@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
@@ -6,6 +7,8 @@ import 'package:pashboi/shared/widgets/app_search_input.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
+
+import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 
 class AddFamilyAndRelativesPage extends StatefulWidget {
   const AddFamilyAndRelativesPage({super.key});
@@ -28,104 +31,148 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
     final theme = context.theme;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Family or Relative')),
-      body: PageContainer(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.users,
-                      size: 40,
-                      color: theme.colorScheme.onSurface,
-                    ),
-                    const SizedBox(height: 4),
-                    const Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Add Family or Relative",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+      appBar: AppBar(title: const Text('Add Family or Relative')),
+      body: BlocListener<CollectionLedgerBloc, CollectionLedgerState>(
+        listener: (context, state) {
+          if (state is CollectionLedgerLoaded) {
+            final ledgers = state.collectionAggregate;
+            final firstLedger = ledgers.accountHolderInfo;
+            _accountHolderController.text = firstLedger.name;
+          }
+
+          if (state is CollectionLedgerError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          }
+        },
+        child: PageContainer(
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.users,
+                        size: 40,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                      const SizedBox(height: 4),
+                      const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Add Family or Relative",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 45),
-                    AppSearchTextInput(
-                      controller: _accountSearchController,
-                      label: "Account Number",
-                      isSearch: true,
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.piggyBank,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      onSearchPressed: () {
-                        print(
-                          "User searched: ${_accountSearchController.text}",
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    AppTextInput(
-                      controller: _accountHolderController,
-                      label: "Account Holder Name",
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    AppDropdownSelect<String>(
-                      value: selectedRelationship,
-                      label: "Relationship",
-                      items:
-                          ["Father", "Mother", "Sibling", "Other"]
-                              .map(
-                                (gender) => DropdownMenuItem(
-                                  value: gender,
-                                  child: Text(gender),
+                      const SizedBox(height: 45),
+                      BlocBuilder<CollectionLedgerBloc, CollectionLedgerState>(
+                        builder: (context, state) {
+                          return AppSearchTextInput(
+                            controller: _accountSearchController,
+                            label: "Account Number",
+                            isSearch: true,
+                            enabled:
+                                state is CollectionLedgerLoading ? false : true,
+                            prefixIcon: Icon(
+                              FontAwesomeIcons.piggyBank,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                            onSearchPressed: () {
+                              final searchText =
+                                  _accountSearchController.text.trim();
+
+                              if (searchText.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "Please enter account number",
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              context.read<CollectionLedgerBloc>().add(
+                                FetchCollectionLedgersEvent(
+                                  searchText: searchText,
+                                  moduleCode: '16', // replace as needed
                                 ),
-                              )
-                              .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedRelationship = value;
-                        });
-                      },
-                      prefixIcon: FontAwesomeIcons.usersViewfinder,
-                      errorText:
-                          selectedRelationship == null
-                              ? "Please select a relationship"
-                              : null,
-                    ),
-                  ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      AppTextInput(
+                        controller: _accountHolderController,
+                        label: "Account Holder Name",
+                        enabled: false,
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: theme.colorScheme.onSurface,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      AppDropdownSelect<String>(
+                        value: selectedRelationship,
+                        label: "Relationship",
+                        items:
+                            ["Father", "Mother", "Sibling", "Other"]
+                                .map(
+                                  (relation) => DropdownMenuItem(
+                                    value: relation,
+                                    child: Text(relation),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedRelationship = value;
+                          });
+                        },
+                        prefixIcon: FontAwesomeIcons.usersViewfinder,
+                        errorText:
+                            selectedRelationship == null
+                                ? "Please select a relationship"
+                                : null,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            ProgressSubmitButton(
-              width: MediaQuery.of(context).size.width - 10,
-              height: 100,
-              backgroundColor: context.theme.colorScheme.primary,
-              progressColor: context.theme.colorScheme.secondary,
-              foregroundColor: context.theme.colorScheme.onPrimary,
-              duration: 3,
-              label: 'Hold & Press to Submit',
-              onSubmit: () {
-                if (selectedRelationship == null ||
-                    _accountHolderController.text.isEmpty) {
+              ProgressSubmitButton(
+                width: MediaQuery.of(context).size.width - 10,
+                height: 100,
+                backgroundColor: context.theme.colorScheme.primary,
+                progressColor: context.theme.colorScheme.secondary,
+                foregroundColor: context.theme.colorScheme.onPrimary,
+                duration: 3,
+                label: 'Hold & Press to Submit',
+                onSubmit: () {
+                  if (selectedRelationship == null ||
+                      _accountHolderController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Please fill all fields")),
+                    );
+                    return;
+                  }
+
+                  // Submit logic here
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Please fill all fields")),
+                    const SnackBar(content: Text("Submitted successfully!")),
                   );
-                  return;
-                }
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

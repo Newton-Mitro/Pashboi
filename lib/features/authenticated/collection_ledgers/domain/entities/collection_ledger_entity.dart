@@ -1,51 +1,37 @@
 import 'package:pashboi/core/entities/entity.dart';
 
-enum LoanCollectionType {
-  dmsBalance('dms_balance', 'DMS Balance'),
-  loanInt('loan_int', 'Loan Interest'),
-  loanFine('loan_fine', 'Loan Fine');
-
-  final String code;
-  final String label;
-
-  const LoanCollectionType(this.code, this.label);
-
-  static LoanCollectionType? fromCode(String code) {
-    for (final e in LoanCollectionType.values) {
-      if (e.code == code) return e;
-    }
-    return null;
-  }
-}
-
 class CollectionLedgerEntity extends Entity<int> {
-  final String number;
-  final String accountName;
-  final String type;
-  final String typeCode;
-  final double balance;
-  final double depositAmount;
   final int accountId;
-  final bool defaultAccount;
+  final String accountNumber;
+  final String accountName;
+  final String accountTypeCode;
+
+  final int ledgerId;
+  final String ledgerName;
   final bool subledger;
+  final int plType;
+  final String loanCollectionType;
+  final bool defaultAccount;
+
+  final double depositAmount;
+
   final bool multiplier;
   final bool editable;
-  final bool lps;
-  final int plType;
+
   final double loanBalance;
+  final bool lps;
   final double intrestRate;
   final DateTime lastPaidDate;
   final bool refundBased;
-  final LoanCollectionType loanCollectionType;
+
   final String accountFor;
 
   CollectionLedgerEntity({
     super.id,
-    required this.number,
+    required this.accountNumber,
     required this.accountName,
-    required this.type,
-    required this.typeCode,
-    required this.balance,
+    required this.ledgerName,
+    required this.accountTypeCode,
     required this.depositAmount,
     required this.accountId,
     required this.defaultAccount,
@@ -53,6 +39,7 @@ class CollectionLedgerEntity extends Entity<int> {
     required this.multiplier,
     required this.editable,
     required this.lps,
+    required this.ledgerId,
     required this.plType,
     required this.loanBalance,
     required this.intrestRate,
@@ -65,13 +52,13 @@ class CollectionLedgerEntity extends Entity<int> {
   @override
   List<Object?> get props => [
     id,
-    number,
+    accountNumber,
     accountName,
-    type,
-    typeCode,
-    balance,
+    ledgerName,
+    accountTypeCode,
     depositAmount,
     accountId,
+    ledgerId,
     defaultAccount,
     subledger,
     multiplier,
