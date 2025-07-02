@@ -93,7 +93,6 @@ class _AddOperatingAccountPageState extends State<AddOperatingAccountPage> {
               backgroundColor: context.theme.colorScheme.primary,
               progressColor: context.theme.colorScheme.secondary,
               foregroundColor: context.theme.colorScheme.onPrimary,
-              duration: 3,
               label: 'Hold & Press to Submit',
               onSubmit: () {
                 // Final submission logic

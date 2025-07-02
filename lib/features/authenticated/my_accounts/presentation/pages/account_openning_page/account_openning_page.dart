@@ -426,7 +426,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         backgroundColor: context.theme.colorScheme.primary,
         progressColor: context.theme.colorScheme.secondary,
         foregroundColor: context.theme.colorScheme.onPrimary,
-        duration: 3,
         label: 'Hold & Press to Submit',
         onSubmit: _submitOpenAnAccount,
       ),
