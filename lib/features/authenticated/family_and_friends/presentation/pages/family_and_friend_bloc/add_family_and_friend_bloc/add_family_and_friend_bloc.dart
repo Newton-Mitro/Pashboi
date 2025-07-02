@@ -17,14 +17,14 @@ class AddFamilyAndFriendBloc
     required this.getAuthUserUseCase,
   }) : super(AddFamilyAndFriendInitial()) {
     on<AddFamilyAndFriendEvent>((event, emit) async {
-      emit(FamilyAndFriendsRequestProcessing());
+      emit(AddFamilyAndFriendRequestProcessing());
       try {
         final authUser = await getAuthUserUseCase.call(NoParams());
         UserEntity? user;
 
         authUser.fold(
           (left) {
-            emit(FamilyAndFriendsError('Failed to load user information'));
+            emit(AddFamilyAndFriendError('Failed to load user information'));
           },
           (right) {
             user = right.user;
@@ -32,7 +32,7 @@ class AddFamilyAndFriendBloc
         );
 
         if (user == null) {
-          emit(FamilyAndFriendsError('User not found'));
+          emit(AddFamilyAndFriendError('User not found'));
           return;
         }
 
@@ -40,7 +40,7 @@ class AddFamilyAndFriendBloc
           AddFamilyAndFriendProps(
             email: user!.loginEmail,
             userId: user!.userId,
-            rolePermissionId: '',
+            rolePermissionId: user!.roleId,
             personId: user!.personId,
             employeeCode: user!.employeeCode,
             mobileNumber: user!.regMobile,
@@ -51,14 +51,14 @@ class AddFamilyAndFriendBloc
 
         dataState.fold(
           (failure) {
-            emit(FamilyAndFriendsError(failure.message));
+            emit(AddFamilyAndFriendError(failure.message));
           },
           (debitCard) {
-            emit(FamilyAndFriendsRequestSuccess(debitCard));
+            emit(AddFamilyAndFriendRequestSuccess(debitCard));
           },
         );
       } catch (e) {
-        emit(FamilyAndFriendsError('Failed to load debit card'));
+        emit(AddFamilyAndFriendError('Failed to load debit card'));
       }
     });
   }

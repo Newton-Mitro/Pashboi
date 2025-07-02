@@ -9,14 +9,14 @@ sealed class AddFamilyAndFriendState extends Equatable {
 
 final class AddFamilyAndFriendInitial extends AddFamilyAndFriendState {}
 
-class FamilyAndFriendsRequestProcessing extends AddFamilyAndFriendState {}
+class AddFamilyAndFriendRequestProcessing extends AddFamilyAndFriendState {}
 
-class FamilyAndFriendsRequestSuccess extends AddFamilyAndFriendState {
+class AddFamilyAndFriendRequestSuccess extends AddFamilyAndFriendState {
   final String message;
-  const FamilyAndFriendsRequestSuccess(this.message);
+  const AddFamilyAndFriendRequestSuccess(this.message);
 }
 
-class FamilyAndFriendsError extends AddFamilyAndFriendState {
+class AddFamilyAndFriendError extends AddFamilyAndFriendState {
   final String error;
-  const FamilyAndFriendsError(this.error);
+  const AddFamilyAndFriendError(this.error);
 }

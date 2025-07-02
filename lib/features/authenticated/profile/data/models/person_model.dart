@@ -181,7 +181,7 @@ class PersonModel extends PersonEntity {
   });
 
   factory PersonModel.fromJson(Map<String, dynamic> json) => PersonModel(
-    id: json['id'] ?? 0,
+    id: json['PersonId'] ?? 0,
     name: json['FullName'] ?? '',
     dateOfBirth: DateTime.parse(json['DateOfBirth']),
     mobileNumber: json['MobileNumber'] ?? '',

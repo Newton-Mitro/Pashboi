@@ -22,7 +22,7 @@ class ProgressSubmitButton extends StatefulWidget {
     this.backgroundColor = Colors.blue,
     this.foregroundColor = Colors.white,
     this.progressColor = Colors.red,
-    this.duration = 3,
+    this.duration = 2,
     this.enabled = true, // <-- default true
   });
 
@@ -35,38 +35,50 @@ class _ProgressSubmitButtonState extends State<ProgressSubmitButton> {
   double _progress = 0.0;
 
   void _startTimer() {
-    if (!widget.enabled) return; // <-- prevent action if disabled
+    if (!widget.enabled) return;
 
     const tick = Duration(milliseconds: 50);
     int ticks = 0;
     final int maxTicks = (widget.duration * 1000) ~/ tick.inMilliseconds;
 
     _timer = Timer.periodic(tick, (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+
       setState(() {
         ticks++;
         _progress = ticks / maxTicks;
       });
 
       if (ticks >= maxTicks) {
-        _timer?.cancel();
+        timer.cancel();
         widget.onSubmit();
-        setState(() {
-          _progress = 0.0;
-        });
+        if (mounted) {
+          setState(() {
+            _progress = 0.0;
+          });
+        }
       }
     });
   }
 
   void _cancelTimer() {
     _timer?.cancel();
-    setState(() {
-      _progress = 0.0;
-    });
+    _timer = null;
+
+    if (mounted) {
+      setState(() {
+        _progress = 0.0;
+      });
+    }
   }
 
   @override
   void dispose() {
-    _cancelTimer();
+    _timer?.cancel(); // just cancel the timer
+    _timer = null;
     super.dispose();
   }
 

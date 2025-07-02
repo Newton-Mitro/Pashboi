@@ -13,7 +13,7 @@ class ApiUrls {
 
   static const String getRelationshipTypes = 'info_V1/getRelationshipTypes';
   static const String getFamilyAndRelatives = 'info_V1/getFamilyAndRelatives';
-  static const String addFamilyOrRelative = 'info_V1/adddFamilyOrRelative';
+  static const String addFamilyOrRelative = 'info_V1/addFamilyOrRelative';
 
   // Accounts
   static const String getMyAccounts = 'accounts_V1/getMyAccounts';

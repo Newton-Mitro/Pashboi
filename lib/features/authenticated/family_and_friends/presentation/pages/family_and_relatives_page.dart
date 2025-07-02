@@ -134,7 +134,7 @@ class FamilyAndRelativesPage extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(bottom: 25.0, top: 10),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -145,7 +145,7 @@ class FamilyAndRelativesPage extends StatelessWidget {
                   color: theme.colorScheme.onSurface,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               AppPrimaryButton(
                 iconBefore: const Icon(Icons.person_add),
                 label: "Add Family or Relative",

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/add_family_and_friend_bloc/add_family_and_friend_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
@@ -65,6 +66,20 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
               }
             },
           ),
+          BlocListener<AddFamilyAndFriendBloc, AddFamilyAndFriendState>(
+            listener: (context, state) {
+              if (state is AddFamilyAndFriendError) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.error)));
+              }
+
+              if (state is AddFamilyAndFriendRequestSuccess) {
+                if (!mounted) return;
+                Navigator.of(context).pop();
+              }
+            },
+          ),
         ],
         child: PageContainer(
           child: Column(
@@ -73,6 +88,8 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         FontAwesomeIcons.users,
@@ -163,10 +180,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                                 });
                               },
                               prefixIcon: FontAwesomeIcons.usersViewfinder,
-                              errorText:
-                                  selectedRelationship == null
-                                      ? "Please select a relationship"
-                                      : null,
+                              errorText: '',
                             );
                           } else {
                             return const SizedBox();
@@ -180,9 +194,9 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
               ProgressSubmitButton(
                 width: MediaQuery.of(context).size.width - 10,
                 height: 100,
-                backgroundColor: context.theme.colorScheme.primary,
-                progressColor: context.theme.colorScheme.secondary,
-                foregroundColor: context.theme.colorScheme.onPrimary,
+                backgroundColor: theme.colorScheme.primary,
+                progressColor: theme.colorScheme.secondary,
+                foregroundColor: theme.colorScheme.onPrimary,
                 duration: 3,
                 label: 'Hold & Press to Submit',
                 onSubmit: () {
@@ -190,11 +204,26 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
 
                   if (selectedRelationship == null ||
                       _accountHolderController.text.isEmpty) {
-                    print('selectedRelationship: $selectedRelationship');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Please fill all fields")),
+                    );
                     return;
                   }
 
-                  print('success');
+                  final state = context.read<CollectionLedgerBloc>().state;
+                  if (state is CollectionLedgerLoaded) {
+                    final personId =
+                        state.collectionAggregate.accountHolderInfo.id;
+
+                    context.read<AddFamilyAndFriendBloc>().add(
+                      AddFamilyAndFriendEvent(
+                        childPersonId: personId ?? 0,
+                        relationTypeCode: selectedRelationship!,
+                      ),
+                    );
+                  } else {
+                    print("error");
+                  }
                 },
               ),
             ],
