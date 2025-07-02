@@ -27,9 +27,6 @@ Future<void> setupDependencies() async {
   registerSuretyModule();
   registerLoanPolicyModule();
   registerBeneficiaryModule();
-<<<<<<< HEAD
   registerNoticeModule();
-=======
   registerCollectionLedgerModule();
->>>>>>> f27aedfe5d55b5a0022869f80b258eece7c4e3e0
 }
