@@ -84,7 +84,7 @@ class BeneficiaryRemoteDataSourceImpl implements BeneficiaryRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        if (dataString == null) throw Exception(response.data?['Message']);
 
         return dataString;
       } else {

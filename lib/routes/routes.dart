@@ -10,6 +10,7 @@ import 'package:pashboi/features/authenticated/dependent/presentation/pages/add_
 import 'package:pashboi/features/authenticated/dependent/presentation/pages/dependents_page.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/add_family_and_friend_bloc/add_family_and_friend_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_relatives_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_details_page.dart';
@@ -107,6 +108,7 @@ class AppRoutes {
             providers: [
               BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
               BlocProvider(create: (context) => sl<RelationshipBloc>()),
+              BlocProvider(create: (context) => sl<AddFamilyAndFriendBloc>()),
             ],
             child: AddFamilyAndRelativesPage(),
           ),
@@ -118,7 +120,14 @@ class AppRoutes {
       case AuthRoutesName.beneficiariesPage:
         return _materialRoute(BeneficiariesPage());
       case AuthRoutesName.addBeneficiaryPage:
-        return _materialRoute(AddBeneficiaryPage());
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
+            ],
+            child: AddBeneficiaryPage(),
+          ),
+        );
 
       case AuthRoutesName.dependentsPage:
         return _materialRoute(DependentsPage());

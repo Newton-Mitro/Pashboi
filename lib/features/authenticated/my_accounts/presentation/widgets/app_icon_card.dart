@@ -37,7 +37,7 @@ class AppIconCard extends StatelessWidget {
               children: [
                 // Left Icon Area
                 Expanded(
-                  flex: showRightIcon ? 3 : 2,
+                  flex: showRightIcon ? 4 : 3,
                   child: Container(
                     decoration: BoxDecoration(
                       color: context.theme.colorScheme.primary,

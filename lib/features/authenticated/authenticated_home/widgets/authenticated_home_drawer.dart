@@ -101,16 +101,6 @@ class AuthenticatedHomeDrawer extends StatelessWidget {
                     ).pushNamed(AuthRoutesName.personnelPage);
                   },
                 ),
-                _buildDrawerItem(
-                  context,
-                  icon: FontAwesomeIcons.code,
-                  label: "Development Credits",
-                  onTap: () {
-                    Navigator.of(
-                      context,
-                    ).pushNamed(PublicRoutesName.developmentCreditsPage);
-                  },
-                ),
               ],
             ),
           ),
