@@ -71,6 +71,9 @@ class DependentsPage extends StatelessWidget {
                         Navigator.pushNamed(
                           context,
                           AuthRoutesName.operatingAccountsPage,
+                          arguments: {
+                            'dependentPersonId': dependent.accountHolderId,
+                          },
                         );
                       },
                       borderRadius: BorderRadius.circular(6),
