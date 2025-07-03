@@ -5,6 +5,8 @@ class DepositAccountModel extends DepositAccountEntity {
     required super.id,
     required super.number,
     required super.name,
+    required super.accountHolderId,
+    required super.accountHolderName,
     required super.shortTypeName,
     required super.typeName,
     required super.typeCode,
@@ -24,7 +26,11 @@ class DepositAccountModel extends DepositAccountEntity {
     return DepositAccountModel(
       id: json['AccountId'] ?? 0,
       number: json['AccountNo'] ?? '',
-      name: json['AccHolderName'] ?? '',
+      accountHolderName:
+          json['AccHolderName'] ?? json['AccountHolderName'] ?? '',
+      name: json['AccHolderName'] ?? json['AccountHolderName'] ?? '',
+      accountHolderId:
+          json['AccountHolderId'] ?? json['DependentPersonId'] ?? 0,
       typeName: json['AccountTypeName'] ?? '',
       shortTypeName: json['AccountTypeShortName'] ?? '',
       typeCode: (json['AccountTypeCode'] ?? '').toString(),

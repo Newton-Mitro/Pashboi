@@ -5,13 +5,18 @@ import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart
 import 'package:pashboi/features/authenticated/my_accounts/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/my_accounts/data/repositories/deposit_account_repository.impl.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/deposit_account_repository.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/add_operating_account_usecase.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/fetch_dependents_usecase.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/fetch_operating_accounts_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_details_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_statement_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_my_accounts_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/bloc/account_statement_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/bloc/fetch_dependents_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/bloc/my_account_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/bloc/fetch_operating_accounts_bloc.dart';
 
 void registerMyAccountsModule() async {
   // Register Data Sources
@@ -46,6 +51,24 @@ void registerMyAccountsModule() async {
     ),
   );
 
+  sl.registerLazySingleton<FetchOperatingAccountsUseCase>(
+    () => FetchOperatingAccountsUseCase(
+      depositAccountRepository: sl<DepositAccountRepository>(),
+    ),
+  );
+
+  sl.registerLazySingleton<FetchDependentsUseCase>(
+    () => FetchDependentsUseCase(
+      depositAccountRepository: sl<DepositAccountRepository>(),
+    ),
+  );
+
+  sl.registerLazySingleton<AddOperatingAccountUseCase>(
+    () => AddOperatingAccountUseCase(
+      depositAccountRepository: sl<DepositAccountRepository>(),
+    ),
+  );
+
   // Register Bloc
   sl.registerFactory<AccountOpeningStepsBloc>(() => AccountOpeningStepsBloc());
 
@@ -66,6 +89,20 @@ void registerMyAccountsModule() async {
   sl.registerFactory<AccountStatementBloc>(
     () => AccountStatementBloc(
       getAccountStatementUseCase: sl<GetAccountStatementUseCase>(),
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+    ),
+  );
+
+  sl.registerFactory<FetchDependentsBloc>(
+    () => FetchDependentsBloc(
+      fetchDependentsUseCase: sl<FetchDependentsUseCase>(),
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+    ),
+  );
+
+  sl.registerFactory<FetchOperatingAccountsBloc>(
+    () => FetchOperatingAccountsBloc(
+      fetchOperatingAccountUseCase: sl<FetchOperatingAccountsUseCase>(),
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
     ),
   );

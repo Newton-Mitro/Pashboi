@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DependentsAccountsPage extends StatefulWidget {
-  const DependentsAccountsPage({super.key});
+  final int dependentPersonId;
+  const DependentsAccountsPage({super.key, required this.dependentPersonId});
 
   @override
   State<DependentsAccountsPage> createState() => _DependentsAccountsPageState();
@@ -10,6 +11,9 @@ class DependentsAccountsPage extends StatefulWidget {
 class _DependentsAccountsPageState extends State<DependentsAccountsPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Operating Accounts')),
+      body: Center(child: Text('Operating Accounts Page')),
+    );
   }
 }
