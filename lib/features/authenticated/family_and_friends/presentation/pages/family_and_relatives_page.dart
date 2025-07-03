@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/get_family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
@@ -36,14 +37,25 @@ class FamilyAndRelativesPage extends StatelessWidget {
 
                   if (familyList.isEmpty) {
                     return Center(
-                      child: Text(
-                        'You don’t have any family or relative accounts added',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: theme.colorScheme.onSurface,
-                          fontWeight: FontWeight.w400,
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.boxOpen,
+                            size: 60,
+                            color: theme.colorScheme.onSurface.withOpacity(0.4),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'You don’t have any family or friend added yet.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: theme.colorScheme.onSurface,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }
@@ -72,7 +84,7 @@ class FamilyAndRelativesPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                info.familyMemberName,
+                                info.familyMemberName.toTitleCase(),
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,

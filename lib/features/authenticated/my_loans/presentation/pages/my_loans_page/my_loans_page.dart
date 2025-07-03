@@ -37,12 +37,25 @@ class MyLoansPage extends StatelessWidget {
 
                 if (accountList.isEmpty) {
                   return Center(
-                    child: Text(
-                      'You do not have any loan accounts.',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.boxOpen,
+                          size: 50,
+                          color: context.theme.colorScheme.onSurface
+                              .withOpacity(0.6),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'You do not have any loan accounts.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: context.theme.colorScheme.onSurface,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

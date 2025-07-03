@@ -5,6 +5,7 @@ import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/authenticated/sureties/domain/entities/surety_entity.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/bloc/surety_bloc.dart';
@@ -38,13 +39,26 @@ class GivenSuretiesPage extends StatelessWidget {
 
                   if (sureties.isEmpty) {
                     return Center(
-                      child: Text(
-                        'You don’t have any surety accounts',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.boxOpen,
+                            size: 60,
+                            color: context.theme.colorScheme.onSurface
+                                .withOpacity(0.4),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'You don’t have any surety account added yet.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: context.theme.colorScheme.onSurface,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }
@@ -111,7 +125,7 @@ class GivenSuretiesPage extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  surety.accountHolderName,
+                                  surety.accountHolderName.toTitleCase(),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,

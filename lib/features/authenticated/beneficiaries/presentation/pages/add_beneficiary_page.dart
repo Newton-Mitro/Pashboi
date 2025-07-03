@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -57,9 +58,20 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
           listener: (context, state) {
             if (state is BeneficiaryError) {
               if (!mounted) return;
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.error)));
+              final snackBar = SnackBar(
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Oops!',
+                  message: state.error,
+                  contentType: ContentType.failure,
+                ),
+              );
+
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
             }
 
             if (state is BeneficiaryLoaded) {

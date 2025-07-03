@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/features/authenticated/sureties/domain/entities/surety_entity.dart';
 
@@ -61,7 +62,11 @@ class SuerityDetails extends StatelessWidget {
       label: 'Account',
       value: surety.suretyAccountNumber,
     );
-    addItem(icon: Icons.person, label: 'Name', value: surety.accountHolderName);
+    addItem(
+      icon: Icons.person,
+      label: 'Name',
+      value: surety.accountHolderName.toTitleCase(),
+    );
     addItem(icon: Icons.phone, label: 'Mobile', value: surety.mobileNumber);
     addItem(
       icon: Icons.shield,
