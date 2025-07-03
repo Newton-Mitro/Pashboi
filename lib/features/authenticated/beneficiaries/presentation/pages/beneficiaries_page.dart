@@ -74,7 +74,6 @@ class BeneficiariesPage extends StatelessWidget {
                             );
                           },
                           child: AppIconCard(
-                            showRightIcon: false,
                             leftIcon: FontAwesomeIcons.userShield,
                             boarderColor: theme.colorScheme.primary,
                             cardBody: Column(

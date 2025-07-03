@@ -3,6 +3,7 @@ import 'package:pashboi/features/authenticated/cards/injection.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/injection.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/injection.dart';
 import 'package:pashboi/features/authenticated/my_accounts/injection.dart';
+import 'package:pashboi/features/authenticated/my_loans/injection.dart';
 import 'package:pashboi/features/authenticated/profile/injection.dart';
 import 'package:pashboi/features/authenticated/sureties/injection.dart';
 import 'package:pashboi/features/my_app/injection.dart';
@@ -33,4 +34,5 @@ Future<void> setupDependencies() async {
   registerCollectionLedgerModule();
   registerServicePolicyModule();
   registerProjectModule();
+  registerLoanModule();
 }

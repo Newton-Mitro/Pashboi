@@ -2,7 +2,7 @@ import 'package:pashboi/core/entities/entity.dart';
 
 class LoanTransactionEntity extends Entity<int> {
   final String loanNumber;
-  final DateTime? transactionDate;
+  final DateTime transactionDate;
   final String particulars;
   final double debitAmount;
   final double creditAmount;

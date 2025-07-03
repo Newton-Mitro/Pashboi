@@ -12,8 +12,8 @@ class ProjectDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? imageUrl = project.attachmentUrl;
-    final bool showIcon = imageUrl == null || imageUrl.isEmpty;
+    final String imageUrl = project.attachmentUrl;
+    final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Project Details'), elevation: 0),

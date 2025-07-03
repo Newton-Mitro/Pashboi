@@ -19,6 +19,8 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/my_accounts_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/bloc/fetch_operating_accounts_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/operating_accounts_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/loan_details_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/my_loans_page.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';
@@ -145,7 +147,7 @@ class AppRoutes {
           ),
         );
       case AuthRoutesName.operatingAccountsPage:
-        if (args is Map<String, String>) {
+        if (args is Map<String, int>) {
           final dependentPersonId = args['dependentPersonId'] ?? 0;
 
           return _materialRoute(
@@ -156,7 +158,7 @@ class AppRoutes {
                 ),
               ],
               child: DependentsAccountsPage(
-                dependentPersonId: dependentPersonId as int,
+                dependentPersonId: dependentPersonId,
               ),
             ),
           );
@@ -192,6 +194,17 @@ class AppRoutes {
 
       case AuthRoutesName.createNewAccountPage:
         return _materialRoute(AccountOpeningPage());
+
+      case AuthRoutesName.myLoansPage:
+        return _materialRoute(MyLoansPage());
+      case AuthRoutesName.loanDetailsPage:
+        if (args is Map<String, String>) {
+          final loanNumber = args['loanNumber'] ?? '';
+
+          return _materialRoute(LoanDetailsPage(loanNumber: loanNumber));
+        } else {
+          return _materialRoute(LoanDetailsPage(loanNumber: ""));
+        }
 
       default:
         return _materialRoute(const AuthenticatedHome());

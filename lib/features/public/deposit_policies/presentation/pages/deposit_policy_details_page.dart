@@ -3,7 +3,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
-import 'package:pashboi/features/public/deposit_policies/presentation/widgets/web_view.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class DepositPolicyDetailsPage extends StatelessWidget {

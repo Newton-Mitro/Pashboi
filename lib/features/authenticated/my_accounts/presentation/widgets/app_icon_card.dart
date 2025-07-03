@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
 class AppIconCard extends StatelessWidget {
@@ -9,14 +8,14 @@ class AppIconCard extends StatelessWidget {
     required this.cardBody,
     this.onTap,
     required this.boarderColor,
-    this.showRightIcon = true, // NEW PROP
+    this.rightIcon,
   });
 
   final IconData leftIcon;
   final Widget cardBody;
   final VoidCallback? onTap;
   final Color boarderColor;
-  final bool showRightIcon; // NEW FIELD
+  final IconData? rightIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class AppIconCard extends StatelessWidget {
               children: [
                 // Left Icon Area
                 Expanded(
-                  flex: showRightIcon ? 4 : 3,
+                  flex: rightIcon != null ? 4 : 3,
                   child: Container(
                     decoration: BoxDecoration(
                       color: context.theme.colorScheme.primary,
@@ -60,7 +59,7 @@ class AppIconCard extends StatelessWidget {
 
                 // Body
                 Expanded(
-                  flex: showRightIcon ? 7 : 8,
+                  flex: rightIcon != null ? 7 : 8,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -71,11 +70,11 @@ class AppIconCard extends StatelessWidget {
                 ),
 
                 // Optional Right Icon
-                if (showRightIcon)
+                if (rightIcon != null)
                   Expanded(
                     flex: 2,
                     child: Icon(
-                      FontAwesomeIcons.angleRight,
+                      rightIcon,
                       size: 15,
                       color: context.theme.colorScheme.onSurface,
                     ),

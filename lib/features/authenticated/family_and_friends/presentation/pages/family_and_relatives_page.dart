@@ -67,7 +67,6 @@ class FamilyAndRelativesPage extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: AppIconCard(
-                          showRightIcon: false,
                           leftIcon: icon,
                           cardBody: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

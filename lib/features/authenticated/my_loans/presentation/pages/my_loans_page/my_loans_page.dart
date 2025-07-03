@@ -1,44 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/bloc/my_account_bloc.dart';
+import 'package:pashboi/features/authenticated/my_loans/domain/entities/loan_account_entity.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/bloc/my_loans_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/widgets/account_card_body.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/widgets/app_icon_card.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class MyAccountsPage extends StatelessWidget {
-  const MyAccountsPage({super.key});
+class MyLoansPage extends StatelessWidget {
+  const MyLoansPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<MyAccountBloc>()..add(FetchMyAccountEvent()),
+      create: (context) => sl<MyLoansBloc>()..add(FetchMyLoansEvent()),
       child: Scaffold(
-        appBar: AppBar(title: const Text('My Accounts')),
+        appBar: AppBar(title: const Text('My Loans')),
         body: PageContainer(
-          child: BlocBuilder<MyAccountBloc, MyAccountState>(
+          child: BlocBuilder<MyLoansBloc, MyLoansState>(
             builder: (context, state) {
-              if (state is MyAccountLoading || state is MyAccountInitial) {
+              if (state is MyLoansLoading || state is MyLoansInitial) {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              if (state is MyAccountError) {
+              if (state is MyLoansError) {
                 return Center(child: Text(state.error));
               }
 
-              if (state is MyAccountSuccess) {
-                final accountList = state.myAccounts;
+              if (state is MyLoansLoaded) {
+                final accountList = state.loans;
 
                 if (accountList.isEmpty) {
                   return Center(
                     child: Text(
-                      'You do not have any deposit accounts.',
+                      'You do not have any loan accounts.',
                       style: TextStyle(
                         fontSize: 14,
                         color: context.theme.colorScheme.onSurface,
@@ -66,7 +66,7 @@ class MyAccountsPage extends StatelessWidget {
                         ),
                         enableSideBySideSeriesPlacement: true,
                         title: ChartTitle(
-                          text: 'Account Summary',
+                          text: 'Loan Summary',
                           textStyle: TextStyle(
                             color: context.theme.colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
@@ -74,15 +74,16 @@ class MyAccountsPage extends StatelessWidget {
                           ),
                         ),
                         tooltipBehavior: TooltipBehavior(enable: true),
-                        series: <CartesianSeries<DepositAccountEntity, String>>[
-                          BarSeries<DepositAccountEntity, String>(
+                        series: <CartesianSeries<LoanAccountEntity, String>>[
+                          BarSeries<LoanAccountEntity, String>(
                             dataSource: accountList,
                             xValueMapper: (data, _) => data.shortTypeName,
-                            yValueMapper: (data, _) => data.balance,
-                            name: 'Deposit Accounts',
+                            yValueMapper: (data, _) => data.loanBalance,
+                            name: 'Loans',
                             color: context.theme.colorScheme.primary,
                             dataLabelMapper:
-                                (data, _) => data.balance.toStringAsFixed(0),
+                                (data, _) =>
+                                    data.loanBalance.toStringAsFixed(0),
                             dataLabelSettings: DataLabelSettings(
                               isVisible: true,
                             ),
@@ -104,20 +105,20 @@ class MyAccountsPage extends StatelessWidget {
                                   leftIcon: FontAwesomeIcons.piggyBank,
                                   rightIcon: FontAwesomeIcons.chevronRight,
                                   boarderColor:
-                                      account.defaultAccount
+                                      account.defaulter
                                           ? context.theme.colorScheme.error
                                           : context.theme.colorScheme.primary,
                                   cardBody: AccountCardBody(
                                     accountName: account.typeName.trim(),
                                     accountNumber: account.number,
-                                    balance: account.balance,
+                                    balance: account.loanBalance,
                                   ),
                                   onTap: () {
                                     Navigator.pushNamed(
                                       context,
-                                      AuthRoutesName.accountsDetailsPage,
+                                      AuthRoutesName.loanDetailsPage,
                                       arguments: {
-                                        'accountNumber': account.number.trim(),
+                                        'loanNumber': account.number.trim(),
                                       },
                                     );
                                   },

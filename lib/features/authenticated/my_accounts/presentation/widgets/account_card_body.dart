@@ -28,7 +28,16 @@ class AccountCardBody extends StatelessWidget {
           ),
         ),
         Text(
-          "${accountNumber.trim()} - (${TakaFormatter.format(balance)})",
+          accountNumber.trim(),
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Lexend',
+            fontWeight: FontWeight.normal,
+            color: context.theme.colorScheme.onSurface,
+          ),
+        ),
+        Text(
+          TakaFormatter.format(balance),
           style: TextStyle(
             fontSize: 12,
             fontFamily: 'Lexend',
