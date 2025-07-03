@@ -8,7 +8,6 @@ import 'package:pashboi/features/authenticated/authenticated_home/bloc/authentic
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/base64_image_widget.dart';
 import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
-import 'package:pashboi/routes/public_routes_name.dart';
 
 class AuthenticatedHomeDrawer extends StatelessWidget {
   final List<Map<String, dynamic>> menuItems;
