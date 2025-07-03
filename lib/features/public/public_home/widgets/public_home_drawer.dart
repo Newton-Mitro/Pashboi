@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/constants/app_images.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/public/project/presentation/pages/project.dart';
+import 'package:pashboi/features/public/service/presentation/service_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 
 class PublicHomeDrawer extends StatelessWidget {
@@ -61,7 +63,10 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.helmetUn,
             label: "Projects",
             onTap: () {
-              // TODO: Add navigation or logic
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProjectPage()),
+              );
             },
           ),
           _buildDrawerItem(
@@ -69,7 +74,10 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.personBiking,
             label: "Services",
             onTap: () {
-              // TODO: Add navigation or logic
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ServicePage()),
+              );
             },
           ),
           _buildDrawerItem(

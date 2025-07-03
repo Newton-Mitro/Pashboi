@@ -10,6 +10,7 @@ import 'package:pashboi/features/onboarding/injection.dart';
 import 'package:pashboi/features/public/deposit_policies/injection.dart';
 import 'package:pashboi/features/public/loan_policies/injection.dart';
 import 'package:pashboi/features/public/notice/injection.dart';
+import 'package:pashboi/features/public/service/injection.dart';
 
 import 'core/injection.dart';
 import 'features/auth/injection.dart';
@@ -29,4 +30,5 @@ Future<void> setupDependencies() async {
   registerBeneficiaryModule();
   registerNoticeModule();
   registerCollectionLedgerModule();
+  registerServicePolicyModule();
 }
