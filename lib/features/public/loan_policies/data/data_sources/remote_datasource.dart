@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/services/network/product_api_service.dart';
 import 'package:pashboi/features/public/loan_policies/data/models/loan_policy_model.dart';
-import 'package:pashboi/features/public/loan_policies/domain/usecases/fetch_loant_policy_usecase.dart';
+import 'package:pashboi/features/public/loan_policies/domain/usecases/fetch_loan_policy_usecase.dart';
 
 abstract class LoanPolicyRemoteDataSource {
   Future<List<LoanPolicyModel>> fetchLoanPoliciesByCategoryId(

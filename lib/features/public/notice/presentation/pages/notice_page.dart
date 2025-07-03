@@ -4,7 +4,7 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/public/notice/domain/enities/notice_entity.dart';
 import 'package:pashboi/features/public/notice/presentation/bloc/notice_bloc.dart';
-import 'package:pashboi/features/public/notice/presentation/notice_details_page.dart';
+import 'package:pashboi/features/public/notice/presentation/pages/notice_details_page.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class NoticesPage extends StatelessWidget {

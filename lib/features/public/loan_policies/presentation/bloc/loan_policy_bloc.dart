@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/features/public/loan_policies/domain/entites/loan_policy_entity.dart';
-import 'package:pashboi/features/public/loan_policies/domain/usecases/fetch_loant_policy_usecase.dart';
+import 'package:pashboi/features/public/loan_policies/domain/usecases/fetch_loan_policy_usecase.dart';
 
 part 'loan_policy_event.dart';
 part 'loan_policy_state.dart';

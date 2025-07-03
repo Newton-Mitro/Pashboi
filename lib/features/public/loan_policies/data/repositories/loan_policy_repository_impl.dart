@@ -5,7 +5,7 @@ import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/features/public/loan_policies/data/data_sources/remote_datasource.dart';
 import 'package:pashboi/features/public/loan_policies/domain/entites/loan_policy_entity.dart';
 import 'package:pashboi/features/public/loan_policies/domain/repositories/loan_policy_repository.dart';
-import 'package:pashboi/features/public/loan_policies/domain/usecases/fetch_loant_policy_usecase.dart';
+import 'package:pashboi/features/public/loan_policies/domain/usecases/fetch_loan_policy_usecase.dart';
 
 class LoanPolicyRepositoryImpl implements LoanPolicyRepository {
   final LoanPolicyRemoteDataSource loanPolicyRemoteDataSource;

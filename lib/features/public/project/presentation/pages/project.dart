@@ -1,99 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/features/public/project/domain/entites/project_entity.dart';
+import 'package:pashboi/features/public/project/presentation/bloc/project_bloc.dart';
+import 'package:pashboi/features/public/project/presentation/pages/project_details_page.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class ProjectPage extends StatefulWidget {
+class ProjectPage extends StatelessWidget {
   const ProjectPage({super.key});
 
   @override
-  State<ProjectPage> createState() => _ProjectPageState();
-}
-
-class _ProjectPageState extends State<ProjectPage> {
-  final List<Map<String, String>> services = [
-    {
-      'name': 'Mobile Banking',
-      'description': 'Access your account anytime, anywhere.',
-      'icon': '📱',
-    },
-    {
-      'name': 'ATM Service',
-      'description': 'Withdraw cash easily from our wide ATM network.',
-      'icon': '🏧',
-    },
-    {
-      'name': 'Online Loan Application',
-      'description': 'Apply for loans directly from our app or website.',
-      'icon': '📝',
-    },
-    {
-      'name': 'Customer Support',
-      'description': 'Reach us anytime for help with services.',
-      'icon': '🤝',
-    },
-    {
-      'name': 'Ambulance Service',
-      'description': '24/7 emergency medical transport for members.',
-      'icon': '🚑',
-    },
-    {
-      'name': 'Gym Facility',
-      'description': 'Modern gym with professional trainers.',
-      'icon': '🏋️‍♂️',
-    },
-    {
-      'name': 'Child Care',
-      'description': 'Daycare services for working parents.',
-      'icon': '👶',
-    },
-    {
-      'name': 'School',
-      'description': 'Affordable education with experienced teachers.',
-      'icon': '🏫',
-    },
-    {
-      'name': 'Guest House',
-      'description': 'Comfortable stay for members and guests.',
-      'icon': '🏨',
-    },
-    {
-      'name': 'IELTS Coaching',
-      'description': 'Expert guidance for IELTS preparation.',
-      'icon': '🎓',
-    },
-    {
-      'name': 'Cultural Academy',
-      'description': 'Promoting arts, music, and cultural education.',
-      'icon': '🎭',
-    },
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    return PageContainer(
-      child: ListView.builder(
-        itemCount: services.length,
-        itemBuilder: (context, index) {
-          final service = services[index];
-          return Card(
-            elevation: 1,
-            shadowColor: const Color.fromARGB(179, 0, 0, 0),
-            surfaceTintColor: context.theme.colorScheme.primary,
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: ListTile(
-              leading: Text(
-                service['icon'] ?? '',
-                style: const TextStyle(fontSize: 28),
-              ),
-              title: Text(service['name'] ?? ''),
-              subtitle: Text(service['description'] ?? ''),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                // Optionally navigate to a details screen
-              },
-            ),
-          );
-        },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Project'),
+        backgroundColor: context.theme.colorScheme.primary,
+        foregroundColor: context.theme.colorScheme.onPrimary,
+        elevation: 0,
+      ),
+      body: BlocProvider(
+        create: (context) => sl<ProjectBloc>()..add(FetchProjectEvent()),
+        child: PageContainer(
+          child: BlocBuilder<ProjectBloc, ProjectState>(
+            builder: (context, state) {
+              if (state is ProjectLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is ProjectError) {
+                return Center(child: Text('Error: ${state.error}'));
+              } else if (state is ProjectSuccess) {
+                final List<ProjectEntity> projects = state.projects;
+
+                if (projects.isEmpty) {
+                  return const Center(child: Text('No projects available.'));
+                }
+
+                return ListView.builder(
+                  itemCount: projects.length,
+                  itemBuilder: (context, index) {
+                    final project = projects[index];
+                    return Card(
+                      elevation: 1,
+                      shadowColor: const Color.fromARGB(179, 0, 0, 0),
+                      surfaceTintColor: context.theme.colorScheme.primary,
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(project.attachmentUrl),
+                          radius: 20,
+                          backgroundColor: Colors.transparent,
+                        ),
+                        title: Text(
+                          project.title,
+                        ), // or project.title, depending on your entity
+                        subtitle: Text(
+                          project.shortDescription ?? '',
+                        ), // if it exists
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) =>
+                                      ProjectDetailsPage(project: project),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
       ),
     );
   }

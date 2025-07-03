@@ -7,7 +7,7 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policies_page.dart';
 import 'package:pashboi/features/public/loan_policies/presentation/pages/loan_policies_page.dart';
-import 'package:pashboi/features/public/notice/presentation/notice_page.dart';
+import 'package:pashboi/features/public/notice/presentation/pages/notice_page.dart';
 import 'package:pashboi/features/public/public_home/bloc/home_screen_bloc.dart';
 import 'package:pashboi/features/public/public_home/widgets/public_home_drawer.dart';
 import 'package:pashboi/features/public/service_centers/presentation/pages/service_center_page.dart';

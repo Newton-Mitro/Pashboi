@@ -85,4 +85,6 @@ class ApiUrls {
   static const String getDepositPolicies = 'GetAllProductByCategoryId';
 
   static const String getNotices = 'getAllNotice';
+
+  static const String getProject = 'getAllProject';
 }
