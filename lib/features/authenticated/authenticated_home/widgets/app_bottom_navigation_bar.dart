@@ -74,24 +74,25 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
 
         // Positioned Expand/Collapse Icon
         Positioned(
-          top: -28,
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                isExpanded = !isExpanded;
-              });
-            },
-            child: ClipRect(
-              child: Align(
-                alignment: Alignment.topCenter,
-                heightFactor: 0.8, // only top half is visible
-                child: Container(
-                  height: 56,
-                  width: 56,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    shape: BoxShape.circle,
-                    border: Border.all(
+          top: -20,
+          child: ClipRect(
+            child: Align(
+              alignment: Alignment.topCenter,
+              heightFactor: 0.8, // only top half is visible
+              child: SizedBox(
+                height: 56,
+                width: 100,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isExpanded = !isExpanded;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: const CircleBorder(),
+                    padding: EdgeInsets.zero,
+                    side: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
                       width: 1,
                     ),
@@ -106,13 +107,13 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                         size: 16,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
-                      Text(
-                        isExpanded ? 'less' : 'more',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      ),
+                      // Text(
+                      //   isExpanded ? 'less' : 'more',
+                      //   style: TextStyle(
+                      //     fontSize: 10,
+                      //     color: Theme.of(context).colorScheme.onPrimary,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -127,35 +128,38 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   Widget _navItem(Map<String, dynamic> item, int index) {
     final selected = index == widget.selectedIndex;
 
-    return GestureDetector(
-      onTap: () => widget.onTap(index),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FaIcon(
-              item['icon'],
-              size: 20,
-              color:
-                  selected
-                      ? context.theme.colorScheme.onPrimary
-                      : context.theme.colorScheme.tertiary,
+    return TextButton(
+      onPressed: () {
+        widget.onTap(index);
+        if (isExpanded && index >= 5) {
+          setState(() {
+            isExpanded = false;
+          });
+        }
+      },
+      style: TextButton.styleFrom(
+        foregroundColor:
+            selected
+                ? context.theme.colorScheme.onPrimary
+                : context.theme.colorScheme.tertiary,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap, // tighter touch space
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FaIcon(item['icon'], size: 22),
+          const SizedBox(height: 4),
+          Text(
+            item['label'],
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
             ),
-            const SizedBox(height: 4),
-            Text(
-              item['label'],
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 11,
-                color:
-                    selected
-                        ? context.theme.colorScheme.onPrimary
-                        : context.theme.colorScheme.tertiary,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
