@@ -31,14 +31,11 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
 
   void _submit() {
     if (!_isValidInput()) {
-      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Please enter all fields")));
       return;
     }
-
-    if (!mounted) return;
 
     context.read<BeneficiaryBloc>().add(
       CreateBeneficiary(
@@ -56,26 +53,22 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
       listeners: [
         BlocListener<BeneficiaryBloc, BeneficiaryState>(
           listener: (context, state) {
-            if (state is BeneficiaryError) {
-              if (!mounted) return;
+            if (state.error != null) {
               final snackBar = SnackBar(
                 elevation: 0,
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.transparent,
                 content: AwesomeSnackbarContent(
                   title: 'Oops!',
-                  message: state.error,
+                  message: state.error!,
                   contentType: ContentType.failure,
                 ),
               );
-
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-
-            if (state is BeneficiaryLoaded) {
-              if (!mounted) return;
+            } else if (!state.isLoading && state.error == null) {
+              // Assuming successful add returns to previous page
               Navigator.of(context).pop();
             }
           },
@@ -97,8 +90,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                       .toList();
 
               if (matchedAccounts.isNotEmpty) {
-                final matchedAccount =
-                    matchedAccounts.first; // Pick the first match
+                final matchedAccount = matchedAccounts.first;
                 _accountSearchController.text = matchedAccount.accountNumber;
                 setState(() {
                   _accountNumber = matchedAccount.accountNumber;

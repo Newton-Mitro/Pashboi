@@ -1,30 +1,28 @@
 part of 'beneficiary_bloc.dart';
 
-sealed class BeneficiaryState extends Equatable {
-  const BeneficiaryState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class BeneficiaryInitial extends BeneficiaryState {}
-
-class BeneficiaryLoading extends BeneficiaryState {}
-
-class BeneficiaryLoaded extends BeneficiaryState {
+class BeneficiaryState extends Equatable {
+  final bool isLoading;
   final List<BeneficiaryEntity> beneficiaries;
+  final String? error;
 
-  const BeneficiaryLoaded(this.beneficiaries);
+  const BeneficiaryState({
+    this.isLoading = false,
+    this.beneficiaries = const [],
+    this.error,
+  });
+
+  BeneficiaryState copyWith({
+    bool? isLoading,
+    List<BeneficiaryEntity>? beneficiaries,
+    String? error,
+  }) {
+    return BeneficiaryState(
+      isLoading: isLoading ?? this.isLoading,
+      beneficiaries: beneficiaries ?? this.beneficiaries,
+      error: error,
+    );
+  }
 
   @override
-  List<Object> get props => [beneficiaries];
-}
-
-class BeneficiaryError extends BeneficiaryState {
-  final String error;
-
-  const BeneficiaryError(this.error);
-
-  @override
-  List<Object> get props => [error];
+  List<Object?> get props => [isLoading, beneficiaries, error];
 }

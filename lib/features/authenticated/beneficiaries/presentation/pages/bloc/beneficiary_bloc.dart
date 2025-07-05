@@ -22,7 +22,7 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
     required this.addBeneficiary,
     required this.getAuthUserUseCase,
     required this.removeBeneficiaryUseCase,
-  }) : super(BeneficiaryInitial()) {
+  }) : super(const BeneficiaryState()) {
     on<FetchBeneficiaries>(_onFetchBeneficiaries);
     on<CreateBeneficiary>(_onCreateBeneficiary);
     on<DeleteBeneficiary>(_onDeleteBeneficiary);
@@ -33,7 +33,12 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
   ) async {
     final authUser = await getAuthUserUseCase(NoParams());
     return authUser.fold((failure) {
-      emit(BeneficiaryError('Failed to load user information'));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          error: 'Failed to load user information',
+        ),
+      );
       return null;
     }, (success) => success.user);
   }
@@ -42,12 +47,12 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
     FetchBeneficiaries event,
     Emitter<BeneficiaryState> emit,
   ) async {
-    emit(BeneficiaryLoading());
+    emit(state.copyWith(isLoading: true, error: null));
 
     final user = await _getAuthenticatedUser(emit);
     if (user == null) return;
 
-    final dataState = await fetchBeneficiariesUseCase.call(
+    final result = await fetchBeneficiariesUseCase.call(
       FetchBeneficiariesProps(
         email: user.loginEmail,
         userId: user.userId,
@@ -58,9 +63,16 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
       ),
     );
 
-    dataState.fold(
-      (failure) => emit(BeneficiaryError(failure.message)),
-      (beneficiaries) => emit(BeneficiaryLoaded(beneficiaries)),
+    result.fold(
+      (failure) =>
+          emit(state.copyWith(isLoading: false, error: failure.message)),
+      (beneficiaries) => emit(
+        state.copyWith(
+          isLoading: false,
+          beneficiaries: beneficiaries,
+          error: null,
+        ),
+      ),
     );
   }
 
@@ -68,7 +80,7 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
     CreateBeneficiary event,
     Emitter<BeneficiaryState> emit,
   ) async {
-    emit(BeneficiaryLoading());
+    emit(state.copyWith(isLoading: true, error: null));
 
     final user = await _getAuthenticatedUser(emit);
     if (user == null) return;
@@ -87,8 +99,25 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
     );
 
     result.fold(
-      (failure) => emit(BeneficiaryError(failure.message)),
-      (_) => add(FetchBeneficiaries()), // Re-fetch updated list
+      (failure) =>
+          emit(state.copyWith(isLoading: false, error: failure.message)),
+      (_) {
+        final updatedList = List<BeneficiaryEntity>.from(state.beneficiaries)
+          ..add(
+            BeneficiaryEntity(
+              id: state.beneficiaries.length + 1,
+              name: event.beneficiaryName,
+              accountNumber: event.accountNumber,
+            ),
+          );
+        emit(
+          state.copyWith(
+            isLoading: false,
+            beneficiaries: updatedList,
+            error: null,
+          ),
+        );
+      },
     );
   }
 
@@ -96,7 +125,7 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
     DeleteBeneficiary event,
     Emitter<BeneficiaryState> emit,
   ) async {
-    emit(BeneficiaryLoading());
+    emit(state.copyWith(isLoading: true, error: null));
 
     final user = await _getAuthenticatedUser(emit);
     if (user == null) return;
@@ -114,8 +143,21 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
     );
 
     result.fold(
-      (failure) => emit(BeneficiaryError(failure.message)),
-      (_) => add(FetchBeneficiaries()), // Re-fetch updated list
+      (failure) =>
+          emit(state.copyWith(isLoading: false, error: failure.message)),
+      (_) {
+        final updatedList =
+            state.beneficiaries
+                .where((b) => b.accountNumber != event.accountNumber)
+                .toList();
+        emit(
+          state.copyWith(
+            isLoading: false,
+            beneficiaries: updatedList,
+            error: null,
+          ),
+        );
+      },
     );
   }
 }

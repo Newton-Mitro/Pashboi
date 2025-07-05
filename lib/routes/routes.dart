@@ -5,22 +5,18 @@ import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.d
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_page.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_page.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/add_operating_account_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/bloc/fetch_dependents_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/dependents_page.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/add_family_and_friend_bloc/add_family_and_friend_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_relatives_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_details_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/my_accounts_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/bloc/fetch_operating_accounts_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/operating_accounts_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/loan_details_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/my_loans_page.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';
@@ -99,7 +95,12 @@ class AppRoutes {
 
       // Authenticated Routes
       case AuthRoutesName.profilePage:
-        return _materialRoute(ProfilePage());
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => sl<ProfileBloc>(),
+            child: ProfilePage(),
+          ),
+        );
 
       case AuthRoutesName.cardPage:
         return _materialRoute(CardPage());
@@ -108,16 +109,7 @@ class AppRoutes {
         return _materialRoute(FamilyAndRelativesPage());
 
       case AuthRoutesName.addFamilyMemberPage:
-        return _materialRoute(
-          MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
-              BlocProvider(create: (context) => sl<RelationshipBloc>()),
-              BlocProvider(create: (context) => sl<AddFamilyAndFriendBloc>()),
-            ],
-            child: AddFamilyAndRelativesPage(),
-          ),
-        );
+        return _materialRoute(AddFamilyAndRelativesPage());
 
       case AuthRoutesName.suretiesPage:
         return _materialRoute(GivenSuretiesPage());
@@ -125,54 +117,19 @@ class AppRoutes {
       case AuthRoutesName.beneficiariesPage:
         return _materialRoute(BeneficiariesPage());
       case AuthRoutesName.addBeneficiaryPage:
-        return _materialRoute(
-          MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
-            ],
-            child: AddBeneficiaryPage(),
-          ),
-        );
+        return _materialRoute(AddBeneficiaryPage());
 
       case AuthRoutesName.dependentsPage:
-        return _materialRoute(
-          MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (context) => sl<FetchDependentsBloc>()),
-              BlocProvider(
-                create: (context) => sl<FetchOperatingAccountsBloc>(),
-              ),
-            ],
-            child: DependentsPage(),
-          ),
-        );
+        return _materialRoute(DependentsPage());
       case AuthRoutesName.operatingAccountsPage:
         if (args is Map<String, int>) {
           final dependentPersonId = args['dependentPersonId'] ?? 0;
 
           return _materialRoute(
-            MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) => sl<FetchOperatingAccountsBloc>(),
-                ),
-              ],
-              child: DependentsAccountsPage(
-                dependentPersonId: dependentPersonId,
-              ),
-            ),
+            DependentsAccountsPage(dependentPersonId: dependentPersonId),
           );
         } else {
-          return _materialRoute(
-            MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) => sl<FetchOperatingAccountsBloc>(),
-                ),
-              ],
-              child: DependentsAccountsPage(dependentPersonId: 0),
-            ),
-          );
+          return _materialRoute(DependentsAccountsPage(dependentPersonId: 0));
         }
 
       case AuthRoutesName.addOperatingAccountPage:

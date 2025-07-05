@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/profile/domain/entities/person_entity.dart';
 import 'package:pashboi/features/authenticated/profile/domain/usecases/get_profile_usecase.dart';
@@ -14,104 +13,121 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetProfileUseCase getProfileUseCase;
   final UpdateProfileImageUseCase updateProfileImageUseCase;
   final GetAuthUserUseCase getAuthUserUseCase;
-  late PersonEntity personEntity;
+
+  PersonEntity? personEntity;
 
   ProfileBloc({
     required this.getProfileUseCase,
     required this.updateProfileImageUseCase,
     required this.getAuthUserUseCase,
-  }) : super(ProfileInitial()) {
-    on<ProfileEvent>((event, emit) async {
-      emit(ProfileLoading());
+  }) : super(const ProfileState()) {
+    on<FetchProfileEvent>(_onLoadProfile);
+    on<UpdateProfileImageEvent>(_onUpdateProfileImage);
+  }
 
-      try {
-        final authUser = await getAuthUserUseCase.call(NoParams());
-        UserEntity? user;
+  Future<void> _onLoadProfile(
+    FetchProfileEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true, error: null));
 
-        authUser.fold(
-          (left) {
-            emit(ProfileError('Failed to load user information'));
-          },
-          (right) {
-            user = right.user;
-          },
+    final authUserResult = await getAuthUserUseCase.call(NoParams());
+
+    await authUserResult.fold(
+      (failure) async {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            error: 'Failed to load user information',
+          ),
         );
+      },
+      (authData) async {
+        final user = authData.user;
 
-        if (user == null) {
-          emit(ProfileError('User not found'));
-          return;
-        }
-
-        final dataState = await getProfileUseCase.call(
+        final profileResult = await getProfileUseCase.call(
           GetProfileProps(
-            email: user!.loginEmail,
-            userId: user!.userId,
-            rolePermissionId: user!.roleId,
-            personId: user!.personId,
-            employeeCode: user!.employeeCode,
-            mobileNumber: user!.regMobile,
+            email: user.loginEmail,
+            userId: user.userId,
+            rolePermissionId: user.roleId,
+            personId: user.personId,
+            employeeCode: user.employeeCode,
+            mobileNumber: user.regMobile,
           ),
         );
 
-        dataState.fold(
-          (failure) {
-            emit(ProfileError(failure.message));
-          },
+        profileResult.fold(
+          (failure) =>
+              emit(state.copyWith(isLoading: false, error: failure.message)),
           (person) {
             personEntity = person;
-            emit(ProfileSuccess(person));
+            emit(
+              state.copyWith(
+                isLoading: false,
+                personEntity: person,
+                error: null,
+              ),
+            );
           },
         );
-      } catch (e) {
-        emit(ProfileError('Failed to load debit card'));
-      }
-    });
+      },
+    );
+  }
 
-    on<UpdateProfileImageEvent>((event, emit) async {
-      emit(ProfileLoading());
+  Future<void> _onUpdateProfileImage(
+    UpdateProfileImageEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true, error: null));
 
-      try {
-        final authUser = await getAuthUserUseCase.call(NoParams());
-        UserEntity? user;
+    final authUserResult = await getAuthUserUseCase.call(NoParams());
 
-        authUser.fold(
-          (left) {
-            emit(ProfileError('Failed to load user information'));
-          },
-          (right) {
-            user = right.user;
-          },
+    await authUserResult.fold(
+      (failure) async {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            error: 'Failed to load user information',
+          ),
         );
+      },
+      (authData) async {
+        final user = authData.user;
 
-        if (user == null) {
-          emit(ProfileError('User not found'));
-          return;
-        }
-
-        final dataState = await updateProfileImageUseCase.call(
+        final updateResult = await updateProfileImageUseCase.call(
           UpdateProfileImageProps(
-            email: user!.loginEmail,
-            userId: user!.userId,
-            rolePermissionId: user!.roleId,
-            personId: user!.personId,
-            employeeCode: user!.employeeCode,
-            mobileNumber: user!.regMobile,
+            email: user.loginEmail,
+            userId: user.userId,
+            rolePermissionId: user.roleId,
+            personId: user.personId,
+            employeeCode: user.employeeCode,
+            mobileNumber: user.regMobile,
             imageData: event.imageData,
           ),
         );
 
-        dataState.fold(
-          (failure) {
-            emit(ProfileError(failure.message));
-          },
-          (person) {
-            final updatedPerson = personEntity.copyWith(photo: event.imageData);
-            emit(ProfileSuccess(updatedPerson));
+        updateResult.fold(
+          (failure) =>
+              emit(state.copyWith(isLoading: false, error: failure.message)),
+          (_) {
+            if (personEntity != null) {
+              final updatedPerson = personEntity!.copyWith(
+                photo: event.imageData,
+              );
+              personEntity = updatedPerson;
+              emit(
+                state.copyWith(
+                  isLoading: false,
+                  personEntity: updatedPerson,
+                  error: null,
+                ),
+              );
+            } else {
+              emit(state.copyWith(isLoading: false));
+            }
           },
         );
-      } catch (e) {
-        emit(ProfileError('Failed to load debit card'));
-      }
-    });
+      },
+    );
   }
 }
