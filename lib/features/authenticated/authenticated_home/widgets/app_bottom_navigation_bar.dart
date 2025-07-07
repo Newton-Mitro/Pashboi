@@ -131,17 +131,17 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
     return TextButton(
       onPressed: () {
         widget.onTap(index);
-        if (isExpanded && index >= 5) {
-          setState(() {
-            isExpanded = false;
-          });
-        }
+        // if (isExpanded && index >= 5) {
+        //   setState(() {
+        //     isExpanded = false;
+        //   });
+        // }
       },
       style: TextButton.styleFrom(
         foregroundColor:
             selected
                 ? context.theme.colorScheme.onPrimary
-                : context.theme.colorScheme.tertiary,
+                : context.theme.colorScheme.inversePrimary,
         padding: const EdgeInsets.symmetric(vertical: 8),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap, // tighter touch space
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

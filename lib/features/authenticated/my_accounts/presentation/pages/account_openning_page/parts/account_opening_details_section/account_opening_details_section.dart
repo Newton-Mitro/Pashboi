@@ -90,7 +90,6 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                         color: context.theme.colorScheme.onSurface,
                       ),
                     ),
-                    const SizedBox(height: 10),
                     AppDropdownSelect<String>(
                       value: selectedTenure,
                       errorText: tenureError,

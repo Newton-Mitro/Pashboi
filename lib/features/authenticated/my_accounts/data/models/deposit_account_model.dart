@@ -15,6 +15,7 @@ class DepositAccountModel extends DepositAccountEntity {
     required super.lastPaidDate,
     required super.nominees,
     required super.maturityDate,
+    required super.mobileNumber,
     required super.ledgerId,
     required super.interestReate,
     required super.accountFor,
@@ -25,7 +26,7 @@ class DepositAccountModel extends DepositAccountEntity {
   factory DepositAccountModel.fromJson(Map<String, dynamic> json) {
     return DepositAccountModel(
       id: json['AccountId'] ?? 0,
-      number: json['AccountNo'] ?? '',
+      number: json['AccountNo'] ?? json['AccountNumber'] ?? '',
       accountHolderName:
           json['AccHolderName'] ?? json['AccountHolderName'] ?? '',
       name: json['AccHolderName'] ?? json['AccountHolderName'] ?? '',
@@ -33,6 +34,7 @@ class DepositAccountModel extends DepositAccountEntity {
           json['AccountHolderId'] ?? json['DependentPersonId'] ?? 0,
       typeName: json['AccountTypeName'] ?? '',
       shortTypeName: json['AccountTypeShortName'] ?? '',
+      mobileNumber: json['MobileNumber'] ?? '',
       typeCode: (json['AccountTypeCode'] ?? '').toString(),
       balance: (json['Balance'] ?? 0).toDouble(),
       withdrawableBalance: (json['WithdrawableBalance'] ?? 0).toDouble(),

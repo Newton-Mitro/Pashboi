@@ -46,7 +46,10 @@ class MyAccountBloc extends Bloc<MyAccountEvent, MyAccountState> {
             personId: user!.personId,
             employeeCode: user!.employeeCode,
             mobileNumber: user!.regMobile,
-            accountHolderPersonId: user!.personId.toString(),
+            accountHolderPersonId:
+                event.accountHolderPersonId == 0
+                    ? user!.personId
+                    : event.accountHolderPersonId,
           ),
         );
 

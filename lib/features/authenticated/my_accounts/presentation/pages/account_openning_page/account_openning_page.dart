@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
-import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
-import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/domain/entities/family_and_friend_entity.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_amount_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
@@ -24,7 +24,9 @@ import 'package:pashboi/shared/widgets/step_item.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 class AccountOpeningPage extends StatefulWidget {
-  const AccountOpeningPage({super.key});
+  final String productCode;
+
+  const AccountOpeningPage({super.key, required this.productCode});
 
   @override
   State<AccountOpeningPage> createState() => _AccountOpeningPageState();
@@ -57,15 +59,58 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   bool _isWaiting = true;
 
   // Data
-  late DebitCardEntity? _myCards;
   final List<TenureEntity> _tenures = [];
   final List<TenureAmountEntity> _installmentAmounts = [];
+
+  // Nominee Section State
+  String? _selectedNominee;
+  String? _sharePercentage;
+  String? _nomineeError;
+  int _remainingPercentage = 100;
+  final List<Map<String, String>> _addedNominees = [];
+
+  void _addNominee() {
+    if (_selectedNominee == null || _sharePercentage == null) {
+      setState(() {
+        _nomineeError = "Please select nominee and share percentage.";
+      });
+      return;
+    }
+
+    setState(() {
+      _addedNominees.add({
+        'id': _selectedNominee!,
+        'name': '',
+        'share': _sharePercentage!,
+      });
+
+      _remainingPercentage -= int.parse(_sharePercentage!);
+      _selectedNominee = null;
+      _sharePercentage = null;
+      _nomineeError = null;
+    });
+  }
+
+  void _removeNominee(int index) {
+    setState(() {
+      _remainingPercentage += int.parse(_addedNominees[index]['share']!);
+      _addedNominees.removeAt(index);
+    });
+  }
+
+  bool _canAddNominee() {
+    final percent = int.tryParse(_sharePercentage ?? '');
+    return percent != null &&
+        percent <= _remainingPercentage &&
+        _selectedNominee != null;
+  }
 
   @override
   void initState() {
     super.initState();
     _initializeControllers();
     _initializeData();
+    context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
   }
 
   @override
@@ -144,11 +189,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
 
   void _submitOpenAnAccount() {}
 
-  // Nominee methods
-  void _addNominee() {}
-
-  void _removeNominee(int index) {}
-
   // Data loading methods
   void _loadMyCards() async {}
 
@@ -170,33 +210,22 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
-        widget: BlocBuilder<DebitCardBloc, DebitCardState>(
-          builder: (context, state) {
-            if (state is DebitCardLoadingSuccess) {
-              _myCards = state.debitCard;
-            }
-            return TransferFromSection(
-              selectedAccountNumber:
-                  accountOpeningStepsState.stepData[AccountOpeningStepsBloc
-                      .firstStep]?['selectedAccountNumber'] ??
-                  '',
-              accountError: '',
-              onAccountChanged: (val) {
-                context.read<AccountOpeningStepsBloc>().add(
-                  UpdateStepData(
-                    step: 0,
-                    key: 'selectedAccountNumber',
-                    value: val,
-                  ),
-                );
-              },
-              cardNumberController: cardNumber,
-              accounTypeController: accountType,
-              accountBalanceController: accountBalance,
-              accountWithdrawableController: accountWithdrawable,
-              accountNumbers: _myCards!.cardsAccounts,
+        widget: TransferFromSection(
+          selectedAccountNumber:
+              accountOpeningStepsState.stepData[AccountOpeningStepsBloc
+                  .firstStep]?['selectedAccountNumber'] ??
+              '',
+          accountError: '',
+          onAccountChanged: (val) {
+            context.read<AccountOpeningStepsBloc>().add(
+              UpdateStepData(step: 0, key: 'selectedAccountNumber', value: val),
             );
           },
+          cardNumberController: cardNumber,
+          accounTypeController: accountType,
+          accountBalanceController: accountBalance,
+          accountWithdrawableController: accountWithdrawable,
+          accountHolderNameController: accountName,
         ),
       ),
       StepItem(
@@ -219,17 +248,23 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       ),
       StepItem(
         icon: FontAwesomeIcons.userShield,
-        widget: AccountNomineeSection(
-          selectedNominee: '',
-          onNomineeChanged: (String? value) {},
-          sharePercentage: '',
-          onSharePercentageChanged: (String? value) {},
-          nominees: [],
-          nomineeError: '',
-          onAddNominee: _addNominee,
-          onRemoveNominee: _removeNominee,
-          remainingPercentage: 100,
-          canAddNominee: () => true,
+        widget: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
+          builder: (context, state) {
+            return AccountNomineeSection(
+              selectedNominee: _selectedNominee,
+              onNomineeChanged: (val) => setState(() => _selectedNominee = val),
+              sharePercentage: _sharePercentage,
+              onSharePercentageChanged:
+                  (val) => setState(() => _sharePercentage = val),
+              nominees: _addedNominees,
+              nomineeError: _nomineeError,
+              onAddNominee: _addNominee,
+              onRemoveNominee: _removeNominee,
+              remainingPercentage: _remainingPercentage,
+              canAddNominee: _canAddNominee,
+              familyMembers: state.familyAndFriends,
+            );
+          },
         ),
       ),
       StepItem(

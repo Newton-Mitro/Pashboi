@@ -18,7 +18,7 @@ class MyAccountsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<MyAccountBloc>()..add(FetchMyAccountEvent()),
+      create: (context) => sl<MyAccountBloc>()..add(FetchMyAccountEvent(0)),
       child: Scaffold(
         appBar: AppBar(title: const Text('My Accounts')),
         body: PageContainer(

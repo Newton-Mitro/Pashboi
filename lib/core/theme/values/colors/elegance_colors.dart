@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class EleganceColors extends AppColors {
-  static const Color _primary = Color(0xFFE91E63);
+  static const Color _primary = Color(0xFFCC04CC); // Your bold purple!
 
   @override
   Color get primary => _primary;
 
   @override
-  Color get primaryVariant => const Color(0xFFC2185B); // Darker pink
+  Color get primaryVariant => const Color(0xFF990199); // Darker tone of your purple
 
   @override
   Color get onPrimary => Colors.white;
 
   @override
-  Color get primaryContainer => const Color(0xFFF8BBD0); // Light pink
+  Color get primaryContainer => const Color(0xFFF0B3F0); // Soft lavender container
 
   @override
-  Color get onPrimaryContainer => const Color(0xFF880E4F); // Dark text on pink
+  Color get onPrimaryContainer => const Color(0xFF4A004A); // Deep text on soft background
 
   @override
   Color get primaryFixed => _primary;
 
   @override
-  Color get primaryFixedDim => const Color(0xFFD81B60);
+  Color get primaryFixedDim => const Color(0xFFD24AD2); // Slightly muted neon purple
 
   @override
   Color get onPrimaryFixed => Colors.white;
@@ -32,25 +32,25 @@ class EleganceColors extends AppColors {
   Color get onPrimaryFixedVariant => Colors.white70;
 
   @override
-  Color get secondary => const Color(0xFFFF4081); // Accent pink
+  Color get secondary => const Color(0xFFE040FB); // Bright purple-pink secondary
 
   @override
-  Color get secondaryVariant => const Color(0xFFF06292);
+  Color get secondaryVariant => const Color(0xFFBA68C8); // Softer violet
 
   @override
   Color get onSecondary => Colors.white;
 
   @override
-  Color get secondaryContainer => const Color(0xFFFCE4EC);
+  Color get secondaryContainer => const Color(0xFFF8EAF6); // Light purple background
 
   @override
-  Color get onSecondaryContainer => const Color(0xFF880E4F);
+  Color get onSecondaryContainer => const Color(0xFF4A148C); // Dark purple text
 
   @override
-  Color get secondaryFixed => const Color(0xFFFF80AB);
+  Color get secondaryFixed => const Color(0xFFE1BEE7);
 
   @override
-  Color get secondaryFixedDim => const Color(0xFFEC407A);
+  Color get secondaryFixedDim => const Color(0xFFCE93D8);
 
   @override
   Color get onSecondaryFixed => Colors.white;
@@ -59,7 +59,7 @@ class EleganceColors extends AppColors {
   Color get onSecondaryFixedVariant => Colors.white70;
 
   @override
-  Color get tertiary => const Color.fromARGB(255, 247, 162, 190); // soft pink tertiary
+  Color get tertiary => const Color(0xFFF500F5); // Neon pink-purple tertiary
 
   @override
   Color get onTertiary => Colors.white;
@@ -68,13 +68,13 @@ class EleganceColors extends AppColors {
   Color get tertiaryContainer => const Color(0xFFFCE4EC);
 
   @override
-  Color get onTertiaryContainer => const Color(0xFF880E4F);
+  Color get onTertiaryContainer => const Color(0xFF6A1B9A);
 
   @override
   Color get tertiaryFixed => const Color(0xFFF48FB1);
 
   @override
-  Color get tertiaryFixedDim => const Color(0xFFF06292);
+  Color get tertiaryFixedDim => const Color(0xFFCE93D8);
 
   @override
   Color get onTertiaryFixed => Colors.white;
@@ -83,7 +83,7 @@ class EleganceColors extends AppColors {
   Color get onTertiaryFixedVariant => Colors.white70;
 
   @override
-  Color get error => const Color.fromARGB(255, 221, 66, 5);
+  Color get error => const Color(0xFFB00020);
 
   @override
   Color get onError => Colors.white;
@@ -95,7 +95,7 @@ class EleganceColors extends AppColors {
   Color get onErrorContainer => const Color(0xFF410002);
 
   @override
-  Color get background => const Color(0xFFFFF0F4); // light pink background
+  Color get background => const Color(0xFFFFF0FF); // Ultra-light pink-purple background
 
   @override
   Color get onBackground => const Color(0xFF1B1B1F);
@@ -128,7 +128,7 @@ class EleganceColors extends AppColors {
   Color get surfaceContainerHighest => const Color(0xFFDADADA);
 
   @override
-  Color get surfaceVariant => const Color(0xFFF8BBD0); // pink surface variant
+  Color get surfaceVariant => const Color(0xFFF0B3F0); // Matches container tones
 
   @override
   Color get onSurfaceVariant => const Color(0xFF49454F);
@@ -155,7 +155,7 @@ class EleganceColors extends AppColors {
   Color get onInverseSurface => Colors.white;
 
   @override
-  Color get inversePrimary => const Color(0xFFFFC1E3); // light inverse pink
+  Color get inversePrimary => const Color(0xFFF8B0F8); // Light inverse purple
 
   @override
   Color get selected => _primary;
