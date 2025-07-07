@@ -87,4 +87,6 @@ class ApiUrls {
   static const String getNotices = 'getAllNotice';
 
   static const String getProject = 'getAllProject';
+
+  static const String getAllBranch = 'getAllBranch';
 }

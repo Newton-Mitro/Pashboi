@@ -1,7 +1,7 @@
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
 
-class DepositPolicyModel extends DepositPolicyEntity {
-  DepositPolicyModel({
+class PageModel extends DepositPolicyEntity {
+  PageModel({
     required super.id,
     required super.title,
     required super.slug,
@@ -18,8 +18,8 @@ class DepositPolicyModel extends DepositPolicyEntity {
     required super.updatedAt,
   });
 
-  factory DepositPolicyModel.fromJson(Map<String, dynamic> json) {
-    return DepositPolicyModel(
+  factory PageModel.fromJson(Map<String, dynamic> json) {
+    return PageModel(
       id: json['id'] ?? "",
       title: json['title'] ?? "",
       slug: json['slug'] ?? "",

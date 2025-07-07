@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/constants/app_images.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/public/mission_vision/presentation/pages/mission_vision_page.dart';
 import 'package:pashboi/features/public/project/presentation/pages/project.dart';
 import 'package:pashboi/features/public/service/presentation/service_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
@@ -55,6 +56,10 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.bullseye,
             label: "Mission and Vision",
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MissionAndVisionPage()),
+              );
               // TODO: Add navigation or logic
             },
           ),

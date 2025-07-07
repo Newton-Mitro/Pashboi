@@ -6,8 +6,8 @@ import 'package:pashboi/features/public/deposit_policies/data/models/deposit_pol
 import 'package:pashboi/features/public/deposit_policies/domain/usecases/fetch_deposit_policy_usecase.dart';
 
 abstract class DepositPolicyRemoteDataSource {
-  Future<List<DepositPolicyModel>> fetchDepositPoliciesByCategoryId(
-    FetchDepositPllicyProps props,
+  Future<List<PageModel>> fetchDepositPoliciesByCategoryId(
+    FetchPageProps props,
   );
 }
 
@@ -18,8 +18,8 @@ class DepositPolicyRemoteDataSourceImpl
   DepositPolicyRemoteDataSourceImpl({required this.productApiService});
 
   @override
-  Future<List<DepositPolicyModel>> fetchDepositPoliciesByCategoryId(
-    FetchDepositPllicyProps props,
+  Future<List<PageModel>> fetchDepositPoliciesByCategoryId(
+    FetchPageProps props,
   ) async {
     try {
       final response = await productApiService.get(
@@ -33,8 +33,8 @@ class DepositPolicyRemoteDataSourceImpl
           throw Exception('Invalid response format: expected a list');
         }
 
-        List<DepositPolicyModel> depositPolicies =
-            data.map((json) => DepositPolicyModel.fromJson(json)).toList();
+        List<PageModel> depositPolicies =
+            data.map((json) => PageModel.fromJson(json)).toList();
 
         return depositPolicies;
       } else {

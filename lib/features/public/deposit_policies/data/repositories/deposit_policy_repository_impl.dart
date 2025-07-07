@@ -18,7 +18,7 @@ class DepositPolicyRepositoryImpl implements DepositPolicyRepository {
 
   @override
   ResultFuture<List<DepositPolicyEntity>> findDepositPoliciesByCategoryId(
-    FetchDepositPllicyProps props,
+    FetchPageProps props,
   ) async {
     try {
       final result = await depositPolicyRemoteDataSource

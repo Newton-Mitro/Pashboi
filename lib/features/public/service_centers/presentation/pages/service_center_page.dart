@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pashboi/core/constants/app_icons.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/features/public/service_centers/domain/entites/service_center_entity.dart';
+import 'package:pashboi/features/public/service_centers/presentation/bloc/service_center_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class ServiceCenterPage extends StatefulWidget {
@@ -13,881 +18,67 @@ class ServiceCenterPage extends StatefulWidget {
 
 class _ServiceCenterPageState extends State<ServiceCenterPage> {
   final MapController _mapController = MapController();
-
-  final List<Map<String, dynamic>> serviceCenters = [
-    {
-      "id": "f605394f-135c-4556-bcbd-a6bc265a92d4",
-      "name": "Head Office",
-      "slug": "head-office",
-      "order": 1,
-      "email": "info@cccul.com",
-      "phone": "9123764, 9139901-2, 58152640, 58153316",
-      "ip_phone": "9678771270",
-      "fax": "88-02-9143079",
-      "location": LatLng(23.756677326621922, 90.39362746038861),
-      "collection": "Head Office",
-      "time": "10Am-6.30pm",
-      "address":
-          "Rev. Fr. Charles J. Young Bhaban 173/1/A, East Tejturi Bazar,Tejgaon, Dhaka-1215.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "5d95ecff-c1da-4045-bda3-654c4fa4115d",
-      "name": "Head Office- Extension",
-      "slug": "head-office-extension",
-      "order": 2,
-      "email": "info@cccul.com",
-      "phone": "9123764, 9139901-2, 58152640, 58153316",
-      "ip_phone": "9678771270",
-      "fax": "88-02-9143079",
-      "location": LatLng(23.75784824839184, 90.39169352552308),
-      "collection": "Head Office- Extension",
-      "time": "10Am-6.30pm",
-      "address": "Tejgaon Church Community Center Tejgaon, Dhaka-1215.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "3631fb70-604e-4621-a582-5d837460e54d",
-      "name": "Shadhanpara Service Center",
-      "slug": "shadhanpara-service-center",
-      "order": 3,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.75740653691872, 90.38737219204839),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "8/ka, East Razabazar, (SadhanPara)",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "2ed8e06b-4eb2-4c72-ac6f-462a13a8dee6",
-          "name": "Ms. Jhuma Rebeiro",
-          "designation": "Manager",
-          "contactNumber": "01709-815416",
-          "email": "jhuma.rebeiro@cccul.com",
-          "office_location_id": "3631fb70-604e-4621-a582-5d837460e54d",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "dddc87b4-9412-4e63-8896-277820f20d42",
-      "name": "Monipuripara Service Center",
-      "slug": "monipuripara-service_center",
-      "order": 4,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.762532467978236, 90.384061646396),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "88/5, MonipuriPara, Dhaka.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "fe82f866-4bc9-4b33-b4ac-c55554c8825c",
-          "name": "Mr. Profullah Rozario",
-          "designation": "Manager",
-          "contactNumber": "01709-815408",
-          "email": "profullah.rozario@cccul.com",
-          "office_location_id": "dddc87b4-9412-4e63-8896-277820f20d42",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "7a8d7754-3ebc-4a77-881e-b1d24a5dbf75",
-      "name": "Mirpur Service Center",
-      "slug": "mirpur-service-center",
-      "order": 5,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.80454288030815, 90.3666196825531),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "32/5, Senpara Porbota,Mirpur-10, Dhaka-1216.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "650cfa9c-451c-4404-a5c9-401b1fc8f5b4",
-          "name": "Shilpi A.D. Costa",
-          "designation": "Assistant Manager- In Charge",
-          "contactNumber": "01709-815417",
-          "email": "shilpi.costa@cccul.com",
-          "office_location_id": "7a8d7754-3ebc-4a77-881e-b1d24a5dbf75",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "67374ec9-8d20-4b0a-983b-975895f15091",
-      "name": "Nagori Service Center",
-      "slug": "nagori-service-center",
-      "order": 6,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.913966193237624, 90.50750687916745),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "Tripti Super Market, Nagori Kaligonj, Gazipur",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "13008acd-74d5-4724-aef4-a4566a444cce",
-          "name": "Mr. Shishir Bairagi",
-          "designation": "Officer - In Charge",
-          "contactNumber": "01709-815452",
-          "email": "shishir.bairagi@cccul.com",
-          "office_location_id": "67374ec9-8d20-4b0a-983b-975895f15091",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "7d0e297a-09ad-4842-b473-33cecafad218",
-      "name": "Savar Service Center",
-      "slug": "savar-service-center",
-      "order": 7,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.850989059232067, 90.28481382624312),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address":
-          "Nirmol Rozario Complex, B 45/11 East Rajason, Berulia Road, Savar",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "401a4f9a-8ff4-4d4b-8952-e7caa7821e34",
-          "name": "Mr. Milton Penheiro",
-          "designation": "Senior Officer - In Charge",
-          "contactNumber": "01709-815433",
-          "email": "milton.penheiro@cccul.com",
-          "office_location_id": "7d0e297a-09ad-4842-b473-33cecafad218",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "cb4ad5c2-8468-49be-9c6f-3462c3149426",
-      "name": "Nadda Service Center",
-      "slug": "nadda_service-center",
-      "order": 8,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.813484414636275, 90.41766775909133),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "Ka-23/3/B, Joar Shahara Nadda, Dhaka-1212.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "23bf98ce-8f07-48c1-aa16-19d1e7744576",
-          "name": "Mr. Suhel Rozario",
-          "designation": "Manager",
-          "contactNumber": "01709815425",
-          "email": "suhel.rozario@cccul.com",
-          "office_location_id": "cb4ad5c2-8468-49be-9c6f-3462c3149426",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "46e9772c-1354-429f-a4d0-efdffcddba3f",
-      "name": "Luxmibazar Service Center",
-      "slug": "luxmibazar-service-center",
-      "order": 9,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.707985489497695, 90.41637858237475),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "61/1, Subash Bose Avenue,Community Center Bhaban,Luxmibazar.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "03fffa7b-80a7-4787-ab62-d468b8134313",
-          "name": "Mr. Lawrence Kajol Rozario",
-          "designation": "Manager",
-          "contactNumber": "0170-9815409",
-          "email": "lorence.rozario@cccul.com",
-          "office_location_id": "46e9772c-1354-429f-a4d0-efdffcddba3f",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "cd9b5fdb-b9aa-4a14-bf66-d045aee1dd11",
-      "name": "Mohakhali Service Center",
-      "slug": "mohakhali-service-center",
-      "order": 10,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.774608158353267, 90.40321585766975),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "118/12, South Mohakhali,Gulshan, Dhaka.1212",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "17591a7e-ab0b-4909-9b7e-c7c5fe0ab370",
-          "name": "Ms. Muriel Clara Corraya",
-          "designation": "Assistant Manager - In Charge",
-          "contactNumber": "01321-169719",
-          "email": "",
-          "office_location_id": "cd9b5fdb-b9aa-4a14-bf66-d045aee1dd11",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "9d030daa-56fc-47c6-a687-9b0eafdbc3a9",
-      "name": "Pagar Service Center",
-      "slug": "pagar-service-center",
-      "order": 11,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.897096738220565, 90.42878095376973),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "128, Kobi Joshimuddin Road, Pagar Tongi ,Gazipur.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "63793f2d-f626-45e2-9950-54b5794d6930",
-          "name": "Shajal Joseph Cruze",
-          "designation": "Senior Officer-Incharge",
-          "contactNumber": "01709-815462",
-          "email": "sajal.cruze@cccul.com",
-          "office_location_id": "9d030daa-56fc-47c6-a687-9b0eafdbc3a9",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "32cfad2e-2b80-4b98-9e38-1c5fe667356a",
-      "name": "Hasnabad Service Center/Bandura",
-      "slug": "hasnabad-service-centerbandura",
-      "order": 12,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.658905919189486, 90.11026384059814),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "Jonas Rozario Bhaban, Nowabganj, Dhaka.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "b0bfd4c7-0c6f-4571-b4be-92305201a993",
-          "name": "Mr. James Anjous",
-          "designation": "Senior Officer-Incharge",
-          "contactNumber": "01709-815423",
-          "email": "james.anjous@cccul.com",
-          "office_location_id": "32cfad2e-2b80-4b98-9e38-1c5fe667356a",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "22b89268-e7d2-423b-a943-015c538b55ce",
-      "name": "Tumilia Service Center",
-      "slug": "tumilia-service-center",
-      "order": 13,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.92616571063089, 90.54313342739371),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address": "Tumilia Credit, Kaliganj, Gazipur.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "03b6f39b-4aa8-4ede-bb6f-c7ee55c16e1d",
-          "name": "Ms. Joyanti Rozario",
-          "designation": "Assistant Manager - In Charge",
-          "contactNumber": "01709-815424",
-          "email": "joyanti.rozario@cccul.com",
-          "office_location_id": "22b89268-e7d2-423b-a943-015c538b55ce",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "0de940ee-cb33-425c-880b-c96da86bd350",
-      "name": "Solpur Service Center",
-      "slug": "solpur-service-center",
-      "order": 14,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.612468660454017, 90.31837322513877),
-      "collection": "",
-      "time": "10Am-6.30pm",
-      "address":
-          "57, Komola Super Market,(Ground Floor) Vill: Solepur, Dist: Munshiganj.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "7e00cf58-8cf0-48f9-a1f3-544b2d07484a",
-          "name": "Mr. Jani Lew Rodricks",
-          "designation": "Junior Officer- In Charge",
-          "contactNumber": "01709-815434",
-          "email": "jani.rodricks@cccul.com",
-          "office_location_id": "0de940ee-cb33-425c-880b-c96da86bd350",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "e50caa10-d3f7-474d-93a5-786f957a8952",
-      "name": "Kafrul Collection Booth",
-      "slug": "kafrul-collection-booth",
-      "order": 15,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.786379308877613, 90.38513774436795),
-      "collection": "Every Monday",
-      "time": "10:30am \u2013 4pm",
-      "address": "St.Lawrence Church Community Center.South Kafrul,Dhaka-1206.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "a52868c9-709c-4e9d-ad4a-68a6acef975c",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709-815413",
-          "email": null,
-          "office_location_id": "e50caa10-d3f7-474d-93a5-786f957a8952",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "4f523881-1ea3-4b5b-b6bf-180e003987fc",
-      "name": "Moghbazar Collection Booth",
-      "slug": "moghbazar-collection-booth",
-      "order": 16,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.786379308877613, 90.38513774436795),
-      "collection": "Every Thursday",
-      "time": "10:30am \u2013 1:30pm",
-      "address":
-          "Dhaka Christian Bohumukhi Samabay Samity.(2nd Floor) 370, Dilu Road, Moghbazar, Dhaka.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "437b0c66-5304-494f-863a-e08e65a2cabc",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709815412",
-          "email": null,
-          "office_location_id": "4f523881-1ea3-4b5b-b6bf-180e003987fc",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-        {
-          "id": "94c4a53f-ce0c-4a45-a6e3-5c53f72df4b1",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709-815412",
-          "email": null,
-          "office_location_id": "4f523881-1ea3-4b5b-b6bf-180e003987fc",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "d7741a3f-b198-4926-9e0e-a0c02f092744",
-      "name": "Motijheel Notre Dame College",
-      "slug": "motijheel-notre-dame-college",
-      "order": 17,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.73070897110082, 90.42108429680269),
-      "collection": "Last 2 days of the Month",
-      "time": "10am To 1pm",
-      "address": "Motijheel Dhaka.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "33410b43-8981-482a-95b3-a84c40fd997c",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709815412",
-          "email": null,
-          "office_location_id": "d7741a3f-b198-4926-9e0e-a0c02f092744",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-        {
-          "id": "fab4b0eb-f288-4f5d-b9f7-03251ca4d455",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709-815412",
-          "email": null,
-          "office_location_id": "d7741a3f-b198-4926-9e0e-a0c02f092744",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "9e754c1b-d5a0-4d7c-9a1f-7c3a3b605c41",
-      "name": "Mothbari Collection Booth",
-      "slug": "mothbari-collection-booth",
-      "order": 18,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.885053683367705, 90.4841327292594),
-      "collection": "Every Sunday",
-      "time": "10am To 1pm",
-      "address":
-          "Mothbari Khudro Bebsayi Somobay Somiti Ltd Kaliganj: Gazipur.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "e8913d73-9ee7-4c11-bf92-903c39bb60dc",
-      "name": "Bhadun Collection Booth",
-      "slug": "bhadun-collection-booth",
-      "order": 19,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.757603776149192, 90.38737059774117),
-      "collection": "Every Sunday",
-      "time": "10am To 1pm",
-      "address":
-          "Bhadun Christian Co-operative Credit Union Ltd. Bhadun, Pubail, Gazipur.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "12c8c80d-53c6-4bc4-8cd5-7f55d12b317a",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709815462",
-          "email": null,
-          "office_location_id": "e8913d73-9ee7-4c11-bf92-903c39bb60dc",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "28a2edf8-6ee4-4e11-94b3-916de7c85733",
-      "name": "Uttara Collection Booth",
-      "slug": "uttara-collection-booth",
-      "order": 20,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.8649652, 90.4048798),
-      "collection": "Every Sunday",
-      "time": "10:30am \u2013 1:30pm",
-      "address":
-          "United Bethany Church Trust\" (UBCT) House # 12, Road # 17, Sector # 04, Uttara Model Town, Dhaka-1230.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "a1800b03-205e-4cee-bf43-c74b2c8b126c",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709815413",
-          "email": null,
-          "office_location_id": "28a2edf8-6ee4-4e11-94b3-916de7c85733",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "4201e2e8-949f-4804-b24e-23f0da54d3cd",
-      "name": "Savar Anandpur",
-      "slug": "savar-anandpur",
-      "order": 21,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.851762964322234, 90.25804506676349),
-      "collection": "Every Sunday",
-      "time": "10am To 2pm",
-      "address":
-          "Prottasha Sonchay & Rindan Somity Ltd:23, Anandpur, Savar, Dhaka-1340",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [
-        {
-          "id": "f28f684f-9e4d-4b3f-a5a8-483b0fb7f571",
-          "name": "",
-          "designation": "",
-          "contactNumber": "01709815433",
-          "email": null,
-          "office_location_id": "4201e2e8-949f-4804-b24e-23f0da54d3cd",
-          "attachment_url": null,
-          "attachment_path": null,
-          "attachment_name": null,
-          "attachment_mime": null,
-          "created_at": null,
-          "updated_at": null,
-        },
-      ],
-    },
-    {
-      "id": "53606535-d562-435b-9239-a0630b4bab9e",
-      "name": "Mohammadpur",
-      "slug": "mohammadpur",
-      "order": 22,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.759429104338952, 90.36765322374681),
-      "collection": "Every Saturday, Sunday Last day of Month",
-      "time": "Time: (10:30am \u2013 4pm) & (Saturday:3.30-6pm)",
-      "address":
-          "Oblet Delegation House, 24/A, Asad Avenue, Mohammadpur, Dhaka",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "527dddcb-7672-403b-b6ed-c82f70de674e",
-      "name": "Vatara",
-      "slug": "vatara",
-      "order": 23,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.83958559126428, 90.42798732328188),
-      "collection": "Every Tuesday",
-      "time": "10am \u2013 4pm",
-      "address": "Gramp Supermarket Dag no-1277,1278 Vatara, Dhaka",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "71e08d40-a602-4111-a979-6beee621f0ee",
-      "name": "Kakrail",
-      "slug": "kakrail",
-      "order": 24,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.739353141510037, 90.40979559861833),
-      "collection": "2nd Saturday of the Month",
-      "time": "10am \u2013 1pm",
-      "address": "Soroniketon MG House, Karkrail, Dhaka",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "f0ddee52-db69-49dd-82a4-27a7c2867a7b",
-      "name": "Fawkal",
-      "slug": "fawkal",
-      "order": 25,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(24.00449938102816, 90.42152729901),
-      "collection": "First & Last Sunday of the Month",
-      "time": "10am \u2013 1pm",
-      "address":
-          "Fawkal Christian Co-operative Credit Union Ltd: Fawkal, BOF, Gazipur Sadar, Gazipur-1703.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "dec53933-f307-4c6a-b7e7-8cab0303eecd",
-      "name": "Dholpur",
-      "slug": "dholpur",
-      "order": 26,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.714787442279547, 90.43262960746787),
-      "collection": "2nd Saturday of Month",
-      "time": "10.30am \u2013 1.30pm",
-      "address": "Telego Community school, 14,Outfazz, Dholpur, Dhaka.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "731b7b42-11a7-4c25-87b8-3bdce2fe541b",
-      "name": "Narayanganj",
-      "slug": "narayanganj",
-      "order": 27,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.621063096662397, 90.50125785443441),
-      "collection": "Every Friday & Saturday",
-      "time": "10am \u2013 1pm",
-      "address": "St. Pauls Catholic Church, BB Road, Narayanganj.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "1a9b32a0-99b3-48cb-bd37-e076a2813883",
-      "name": "Jirani",
-      "slug": "jirani",
-      "order": 28,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.996486996224377, 90.25787615717711),
-      "collection": "Every Friday",
-      "time": "10am \u2013 1pm",
-      "address":
-          "Jesu Kormi Kendro (Sub-Parish),Dokhin Pani Sail, Moonmoon Road,Jirani, BKSP, Joydebpur, Gazipur.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-    {
-      "id": "8880c94c-14f2-464d-a989-9b7b19985cd0",
-      "name": "Tuital",
-      "slug": "tuital",
-      "order": 29,
-      "email": "",
-      "phone": "",
-      "ip_phone": "",
-      "fax": "",
-      "location": LatLng(23.71055278755238, 90.10110856303541),
-      "collection": "Monday",
-      "time": "10am \u2013 1pm",
-      "address":
-          "Jesu Kormi Kendro (Sub-Parish),Dokhin Pani Sail, Moonmoon Road,Jirani, BKSP, Joydebpur, Gazipur.",
-      "publish_status": "Published",
-      "created_at": "2025-03-20T10:30:03.000000Z",
-      "updated_at": "2025-03-20T10:30:03.000000Z",
-      "incharge_infos": [],
-    },
-  ];
-
   LatLng _currentCenter = LatLng(23.7806, 90.4043);
   double _currentZoom = 11.0;
 
-  void _showDetailsDialog(BuildContext context, Map<String, dynamic> center) {
+  LatLng parseLatLng(String lag, String lng) {
+    final double? latitude = double.tryParse(lag);
+    final double? longitude = double.tryParse(lng);
+
+    if (latitude == null || longitude == null) {
+      throw FormatException('Invalid coordinates: lag="$lag", lng="$lng"');
+    }
+
+    return LatLng(latitude, longitude);
+  }
+
+  void _zoomIn() {
+    setState(() {
+      _currentZoom++;
+      _mapController.move(_currentCenter, _currentZoom);
+    });
+  }
+
+  void _zoomOut() {
+    setState(() {
+      _currentZoom--;
+      _mapController.move(_currentCenter, _currentZoom);
+    });
+  }
+
+  void _showDetailsDialog(BuildContext context, ServiceCenterEntity center) {
     showDialog(
       context: context,
       builder:
           (_) => AlertDialog(
-            title: Text(center['name']),
+            title: Text(center.name),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (center['address']?.toString().trim().isNotEmpty ?? false)
-                  Text("📍 ${center['address']}"),
-                if (center['phone']?.toString().trim().isNotEmpty ?? false)
-                  Text("📞 ${center['phone']}"),
-                if (center['email']?.toString().trim().isNotEmpty ?? false)
-                  Text("✉️ ${center['email']}"),
-                if (center['time']?.toString().trim().isNotEmpty ?? false)
-                  Text("⏰ ${center['time']}"),
-                if (center['incharge_infos'] != null &&
-                    center['incharge_infos'].isNotEmpty) ...[
+                if (center.address.trim().isNotEmpty ?? false)
+                  Text("📍 ${center.address}"),
+                if (center.phone.trim().isNotEmpty ?? false)
+                  Text("📞 ${center.phone}"),
+                if (center.email.trim().isNotEmpty ?? false)
+                  Text("✉️ ${center.email}"),
+                if (center.time.trim().isNotEmpty ?? false)
+                  Text("⏰ ${center.time}"),
+                if (center.inChargeInfos != null &&
+                    center.inChargeInfos.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   const Text(
                     'In-Charge:',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  for (var person in center['incharge_infos']) ...[
-                    if ((person['name']?.toString().trim().isNotEmpty ??
-                            false) &&
-                        (person['designation']?.toString().trim().isNotEmpty ??
-                            false))
-                      Text("👤 ${person['name']} (${person['designation']})"),
-                    if (person['contactNumber']?.toString().trim().isNotEmpty ??
-                        false)
-                      Text("📞 ${person['contactNumber']}"),
-                    if (person['email']?.toString().trim().isNotEmpty ?? false)
-                      Text("✉️ ${person['email']}"),
+                  for (var person in center.inChargeInfos) ...[
+                    if ((person.name.trim().isNotEmpty ?? false) &&
+                        (person.designation.trim().isNotEmpty ?? false))
+                      Text("👤 ${person.name} (${person.designation})"),
+                    if (person.contactNumber.trim().isNotEmpty ?? false)
+                      Text("📞 ${person.contactNumber}"),
+                    if (person.email.trim().isNotEmpty ?? false)
+                      Text("✉️ ${person.email}"),
                   ],
                 ],
               ],
@@ -910,95 +101,113 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
     );
   }
 
-  void _zoomIn() {
-    setState(() {
-      _currentZoom++;
-      _mapController.move(_currentCenter, _currentZoom);
-    });
-  }
-
-  void _zoomOut() {
-    setState(() {
-      _currentZoom--;
-      _mapController.move(_currentCenter, _currentZoom);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return PageContainer(
-      child: Stack(
-        children: [
-          FlutterMap(
-            mapController: _mapController,
-            options: MapOptions(
-              initialCenter: _currentCenter,
-              initialZoom: _currentZoom,
-              onPositionChanged: (position, hasGesture) {
-                setState(() {
-                  _currentCenter = position.center;
-                });
-              },
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.cccul',
-              ),
-              MarkerLayer(
-                markers:
-                    serviceCenters.map((center) {
-                      return Marker(
-                        point: center['location'],
-                        width: 200,
-                        height: 80,
-                        child: GestureDetector(
-                          onTap: () => _showDetailsDialog(context, center),
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                AppIcons.pathPinIcon,
-                                width: 40,
-                                height: 40,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                center['name'],
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 48, 12, 116),
+    return BlocProvider(
+      create: (_) => sl<ServiceCenterBloc>()..add(FetchServiceCenterEvent()),
+      child: PageContainer(
+        child: BlocBuilder<ServiceCenterBloc, ServiceCenterState>(
+          builder: (context, state) {
+            if (state is ServiceCenterLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ServiceCenterSuccess) {
+              final serviceCenters = state.serviceCenter;
+
+              if (serviceCenters.isEmpty) {
+                return const Center(
+                  child: Text("No service centers available."),
+                );
+              }
+
+              return Stack(
+                children: [
+                  FlutterMap(
+                    mapController: _mapController,
+                    options: MapOptions(
+                      initialCenter: _currentCenter,
+                      initialZoom: _currentZoom,
+                      onPositionChanged: (position, hasGesture) {
+                        setState(() {
+                          _currentCenter = position.center;
+                        });
+                      },
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.cccul',
+                      ),
+                      MarkerLayer(
+                        markers:
+                            serviceCenters.map((center) {
+                              return Marker(
+                                point: LatLng(
+                                  double.parse(center.lat),
+                                  double.parse(center.lng),
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
+                                width: 200,
+                                height: 80,
+                                child: GestureDetector(
+                                  onTap:
+                                      () => _showDetailsDialog(context, center),
+                                  child: Column(
+                                    children: [
+                                      Image.asset(
+                                        AppIcons.pathPinIcon,
+                                        width: 40,
+                                        height: 40,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        center.name,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(
+                                            255,
+                                            48,
+                                            12,
+                                            116,
+                                          ),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: Column(
+                      children: [
+                        FloatingActionButton.small(
+                          heroTag: 'zoomIn',
+                          onPressed: _zoomIn,
+                          child: const Icon(Icons.add),
                         ),
-                      );
-                    }).toList(),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 16,
-            right: 16,
-            child: Column(
-              children: [
-                FloatingActionButton.small(
-                  heroTag: 'zoomIn',
-                  onPressed: _zoomIn,
-                  child: const Icon(Icons.add),
-                ),
-                const SizedBox(height: 8),
-                FloatingActionButton.small(
-                  heroTag: 'zoomOut',
-                  onPressed: _zoomOut,
-                  child: const Icon(Icons.remove),
-                ),
-              ],
-            ),
-          ),
-        ],
+                        const SizedBox(height: 8),
+                        FloatingActionButton.small(
+                          heroTag: 'zoomOut',
+                          onPressed: _zoomOut,
+                          child: const Icon(Icons.remove),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            } else if (state is ServiceCenterError) {
+              return Center(child: Text("Error: ${state.error}"));
+            }
+            return const SizedBox.shrink(); // fallback
+          },
+        ),
       ),
     );
   }
