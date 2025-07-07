@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,6 +22,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
           context,
           "loan_menu_my_loans_description",
         ),
+        "route": AuthRoutesName.myLoansPage,
       },
       {
         "icon": FontAwesomeIcons.fileSignature,
@@ -29,6 +31,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
           context,
           "loan_menu_apply_for_a_loan_description",
         ),
+        "route": AuthRoutesName.myLoansPage,
       },
     ];
     return SafeArea(
@@ -43,7 +46,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-              debugPrint("Tapped on ${menu['menuName']}");
+              Navigator.pushNamed(context, menu['route']);
             },
           );
         },

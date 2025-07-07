@@ -12,9 +12,9 @@ class LoanPolicyDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? imageUrl =
+    final String imageUrl =
         loanPolicy.attachmentUrl; // optional: add this field in entity
-    final bool showIcon = imageUrl == null || imageUrl.isEmpty;
+    final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Deposit Policy Details'), elevation: 0),

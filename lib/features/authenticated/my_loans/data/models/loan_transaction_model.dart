@@ -14,17 +14,14 @@ class LoanTransactionModel extends LoanTransactionEntity {
 
   factory LoanTransactionModel.fromJson(Map<String, dynamic> json) {
     return LoanTransactionModel(
-      id: json['id'],
-      loanNumber: json['loanNumber'] ?? '',
-      transactionDate:
-          json['transactionDate'] != null
-              ? DateTime.parse(json['transactionDate'])
-              : null,
-      particulars: json['particulars'] ?? '',
-      debitAmount: (json['debitAmount'] ?? 0).toDouble(),
-      creditAmount: (json['creditAmount'] ?? 0).toDouble(),
-      balanceAmount: (json['balanceAmount'] ?? 0).toDouble(),
-      loanIssuedAmount: (json['loanIssuedAmount'] ?? 0).toDouble(),
+      id: json['id'] ?? 0,
+      loanNumber: json['LoanId'] ?? '',
+      transactionDate: DateTime.parse(json['TxnDate']),
+      particulars: json['Particulars'] ?? '',
+      debitAmount: (json['Withdrawal'] ?? 0).toDouble(),
+      creditAmount: (json['Deposit'] ?? 0).toDouble(),
+      balanceAmount: (json['Balance'] ?? 0).toDouble(),
+      loanIssuedAmount: double.tryParse((json['LoanIssue']).toString()) ?? 0.0,
     );
   }
 
@@ -32,7 +29,7 @@ class LoanTransactionModel extends LoanTransactionEntity {
     return {
       'id': id,
       'loanNumber': loanNumber,
-      'transactionDate': transactionDate?.toIso8601String(),
+      'transactionDate': transactionDate.toIso8601String(),
       'particulars': particulars,
       'debitAmount': debitAmount,
       'creditAmount': creditAmount,

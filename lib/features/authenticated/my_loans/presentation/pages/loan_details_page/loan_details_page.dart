@@ -6,22 +6,22 @@ import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/account_transaction_entity.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/account_statment_section.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/bloc/account_statement_bloc.dart';
+import 'package:pashboi/features/authenticated/my_loans/domain/entities/loan_transaction_entity.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/bloc/loan_details_bloc.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statment_section.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class AccountDetailsPage extends StatefulWidget {
-  final String accountNumber;
-  const AccountDetailsPage({super.key, required this.accountNumber});
+class LoanDetailsPage extends StatefulWidget {
+  final String loanNumber;
+  const LoanDetailsPage({super.key, required this.loanNumber});
 
   @override
-  State<AccountDetailsPage> createState() => _AccountDetailsPageState();
+  State<LoanDetailsPage> createState() => _LoanDetailsPageState();
 }
 
-class _AccountDetailsPageState extends State<AccountDetailsPage> {
+class _LoanDetailsPageState extends State<LoanDetailsPage> {
   Widget buildInfoRow(
     BuildContext context,
     String title,
@@ -35,15 +35,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: colorScheme.primary,
-            width: 2,
-            style: BorderStyle.solid,
-          ),
+          bottom: BorderSide(color: colorScheme.primary, width: 2),
         ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 50,
@@ -85,6 +80,41 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
     );
   }
 
+  Widget _buildCircleStat(
+    BuildContext context,
+    String title,
+    String value,
+    Color backgroundColor,
+    Color borderColor,
+  ) {
+    return Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: backgroundColor,
+        border: Border.all(color: borderColor, width: 3),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            value,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -92,51 +122,45 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         BlocProvider(
           create:
               (context) =>
-                  sl<AccountDetailsBloc>()..add(
-                    FetchAccountDetailsEvent(
-                      accountNumber: widget.accountNumber,
-                    ),
-                  ),
+                  sl<LoanDetsilsBloc>()
+                    ..add(FetchLoanDetsilsEvent(loanNumber: widget.loanNumber)),
         ),
         BlocProvider(
           create:
               (context) =>
-                  sl<AccountStatementBloc>()..add(
-                    FetchAccountStatementEvent(
-                      accountNumber: widget.accountNumber,
-                    ),
+                  sl<LoanStatementBloc>()..add(
+                    FetchLoanStatementEvent(loanNumber: widget.loanNumber),
                   ),
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: const Text('Account Details')),
+        appBar: AppBar(title: const Text('Loan Details')),
         body: PageContainer(
-          child: BlocBuilder<AccountDetailsBloc, AccountDetailsState>(
+          child: BlocBuilder<LoanDetsilsBloc, LoanDetailsState>(
             builder: (context, state) {
-              if (state is AccountDetailsLoading ||
-                  state is AccountDetailsInitial) {
+              if (state is LoanDetsilsLoading || state is LoanDetailsInitial) {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              if (state is AccountDetailsError) {
+              if (state is LoanDetailsError) {
                 return Center(child: Text(state.error));
               }
 
-              if (state is AccountDetailsSuccess) {
-                final account = state.account;
+              if (state is LoanDetailsSuccess) {
+                final account = state.loan;
 
                 return SingleChildScrollView(
                   child: Column(
                     children: [
                       const SizedBox(height: 35),
                       Icon(
-                        FontAwesomeIcons.piggyBank,
+                        FontAwesomeIcons.sackDollar,
                         size: 60,
                         color: context.theme.colorScheme.onSurface,
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        account.name.toTitleCase(),
+                        account.loaneeName.toTitleCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
@@ -180,39 +204,22 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            side: BorderSide(
-                              color: context.theme.colorScheme.secondary,
-                              width: 1,
-                            ),
-                            visualDensity: VisualDensity.compact,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
                           ),
                           Chip(
                             label: Text(
-                              account.defaultAccount ? "Defaulter" : "Regular",
+                              account.defaulter ? "Defaulter" : "Regular",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: context.theme.colorScheme.onSurface,
                               ),
                             ),
                             backgroundColor:
-                                account.defaultAccount
+                                account.defaulter
                                     ? context.theme.colorScheme.error
                                     : context.theme.colorScheme.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            side: BorderSide(
-                              color:
-                                  account.defaultAccount
-                                      ? context.theme.colorScheme.error
-                                      : context.theme.colorScheme.primary,
-                              width: 1,
-                            ),
-                            visualDensity: VisualDensity.compact,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
                           ),
                         ],
                       ),
@@ -222,19 +229,18 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         children: [
                           _buildCircleStat(
                             context,
+                            "Issued",
+                            TakaFormatter.format(account.issuedAmount),
+                            context.theme.colorScheme.primary,
+                            context.theme.colorScheme.onPrimary,
+                          ),
+                          _buildCircleStat(
+                            context,
                             "Balance",
-                            TakaFormatter.format(account.balance),
+                            TakaFormatter.format(account.loanBalance),
                             context.theme.colorScheme.secondary,
                             context.theme.colorScheme.onSecondary,
                           ),
-                          if (account.typeCode == "16")
-                            _buildCircleStat(
-                              context,
-                              "Withdrawable",
-                              TakaFormatter.format(account.withdrawableBalance),
-                              context.theme.colorScheme.primary,
-                              context.theme.colorScheme.onPrimary,
-                            ),
                         ],
                       ),
                       const SizedBox(height: 30),
@@ -248,32 +254,51 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                           ),
                           buildInfoRow(
                             context,
-                            "Maturity Date",
-                            MyDateUtils.formatDate(account.maturityDate),
+                            "Refund Amount",
+                            TakaFormatter.format(account.refundAmount),
+                          ),
+                          buildInfoRow(
+                            context,
+                            "Last Deposit Date",
+                            MyDateUtils.formatDate(account.loanEndDate),
                             icon: FontAwesomeIcons.hourglassEnd,
                           ),
                           buildInfoRow(
                             context,
-                            "Nominee",
-                            account.nominees,
-                            icon: FontAwesomeIcons.userShield,
+                            "Interest Rate",
+                            "${account.interestRate.toStringAsFixed(2)}%",
+                            icon: FontAwesomeIcons.percent,
                           ),
-                          BlocBuilder<
-                            AccountStatementBloc,
-                            AccountStatementState
-                          >(
-                            builder: (context, accountStatementState) {
-                              if (accountStatementState
-                                  is AccountStatementLoading) {
+                          buildInfoRow(
+                            context,
+                            "Interest Days",
+                            "${account.interestForDays} Days",
+                            icon: FontAwesomeIcons.clock,
+                          ),
+                          buildInfoRow(
+                            context,
+                            "Installments",
+                            account.numberOfInstallments.toString(),
+                            icon: FontAwesomeIcons.listOl,
+                          ),
+                          buildInfoRow(
+                            context,
+                            "Defaulter Reason",
+                            account.defaulterReason,
+                            icon: FontAwesomeIcons.triangleExclamation,
+                          ),
+                          BlocBuilder<LoanStatementBloc, LoanStatementState>(
+                            builder: (context, loanStatement) {
+                              if (loanStatement is LoanStatementLoading) {
                                 return const Center(
                                   child: CircularProgressIndicator(),
                                 );
                               }
 
-                              if (accountStatementState
-                                  is AccountStatementSuccess) {
+                              if (loanStatement is LoanStatementSuccess) {
                                 final accountStatement =
-                                    accountStatementState.transactions;
+                                    loanStatement.transactions;
+
                                 return Column(
                                   children: [
                                     const SizedBox(height: 20),
@@ -298,34 +323,36 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                       primaryYAxis: NumericAxis(),
                                       series: <CartesianSeries>[
                                         LineSeries<
-                                          AccountTransactionEntity,
+                                          LoanTransactionEntity,
                                           String
                                         >(
-                                          name: 'Cash IN',
+                                          name: 'Loan Issued',
                                           dataSource: accountStatement,
                                           xValueMapper:
                                               (txn, _) =>
                                                   MyDateUtils.getShortMonthName(
-                                                    txn.date,
+                                                    txn.transactionDate,
                                                   ),
-                                          yValueMapper: (txn, _) => txn.credit,
+                                          yValueMapper:
+                                              (txn, _) => txn.creditAmount,
                                           color: Colors.green,
                                           markerSettings: const MarkerSettings(
                                             isVisible: true,
                                           ),
                                         ),
                                         LineSeries<
-                                          AccountTransactionEntity,
+                                          LoanTransactionEntity,
                                           String
                                         >(
-                                          name: 'Cash OUT',
+                                          name: 'Loan Repaid',
                                           dataSource: accountStatement,
                                           xValueMapper:
                                               (txn, _) =>
                                                   MyDateUtils.getShortMonthName(
-                                                    txn.date,
+                                                    txn.transactionDate,
                                                   ),
-                                          yValueMapper: (txn, _) => txn.debit,
+                                          yValueMapper:
+                                              (txn, _) => txn.debitAmount,
                                           color: Colors.red,
                                           markerSettings: const MarkerSettings(
                                             isVisible: true,
@@ -336,7 +363,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                     const SizedBox(height: 20),
                                     Container(
                                       padding: const EdgeInsets.all(8.0),
-                                      margin: EdgeInsets.all(10),
+                                      margin: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                           10.0,
@@ -359,8 +386,8 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                                       .onSurface,
                                             ),
                                           ),
-                                          AccountStatmentSection(
-                                            accountStatment: accountStatement,
+                                          LoanStatmentSection(
+                                            loanStatement: accountStatement,
                                           ),
                                         ],
                                       ),
@@ -369,12 +396,12 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                   ],
                                 );
                               }
-                              if (accountStatementState
-                                  is AccountStatementError) {
+
+                              if (loanStatement is LoanStatementError) {
                                 return Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
-                                    accountStatementState.error,
+                                    loanStatement.error,
                                     style: TextStyle(
                                       color: context.theme.colorScheme.error,
                                       fontSize: 14,
@@ -397,41 +424,6 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildCircleStat(
-    BuildContext context,
-    String title,
-    String value,
-    Color backgroundColor,
-    Color borderColor,
-  ) {
-    return Container(
-      width: 120,
-      height: 120,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-        border: Border.all(color: borderColor, width: 3),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            value,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-          ),
-        ],
       ),
     );
   }

@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
-
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/features/authenticated/sureties/domain/entities/surety_entity.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/bloc/surety_bloc.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/suerity_details.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -20,31 +19,39 @@ class GivenSuretiesPage extends StatelessWidget {
       create: (context) => sl<SuretyBloc>()..add(FetchGivenSuretiesEvent()),
       child: Scaffold(
         body: PageContainer(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16.0),
-            height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             child: BlocBuilder<SuretyBloc, SuretyState>(
               builder: (context, state) {
                 if (state is SuretyLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                if (state is SuretyError) {
-                  return Center(child: Text(state.error));
-                }
-
                 if (state is SuretyLoadingSuccess) {
-                  final List<SuretyEntity> sureties = state.sureties;
+                  final sureties = state.sureties;
 
                   if (sureties.isEmpty) {
                     return Center(
-                      child: Text(
-                        'You don’t have any surety accounts',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.boxOpen,
+                            size: 60,
+                            color: context.theme.colorScheme.onSurface
+                                .withOpacity(0.4),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'You don’t have any surety account added yet.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: context.theme.colorScheme.onSurface,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }
@@ -90,7 +97,7 @@ class GivenSuretiesPage extends StatelessWidget {
                             contentVerticalPadding: 20,
                             paddingBetweenClosedSections: 20,
                             leftIcon: Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(10),
                               child: Icon(
                                 isDefaulter
                                     ? FontAwesomeIcons.personCircleXmark
@@ -111,7 +118,7 @@ class GivenSuretiesPage extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  surety.accountHolderName,
+                                  surety.accountHolderName.toTitleCase(),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -126,7 +133,7 @@ class GivenSuretiesPage extends StatelessWidget {
                   );
                 }
 
-                return const SizedBox.shrink(); // fallback
+                return const SizedBox.shrink();
               },
             ),
           ),

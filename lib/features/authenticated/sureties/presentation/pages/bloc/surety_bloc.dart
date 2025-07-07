@@ -97,7 +97,7 @@ class SuretyBloc extends Bloc<SuretyEvent, SuretyState> {
         FetchLoanSuretiesProps(
           email: user!.loginEmail,
           userId: user!.userId,
-          rolePermissionId: ' 56208',
+          rolePermissionId: user!.roleId,
           personId: user!.personId,
           employeeCode: user!.employeeCode,
           mobileNumber: user!.regMobile,

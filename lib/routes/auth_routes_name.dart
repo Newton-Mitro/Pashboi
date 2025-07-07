@@ -12,6 +12,7 @@ final class AuthRoutesName {
   static const String addOperatingAccountPage = '/addOperatingAccountPage';
 
   static const String myLoansPage = '/myLoansPage';
+  static const String loanDetailsPage = '/loanDetailsPage';
   static const String applyForLoanPage = '/applyForLoanPage';
 
   static const String depositNowPage = '/depositNowPage';

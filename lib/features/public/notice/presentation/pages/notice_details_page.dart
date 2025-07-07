@@ -11,8 +11,8 @@ class NoticeDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? imageUrl = notice.attachmentUrl; // Optional field
-    final bool showIcon = imageUrl == null || imageUrl.isEmpty;
+    final String imageUrl = notice.attachmentUrl; // Optional field
+    final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
       appBar: AppBar(title: Text(notice.title), elevation: 0),

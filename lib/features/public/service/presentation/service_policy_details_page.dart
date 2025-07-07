@@ -12,8 +12,8 @@ class ServicePolicyDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? imageUrl = service.attachmentUrl;
-    final bool showIcon = imageUrl == null || imageUrl.isEmpty;
+    final String imageUrl = service.attachmentUrl;
+    final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Service Policy Details'), elevation: 0),

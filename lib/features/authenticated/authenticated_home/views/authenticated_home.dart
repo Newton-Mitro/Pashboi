@@ -190,7 +190,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                             if (value == 0) {
                               Navigator.pushNamed(
                                 context,
-                                AuthRoutesName.familyAndRelativesPage,
+                                AuthRoutesName.profilePage,
                               );
                             } else if (value == 1) {
                               debugPrint('Change password tapped');

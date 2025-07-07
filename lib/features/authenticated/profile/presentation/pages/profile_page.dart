@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -76,167 +75,147 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<ProfileBloc>()..add(FetchProfileEvent()),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Profile')),
-        body: BlocBuilder<ProfileBloc, ProfileState>(
-          builder: (context, state) {
-            if (state is ProfileLoading || state is ProfileInitial) {
-              return const Center(child: CircularProgressIndicator());
-            }
+    return Scaffold(
+      appBar: AppBar(title: const Text('Profile')),
+      body: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            if (state is ProfileError) {
-              return Center(child: Text(state.error));
-            }
+          if (state.error != null) {
+            return Center(child: Text(state.error!));
+          }
 
-            if (state is ProfileSuccess) {
-              final person = state.personEntity;
+          final person = state.personEntity;
 
-              return PageContainer(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 25),
-                  color: context.theme.colorScheme.primary.withOpacity(0.1),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Center(
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: context.theme.colorScheme.surface,
-                                border: Border.all(
-                                  color: context.theme.colorScheme.secondary,
-                                  width: 5,
-                                ),
-                              ),
-                              child: ClipOval(
-                                child: Image.memory(
-                                  person.photo.isNotEmpty
-                                      ? base64Decode(person.photo)
-                                      : Uint8List(0),
-                                  fit: BoxFit.cover,
-                                  errorBuilder:
-                                      (context, error, stackTrace) =>
-                                          Icon(Icons.error),
-                                ),
+          if (person == null) {
+            return const Center(child: Text('No profile data available'));
+          }
+
+          return PageContainer(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 25),
+              height: double.infinity,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: context.theme.colorScheme.surface,
+                              border: Border.all(
+                                color: context.theme.colorScheme.secondary,
+                                width: 5,
                               ),
                             ),
-                            Positioned(
-                              bottom: 10,
-                              right: 5,
-                              child: GestureDetector(
-                                onTap: () => _pickImage(context),
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context.theme.colorScheme.primary,
-                                    border: Border.all(
-                                      color:
-                                          context.theme.colorScheme.secondary,
-                                      width: 3,
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    FontAwesomeIcons.camera,
-                                    size: 18,
-                                    color: context.theme.colorScheme.onPrimary,
+                            child: ClipOval(
+                              child: Image.memory(
+                                person.photo.isNotEmpty
+                                    ? base64Decode(person.photo)
+                                    : Uint8List(0),
+                                fit: BoxFit.cover,
+                                errorBuilder:
+                                    (context, error, stackTrace) =>
+                                        const Icon(Icons.error),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            right: 5,
+                            child: GestureDetector(
+                              onTap: () => _pickImage(context),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: context.theme.colorScheme.primary,
+                                  border: Border.all(
+                                    color: context.theme.colorScheme.secondary,
+                                    width: 3,
                                   ),
                                 ),
+                                child: Icon(
+                                  FontAwesomeIcons.camera,
+                                  size: 18,
+                                  color: context.theme.colorScheme.onPrimary,
+                                ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 20),
-                      Text(
-                        person.name.toTitleCase(),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      person.name.toTitleCase(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        person.email,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      person.email,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.theme.colorScheme.onSurface,
                       ),
-                      const SizedBox(height: 30),
-                      // Row(
-                      //   children: [
-                      //     Text(
-                      //       "Are you available for blood donation?",
-                      //       style: const TextStyle(
-                      //         fontSize: 16,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //     Checkbox(
-                      //       value: person.isBloodDonor,
-                      //       onChanged: null, // make interactive if needed
-                      //     ),
-                      //   ],
-                      // ),
-                      // Text(
-                      //   "Join our community of life-savers. If you're eligible and willing, you can now register as a blood donor and help someone in need—because saving lives is priceless.",
-                      //   style: const TextStyle(fontSize: 12),
-                      // ),
-                      // const SizedBox(height: 40),
-                      SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 10,
-                          children: [
-                            buildInfoRow(
-                              FontAwesomeIcons.baby,
-                              "Date Of Birth",
-                              MyDateUtils.formatDate(person.dateOfBirth),
-                            ),
-                            buildInfoRow(
-                              FontAwesomeIcons.droplet,
-                              "Blood Group",
-                              person.bloodGroup,
-                            ),
-                            buildInfoRow(
-                              FontAwesomeIcons.idCard,
-                              "NID",
-                              person.nid,
-                            ),
-                            buildInfoRow(
-                              FontAwesomeIcons.phoneVolume,
-                              "Mobile Number",
-                              person.mobileNumber,
-                            ),
-                            buildInfoRow(
-                              FontAwesomeIcons.locationPin,
-                              "Present Address",
-                              person.presentAddress.toTitleCase(),
-                            ),
-                            buildInfoRow(
-                              FontAwesomeIcons.locationPinLock,
-                              "Permanent Address",
-                              person.permanentAddress.toTitleCase(),
-                            ),
-                          ],
+                    ),
+                    const SizedBox(height: 30),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildInfoRow(
+                          FontAwesomeIcons.baby,
+                          "Date Of Birth",
+                          MyDateUtils.formatDate(person.dateOfBirth),
                         ),
-                      ),
-                    ],
-                  ),
+                        const SizedBox(height: 10),
+                        buildInfoRow(
+                          FontAwesomeIcons.droplet,
+                          "Blood Group",
+                          person.bloodGroup,
+                        ),
+                        const SizedBox(height: 10),
+                        buildInfoRow(
+                          FontAwesomeIcons.idCard,
+                          "NID",
+                          person.nid,
+                        ),
+                        const SizedBox(height: 10),
+                        buildInfoRow(
+                          FontAwesomeIcons.phoneVolume,
+                          "Mobile Number",
+                          person.mobileNumber,
+                        ),
+                        const SizedBox(height: 10),
+                        buildInfoRow(
+                          FontAwesomeIcons.locationPin,
+                          "Present Address",
+                          person.presentAddress.toTitleCase(),
+                        ),
+                        const SizedBox(height: 10),
+                        buildInfoRow(
+                          FontAwesomeIcons.locationPinLock,
+                          "Permanent Address",
+                          person.permanentAddress.toTitleCase(),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              );
-            }
-
-            return const SizedBox.shrink();
-          },
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

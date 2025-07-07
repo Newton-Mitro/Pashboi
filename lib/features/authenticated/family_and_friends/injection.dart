@@ -11,8 +11,7 @@ import 'package:pashboi/features/authenticated/family_and_friends/domain/reposit
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/add_family_and_friend_usecase.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/fetch_relationships_usecase.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/get_family_and_friends_usecase.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/add_family_and_friend_bloc/add_family_and_friend_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/get_family_and_friends_bloc/family_and_friends_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 
 void registerFamilyAndFriendsModule() async {
@@ -59,15 +58,11 @@ void registerFamilyAndFriendsModule() async {
   sl.registerFactory<FamilyAndFriendsBloc>(
     () => FamilyAndFriendsBloc(
       getFamilyAndFriendsUseCase: sl<GetFamilyAndFriendsUseCase>(),
-      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
-    ),
-  );
-  sl.registerFactory<AddFamilyAndFriendBloc>(
-    () => AddFamilyAndFriendBloc(
       addFamilyAndFriendUseCase: sl<AddFamilyAndFriendUsecase>(),
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
     ),
   );
+
   sl.registerFactory<RelationshipBloc>(
     () => RelationshipBloc(
       fetchRelationshipsUseCase: sl<FetchRelationshipsUseCase>(),

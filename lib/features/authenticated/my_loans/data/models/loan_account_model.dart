@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:pashboi/features/authenticated/my_loans/domain/entities/loan_account_entity.dart';
 
 class LoanAccountModel extends LoanAccountEntity {
@@ -25,8 +26,8 @@ class LoanAccountModel extends LoanAccountEntity {
 
   factory LoanAccountModel.fromJson(Map<String, dynamic> json) {
     return LoanAccountModel(
-      id: json['id'],
-      number: json['LoanNumber'] ?? '',
+      id: json['id'] ?? 0,
+      number: json['LoanNumber'] ?? json['LoanId'] ?? '',
       typeName: json['LoanType'] ?? '',
       shortTypeName: json['AccountTypeShortName'] ?? '',
       productCode: json['LoanProductCode'] ?? '',
@@ -43,15 +44,15 @@ class LoanAccountModel extends LoanAccountEntity {
               : null,
       lastPaidDate:
           json['LastPaidDate'] != null
-              ? DateTime.parse(json['LastPaidDate'])
+              ? DateFormat('yyyy/MM/dd').parse(json['LastPaidDate'])
               : null,
       issuedDate:
           json['IssuedDate'] != null
-              ? DateTime.parse(json['IssuedDate'])
+              ? DateFormat('yyyy/MM/dd').parse(json['IssuedDate'])
               : null,
       loaneeName: json['LoaneeName'] ?? '',
       defaulter: json['IsDefaulter'] ?? false,
-      defaulterReason: json['DefaultDetails'] ?? 'Regular',
+      defaulterReason: json['DefaultDetails'] ?? 'N/A',
       status: json['LoanStatus'] ?? 'Active',
     );
   }

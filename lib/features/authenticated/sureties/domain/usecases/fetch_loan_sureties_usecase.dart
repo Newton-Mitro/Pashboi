@@ -25,7 +25,7 @@ class FetchLoanSuretiesUseCase
   FetchLoanSuretiesUseCase({required this.suretyRepository});
 
   @override
-  ResultFuture<List<SuretyEntity>> call(FetchLoanSuretiesProps params) async {
-    return suretyRepository.fetchLoanSureties(params);
+  ResultFuture<List<SuretyEntity>> call(FetchLoanSuretiesProps props) async {
+    return suretyRepository.fetchLoanSureties(props);
   }
 }

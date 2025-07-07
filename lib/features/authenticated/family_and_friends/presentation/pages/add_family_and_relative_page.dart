@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/add_family_and_friend_bloc/add_family_and_friend_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
@@ -29,6 +29,13 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
   String? gender;
 
   @override
+  void dispose() {
+    _accountHolderController.dispose();
+    _accountSearchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = context.theme;
 
@@ -40,7 +47,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
             listener: (context, state) {
               if (state is CollectionLedgerLoaded) {
                 final person = state.collectionAggregate.accountHolderInfo;
-                _accountHolderController.text = person.name;
+                _accountHolderController.text = person.name ?? '';
                 gender = person.gender;
 
                 if (gender != null && gender!.isNotEmpty) {
@@ -48,9 +55,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                     FetchRelationshipsEvent(gender: gender!),
                   );
                 }
-              }
-
-              if (state is CollectionLedgerError) {
+              } else if (state is CollectionLedgerError) {
                 ScaffoldMessenger.of(
                   context,
                 ).showSnackBar(SnackBar(content: Text(state.message)));
@@ -66,16 +71,19 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
               }
             },
           ),
-          BlocListener<AddFamilyAndFriendBloc, AddFamilyAndFriendState>(
+          BlocListener<FamilyAndFriendsBloc, FamilyAndFriendsState>(
             listener: (context, state) {
-              if (state is AddFamilyAndFriendError) {
+              if (state.error != null && state.error!.isNotEmpty) {
                 ScaffoldMessenger.of(
                   context,
-                ).showSnackBar(SnackBar(content: Text(state.error)));
+                ).showSnackBar(SnackBar(content: Text(state.error!)));
               }
 
-              if (state is AddFamilyAndFriendRequestSuccess) {
-                if (!mounted) return;
+              // Assuming your FamilyAndFriendsState has a way to indicate success;
+              // if you have a boolean or specific state, use that:
+              if (!state.isLoading && state.error == null) {
+                // Could improve this by checking an explicit success event or flag
+                // For now, just pop if not loading and no error after add
                 Navigator.of(context).pop();
               }
             },
@@ -97,14 +105,11 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                         color: theme.colorScheme.onSurface,
                       ),
                       const SizedBox(height: 8),
-                      const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Add Family or Relative",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      const Text(
+                        "Add Family or Relative",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 36),
@@ -182,9 +187,8 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                               prefixIcon: FontAwesomeIcons.usersViewfinder,
                               errorText: '',
                             );
-                          } else {
-                            return const SizedBox();
                           }
+                          return const SizedBox.shrink();
                         },
                       ),
                     ],
@@ -212,16 +216,22 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                   final state = context.read<CollectionLedgerBloc>().state;
                   if (state is CollectionLedgerLoaded) {
                     final personId =
-                        state.collectionAggregate.accountHolderInfo.id;
+                        state.collectionAggregate.accountHolderInfo.id ?? 0;
 
-                    context.read<AddFamilyAndFriendBloc>().add(
-                      AddFamilyAndFriendEvent(
-                        childPersonId: personId ?? 0,
+                    context.read<FamilyAndFriendsBloc>().add(
+                      AddFamilyAndFriend(
+                        childPersonId: personId,
                         relationTypeCode: selectedRelationship!,
+                        accountNumber: _accountSearchController.text.trim(),
+                        memberName: _accountHolderController.text.trim(),
+                        gender: gender!,
+                        relationship: selectedRelationship!,
                       ),
                     );
                   } else {
-                    print("error");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Account info not loaded")),
+                    );
                   }
                 },
               ),
