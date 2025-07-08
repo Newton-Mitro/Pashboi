@@ -48,6 +48,18 @@ class _FounderProfilePageState extends State<FounderProfilePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Container(
+                        height: 500,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          image: DecorationImage(
+                            image: NetworkImage(page?.attachmentUrl),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+
                       const SizedBox(height: 12),
                       Html(
                         data: page.longDescription,
