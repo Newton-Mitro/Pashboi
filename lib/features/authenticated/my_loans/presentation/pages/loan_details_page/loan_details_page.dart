@@ -48,7 +48,7 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
               borderRadius: BorderRadius.circular(25),
             ),
             child: Center(
-              child: Icon(icon, size: 20, color: colorScheme.onSurface),
+              child: Icon(icon, size: 20, color: colorScheme.onPrimary),
             ),
           ),
           const SizedBox(width: 12),
@@ -102,13 +102,21 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: context.theme.colorScheme.onPrimary,
+            ),
           ),
           const SizedBox(height: 5),
           Text(
             value,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: context.theme.colorScheme.onPrimary,
+            ),
           ),
         ],
       ),
@@ -210,7 +218,10 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
                               account.defaulter ? "Defaulter" : "Regular",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: context.theme.colorScheme.onSurface,
+                                color:
+                                    account.defaulter
+                                        ? context.theme.colorScheme.onError
+                                        : context.theme.colorScheme.onPrimary,
                               ),
                             ),
                             backgroundColor:

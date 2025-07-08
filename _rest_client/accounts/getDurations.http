@@ -33,7 +33,6 @@ Token: {{token}}
   "EmployeeCode": "{{EmployeeCode}}",
   "MobileNumber": "{{MobileNumber}}",
   "MobileNo": "{{MobileNumber}}",
- 
   "ProductCode": "18",
   "RequestFrom":"{{RequestFrom}}"
 }

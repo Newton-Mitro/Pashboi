@@ -4,8 +4,8 @@ import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/deposit_account_repository.dart';
 
 class AddOperatingAccountProps extends BaseRequestProps {
-  final String operatorId;
-  final String accountHolderId;
+  final int operatorId;
+  final int accountHolderId;
 
   const AddOperatingAccountProps({
     required this.operatorId,

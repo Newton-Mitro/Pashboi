@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/injection.dart';
-import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
-import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
-import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_page.dart';
-import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/add_operating_account_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/dependents_page.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
-import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_relatives_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_details_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/my_accounts_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/operating_accounts_page.dart';
-import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/loan_details_page.dart';
-import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/my_loans_page.dart';
-import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
-import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
-import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
-import 'package:pashboi/features/public/public_home/views/public_home.dart';
-import 'package:pashboi/routes/auth_routes_name.dart';
-import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/features/auth/presentation/pages/login_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/registration_page.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/views/authenticated_home.dart';
-import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
+import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
+import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
+import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
+import 'package:pashboi/features/public/public_home/views/public_home.dart';
+import 'package:pashboi/features/authenticated/authenticated_home/views/authenticated_home.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
+import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/my_loans_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/loan_details_page.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_relatives_page.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/add_family_and_relative_page.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_page.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_page.dart';
+import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/my_accounts_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_details_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/operating_accounts_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/dependents_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/add_operating_account_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/bloc/add_operating_account_bloc.dart';
+import 'package:pashboi/routes/public_routes_name.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 
 class AppRoutes {
   Route<dynamic> onGenerateRoutes(RouteSettings settings) {
-    final Object? args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name) {
       // Public Routes
@@ -54,52 +56,31 @@ class AppRoutes {
 
       case PublicRoutesName.mobileVerificationPage:
         if (args is Map<String, String>) {
-          final routeName = args['routeName'] ?? '';
-          final pageTitle = args['pageTitle'] ?? '';
           return _materialRoute(
-            MobileVerificationPage(routeName: routeName, pageTitle: pageTitle),
-          );
-        } else {
-          return _materialRoute(
-            const MobileVerificationPage(
-              routeName: PublicRoutesName.loginPage,
-              pageTitle: '',
+            MobileVerificationPage(
+              routeName: args['routeName'] ?? '',
+              pageTitle: args['pageTitle'] ?? '',
             ),
           );
         }
+        break;
 
       case PublicRoutesName.otpVerificationPage:
         if (args is Map<String, String>) {
-          final routeName =
-              args['routeName'] ?? ''; // Extract the routeName from the map
-          final mobileNumber =
-              args['mobileNumber'] ?? ''; // Extract the routeName from the map
-          final otpRegId =
-              args['otpRegId'] ?? ''; // Extract the routeName from the map
           return _materialRoute(
             OtpVerificationPage(
-              routeName: routeName,
-              mobileNumber: mobileNumber,
-              otpRegId: otpRegId,
+              routeName: args['routeName'] ?? '',
+              mobileNumber: args['mobileNumber'] ?? '',
+              otpRegId: args['otpRegId'] ?? '',
             ),
           );
-        } else {
-          return _materialRoute(
-            const OtpVerificationPage(
-              routeName: PublicRoutesName.loginPage,
-              mobileNumber: '',
-              otpRegId: '',
-            ),
-          ); // Default route name if no arguments
         }
+        break;
 
       // Authenticated Routes
       case AuthRoutesName.profilePage:
         return _materialRoute(
-          BlocProvider(
-            create: (context) => sl<ProfileBloc>(),
-            child: ProfilePage(),
-          ),
+          BlocProvider(create: (_) => sl<ProfileBloc>(), child: ProfilePage()),
         );
 
       case AuthRoutesName.cardPage:
@@ -116,56 +97,72 @@ class AppRoutes {
 
       case AuthRoutesName.beneficiariesPage:
         return _materialRoute(BeneficiariesPage());
+
       case AuthRoutesName.addBeneficiaryPage:
         return _materialRoute(AddBeneficiaryPage());
 
       case AuthRoutesName.dependentsPage:
         return _materialRoute(DependentsPage());
+
       case AuthRoutesName.operatingAccountsPage:
         if (args is Map<String, int>) {
-          final dependentPersonId = args['dependentPersonId'] ?? 0;
-
           return _materialRoute(
-            DependentsAccountsPage(dependentPersonId: dependentPersonId),
+            BlocProvider(
+              create: (_) => sl<AddOperatingAccountBloc>(),
+              child: DependentsAccountsPage(
+                dependentPersonId: args['dependentPersonId'] ?? 0,
+              ),
+            ),
           );
-        } else {
-          return _materialRoute(DependentsAccountsPage(dependentPersonId: 0));
         }
+        break;
 
       case AuthRoutesName.addOperatingAccountPage:
-        return _materialRoute(AddOperatingAccountPage());
+        return _materialRoute(
+          BlocProvider(
+            create: (_) => sl<AddOperatingAccountBloc>(),
+            child: AddOperatingAccountPage(),
+          ),
+        );
 
       case AuthRoutesName.myAccountsPage:
         return _materialRoute(MyAccountsPage());
 
       case AuthRoutesName.accountsDetailsPage:
         if (args is Map<String, String>) {
-          final accountNumber = args['accountNumber'] ?? '';
-
           return _materialRoute(
-            AccountDetailsPage(accountNumber: accountNumber),
+            AccountDetailsPage(accountNumber: args['accountNumber'] ?? ''),
           );
-        } else {
-          return _materialRoute(AccountDetailsPage(accountNumber: ""));
         }
+        break;
+
+      case AuthRoutesName.openableAccountsPage:
+        return _materialRoute(OpenableAccountsPage());
 
       case AuthRoutesName.createNewAccountPage:
-        return _materialRoute(AccountOpeningPage());
+        if (args is Map<String, String>) {
+          return _materialRoute(
+            AccountOpeningPage(productCode: args['productCode'] ?? '18'),
+          );
+        }
 
       case AuthRoutesName.myLoansPage:
         return _materialRoute(MyLoansPage());
+
       case AuthRoutesName.loanDetailsPage:
         if (args is Map<String, String>) {
-          final loanNumber = args['loanNumber'] ?? '';
-
-          return _materialRoute(LoanDetailsPage(loanNumber: loanNumber));
-        } else {
-          return _materialRoute(LoanDetailsPage(loanNumber: ""));
+          return _materialRoute(
+            LoanDetailsPage(loanNumber: args['loanNumber'] ?? ''),
+          );
         }
+        break;
 
       default:
         return _materialRoute(const AuthenticatedHome());
     }
+
+    // Fallback if args are wrong
+    return _materialRoute(const AuthenticatedHome());
   }
 
   static Route<dynamic> _materialRoute(Widget view) {

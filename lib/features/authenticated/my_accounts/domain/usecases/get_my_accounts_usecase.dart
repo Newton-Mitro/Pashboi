@@ -5,7 +5,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/entities/depos
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/deposit_account_repository.dart';
 
 class GetMyAccountsProps extends BaseRequestProps {
-  final String accountHolderPersonId;
+  final int accountHolderPersonId;
 
   const GetMyAccountsProps({
     required super.email,

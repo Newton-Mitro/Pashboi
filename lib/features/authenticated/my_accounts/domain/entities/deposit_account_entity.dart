@@ -11,6 +11,7 @@ class DepositAccountEntity extends Entity<int> {
   final DateTime? lastPaidDate;
   final String nominees;
   final DateTime? maturityDate;
+  final String mobileNumber;
   final int ledgerId;
   final double interestReate;
   final String accountFor;
@@ -31,6 +32,7 @@ class DepositAccountEntity extends Entity<int> {
     this.lastPaidDate,
     this.nominees = '',
     this.maturityDate,
+    this.mobileNumber = '',
     this.ledgerId = 0,
     this.interestReate = 0.0,
     this.accountFor = 'Individual',
@@ -51,6 +53,7 @@ class DepositAccountEntity extends Entity<int> {
     withdrawableBalance,
     lastPaidDate,
     maturityDate,
+    mobileNumber,
     ledgerId,
     interestReate,
     accountFor,

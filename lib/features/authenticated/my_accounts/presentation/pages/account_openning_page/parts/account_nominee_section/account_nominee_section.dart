@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/domain/entities/family_and_friend_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
@@ -11,11 +12,12 @@ class AccountNomineeSection extends StatelessWidget {
     required this.onNomineeChanged,
     required this.sharePercentage,
     required this.onSharePercentageChanged,
-    required this.nominees,
     required this.onAddNominee,
     required this.onRemoveNominee,
     required this.remainingPercentage,
     required this.canAddNominee,
+    required this.nominees,
+    required this.familyMembers,
     this.nomineeError,
   });
 
@@ -25,12 +27,13 @@ class AccountNomineeSection extends StatelessWidget {
   final String? sharePercentage;
   final void Function(String?) onSharePercentageChanged;
 
-  final List<Map<String, String>> nominees;
   final String? nomineeError;
   final VoidCallback onAddNominee;
   final void Function(int index) onRemoveNominee;
   final int remainingPercentage;
   final bool Function() canAddNominee;
+  final List<Map<String, String>> nominees;
+  final List<FamilyAndFriendEntity> familyMembers;
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +67,13 @@ class AccountNomineeSection extends StatelessWidget {
                   value: selectedNominee,
                   onChanged: onNomineeChanged,
                   items:
-                      [
-                        'John Doe',
-                        'Jane Smith',
-                        'Alice Johnson',
-                        'Bob Brown',
-                        'Samantha Lee',
-                        'Michael Davis',
-                      ].map((name) {
-                        return DropdownMenuItem(value: name, child: Text(name));
+                      familyMembers.map((member) {
+                        return DropdownMenuItem(
+                          value: member.familyMemberId.toString(),
+                          child: Text(member.familyMemberName),
+                        );
                       }).toList(),
+                  errorText: nomineeError,
                 ),
                 const SizedBox(height: 12),
                 AppDropdownSelect<String>(

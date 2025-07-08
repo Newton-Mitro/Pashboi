@@ -53,7 +53,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               borderRadius: BorderRadius.circular(25),
             ),
             child: Center(
-              child: Icon(icon, size: 20, color: colorScheme.onSurface),
+              child: Icon(icon, size: 20, color: colorScheme.onPrimary),
             ),
           ),
           const SizedBox(width: 12),
@@ -193,7 +193,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                               account.defaultAccount ? "Defaulter" : "Regular",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: context.theme.colorScheme.onSurface,
+                                color:
+                                    account.defaultAccount
+                                        ? context.theme.colorScheme.onError
+                                        : context.theme.colorScheme.onPrimary,
                               ),
                             ),
                             backgroundColor:
@@ -423,13 +426,21 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: context.theme.colorScheme.onPrimary,
+            ),
           ),
           const SizedBox(height: 5),
           Text(
             value,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: context.theme.colorScheme.onPrimary,
+            ),
           ),
         ],
       ),

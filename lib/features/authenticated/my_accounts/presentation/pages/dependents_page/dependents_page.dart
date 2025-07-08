@@ -154,32 +154,6 @@ class DependentsPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0, top: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Click to add a dependent!',
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: 10),
-            AppPrimaryButton(
-              iconBefore: const Icon(Icons.person_add),
-              label: "Add Dependent",
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AuthRoutesName.addOperatingAccountPage,
-                );
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

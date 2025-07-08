@@ -24,7 +24,6 @@ class _InfoMenusViewState extends State<InfoMenusView> {
         ),
         "route": AuthRoutesName.profilePage,
       },
-
       {
         "icon": FontAwesomeIcons.children,
         "menuName": Locales.string(context, "accounts_menu_dependents_title"),
@@ -33,6 +32,15 @@ class _InfoMenusViewState extends State<InfoMenusView> {
           "accounts_menu_dependents_description",
         ),
         "route": AuthRoutesName.dependentsPage,
+      },
+      {
+        "icon": FontAwesomeIcons.children,
+        "menuName": 'Add Operating Account',
+        "menuDescription": Locales.string(
+          context,
+          "accounts_menu_dependents_description",
+        ),
+        "route": AuthRoutesName.addOperatingAccountPage,
       },
       {
         "icon": Icons.credit_card,

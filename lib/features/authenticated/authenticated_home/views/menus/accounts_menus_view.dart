@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 
@@ -15,7 +16,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> infoMenus = [
       {
-        "icon": Icons.account_balance,
+        "icon": FontAwesomeIcons.piggyBank,
         "menuName": Locales.string(context, "accounts_menu_accounts_title"),
         "menuDescription": Locales.string(
           context,
@@ -24,16 +25,13 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
         "route": AuthRoutesName.myAccountsPage,
       },
       {
-        "icon": Icons.credit_card,
-        "menuName": Locales.string(
-          context,
-          "accounts_menu_open_an_account_title",
-        ),
+        "icon": Icons.account_balance,
+        "menuName": 'Openable Accounts',
         "menuDescription": Locales.string(
           context,
           "accounts_menu_open_an_account_description",
         ),
-        "route": AuthRoutesName.createNewAccountPage,
+        "route": AuthRoutesName.openableAccountsPage,
       },
     ];
     return SafeArea(

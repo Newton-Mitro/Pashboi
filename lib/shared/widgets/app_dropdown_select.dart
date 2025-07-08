@@ -25,29 +25,40 @@ class AppDropdownSelect<T> extends StatelessWidget {
     if (!enabled) return;
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // 👈 Enable full control of height
+      isScrollControlled: true,
+      backgroundColor: context.theme.colorScheme.primary,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
       builder: (_) {
-        final sheetHeight =
-            MediaQuery.of(context).size.height * 0.4; // 👈 Adjust height here
-        return SafeArea(
-          child: SizedBox(
-            height: sheetHeight,
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              children:
-                  items.map((item) {
-                    return ListTile(
+        final sheetHeight = MediaQuery.of(context).size.height * 0.4;
+        return SizedBox(
+          height: sheetHeight,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            children:
+                items.map((item) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 5,
+                    ),
+                    child: ListTile(
+                      textColor: context.theme.colorScheme.onPrimary,
                       title: item.child,
+                      selected: value == item.value,
+                      selectedColor: context.theme.colorScheme.onSecondary,
+                      selectedTileColor: context.theme.colorScheme.scrim,
+                      hoverColor: context.theme.colorScheme.scrim,
+                      focusColor: context.theme.colorScheme.inversePrimary,
+                      tileColor: context.theme.colorScheme.secondary,
                       onTap: () {
                         Navigator.of(context).pop();
                         onChanged(item.value);
                       },
-                    );
-                  }).toList(),
-            ),
+                    ),
+                  );
+                }).toList(),
           ),
         );
       },
@@ -64,17 +75,11 @@ class AppDropdownSelect<T> extends StatelessWidget {
       ),
     );
 
-    final selectedItemText =
-        items
-            .firstWhere(
-              (element) => element.value == value,
-              orElse:
-                  () => DropdownMenuItem<T>(
-                    value: null,
-                    child: Text("Select $label"),
-                  ),
-            )
-            .child;
+    final selectedItem = items.firstWhere(
+      (element) => element.value == value,
+      orElse:
+          () => DropdownMenuItem<T>(value: null, child: Text("Select $label")),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +90,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
             absorbing: !enabled,
             child: InputDecorator(
               decoration: InputDecoration(
-                labelText: value != null ? label : "",
+                labelText: label,
                 labelStyle: TextStyle(
                   color:
                       enabled
@@ -127,16 +132,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  DefaultTextStyle(
-                    style: TextStyle(
-                      color:
-                          enabled
-                              ? context.theme.colorScheme.onSurface
-                              : context.theme.disabledColor,
-                      fontSize: 16,
-                    ),
-                    child: selectedItemText,
-                  ),
+                  Expanded(child: selectedItem.child),
                   Icon(
                     Icons.arrow_drop_down,
                     color:

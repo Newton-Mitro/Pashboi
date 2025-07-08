@@ -8,5 +8,7 @@ sealed class MyAccountEvent extends Equatable {
 }
 
 class FetchMyAccountEvent extends MyAccountEvent {
-  const FetchMyAccountEvent();
+  final int accountHolderPersonId;
+
+  const FetchMyAccountEvent(this.accountHolderPersonId);
 }

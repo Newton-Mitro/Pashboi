@@ -2,7 +2,7 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/my_accounts/data/datasources/remote.datasource.dart';
+import 'package:pashboi/features/authenticated/my_accounts/data/datasources/deposit_account_remote.datasource.dart';
 import 'package:pashboi/features/authenticated/my_accounts/data/repositories/deposit_account_repository.impl.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/deposit_account_repository.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/add_operating_account_usecase.dart';
@@ -14,6 +14,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_m
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/bloc/account_statement_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/bloc/add_operating_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/bloc/fetch_dependents_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/bloc/my_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/bloc/fetch_operating_accounts_bloc.dart';
@@ -103,6 +104,13 @@ void registerMyAccountsModule() async {
   sl.registerFactory<FetchOperatingAccountsBloc>(
     () => FetchOperatingAccountsBloc(
       fetchOperatingAccountUseCase: sl<FetchOperatingAccountsUseCase>(),
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+    ),
+  );
+
+  sl.registerFactory<AddOperatingAccountBloc>(
+    () => AddOperatingAccountBloc(
+      addOperatingAccountUseCase: sl<AddOperatingAccountUseCase>(),
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
     ),
   );
