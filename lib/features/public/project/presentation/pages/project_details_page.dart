@@ -46,7 +46,10 @@ class ProjectDetailsPage extends StatelessWidget {
                     ),
                   ),
               const SizedBox(height: 16),
-              Html(data: project.longDescription),
+              Html(
+                data: project.longDescription,
+                style: {"*": Style(textAlign: TextAlign.justify)},
+              ),
             ],
           ),
         ),

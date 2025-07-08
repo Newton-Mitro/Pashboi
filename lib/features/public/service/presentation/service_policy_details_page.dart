@@ -46,7 +46,10 @@ class ServicePolicyDetailsPage extends StatelessWidget {
                     ),
                   ),
               const SizedBox(height: 16),
-              Html(data: service.longDescription),
+              Html(
+                data: service.longDescription,
+                style: {"*": Style(textAlign: TextAlign.justify)},
+              ),
             ],
           ),
         ),
