@@ -9,6 +9,7 @@ import 'package:pashboi/features/authenticated/sureties/injection.dart';
 import 'package:pashboi/features/my_app/injection.dart';
 import 'package:pashboi/features/onboarding/injection.dart';
 import 'package:pashboi/features/public/deposit_policies/injection.dart';
+import 'package:pashboi/features/public/development_credits/injection.dart';
 import 'package:pashboi/features/public/loan_policies/injection.dart';
 import 'package:pashboi/features/public/notice/injection.dart';
 import 'package:pashboi/features/public/pages/injection.dart';
@@ -39,4 +40,5 @@ Future<void> setupDependencies() async {
   registerServiceCenterModule();
   registerLoanModule();
   registerMissionAndVisionModule();
+  registerDevelopmentCreditModule();
 }

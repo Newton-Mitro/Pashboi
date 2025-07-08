@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/constants/app_images.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/public/development_credits/presentation/pages/development_credits_page.dart';
 import 'package:pashboi/features/public/pages/presentation/pages/about_us_page.dart';
 import 'package:pashboi/features/public/pages/presentation/pages/founder_profile_page.dart';
 import 'package:pashboi/features/public/pages/presentation/pages/mission_vision_page.dart';
@@ -109,9 +110,12 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.code,
             label: "Development Credits",
             onTap: () {
-              Navigator.of(
+              Navigator.push(
                 context,
-              ).pushNamed(PublicRoutesName.developmentCreditsPage);
+                MaterialPageRoute(
+                  builder: (context) => DevelopmentCreditsPage(),
+                ),
+              );
             },
           ),
           const Spacer(),

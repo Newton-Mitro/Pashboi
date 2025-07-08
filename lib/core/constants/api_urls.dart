@@ -91,4 +91,6 @@ class ApiUrls {
   static const String getAllBranch = 'getAllBranch';
 
   static const String getPageByPageSlug = 'GetPageBySlug';
+
+  static const String getDevTeams = 'getDevTeams';
 }
