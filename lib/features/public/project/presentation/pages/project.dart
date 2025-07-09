@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/core/utils/text_util.dart';
 import 'package:pashboi/features/public/project/domain/entites/project_entity.dart';
 import 'package:pashboi/features/public/project/presentation/bloc/project_bloc.dart';
 import 'package:pashboi/features/public/project/presentation/pages/project_details_page.dart';
+import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
+import 'package:pashboi/shared/widgets/public_app_image_card.dart';
 
 class ProjectPage extends StatelessWidget {
   const ProjectPage({super.key});
@@ -38,43 +42,47 @@ class ProjectPage extends StatelessWidget {
                 return ListView.builder(
                   itemCount: projects.length,
                   itemBuilder: (context, index) {
-                    final project = projects[index];
-                    return Card(
-                      elevation: 1,
-                      shadowColor: const Color.fromARGB(179, 0, 0, 0),
-                      surfaceTintColor: context.theme.colorScheme.surface,
-                      color: context.theme.colorScheme.surface,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(project.attachmentUrl),
+                    final product = projects[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10,
+                      ), // Adjust spacing here
+                      child: PublicAppImageCard(
+                        leftIcon: CircleAvatar(
+                          backgroundImage: NetworkImage(product.attachmentUrl),
                           radius: 20,
-                          // backgroundColor: Colors.transparent,
                         ),
-                        title: Text(
-                          project.title,
-                          style: TextStyle(
-                            color: context.theme.colorScheme.onSurface,
+                        rightIcon: FontAwesomeIcons.chevronRight,
+                        boarderColor: context.theme.colorScheme.primary,
+                        cardBody: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 16,
                           ),
-                        ), // or project.title, depending on your entity
-                        subtitle: Text(
-                          project.shortDescription ?? '',
-                          style: TextStyle(
-                            color: context.theme.colorScheme.onSurface,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                            children: [
+                              Text(
+                                product.title,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                TextUtil.truncateText(product.shortDescription),
+                              ),
+                            ],
                           ),
-                        ), // if it exists
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        ),
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushNamed(
                             context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) =>
-                                      ProjectDetailsPage(project: project),
-                            ),
+                            PublicRoutesName.projectDetailsPage,
+                            arguments: {"projects": product},
                           );
                         },
                       ),
@@ -82,7 +90,6 @@ class ProjectPage extends StatelessWidget {
                   },
                 );
               }
-
               return const SizedBox.shrink();
             },
           ),

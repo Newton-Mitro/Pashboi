@@ -4,7 +4,7 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/text_util.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
-import 'package:pashboi/features/public/deposit_policies/presentation/pages/bloc/deposit_policy_bloc.dart';
+import 'package:pashboi/features/public/deposit_policies/presentation/bloc/deposit_policy_bloc.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

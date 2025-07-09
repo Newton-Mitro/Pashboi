@@ -5,7 +5,7 @@ import 'package:pashboi/features/public/deposit_policies/data/data_sources/remot
 import 'package:pashboi/features/public/deposit_policies/data/repositories/deposit_policy_repository_impl.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/repositories/deposit_policy_repository.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/usecases/fetch_deposit_policy_usecase.dart';
-import 'package:pashboi/features/public/deposit_policies/presentation/pages/bloc/deposit_policy_bloc.dart';
+import 'package:pashboi/features/public/deposit_policies/presentation/bloc/deposit_policy_bloc.dart';
 
 void registerDepositPolicyModule() async {
   // Register Data Sources
