@@ -6,6 +6,10 @@ import 'package:pashboi/features/auth/presentation/pages/registration_page.dart'
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
@@ -147,12 +151,26 @@ class AppRoutes {
         break;
 
       case AuthRoutesName.openableAccountsPage:
-        return _materialRoute(OpenableAccountsPage());
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => sl<OpenableAccountBloc>(),
+            child: OpenableAccountsPage(),
+          ),
+        );
 
       case AuthRoutesName.createNewAccountPage:
         if (args is Map<String, String>) {
           return _materialRoute(
-            AccountOpeningPage(productCode: args['productCode'] ?? '18'),
+            MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (_) => sl<AccountOpeningStepsBloc>()),
+                BlocProvider(create: (_) => sl<TenureBloc>()),
+                BlocProvider(create: (_) => sl<TenureAmountBloc>()),
+              ],
+              child: AccountOpeningPage(
+                productCode: args['productCode'] ?? '18',
+              ),
+            ),
           );
         }
 

@@ -4,6 +4,7 @@ class OpenableAccountEntity extends Entity<int> {
   final String productCode;
   final String productName;
   final int productType;
+  final String productTypeName;
   final bool isActive;
   final String description;
 
@@ -12,6 +13,7 @@ class OpenableAccountEntity extends Entity<int> {
     required this.productCode,
     required this.productName,
     required this.productType,
+    required this.productTypeName,
     required this.isActive,
     required this.description,
   });

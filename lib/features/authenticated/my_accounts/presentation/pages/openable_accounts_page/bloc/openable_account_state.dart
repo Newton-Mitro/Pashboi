@@ -12,12 +12,12 @@ final class OpenableAccountInitial extends OpenableAccountState {}
 final class OpenableAccountLoading extends OpenableAccountState {}
 
 final class OpenableAccountSuccess extends OpenableAccountState {
-  final List<TenureEntity> tenures;
+  final List<OpenableAccountEntity> openableAccounts;
 
-  const OpenableAccountSuccess(this.tenures);
+  const OpenableAccountSuccess(this.openableAccounts);
 
   @override
-  List<Object> get props => [tenures];
+  List<Object> get props => [openableAccounts];
 }
 
 final class OpenableAccountError extends OpenableAccountState {

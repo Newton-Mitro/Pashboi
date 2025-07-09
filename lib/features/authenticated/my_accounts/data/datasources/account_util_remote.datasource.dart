@@ -31,7 +31,7 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        ApiUrls.login,
+        ApiUrls.getDurationAmounts,
         data: {
           "UserName": props.email,
           "UID": props.userId,
@@ -41,6 +41,8 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
           "EmployeeCode": props.employeeCode,
           "MobileNumber": props.mobileNumber,
           "MobileNo": props.mobileNumber,
+          "Duration": props.duration,
+          "ProductCode": props.productCode,
           "RequestFrom": "MobileApp",
         },
       );
@@ -70,7 +72,7 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        ApiUrls.login,
+        ApiUrls.getDurations,
         data: {
           "UserName": props.email,
           "UID": props.userId,
@@ -80,6 +82,7 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
           "EmployeeCode": props.employeeCode,
           "MobileNumber": props.mobileNumber,
           "MobileNo": props.mobileNumber,
+          "ProductCode": props.productCode,
           "RequestFrom": "MobileApp",
         },
       );
@@ -109,7 +112,7 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        ApiUrls.login,
+        ApiUrls.getApplicableDepositAccountTypes,
         data: {
           "UserName": props.email,
           "UID": props.userId,
@@ -119,6 +122,9 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
           "EmployeeCode": props.employeeCode,
           "MobileNumber": props.mobileNumber,
           "MobileNo": props.mobileNumber,
+          "ProductType": -1,
+          "ProductCode": "-1",
+          "IsOnlineApplicable": true,
           "RequestFrom": "MobileApp",
         },
       );

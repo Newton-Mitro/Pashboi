@@ -11,6 +11,8 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenur
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section/account_nominee_section.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_preview_section/account_preview_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/account_opening_details_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section/card_pin_verification_section.dart';
@@ -33,15 +35,18 @@ class AccountOpeningPage extends StatefulWidget {
 }
 
 class _AccountOpeningPageState extends State<AccountOpeningPage> {
-  final accountName = TextEditingController();
-  final duration = TextEditingController(text: '0');
-  final interestRate = TextEditingController(text: '0');
-  final interestTransferAccount = TextEditingController();
+  final _accountNameTextController = TextEditingController();
+  final _durationTextController = TextEditingController(text: '0');
+  final _interestRateTextController = TextEditingController(text: '0');
+  final _interestTransferAccount = TextEditingController();
 
-  late final TextEditingController cardNumber = TextEditingController();
-  late final TextEditingController accountType = TextEditingController();
-  late final TextEditingController accountBalance = TextEditingController();
-  late final TextEditingController accountWithdrawable =
+  final TextEditingController _cardNumberTextController =
+      TextEditingController();
+  final TextEditingController _accountTypeTextController =
+      TextEditingController();
+  final TextEditingController _accountBalanceTextController =
+      TextEditingController();
+  final TextEditingController _accountWithdrawableTextController =
       TextEditingController();
 
   // Constants
@@ -60,6 +65,8 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
 
   // Data
   final List<TenureEntity> _tenures = [];
+  String? _selectedTenure;
+  String? _selectedInstallmentAmount;
   final List<TenureAmountEntity> _installmentAmounts = [];
 
   // Nominee Section State
@@ -79,7 +86,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
 
     setState(() {
       _addedNominees.add(nominee);
-
       _remainingPercentage -= _sharePercentage;
       _selectedNominee = null;
       _sharePercentage = 0;
@@ -136,14 +142,14 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   }
 
   void _disposeControllers() {
-    cardNumber.dispose();
-    accountType.dispose();
-    accountBalance.dispose();
-    accountWithdrawable.dispose();
-    accountName.dispose();
-    duration.dispose();
-    interestRate.dispose();
-    interestTransferAccount.dispose();
+    _cardNumberTextController.dispose();
+    _accountTypeTextController.dispose();
+    _accountBalanceTextController.dispose();
+    _accountWithdrawableTextController.dispose();
+    _accountNameTextController.dispose();
+    _durationTextController.dispose();
+    _interestRateTextController.dispose();
+    _interestTransferAccount.dispose();
 
     try {
       _countDownController.pause();
@@ -187,7 +193,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   void _loadMyCards() async {}
 
   void _loadTenures() {
-    _tenures.addAll([]);
+    context.read<TenureBloc>().add(FetchTenuresEvent(widget.productCode));
   }
 
   void _loadInstallmentAmounts() {
@@ -195,7 +201,38 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   }
 
   // Tenure selection handler
-  void _onTenureChanged(String? value) {}
+  void _onTenureChanged(String? value) {
+    context.read<TenureAmountBloc>().add(
+      FetchTenureAmountsEvent(
+        productCode: widget.productCode,
+        duration: value!,
+      ),
+    );
+    setState(() {
+      _selectedTenure = value;
+    });
+  }
+
+  void _onTenureAmountChanged(String? value) {
+    setState(() {
+      _selectedInstallmentAmount = value;
+    });
+  }
+
+  List<TenureEntity> getUniqueTenuresByMonths(List<TenureEntity> tenures) {
+    final uniqueTenures = <TenureEntity>[];
+
+    for (final tenure in tenures) {
+      final isDuplicate = uniqueTenures.any(
+        (t) => t.durationInMonths == tenure.durationInMonths,
+      );
+      if (!isDuplicate) {
+        uniqueTenures.add(tenure);
+      }
+    }
+
+    return uniqueTenures;
+  }
 
   List<StepItem> _buildSteps(
     AccountOpeningStepsState accountOpeningStepsState,
@@ -215,29 +252,29 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               UpdateStepData(step: 0, key: 'selectedAccountNumber', value: val),
             );
           },
-          cardNumberController: cardNumber,
-          accounTypeController: accountType,
-          accountBalanceController: accountBalance,
-          accountWithdrawableController: accountWithdrawable,
-          accountHolderNameController: accountName,
+          cardNumberController: _cardNumberTextController,
+          accounTypeController: _accountTypeTextController,
+          accountBalanceController: _accountBalanceTextController,
+          accountWithdrawableController: _accountWithdrawableTextController,
+          accountHolderNameController: _accountNameTextController,
         ),
       ),
       StepItem(
         icon: FontAwesomeIcons.piggyBank,
         widget: AccountOpeningDetailsSection(
-          accountNameController: accountName,
+          accountNameController: _accountNameTextController,
           accountNameError: '',
-          durationController: duration,
-          interestRateController: interestRate,
-          interestTransferAccountController: interestTransferAccount,
-          selectedTenure: '',
+          durationController: _durationTextController,
+          interestRateController: _interestRateTextController,
+          interestTransferAccountController: _interestTransferAccount,
+          selectedTenure: _selectedTenure,
           tenureError: '',
           tenures: _tenures,
           onTenureChanged: _onTenureChanged,
-          selectedInstallmentAmount: '',
+          selectedInstallmentAmount: _selectedInstallmentAmount,
           installmentAmountError: '',
           installmentAmounts: _installmentAmounts,
-          onInstallmentAmountChanged: (String? value) {},
+          onInstallmentAmountChanged: _onTenureAmountChanged,
         ),
       ),
       StepItem(
@@ -265,11 +302,11 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         icon: FontAwesomeIcons.eye,
         widget: AccountPreviewSection(
           selectedAccount: '1234567890',
-          accountNameController: accountName,
-          durationController: duration,
+          accountNameController: _accountNameTextController,
+          durationController: _durationTextController,
           selectedInstallmentAmount: '',
-          interestRateController: interestRate,
-          interestTransferAccountController: interestTransferAccount,
+          interestRateController: _interestRateTextController,
+          interestTransferAccountController: _interestTransferAccount,
           nominees: [],
           accountType: 'Savings Account',
           accountHolderName: 'John Doe',
@@ -279,7 +316,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       StepItem(
         icon: FontAwesomeIcons.creditCard,
         widget: CardPinVerificationSection(
-          cardNumberController: cardNumber,
+          cardNumberController: _cardNumberTextController,
           cardPinController: _pinController,
           pinError: _pinError,
         ),
@@ -308,8 +345,31 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return BlocProvider(
-      create: (context) => sl<AccountOpeningStepsBloc>(),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<TenureBloc, TenureState>(
+          listener: (context, state) {
+            if (state is TenureSuccess) {
+              setState(() {
+                final _tenuresFiltered = getUniqueTenuresByMonths(
+                  state.tenures,
+                );
+                _tenures.addAll(_tenuresFiltered);
+              });
+            }
+          },
+        ),
+        BlocListener<TenureAmountBloc, TenureAmountState>(
+          listener: (context, state) {
+            if (state is TenureAmountSuccess) {
+              setState(() {
+                _installmentAmounts.addAll(state.tenureAmounts);
+              });
+            }
+          },
+        ),
+      ],
+
       child: BlocBuilder<AccountOpeningStepsBloc, AccountOpeningStepsState>(
         builder: (context, accountOpeningStepsState) {
           final isFirstStep =

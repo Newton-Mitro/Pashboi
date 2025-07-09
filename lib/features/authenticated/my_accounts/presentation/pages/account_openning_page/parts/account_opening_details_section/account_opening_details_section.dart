@@ -25,10 +25,10 @@ class AccountOpeningDetailsSection extends StatelessWidget {
   });
 
   final TextEditingController accountNameController;
-  final String? accountNameError;
   final TextEditingController durationController;
   final TextEditingController interestRateController;
   final TextEditingController interestTransferAccountController;
+
   final List<TenureEntity> tenures;
   final List<TenureAmountEntity> installmentAmounts;
 
@@ -39,6 +39,8 @@ class AccountOpeningDetailsSection extends StatelessWidget {
   final String? selectedInstallmentAmount;
   final String? installmentAmountError;
   final ValueChanged<String?> onInstallmentAmountChanged;
+
+  final String? accountNameError;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +92,7 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                         color: context.theme.colorScheme.onSurface,
                       ),
                     ),
+                    const SizedBox(height: 10),
                     AppDropdownSelect<String>(
                       value: selectedTenure,
                       errorText: tenureError,
@@ -103,7 +106,16 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                                 ),
                               )
                               .toList(),
-                      onChanged: onTenureChanged,
+                      onChanged: (value) {
+                        final selected = tenures.firstWhere(
+                          (t) => t.durationInMonths.toString() == value,
+                        );
+                        durationController.text =
+                            selected.durationInMonths.toString();
+                        interestRateController.text =
+                            selected.interestRate.toString();
+                        onTenureChanged(value);
+                      },
                       prefixIcon: Icons.calendar_today,
                     ),
                     const SizedBox(height: 10),

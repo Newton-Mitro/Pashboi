@@ -9,9 +9,9 @@ class TenureAmountModel extends TenureAmountEntity {
 
   factory TenureAmountModel.fromJson(Map<String, dynamic> json) {
     return TenureAmountModel(
-      id: json['id'] as int,
-      durationInMonths: json['durationInMonths'] as int,
-      depositAmount: (json['depositAmount'] as num).toDouble(),
+      id: json['DurationId'] ?? 0,
+      durationInMonths: json['DurationInMonths'] ?? 0,
+      depositAmount: (json['DepositAmount'] ?? 0).toDouble(),
     );
   }
 

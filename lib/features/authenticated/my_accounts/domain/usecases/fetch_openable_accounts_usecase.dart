@@ -5,10 +5,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/entities/opena
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/account_util_repository.dart';
 
 class FetchOpenableAccountsProps extends BaseRequestProps {
-  final String otherField;
-
   const FetchOpenableAccountsProps({
-    required this.otherField,
     required super.email,
     required super.userId,
     required super.rolePermissionId,

@@ -6,6 +6,7 @@ class OpenableAccountModel extends OpenableAccountEntity {
     required super.productCode,
     required super.productName,
     required super.productType,
+    required super.productTypeName,
     required super.isActive,
     required super.description,
   });
@@ -16,6 +17,7 @@ class OpenableAccountModel extends OpenableAccountEntity {
       productCode: json['ProductCode'],
       productName: json['ProductName'],
       productType: json['ProductType'],
+      productTypeName: json['ProductTypeName'],
       isActive: json['IsActive'],
       description: json['Description'] ?? '',
     );

@@ -5,10 +5,12 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenur
 import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/account_util_repository.dart';
 
 class FetchAccountTenureAmountsProps extends BaseRequestProps {
-  final String otherField;
+  final String productCode;
+  final String duration;
 
   const FetchAccountTenureAmountsProps({
-    required this.otherField,
+    required this.productCode,
+    required this.duration,
     required super.email,
     required super.userId,
     required super.rolePermissionId,

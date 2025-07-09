@@ -64,8 +64,7 @@ class _ServiceCenterPageState extends State<ServiceCenterPage> {
                   Text("✉️ ${center.email}"),
                 if (center.time.trim().isNotEmpty ?? false)
                   Text("⏰ ${center.time}"),
-                if (center.inChargeInfos != null &&
-                    center.inChargeInfos.isNotEmpty) ...[
+                if (center.inChargeInfos.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   const Text(
                     'In-Charge:',
