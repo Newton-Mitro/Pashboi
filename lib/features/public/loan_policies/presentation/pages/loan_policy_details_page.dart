@@ -32,7 +32,7 @@ class LoanPolicyDetailsPage extends StatelessWidget {
                     child: FaIcon(
                       FontAwesomeIcons.sackDollar,
                       size: 100,
-                      color: context.theme.colorScheme.onPrimary,
+                      color: context.theme.colorScheme.onSurface,
                     ),
                   )
                   : Container(

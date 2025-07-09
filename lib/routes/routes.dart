@@ -10,6 +10,14 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/op
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
+import 'package:pashboi/features/public/development_credits/domain/entites/development_credits_entity.dart';
+import 'package:pashboi/features/public/development_credits/presentation/pages/development_creadit_details.dart';
+import 'package:pashboi/features/public/loan_policies/domain/entites/loan_policy_entity.dart';
+import 'package:pashboi/features/public/loan_policies/presentation/pages/loan_policy_details_page.dart';
+import 'package:pashboi/features/public/notice/domain/enities/notice_entity.dart';
+import 'package:pashboi/features/public/notice/presentation/pages/notice_details_page.dart';
+import 'package:pashboi/features/public/project/domain/entites/project_entity.dart';
+import 'package:pashboi/features/public/project/presentation/pages/project_details_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/authenticated_home.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
@@ -29,6 +37,8 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/op
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/dependents_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/add_operating_account_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/bloc/add_operating_account_bloc.dart';
+import 'package:pashboi/features/public/service/domain/enities/service_policy_entity.dart';
+import 'package:pashboi/features/public/service/presentation/service_policy_details_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 
@@ -83,6 +93,41 @@ class AppRoutes {
         if (args is Map<String, DepositPolicyEntity?>) {
           return _materialRoute(
             DepositPolicyDetailsPage(depositPolicy: args['depositPolicy']!),
+          );
+        }
+        break;
+
+      case PublicRoutesName.loanPoliciesDetailsPage:
+        if (args is Map<String, LoanPolicyEntity?>) {
+          return _materialRoute(
+            LoanPolicyDetailsPage(loanPolicy: args['loanPolicy']!),
+          );
+        }
+        break;
+
+      case PublicRoutesName.noticesDetailsPage:
+        if (args is Map<String, NoticeEntity?>) {
+          return _materialRoute(NoticeDetailsPage(notice: args['notice']!));
+        }
+        break;
+
+      case PublicRoutesName.serviceDetailsPage:
+        if (args is Map<String, ServicePolicyEntity?>) {
+          return _materialRoute(
+            ServicePolicyDetailsPage(service: args['service']!),
+          );
+        }
+        break;
+
+      case PublicRoutesName.projectDetailsPage:
+        if (args is Map<String, ProjectEntity?>) {
+          return _materialRoute(ProjectDetailsPage(project: args['projects']!));
+        }
+        break;
+      case PublicRoutesName.developmentTeamsDetailsPage:
+        if (args is Map<String, DevelopmentCreditsEntity?>) {
+          return _materialRoute(
+            DevelopmentCreditDetails(credit: args['developmentTeams']!),
           );
         }
         break;
