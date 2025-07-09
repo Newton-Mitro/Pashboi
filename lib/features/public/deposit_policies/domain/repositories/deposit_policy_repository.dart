@@ -4,6 +4,6 @@ import 'package:pashboi/features/public/deposit_policies/domain/usecases/fetch_d
 
 abstract class DepositPolicyRepository {
   ResultFuture<List<DepositPolicyEntity>> findDepositPoliciesByCategoryId(
-    FetchDepositPllicyProps props,
+    FetchPageProps props,
   );
 }

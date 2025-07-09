@@ -7,7 +7,7 @@ import 'package:pashboi/features/public/deposit_policies/domain/usecases/fetch_d
 
 abstract class DepositPolicyRemoteDataSource {
   Future<List<DepositPolicyModel>> fetchDepositPoliciesByCategoryId(
-    FetchDepositPllicyProps props,
+    FetchPageProps props,
   );
 }
 
@@ -19,7 +19,7 @@ class DepositPolicyRemoteDataSourceImpl
 
   @override
   Future<List<DepositPolicyModel>> fetchDepositPoliciesByCategoryId(
-    FetchDepositPllicyProps props,
+    FetchPageProps props,
   ) async {
     try {
       final response = await productApiService.get(

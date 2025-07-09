@@ -39,6 +39,7 @@ class _LoanPoliciesPageState extends State<LoanPoliciesPage> {
                   return Card(
                     elevation: 1,
                     shadowColor: const Color.fromARGB(179, 0, 0, 0),
+                    color: context.theme.colorScheme.surface,
                     surfaceTintColor: context.theme.colorScheme.primary,
                     margin: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -48,11 +49,19 @@ class _LoanPoliciesPageState extends State<LoanPoliciesPage> {
                       leading: FaIcon(
                         FontAwesomeIcons.sackDollar,
                         size: 24,
-                        color: context.theme.colorScheme.onPrimary,
+                        color: context.theme.colorScheme.onSurface,
                       ),
-                      title: Text(policy.title),
+                      title: Text(
+                        policy.title,
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
+                      ),
                       subtitle: Text(
                         policy.shortDescription ?? 'No description',
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
                       ),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {

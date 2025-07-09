@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/constants/app_images.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/public/development_credits/presentation/pages/development_credits_page.dart';
+import 'package:pashboi/features/public/pages/presentation/pages/about_us_page.dart';
+import 'package:pashboi/features/public/pages/presentation/pages/founder_profile_page.dart';
+import 'package:pashboi/features/public/pages/presentation/pages/mission_vision_page.dart';
+import 'package:pashboi/features/public/pages/presentation/pages/policy_page.dart';
 import 'package:pashboi/features/public/project/presentation/pages/project.dart';
 import 'package:pashboi/features/public/service/presentation/service_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
@@ -39,7 +44,10 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.circleInfo,
             label: "About Us",
             onTap: () {
-              // TODO: Add navigation or logic
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutUsPage()),
+              );
             },
           ),
           _buildDrawerItem(
@@ -47,7 +55,10 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.userTie,
             label: "Founders Profile",
             onTap: () {
-              // TODO: Add navigation or logic
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FounderProfilePage()),
+              );
             },
           ),
           _buildDrawerItem(
@@ -55,7 +66,10 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.bullseye,
             label: "Mission and Vision",
             onTap: () {
-              // TODO: Add navigation or logic
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MissionAndVisionPage()),
+              );
             },
           ),
           _buildDrawerItem(
@@ -85,7 +99,10 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.userShield,
             label: "Privacy Policy",
             onTap: () {
-              // TODO: Add navigation or logic
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PolicyPage()),
+              );
             },
           ),
           _buildDrawerItem(
@@ -93,9 +110,12 @@ class PublicHomeDrawer extends StatelessWidget {
             icon: FontAwesomeIcons.code,
             label: "Development Credits",
             onTap: () {
-              Navigator.of(
+              Navigator.push(
                 context,
-              ).pushNamed(PublicRoutesName.developmentCreditsPage);
+                MaterialPageRoute(
+                  builder: (context) => DevelopmentCreditsPage(),
+                ),
+              );
             },
           ),
           const Spacer(),

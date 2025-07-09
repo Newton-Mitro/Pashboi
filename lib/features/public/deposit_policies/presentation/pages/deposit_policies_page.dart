@@ -37,7 +37,8 @@ class DepositPoliciesPage extends StatelessWidget {
                   return Card(
                     elevation: 1,
                     shadowColor: const Color.fromARGB(179, 0, 0, 0),
-                    surfaceTintColor: context.theme.colorScheme.primary,
+                    color: context.theme.colorScheme.surface,
+                    surfaceTintColor: context.theme.colorScheme.error,
                     margin: const EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 8,
@@ -46,10 +47,20 @@ class DepositPoliciesPage extends StatelessWidget {
                       leading: FaIcon(
                         FontAwesomeIcons.piggyBank,
                         size: 24,
-                        color: context.theme.colorScheme.onPrimary,
+                        color: context.theme.colorScheme.onSurface,
                       ),
-                      title: Text(product.title),
-                      subtitle: Text(product.shortDescription),
+                      title: Text(
+                        product.title,
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
+                      ),
+                      subtitle: Text(
+                        product.shortDescription,
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
+                      ),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
                         Navigator.push(

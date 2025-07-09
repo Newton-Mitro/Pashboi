@@ -35,7 +35,8 @@ class NoticesPage extends StatelessWidget {
                   return Card(
                     elevation: 1,
                     shadowColor: const Color.fromARGB(179, 0, 0, 0),
-                    surfaceTintColor: context.theme.colorScheme.primary,
+                    color: context.theme.colorScheme.surface,
+                    surfaceTintColor: context.theme.colorScheme.surface,
                     margin: const EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 8,
@@ -45,7 +46,12 @@ class NoticesPage extends StatelessWidget {
                         '📢', // Or use a proper icon field if available in entity
                         style: TextStyle(fontSize: 28),
                       ),
-                      title: Text(notice.title),
+                      title: Text(
+                        notice.title,
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
+                      ),
                       // subtitle: Text(notice.shortDescription),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {

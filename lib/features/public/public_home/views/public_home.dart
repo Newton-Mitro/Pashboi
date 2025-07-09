@@ -5,6 +5,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:pashboi/features/public/contact_us/presentation/contact_us_page.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policies_page.dart';
 import 'package:pashboi/features/public/loan_policies/presentation/pages/loan_policies_page.dart';
 import 'package:pashboi/features/public/notice/presentation/pages/notice_page.dart';
@@ -140,7 +141,11 @@ class _PublicHomeScreenState extends State<PublicHomeScreen>
                 elevation: 6,
                 backgroundColor: context.theme.colorScheme.primary,
                 onPressed: () {
-                  Navigator.of(context).pushNamed(PublicRoutesName.homePage);
+                  // Navigator.of(context).pushNamed(PublicRoutesName.homePage);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ContactUsPage()),
+                  );
                 },
                 child: Icon(
                   Icons.phone,

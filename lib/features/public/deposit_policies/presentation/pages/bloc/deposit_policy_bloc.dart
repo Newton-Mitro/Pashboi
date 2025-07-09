@@ -14,9 +14,7 @@ class DepositPolicyBloc extends Bloc<DepositPolicyEvent, DepositPolicyState> {
       emit(DepositProductLoading());
 
       final dataState = await fetchDepositPolicyUseCase.call(
-        FetchDepositPllicyProps(
-          categoryId: 'c73d747a-4b09-4bf9-a869-61f47259cd7f',
-        ),
+        FetchPageProps(categoryId: 'c73d747a-4b09-4bf9-a869-61f47259cd7f'),
       );
 
       dataState.fold(
