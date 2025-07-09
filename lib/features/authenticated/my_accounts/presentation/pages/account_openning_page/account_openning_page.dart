@@ -301,14 +301,17 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       StepItem(
         icon: FontAwesomeIcons.eye,
         widget: AccountPreviewSection(
-          selectedAccount: '1234567890',
+          selectedAccount:
+              accountOpeningStepsState.stepData[AccountOpeningStepsBloc
+                  .firstStep]?['selectedAccountNumber'] ??
+              '',
           accountNameController: _accountNameTextController,
           durationController: _durationTextController,
-          selectedInstallmentAmount: '',
+          selectedInstallmentAmount: _selectedInstallmentAmount,
           interestRateController: _interestRateTextController,
           interestTransferAccountController: _interestTransferAccount,
-          nominees: [],
-          accountType: 'Savings Account',
+          nominees: _addedNominees,
+          accountType: _accountTypeTextController.text,
           accountHolderName: 'John Doe',
           accountOperatorName: 'Mrs. Johnson',
         ),

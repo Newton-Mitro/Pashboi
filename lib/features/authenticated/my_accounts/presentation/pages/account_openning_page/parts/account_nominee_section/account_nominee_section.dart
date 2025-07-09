@@ -101,7 +101,7 @@ class AccountNomineeSection extends StatelessWidget {
                           ? () {
                             final nominee = NomineeEntity(
                               id: Random().nextInt(1000000000),
-                              name: "John Doe",
+                              name: selectedNominee ?? "",
                               relation: "Brother",
                               phone: '',
                               nationalId: '',

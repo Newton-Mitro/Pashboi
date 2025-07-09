@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 
 class AccountPreviewSection extends StatelessWidget {
-  final String selectedAccount;
+  final String? selectedAccount;
   final TextEditingController accountNameController;
   final TextEditingController durationController;
-  final String selectedInstallmentAmount;
+  final String? selectedInstallmentAmount;
   final TextEditingController interestRateController;
   final TextEditingController interestTransferAccountController;
-  final List<Map<String, String>> nominees;
-  final String accountType;
-  final String accountHolderName;
-  final String accountOperatorName;
+  final List<NomineeEntity> nominees;
+  final String? accountType;
+  final String? accountHolderName;
+  final String? accountOperatorName;
 
   const AccountPreviewSection({
     super.key,
@@ -83,7 +84,7 @@ class AccountPreviewSection extends StatelessWidget {
                     child: Column(
                       children: [
                         const SectionTitle("Account Info"),
-                        InfoRow("Account Type", accountType),
+                        InfoRow("Account Type", accountType ?? ""),
                         InfoRow("Account Name", accountNameController.text),
                         InfoRow("Tenure", durationController.text),
                         InfoRow(
@@ -93,7 +94,7 @@ class AccountPreviewSection extends StatelessWidget {
                         ),
                         InfoRow(
                           "Deposit Amount",
-                          selectedInstallmentAmount,
+                          selectedInstallmentAmount ?? "0",
                           icon: FontAwesomeIcons.bangladeshiTakaSign,
                         ),
                         InfoRow(
@@ -103,20 +104,20 @@ class AccountPreviewSection extends StatelessWidget {
                         const Divider(height: 30),
 
                         const SectionTitle("Account Holder"),
-                        InfoRow("Full Name", accountHolderName),
+                        InfoRow("Full Name", accountHolderName ?? ""),
 
                         const Divider(height: 30),
 
                         const SectionTitle("Account Operator"),
-                        InfoRow("Full Name", accountOperatorName),
+                        InfoRow("Full Name", accountOperatorName ?? ""),
 
                         const Divider(height: 30),
 
                         const SectionTitle("Appointed Nominees"),
                         for (final nominee in nominees)
                           InfoRow(
-                            nominee['name'] ?? '',
-                            nominee['share'] ?? '',
+                            nominee.name,
+                            nominee.percentage.toString(),
                             icon: FontAwesomeIcons.percent,
                           ),
                       ],
