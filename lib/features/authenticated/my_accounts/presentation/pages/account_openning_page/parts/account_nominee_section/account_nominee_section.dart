@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/entities/family_and_friend_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 
@@ -24,15 +27,15 @@ class AccountNomineeSection extends StatelessWidget {
   final String? selectedNominee;
   final void Function(String?) onNomineeChanged;
 
-  final String? sharePercentage;
-  final void Function(String?) onSharePercentageChanged;
+  final double sharePercentage;
+  final void Function(double?) onSharePercentageChanged;
 
   final String? nomineeError;
-  final VoidCallback onAddNominee;
+  final void Function(NomineeEntity) onAddNominee;
   final void Function(int index) onRemoveNominee;
-  final int remainingPercentage;
+  final double remainingPercentage;
   final bool Function() canAddNominee;
-  final List<Map<String, String>> nominees;
+  final List<NomineeEntity> nominees;
   final List<FamilyAndFriendEntity> familyMembers;
 
   @override
@@ -76,7 +79,7 @@ class AccountNomineeSection extends StatelessWidget {
                   errorText: nomineeError,
                 ),
                 const SizedBox(height: 12),
-                AppDropdownSelect<String>(
+                AppDropdownSelect<double?>(
                   label: "Share Percentage",
                   prefixIcon: FontAwesomeIcons.percent,
                   value: sharePercentage,
@@ -84,7 +87,7 @@ class AccountNomineeSection extends StatelessWidget {
                   items: List.generate(10, (i) {
                     final percent = (i + 1) * 10;
                     return DropdownMenuItem(
-                      value: percent.toString(),
+                      value: percent.toDouble(),
                       child: Text("$percent %"),
                     );
                   }),
@@ -93,7 +96,20 @@ class AccountNomineeSection extends StatelessWidget {
                 AppPrimaryButton(
                   iconBefore: const Icon(FontAwesomeIcons.userPlus),
                   label: "Add nominee",
-                  onPressed: canAddNominee() ? onAddNominee : null,
+                  onPressed:
+                      canAddNominee()
+                          ? () {
+                            final nominee = NomineeEntity(
+                              id: Random().nextInt(1000000000),
+                              name: "John Doe",
+                              relation: "Brother",
+                              phone: '',
+                              nationalId: '',
+                              percentage: sharePercentage,
+                            );
+                            onAddNominee(nominee);
+                          }
+                          : null,
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -180,12 +196,14 @@ class AccountNomineeSection extends StatelessWidget {
                                                 size: 16,
                                               ),
                                               const SizedBox(width: 10),
-                                              Text(nominee['name'] ?? ''),
+                                              Text(nominee.name),
                                             ],
                                           ),
                                           Row(
                                             children: [
-                                              Text(nominee['share'] ?? ''),
+                                              Text(
+                                                nominee.percentage.toString(),
+                                              ),
                                               const SizedBox(width: 4),
                                               const Icon(
                                                 FontAwesomeIcons.percent,
