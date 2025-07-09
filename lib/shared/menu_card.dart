@@ -21,11 +21,7 @@ class MenuCard extends StatelessWidget {
       elevation: 3,
       borderOnForeground: true,
       shadowColor: const Color.fromARGB(169, 0, 0, 0),
-      color:
-          context
-              .theme
-              .colorScheme
-              .surface, // needed for InkWell to show ripple
+      color: context.theme.colorScheme.surface,
       child: InkWell(
         onTap: onTap,
         child: Container(

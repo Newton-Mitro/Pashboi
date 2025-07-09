@@ -7,7 +7,7 @@ import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/widgets/app_icon_card.dart';
+import 'package:pashboi/shared/widgets/app_icon_card.dart';
 
 class BeneficiariesPage extends StatefulWidget {
   const BeneficiariesPage({super.key});

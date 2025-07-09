@@ -8,6 +8,8 @@ import 'package:pashboi/features/auth/presentation/pages/mobile_verification_pag
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
+import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
+import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/authenticated_home.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
@@ -73,6 +75,14 @@ class AppRoutes {
               mobileNumber: args['mobileNumber'] ?? '',
               otpRegId: args['otpRegId'] ?? '',
             ),
+          );
+        }
+        break;
+
+      case PublicRoutesName.savingPolicyDetailsPage:
+        if (args is Map<String, DepositPolicyEntity?>) {
+          return _materialRoute(
+            DepositPolicyDetailsPage(depositPolicy: args['depositPolicy']!),
           );
         }
         break;

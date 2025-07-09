@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/core/utils/text_util.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/bloc/deposit_policy_bloc.dart';
-import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
+import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pashboi/shared/widgets/public_app_icon_card.dart';
 
 class DepositPoliciesPage extends StatelessWidget {
   const DepositPoliciesPage({super.key});
@@ -34,43 +36,43 @@ class DepositPoliciesPage extends StatelessWidget {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   final product = products[index];
-                  return Card(
-                    elevation: 1,
-                    shadowColor: const Color.fromARGB(179, 0, 0, 0),
-                    color: context.theme.colorScheme.surface,
-                    surfaceTintColor: context.theme.colorScheme.error,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    child: ListTile(
-                      leading: FaIcon(
-                        FontAwesomeIcons.piggyBank,
-                        size: 24,
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                      title: Text(
-                        product.title,
-                        style: TextStyle(
-                          color: context.theme.colorScheme.onSurface,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0,
+                      vertical: 10,
+                    ), // Adjust spacing here
+                    child: PublicAppIconCard(
+                      leftIcon: FontAwesomeIcons.piggyBank,
+                      rightIcon: FontAwesomeIcons.chevronRight,
+                      boarderColor: context.theme.colorScheme.primary,
+                      cardBody: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 16,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                          children: [
+                            Text(
+                              product.title,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              TextUtil.truncateText(product.shortDescription),
+                            ),
+                          ],
                         ),
                       ),
-                      subtitle: Text(
-                        product.shortDescription,
-                        style: TextStyle(
-                          color: context.theme.colorScheme.onSurface,
-                        ),
-                      ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => DepositPolicyDetailsPage(
-                                  depositPolicy: product,
-                                ),
-                          ),
+                          PublicRoutesName.savingPolicyDetailsPage,
+                          arguments: {"depositPolicy": product},
                         );
                       },
                     ),

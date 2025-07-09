@@ -11,6 +11,7 @@ final class PublicRoutesName {
   static const String publicRoot = '/publicRoot';
   static const String developmentCreditsPage = '/developmentCreditsPage';
   static const String savingPoliciesPage = '/savingPoliciesPage';
+  static const String savingPolicyDetailsPage = '/savingPolicyDetailsPage';
   static const String loanPoliciesPage = '/loanPoliciesPage';
   static const String noticesPage = '/noticesPage';
   static const String serviceCentersPage = '/serviceCentersPage';

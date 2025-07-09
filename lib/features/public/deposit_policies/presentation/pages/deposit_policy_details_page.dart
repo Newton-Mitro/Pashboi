@@ -31,7 +31,7 @@ class DepositPolicyDetailsPage extends StatelessWidget {
                     child: FaIcon(
                       FontAwesomeIcons.piggyBank,
                       size: 100,
-                      color: context.theme.colorScheme.onPrimary,
+                      color: context.theme.colorScheme.onSurface,
                     ),
                   )
                   : Container(

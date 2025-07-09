@@ -8,7 +8,7 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/widgets/account_card_body.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/widgets/app_icon_card.dart';
+import 'package:pashboi/shared/widgets/app_icon_card.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
