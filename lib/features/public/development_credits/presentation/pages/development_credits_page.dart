@@ -38,7 +38,8 @@ class DevelopmentCreditsPage extends StatelessWidget {
                     return Card(
                       elevation: 1,
                       shadowColor: const Color.fromARGB(179, 0, 0, 0),
-                      surfaceTintColor: context.theme.colorScheme.primary,
+                      surfaceTintColor: context.theme.colorScheme.surface,
+                      color: context.theme.colorScheme.surface,
                       margin: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 8,
@@ -49,8 +50,18 @@ class DevelopmentCreditsPage extends StatelessWidget {
                           radius: 20,
                           backgroundColor: Colors.transparent,
                         ),
-                        title: Text(page.name),
-                        subtitle: Text(page.designation ?? 'No description'),
+                        title: Text(
+                          page.name,
+                          style: TextStyle(
+                            color: context.theme.colorScheme.onSurface,
+                          ),
+                        ),
+                        subtitle: Text(
+                          page.designation ?? 'No description',
+                          style: TextStyle(
+                            color: context.theme.colorScheme.onSurface,
+                          ),
+                        ),
                         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                         onTap: () {
                           Navigator.push(

@@ -42,7 +42,8 @@ class ProjectPage extends StatelessWidget {
                     return Card(
                       elevation: 1,
                       shadowColor: const Color.fromARGB(179, 0, 0, 0),
-                      surfaceTintColor: context.theme.colorScheme.primary,
+                      surfaceTintColor: context.theme.colorScheme.surface,
+                      color: context.theme.colorScheme.surface,
                       margin: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 8,
@@ -51,13 +52,19 @@ class ProjectPage extends StatelessWidget {
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(project.attachmentUrl),
                           radius: 20,
-                          backgroundColor: Colors.transparent,
+                          // backgroundColor: Colors.transparent,
                         ),
                         title: Text(
                           project.title,
+                          style: TextStyle(
+                            color: context.theme.colorScheme.onSurface,
+                          ),
                         ), // or project.title, depending on your entity
                         subtitle: Text(
                           project.shortDescription ?? '',
+                          style: TextStyle(
+                            color: context.theme.colorScheme.onSurface,
+                          ),
                         ), // if it exists
                         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                         onTap: () {

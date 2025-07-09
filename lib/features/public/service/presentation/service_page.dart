@@ -45,7 +45,8 @@ class ServicePage extends StatelessWidget {
                     return Card(
                       elevation: 1,
                       shadowColor: const Color.fromARGB(179, 0, 0, 0),
-                      surfaceTintColor: context.theme.colorScheme.primary,
+                      surfaceTintColor: context.theme.colorScheme.surface,
+                      color: context.theme.colorScheme.surface,
                       margin: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 8,
@@ -54,11 +55,18 @@ class ServicePage extends StatelessWidget {
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(policy.attachmentUrl),
                           radius: 20,
-                          backgroundColor: Colors.transparent,
                         ),
-                        title: Text(policy.title),
+                        title: Text(
+                          policy.title,
+                          style: TextStyle(
+                            color: context.theme.colorScheme.onSurface,
+                          ),
+                        ),
                         subtitle: Text(
                           policy.shortDescription ?? 'No description',
+                          style: TextStyle(
+                            color: context.theme.colorScheme.onSurface,
+                          ),
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                         onTap: () {
