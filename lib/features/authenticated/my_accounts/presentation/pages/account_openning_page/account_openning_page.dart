@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/domain/entities/family_and_friend_entity.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_amount_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
@@ -64,13 +64,13 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
 
   // Nominee Section State
   String? _selectedNominee;
-  String? _sharePercentage;
+  double _sharePercentage = 0;
   String? _nomineeError;
-  int _remainingPercentage = 100;
-  final List<Map<String, String>> _addedNominees = [];
+  double _remainingPercentage = 100;
+  final List<NomineeEntity> _addedNominees = [];
 
-  void _addNominee() {
-    if (_selectedNominee == null || _sharePercentage == null) {
+  void _addNominee(NomineeEntity nominee) {
+    if (_selectedNominee == null || _sharePercentage == 0) {
       setState(() {
         _nomineeError = "Please select nominee and share percentage.";
       });
@@ -78,31 +78,25 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     }
 
     setState(() {
-      _addedNominees.add({
-        'id': _selectedNominee!,
-        'name': '',
-        'share': _sharePercentage!,
-      });
+      _addedNominees.add(nominee);
 
-      _remainingPercentage -= int.parse(_sharePercentage!);
+      _remainingPercentage -= _sharePercentage;
       _selectedNominee = null;
-      _sharePercentage = null;
+      _sharePercentage = 0;
       _nomineeError = null;
     });
   }
 
   void _removeNominee(int index) {
     setState(() {
-      _remainingPercentage += int.parse(_addedNominees[index]['share']!);
+      _remainingPercentage += _addedNominees[index].percentage;
       _addedNominees.removeAt(index);
     });
   }
 
   bool _canAddNominee() {
-    final percent = int.tryParse(_sharePercentage ?? '');
-    return percent != null &&
-        percent <= _remainingPercentage &&
-        _selectedNominee != null;
+    final percent = _sharePercentage;
+    return percent <= _remainingPercentage && _selectedNominee != null;
   }
 
   @override
@@ -255,7 +249,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               onNomineeChanged: (val) => setState(() => _selectedNominee = val),
               sharePercentage: _sharePercentage,
               onSharePercentageChanged:
-                  (val) => setState(() => _sharePercentage = val),
+                  (val) => setState(() => _sharePercentage = val ?? 0),
               nominees: _addedNominees,
               nomineeError: _nomineeError,
               onAddNominee: _addNominee,

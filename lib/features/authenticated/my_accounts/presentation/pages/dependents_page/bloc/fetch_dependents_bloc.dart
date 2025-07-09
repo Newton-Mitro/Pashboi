@@ -36,11 +36,6 @@ class FetchDependentsBloc
         (authUserData) async {
           final user = authUserData.user;
 
-          if (user == null) {
-            emit(FetchDependentsError('User not found'));
-            return;
-          }
-
           final dependentsResult = await fetchDependentsUseCase.call(
             FetchDependentsProps(
               email: user.loginEmail,

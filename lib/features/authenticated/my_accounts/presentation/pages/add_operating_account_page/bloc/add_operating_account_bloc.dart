@@ -34,10 +34,6 @@ class AddOperatingAccountBloc
         },
         (authUserData) async {
           final user = authUserData.user;
-          if (user == null) {
-            emit(AddOperatingAccountError('User not found'));
-            return;
-          }
 
           final result = await addOperatingAccountUseCase.call(
             AddOperatingAccountProps(
