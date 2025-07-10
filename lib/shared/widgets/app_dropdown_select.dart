@@ -34,31 +34,39 @@ class AppDropdownSelect<T> extends StatelessWidget {
         final sheetHeight = MediaQuery.of(context).size.height * 0.4;
         return SizedBox(
           height: sheetHeight,
-          child: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            children:
-                items.map((item) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 5,
-                    ),
-                    child: ListTile(
-                      textColor: context.theme.colorScheme.onPrimary,
-                      title: item.child,
-                      selected: value == item.value,
-                      selectedColor: context.theme.colorScheme.onSecondary,
-                      selectedTileColor: context.theme.colorScheme.scrim,
-                      hoverColor: context.theme.colorScheme.scrim,
-                      focusColor: context.theme.colorScheme.inversePrimary,
-                      tileColor: context.theme.colorScheme.secondary,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        onChanged(item.value);
-                      },
-                    ),
-                  );
-                }).toList(),
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            itemCount: items.length,
+            separatorBuilder:
+                (_, __) => const SizedBox(height: 12), // spacing between items
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color:
+                      value == item.value
+                          ? context.theme.colorScheme.scrim
+                          : context.theme.colorScheme.primary,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: RadioListTile(
+                    value: item.value,
+                    groupValue: value,
+                    onChanged: (selectedValue) {
+                      Navigator.of(context).pop();
+                      onChanged(selectedValue);
+                    },
+                    title: item.child,
+                    selected: value == item.value,
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    activeColor: context.theme.colorScheme.onPrimary,
+                  ),
+                ),
+              );
+            },
           ),
         );
       },

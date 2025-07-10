@@ -42,18 +42,19 @@ Token: {{token}}
 }
 
 ### Response
-# {
-#   "Data": [
-#     {
-#       "AccountTypeName": "Savings Account",
-#       "AccountTypeCode": "16",
-#       "SavingsACNumber": "T-0063366",
-#       "AccountStatus": "Active",
-#       "IsMultipleAccountAllowed": false,
-#       "AccountNo": "",
-#       "IsEligible": false
-#     }
-#   ],
-#   "Status": "success",
-#   "Message": "success"
-# }
+{
+  "Data": [
+    {
+      "AccountTypeName": "Savings Account",
+      "AccountTypeCode": "16",
+      "SavingsACNumber": "T-0063366",
+      "IsWithdrawableAcc": false,
+      "AccountStatus": "Active",
+      "IsMultipleAccountAllowed": false,
+      "AccountNo": "",
+      "IsEligible": false
+    }
+  ],
+  "Status": "success",
+  "Message": "success"
+}

@@ -17,8 +17,8 @@ class ResetPasswordUseCase extends UseCase<void, ResetPasswordParams> {
   @override
   ResultFuture<void> call(ResetPasswordParams params) async {
     return await authRepository.resetPassword(
-      mobileNumber: params.mobileNumber,
-      password: params.password,
+      mobileNumber: params.mobileNumber.trim(),
+      password: params.password.trim(),
     );
   }
 }

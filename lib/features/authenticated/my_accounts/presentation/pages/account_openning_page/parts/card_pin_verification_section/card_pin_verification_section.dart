@@ -7,13 +7,15 @@ class CardPinVerificationSection extends StatelessWidget {
   const CardPinVerificationSection({
     super.key,
     required this.cardNumberController,
+    required this.cardNumberError,
     required this.cardPinController,
-    this.pinError,
+    required this.pinError,
   });
 
   final TextEditingController cardNumberController;
   final TextEditingController cardPinController;
   final String? pinError;
+  final String? cardNumberError;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class CardPinVerificationSection extends StatelessWidget {
                     AppTextInput(
                       controller: cardNumberController,
                       enabled: false,
+                      errorText: cardNumberError,
                       label: "Card Number",
                       prefixIcon: Icon(
                         FontAwesomeIcons.creditCard,

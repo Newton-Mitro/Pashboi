@@ -1,29 +1,29 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:progress_stepper/progress_stepper.dart';
+
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_amount_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_holder_section/account_holder_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section/account_nominee_section.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/account_opening_details_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_preview_section/account_preview_section.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/account_opening_details_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section/card_pin_verification_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section/otp_verification_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/transfer_from_section/transfer_from_section.dart';
-import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
 import 'package:pashboi/shared/widgets/step_item.dart';
-import 'package:progress_stepper/progress_stepper.dart';
 
 class AccountOpeningPage extends StatefulWidget {
   final String productCode;
@@ -35,313 +35,89 @@ class AccountOpeningPage extends StatefulWidget {
 }
 
 class _AccountOpeningPageState extends State<AccountOpeningPage> {
-  final _accountNameTextController = TextEditingController();
-  final _durationTextController = TextEditingController(text: '0');
-  final _interestRateTextController = TextEditingController(text: '0');
-  final _interestTransferAccount = TextEditingController();
-
-  final TextEditingController _cardNumberTextController =
-      TextEditingController();
-  final TextEditingController _accountTypeTextController =
-      TextEditingController();
-  final TextEditingController _accountBalanceTextController =
-      TextEditingController();
-  final TextEditingController _accountWithdrawableTextController =
-      TextEditingController();
-
-  // Constants
+  // OTP Verification Section
   static const int _otpDuration = 60;
   static const int _otpLength = 6;
+  // From Account Section
+  String? _accountNumber;
+  String? _accountNumberError;
+  final _accountTypeCon = TextEditingController();
 
-  // Controllers - organized by section
+  final _accountBalanceCon = TextEditingController();
+  final _accountWithdrawableCon = TextEditingController();
+  // Account Holder Section
+  final _accountForTextController = TextEditingController(text: 'Individual');
+  String? _accountHolderName;
+  String? _accountHolderNameError;
+
+  final _accountOperatorNameCon = TextEditingController();
+  String? _accountOperatorNameError;
+  // Account Opening Details Section
+  final _accountNameCon = TextEditingController();
+  String? _accountNameError;
+  final _accountDurationCon = TextEditingController(text: '0');
+  final _interestRateCon = TextEditingController(text: '0');
+  final _interestTransferToCon = TextEditingController();
+  final List<TenureEntity> _tenures = [];
+  String? _accountDuration;
+  String? _accountDurationError;
+  String? _installmentAmount;
+
+  String? _installmentAmountError;
+  final List<TenureAmountEntity> _installmentAmounts = [];
   final _pinController = TextEditingController();
   late final List<TextEditingController> _otpControllers;
   late final List<FocusNode> _focusNodes;
   late final CountDownController _countDownController;
-
-  String? _pinError;
-  String? _otpError;
   bool _isWaiting = true;
 
-  // Data
-  final List<TenureEntity> _tenures = [];
-  String? _selectedTenure;
-  String? _selectedInstallmentAmount;
-  final List<TenureAmountEntity> _installmentAmounts = [];
+  // Card Pin Verification Section
+  final _cardNumberCon = TextEditingController();
+  String? _cardNumberError;
+  String? _pinError;
+  String? _otpError;
 
-  // Nominee Section State
-  String? _selectedNominee;
+  // Nominee Section
+  String? _nomineeName;
   double _sharePercentage = 0;
   String? _nomineeError;
   double _remainingPercentage = 100;
   final List<NomineeEntity> _addedNominees = [];
 
-  void _addNominee(NomineeEntity nominee) {
-    if (_selectedNominee == null || _sharePercentage == 0) {
-      setState(() {
-        _nomineeError = "Please select nominee and share percentage.";
-      });
-      return;
-    }
+  Widget _buildProgressStepper(double width, AccountOpeningStepsState state) {
+    final theme = context.theme.colorScheme;
 
-    setState(() {
-      _addedNominees.add(nominee);
-      _remainingPercentage -= _sharePercentage;
-      _selectedNominee = null;
-      _sharePercentage = 0;
-      _nomineeError = null;
-    });
-  }
-
-  void _removeNominee(int index) {
-    setState(() {
-      _remainingPercentage += _addedNominees[index].percentage;
-      _addedNominees.removeAt(index);
-    });
-  }
-
-  bool _canAddNominee() {
-    final percent = _sharePercentage;
-    return percent <= _remainingPercentage && _selectedNominee != null;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeControllers();
-    _initializeData();
-    context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
-  }
-
-  @override
-  void dispose() {
-    _disposeControllers();
-    super.dispose();
-  }
-
-  void _initializeControllers() {
-    _otpControllers = List.generate(_otpLength, (_) => TextEditingController());
-    _focusNodes = List.generate(_otpLength, (_) => FocusNode());
-    _countDownController = CountDownController();
-    _countDownController.start();
-
-    // Setup focus listeners for OTP
-    for (int i = 0; i < _focusNodes.length; i++) {
-      _focusNodes[i].addListener(() {
-        if (_focusNodes[i].hasFocus) {
-          _otpControllers[i].clear();
-        }
-      });
-    }
-  }
-
-  void _initializeData() {
-    _loadMyCards();
-    _loadTenures();
-    _loadInstallmentAmounts();
-  }
-
-  void _disposeControllers() {
-    _cardNumberTextController.dispose();
-    _accountTypeTextController.dispose();
-    _accountBalanceTextController.dispose();
-    _accountWithdrawableTextController.dispose();
-    _accountNameTextController.dispose();
-    _durationTextController.dispose();
-    _interestRateTextController.dispose();
-    _interestTransferAccount.dispose();
-
-    try {
-      _countDownController.pause();
-    } catch (_) {}
-
-    for (final controller in _otpControllers) {
-      controller.dispose();
-    }
-    for (final focusNode in _focusNodes) {
-      focusNode.dispose();
-    }
-  }
-
-  // OTP methods
-  void _resendOTP() {
-    setState(() => _isWaiting = true);
-    try {
-      _countDownController.restart(duration: _otpDuration);
-    } catch (_) {}
-
-    context.read<VerifyMobileNumberBloc>().add(
-      SubmitMobileNumber(mobileNumber: "0123456789", isRegistered: true),
+    return ProgressStepper(
+      width: width * 0.9,
+      padding: 5,
+      height: 50,
+      color: theme.primary,
+      stepCount: AccountOpeningStepsBloc.totalSteps,
+      bluntHead: false,
+      bluntTail: false,
+      currentStep: state.currentStep,
+      builder: (context, index, stepWidth) {
+        final isCompleted = index - 1 <= state.currentStep;
+        return ProgressStepWithChevron(
+          width: stepWidth,
+          height: 50,
+          defaultColor: theme.surface,
+          progressColor: theme.primary,
+          borderColor: theme.primary,
+          borderWidth: 2,
+          wasCompleted: isCompleted,
+          child: Center(
+            child: Icon(
+              _buildSteps()[index - 1].icon,
+              color:
+                  isCompleted
+                      ? theme.onPrimary
+                      : theme.onSurface.withAlpha(220),
+            ),
+          ),
+        );
+      },
     );
-  }
-
-  void _onOtpChanged(String value, int index) {
-    if (value.isNotEmpty && index < _otpLength - 1) {
-      FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
-    } else if (value.isEmpty && index > 0) {
-      FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
-    }
-  }
-
-  void _clearOtpFields() {}
-
-  void _onOtpComplete() {}
-
-  void _submitOpenAnAccount() {}
-
-  // Data loading methods
-  void _loadMyCards() async {}
-
-  void _loadTenures() {
-    context.read<TenureBloc>().add(FetchTenuresEvent(widget.productCode));
-  }
-
-  void _loadInstallmentAmounts() {
-    _installmentAmounts.addAll([]);
-  }
-
-  // Tenure selection handler
-  void _onTenureChanged(String? value) {
-    context.read<TenureAmountBloc>().add(
-      FetchTenureAmountsEvent(
-        productCode: widget.productCode,
-        duration: value!,
-      ),
-    );
-    setState(() {
-      _selectedTenure = value;
-    });
-  }
-
-  void _onTenureAmountChanged(String? value) {
-    setState(() {
-      _selectedInstallmentAmount = value;
-    });
-  }
-
-  List<TenureEntity> getUniqueTenuresByMonths(List<TenureEntity> tenures) {
-    final uniqueTenures = <TenureEntity>[];
-
-    for (final tenure in tenures) {
-      final isDuplicate = uniqueTenures.any(
-        (t) => t.durationInMonths == tenure.durationInMonths,
-      );
-      if (!isDuplicate) {
-        uniqueTenures.add(tenure);
-      }
-    }
-
-    return uniqueTenures;
-  }
-
-  List<StepItem> _buildSteps(
-    AccountOpeningStepsState accountOpeningStepsState,
-    BuildContext context,
-  ) {
-    return [
-      StepItem(
-        icon: FontAwesomeIcons.moneyBillTransfer,
-        widget: TransferFromSection(
-          selectedAccountNumber:
-              accountOpeningStepsState.stepData[AccountOpeningStepsBloc
-                  .firstStep]?['selectedAccountNumber'] ??
-              '',
-          accountError: '',
-          onAccountChanged: (val) {
-            context.read<AccountOpeningStepsBloc>().add(
-              UpdateStepData(step: 0, key: 'selectedAccountNumber', value: val),
-            );
-          },
-          cardNumberController: _cardNumberTextController,
-          accounTypeController: _accountTypeTextController,
-          accountBalanceController: _accountBalanceTextController,
-          accountWithdrawableController: _accountWithdrawableTextController,
-          accountHolderNameController: _accountNameTextController,
-        ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.piggyBank,
-        widget: AccountOpeningDetailsSection(
-          accountNameController: _accountNameTextController,
-          accountNameError: '',
-          durationController: _durationTextController,
-          interestRateController: _interestRateTextController,
-          interestTransferAccountController: _interestTransferAccount,
-          selectedTenure: _selectedTenure,
-          tenureError: '',
-          tenures: _tenures,
-          onTenureChanged: _onTenureChanged,
-          selectedInstallmentAmount: _selectedInstallmentAmount,
-          installmentAmountError: '',
-          installmentAmounts: _installmentAmounts,
-          onInstallmentAmountChanged: _onTenureAmountChanged,
-        ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.userShield,
-        widget: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
-          builder: (context, state) {
-            return AccountNomineeSection(
-              selectedNominee: _selectedNominee,
-              onNomineeChanged: (val) => setState(() => _selectedNominee = val),
-              sharePercentage: _sharePercentage,
-              onSharePercentageChanged:
-                  (val) => setState(() => _sharePercentage = val ?? 0),
-              nominees: _addedNominees,
-              nomineeError: _nomineeError,
-              onAddNominee: _addNominee,
-              onRemoveNominee: _removeNominee,
-              remainingPercentage: _remainingPercentage,
-              canAddNominee: _canAddNominee,
-              familyMembers: state.familyAndFriends,
-            );
-          },
-        ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.eye,
-        widget: AccountPreviewSection(
-          selectedAccount:
-              accountOpeningStepsState.stepData[AccountOpeningStepsBloc
-                  .firstStep]?['selectedAccountNumber'] ??
-              '',
-          accountNameController: _accountNameTextController,
-          durationController: _durationTextController,
-          selectedInstallmentAmount: _selectedInstallmentAmount,
-          interestRateController: _interestRateTextController,
-          interestTransferAccountController: _interestTransferAccount,
-          nominees: _addedNominees,
-          accountType: _accountTypeTextController.text,
-          accountHolderName: 'John Doe',
-          accountOperatorName: 'Mrs. Johnson',
-        ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.creditCard,
-        widget: CardPinVerificationSection(
-          cardNumberController: _cardNumberTextController,
-          cardPinController: _pinController,
-          pinError: _pinError,
-        ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.key,
-        widget: OtpVerificationSection(
-          routeName: AuthRoutesName.myAccountsPage,
-          otpControllers: _otpControllers,
-          focusNodes: _focusNodes,
-          isWaiting: _isWaiting,
-          otpDuration: _otpDuration,
-          countDownController: _countDownController,
-          otpRegId: '',
-          otpError: _otpError,
-          onResendOtp: _resendOTP,
-          onOtpChanged: _onOtpChanged,
-          clearOtpFields: _clearOtpFields,
-          onOtpComplete: _onOtpComplete,
-        ),
-      ),
-    ];
   }
 
   @override
@@ -354,10 +130,8 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           listener: (context, state) {
             if (state is TenureSuccess) {
               setState(() {
-                final _tenuresFiltered = getUniqueTenuresByMonths(
-                  state.tenures,
-                );
-                _tenures.addAll(_tenuresFiltered);
+                final tenuresFiltered = getUniqueTenuresByMonths(state.tenures);
+                _tenures.addAll(tenuresFiltered);
               });
             }
           },
@@ -392,42 +166,9 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
                       horizontal: 16,
                       vertical: 15,
                     ),
-                    child: ProgressStepper(
-                      width: width * 0.9,
-                      padding: 5,
-                      height: 50,
-                      color: context.theme.colorScheme.primary,
-                      stepCount: AccountOpeningStepsBloc.totalSteps,
-                      bluntHead: false,
-                      bluntTail: false,
-                      currentStep: accountOpeningStepsState.currentStep,
-                      builder: (context, index, stepWidth) {
-                        final isCompleted =
-                            index - 1 <= accountOpeningStepsState.currentStep;
-                        final theme = context.theme.colorScheme;
-
-                        return ProgressStepWithChevron(
-                          width: stepWidth,
-                          height: 50,
-                          defaultColor: theme.surface,
-                          progressColor: theme.primary,
-                          borderColor: theme.primary,
-                          borderWidth: 2,
-                          wasCompleted: isCompleted,
-                          child: Center(
-                            child: Icon(
-                              _buildSteps(
-                                accountOpeningStepsState,
-                                context,
-                              )[index - 1].icon,
-                              color:
-                                  isCompleted
-                                      ? theme.onPrimary
-                                      : theme.onSurface.withAlpha(220),
-                            ),
-                          ),
-                        );
-                      },
+                    child: _buildProgressStepper(
+                      width,
+                      accountOpeningStepsState,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -447,10 +188,9 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
                         child: KeyedSubtree(
                           key: ValueKey(accountOpeningStepsState.currentStep),
                           child:
-                              _buildSteps(
-                                accountOpeningStepsState,
-                                context,
-                              )[accountOpeningStepsState.currentStep].widget,
+                              _buildSteps()[accountOpeningStepsState
+                                      .currentStep]
+                                  .widget,
                         ),
                       ),
                     ),
@@ -508,6 +248,181 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     );
   }
 
+  @override
+  void dispose() {
+    _disposeControllers();
+    super.dispose();
+  }
+
+  List<TenureEntity> getUniqueTenuresByMonths(List<TenureEntity> tenures) {
+    final uniqueTenures = <TenureEntity>[];
+
+    for (final tenure in tenures) {
+      final isDuplicate = uniqueTenures.any(
+        (t) => t.durationInMonths == tenure.durationInMonths,
+      );
+      if (!isDuplicate) {
+        uniqueTenures.add(tenure);
+      }
+    }
+
+    return uniqueTenures;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeControllers();
+    _initializeData();
+    context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
+  }
+
+  void _updateAccountHolderName(String? value) {
+    setState(() {
+      _accountHolderName = value;
+      _accountNameCon.text = value ?? '';
+    });
+  }
+
+  void _updateNomineeSelection(String? value) {
+    setState(() {
+      _nomineeName = value;
+    });
+  }
+
+  void _addNominee(NomineeEntity nominee) {
+    if (_nomineeName == null || _sharePercentage == 0) {
+      setState(() {
+        _nomineeError = "Please select nominee and share percentage.";
+      });
+      return;
+    }
+
+    setState(() {
+      _addedNominees.add(nominee);
+      _remainingPercentage -= _sharePercentage;
+      _nomineeName = null;
+      _sharePercentage = 0;
+      _nomineeError = null;
+    });
+  }
+
+  List<StepItem> _buildSteps() {
+    return [
+      StepItem(
+        icon: FontAwesomeIcons.moneyBillTransfer,
+        widget: TransferFromSection(
+          accountNumber: _accountNumber,
+          accountError: _accountNumberError,
+          onAccountChanged: (val) {
+            setState(() {
+              _accountNumber = val;
+              _interestTransferToCon.text = val!;
+            });
+          },
+          cardNumberController: _cardNumberCon,
+          accounTypeController: _accountTypeCon,
+          accountBalanceController: _accountBalanceCon,
+          accountWithdrawableController: _accountWithdrawableCon,
+          accountOperatorNameController: _accountOperatorNameCon,
+        ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.userTie,
+        widget: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
+          builder: (context, state) {
+            return AccountHolderSection(
+              accountHolderName: _accountHolderName,
+              onAccountHolderChanged: _updateAccountHolderName,
+              accountHolderNameError: _accountHolderNameError,
+              familyMembers: state.familyAndFriends,
+              accountForTextController: _accountForTextController,
+              accountOperatorNameController: _accountOperatorNameCon,
+              accountOperatorNameError: _accountOperatorNameError,
+            );
+          },
+        ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.piggyBank,
+        widget: AccountOpeningDetailsSection(
+          accountNameController: _accountNameCon,
+          accountNameError: _accountNameError,
+          accountDurationController: _accountDurationCon,
+          interestRateController: _interestRateCon,
+          interestTransferToController: _interestTransferToCon,
+          accountDuration: _accountDuration,
+          accountDurationError: _accountDurationError,
+          tenures: _tenures,
+          onTenureChanged: _onTenureChanged,
+          installmentAmount: _installmentAmount,
+          installmentAmountError: _installmentAmountError,
+          tenureAmounts: _installmentAmounts,
+          onTenureAmountChange: _onTenureAmountChanged,
+        ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.userShield,
+        widget: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
+          builder: (context, state) {
+            return AccountNomineeSection(
+              nomineeName: _nomineeName,
+              nomineeError: _nomineeError,
+              onNomineeChanged: _updateNomineeSelection,
+              sharePercentage: _sharePercentage,
+              onSharePercentageChanged:
+                  (val) => setState(() => _sharePercentage = val ?? 0),
+              nominees: _addedNominees,
+              onAddNominee: _addNominee,
+              onRemoveNominee: _removeNominee,
+              remainingPercentage: _remainingPercentage,
+              canAddNominee: _canAddNominee,
+              familyMembers: state.familyAndFriends,
+            );
+          },
+        ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.eye,
+        widget: AccountPreviewSection(
+          accountNameController: _accountOperatorNameCon,
+          accountDurationController: _accountDurationCon,
+          installmentAmount: _installmentAmount,
+          interestRateController: _interestRateCon,
+          interestTransferToController: _interestTransferToCon,
+          nominees: _addedNominees,
+          accountType: _accountTypeCon.text,
+          accountHolderName: _accountHolderName,
+          accountOperatorName: _accountOperatorNameCon.text,
+        ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.creditCard,
+        widget: CardPinVerificationSection(
+          cardNumberController: _cardNumberCon,
+          cardNumberError: _cardNumberError,
+          cardPinController: _pinController,
+          pinError: _pinError,
+        ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.key,
+        widget: OtpVerificationSection(
+          otpControllers: _otpControllers,
+          focusNodes: _focusNodes,
+          isWaiting: _isWaiting,
+          otpDuration: _otpDuration,
+          countDownController: _countDownController,
+          otpError: _otpError,
+          onResendOtp: _resendOTP,
+          onOtpChanged: _onOtpChanged,
+          clearOtpFields: _clearOtpFields,
+          onOtpComplete: _onOtpComplete,
+        ),
+      ),
+    ];
+  }
+
   Widget _buildSubmitButton(double width, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5),
@@ -523,4 +438,104 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       ),
     );
   }
+
+  bool _canAddNominee() {
+    final percent = _sharePercentage;
+    return percent <= _remainingPercentage && _nomineeName != null;
+  }
+
+  void _clearOtpFields() {
+    for (final controller in _otpControllers) {
+      controller.clear();
+    }
+  }
+
+  void _disposeControllers() {
+    _cardNumberCon.dispose();
+    _accountTypeCon.dispose();
+    _accountBalanceCon.dispose();
+    _accountWithdrawableCon.dispose();
+    _accountOperatorNameCon.dispose();
+    _accountDurationCon.dispose();
+    _interestRateCon.dispose();
+    _interestTransferToCon.dispose();
+
+    try {
+      _countDownController.pause();
+    } catch (_) {}
+
+    for (final controller in _otpControllers) {
+      controller.dispose();
+    }
+    for (final focusNode in _focusNodes) {
+      focusNode.dispose();
+    }
+  }
+
+  void _initializeControllers() {
+    _otpControllers = List.generate(_otpLength, (_) => TextEditingController());
+    _focusNodes = List.generate(_otpLength, (_) => FocusNode());
+    _countDownController = CountDownController();
+    _countDownController.start();
+
+    for (int i = 0; i < _focusNodes.length; i++) {
+      _focusNodes[i].addListener(() {
+        if (_focusNodes[i].hasFocus) {
+          _otpControllers[i].clear();
+        }
+      });
+    }
+  }
+
+  void _initializeData() {
+    context.read<TenureBloc>().add(FetchTenuresEvent(widget.productCode));
+  }
+
+  void _onOtpChanged(String value, int index) {
+    if (value.isNotEmpty && index < _otpLength - 1) {
+      FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+    } else if (value.isEmpty && index > 0) {
+      FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
+    }
+  }
+
+  void _onOtpComplete() {}
+
+  void _onTenureAmountChanged(String? value) {
+    setState(() {
+      _installmentAmount = value;
+    });
+  }
+
+  void _onTenureChanged(String? value) {
+    context.read<TenureAmountBloc>().add(
+      FetchTenureAmountsEvent(
+        productCode: widget.productCode,
+        duration: value!,
+      ),
+    );
+    setState(() {
+      _accountDuration = value;
+    });
+  }
+
+  void _removeNominee(int index) {
+    setState(() {
+      _remainingPercentage += _addedNominees[index].percentage;
+      _addedNominees.removeAt(index);
+    });
+  }
+
+  void _resendOTP() {
+    setState(() => _isWaiting = true);
+    try {
+      _countDownController.restart(duration: _otpDuration);
+    } catch (_) {}
+
+    context.read<VerifyMobileNumberBloc>().add(
+      SubmitMobileNumber(mobileNumber: "0123456789", isRegistered: true),
+    );
+  }
+
+  void _submitOpenAnAccount() {}
 }

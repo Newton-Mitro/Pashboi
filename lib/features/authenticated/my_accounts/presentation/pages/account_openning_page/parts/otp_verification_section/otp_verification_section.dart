@@ -4,14 +4,12 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
 class OtpVerificationSection extends StatelessWidget {
-  final String routeName;
   final String? otpError;
   final List<TextEditingController> otpControllers;
   final List<FocusNode> focusNodes;
   final bool isWaiting;
   final int otpDuration;
   final CountDownController countDownController;
-  final String otpRegId;
   final VoidCallback onResendOtp;
   final void Function(String value, int index) onOtpChanged;
   final VoidCallback clearOtpFields;
@@ -19,18 +17,16 @@ class OtpVerificationSection extends StatelessWidget {
 
   const OtpVerificationSection({
     super.key,
-    required this.routeName,
     required this.otpControllers,
     required this.focusNodes,
     required this.isWaiting,
     required this.otpDuration,
     required this.countDownController,
-    required this.otpRegId,
     required this.onResendOtp,
     required this.onOtpChanged,
     required this.clearOtpFields,
     required this.onOtpComplete,
-    this.otpError,
+    required this.otpError,
   });
 
   @override

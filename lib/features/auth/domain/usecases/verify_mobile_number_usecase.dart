@@ -21,7 +21,7 @@ class VerifyMobileNumberUseCase
   @override
   ResultFuture<String> call(VerifyMobileNumberParams params) async {
     final authUser = await authRepository.verifyMobileNumber(
-      params.mobileNumber,
+      params.mobileNumber.trim(),
       params.isRegistered,
     );
 

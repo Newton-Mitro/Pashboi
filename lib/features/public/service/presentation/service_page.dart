@@ -9,7 +9,6 @@ import 'package:pashboi/features/public/service/presentation/bloc/service_policy
 import 'package:pashboi/features/public/service/presentation/bloc/service_policy_state.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
-import 'package:pashboi/shared/widgets/public_app_icon_card.dart';
 import 'package:pashboi/shared/widgets/public_app_image_card.dart';
 
 class ServicePage extends StatelessWidget {
