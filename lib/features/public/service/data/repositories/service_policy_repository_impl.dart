@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
@@ -21,6 +22,9 @@ class ServicePolicyRepositoryImpl implements ServicePolicyRepository {
     FetchServicePolicyProps props,
   ) async {
     try {
+      if (!await networkInfo.isConnected) {
+        return Left(FailureMapper.fromException(NoInternetFailure()));
+      }
       final result = await servicePolicyRemoteDataSource
           .fetchServicePoliciesByCategoryId(props);
       return Right(result);
