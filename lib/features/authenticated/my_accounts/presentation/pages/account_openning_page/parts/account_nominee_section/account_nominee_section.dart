@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/entities/family_and_friend_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
@@ -11,7 +12,7 @@ import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 class AccountNomineeSection extends StatelessWidget {
   const AccountNomineeSection({
     super.key,
-    required this.selectedNominee,
+    required this.nomineeName,
     required this.onNomineeChanged,
     required this.sharePercentage,
     required this.onSharePercentageChanged,
@@ -24,7 +25,7 @@ class AccountNomineeSection extends StatelessWidget {
     this.nomineeError,
   });
 
-  final String? selectedNominee;
+  final String? nomineeName;
   final void Function(String?) onNomineeChanged;
 
   final double sharePercentage;
@@ -67,13 +68,13 @@ class AccountNomineeSection extends StatelessWidget {
                 AppDropdownSelect<String>(
                   label: "Nominee",
                   prefixIcon: FontAwesomeIcons.user,
-                  value: selectedNominee,
+                  value: nomineeName,
                   onChanged: onNomineeChanged,
                   items:
                       familyMembers.map((member) {
                         return DropdownMenuItem(
-                          value: member.familyMemberId.toString(),
-                          child: Text(member.familyMemberName),
+                          value: member.familyMemberName.toTitleCase(),
+                          child: Text(member.familyMemberName.toTitleCase()),
                         );
                       }).toList(),
                   errorText: nomineeError,
@@ -101,7 +102,7 @@ class AccountNomineeSection extends StatelessWidget {
                           ? () {
                             final nominee = NomineeEntity(
                               id: Random().nextInt(1000000000),
-                              name: "John Doe",
+                              name: nomineeName ?? "",
                               relation: "Brother",
                               phone: '',
                               nationalId: '',

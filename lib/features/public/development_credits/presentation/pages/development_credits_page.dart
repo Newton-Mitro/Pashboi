@@ -6,7 +6,6 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/text_util.dart';
 import 'package:pashboi/features/public/development_credits/domain/entites/development_credits_entity.dart';
 import 'package:pashboi/features/public/development_credits/presentation/bloc/development_credit_bloc.dart';
-import 'package:pashboi/features/public/development_credits/presentation/pages/development_creadit_details.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/public_app_image_card.dart';

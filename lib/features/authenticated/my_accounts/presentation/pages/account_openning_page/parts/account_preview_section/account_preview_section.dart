@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 
 class AccountPreviewSection extends StatelessWidget {
-  final String selectedAccount;
   final TextEditingController accountNameController;
-  final TextEditingController durationController;
-  final String selectedInstallmentAmount;
+  final TextEditingController accountDurationController;
+  final String? installmentAmount;
   final TextEditingController interestRateController;
-  final TextEditingController interestTransferAccountController;
-  final List<Map<String, String>> nominees;
-  final String accountType;
-  final String accountHolderName;
-  final String accountOperatorName;
+  final TextEditingController interestTransferToController;
+  final List<NomineeEntity> nominees;
+  final String? accountType;
+  final String? accountHolderName;
+  final String? accountOperatorName;
 
   const AccountPreviewSection({
     super.key,
-    required this.selectedAccount,
     required this.accountNameController,
-    required this.durationController,
+    required this.accountDurationController,
     required this.interestRateController,
-    required this.interestTransferAccountController,
+    required this.interestTransferToController,
     required this.nominees,
     required this.accountType,
     required this.accountHolderName,
     required this.accountOperatorName,
-    required this.selectedInstallmentAmount,
+    required this.installmentAmount,
   });
 
   @override
@@ -83,9 +82,12 @@ class AccountPreviewSection extends StatelessWidget {
                     child: Column(
                       children: [
                         const SectionTitle("Account Info"),
-                        InfoRow("Account Type", accountType),
+                        InfoRow("Account Type", accountType ?? ""),
                         InfoRow("Account Name", accountNameController.text),
-                        InfoRow("Tenure", durationController.text),
+                        InfoRow(
+                          "Tenure",
+                          "${accountDurationController.text} Months",
+                        ),
                         InfoRow(
                           "Interest Rate",
                           interestRateController.text,
@@ -93,30 +95,39 @@ class AccountPreviewSection extends StatelessWidget {
                         ),
                         InfoRow(
                           "Deposit Amount",
-                          selectedInstallmentAmount,
+                          installmentAmount ?? "0",
                           icon: FontAwesomeIcons.bangladeshiTakaSign,
                         ),
                         InfoRow(
                           "Interest Transfer To",
-                          interestTransferAccountController.text,
+                          interestTransferToController.text,
                         ),
-                        const Divider(height: 30),
+                        Divider(
+                          height: 30,
+                          color: context.theme.colorScheme.primary,
+                        ),
 
                         const SectionTitle("Account Holder"),
-                        InfoRow("Full Name", accountHolderName),
+                        InfoRow("Full Name", accountHolderName ?? ""),
 
-                        const Divider(height: 30),
+                        Divider(
+                          height: 30,
+                          color: context.theme.colorScheme.primary,
+                        ),
 
                         const SectionTitle("Account Operator"),
-                        InfoRow("Full Name", accountOperatorName),
+                        InfoRow("Full Name", accountOperatorName ?? ""),
 
-                        const Divider(height: 30),
+                        Divider(
+                          height: 30,
+                          color: context.theme.colorScheme.primary,
+                        ),
 
                         const SectionTitle("Appointed Nominees"),
                         for (final nominee in nominees)
                           InfoRow(
-                            nominee['name'] ?? '',
-                            nominee['share'] ?? '',
+                            nominee.name,
+                            nominee.percentage.toString(),
                             icon: FontAwesomeIcons.percent,
                           ),
                       ],

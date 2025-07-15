@@ -4,7 +4,6 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/text_util.dart';
 import 'package:pashboi/features/public/loan_policies/presentation/bloc/loan_policy_bloc.dart';
-import 'package:pashboi/features/public/loan_policies/presentation/pages/loan_policy_details_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/features/public/loan_policies/domain/entites/loan_policy_entity.dart';

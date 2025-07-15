@@ -10,35 +10,35 @@ class AccountOpeningDetailsSection extends StatelessWidget {
   const AccountOpeningDetailsSection({
     super.key,
     required this.accountNameController,
-    required this.durationController,
+    required this.accountDurationController,
     required this.interestRateController,
-    required this.interestTransferAccountController,
-    required this.selectedTenure,
+    required this.interestTransferToController,
+    required this.accountDuration,
     required this.tenures,
-    required this.installmentAmounts,
+    required this.tenureAmounts,
     required this.onTenureChanged,
-    required this.selectedInstallmentAmount,
-    required this.onInstallmentAmountChanged,
+    required this.installmentAmount,
+    required this.onTenureAmountChange,
     this.accountNameError,
-    this.tenureError,
+    this.accountDurationError,
     this.installmentAmountError,
   });
 
   final TextEditingController accountNameController;
-  final TextEditingController durationController;
+  final TextEditingController accountDurationController;
   final TextEditingController interestRateController;
-  final TextEditingController interestTransferAccountController;
+  final TextEditingController interestTransferToController;
 
   final List<TenureEntity> tenures;
-  final List<TenureAmountEntity> installmentAmounts;
+  final List<TenureAmountEntity> tenureAmounts;
 
-  final String? selectedTenure;
-  final String? tenureError;
+  final String? accountDuration;
+  final String? accountDurationError;
   final ValueChanged<String?> onTenureChanged;
 
-  final String? selectedInstallmentAmount;
+  final String? installmentAmount;
   final String? installmentAmountError;
-  final ValueChanged<String?> onInstallmentAmountChanged;
+  final ValueChanged<String?> onTenureAmountChange;
 
   final String? accountNameError;
 
@@ -94,8 +94,8 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppDropdownSelect<String>(
-                      value: selectedTenure,
-                      errorText: tenureError,
+                      value: accountDuration,
+                      errorText: accountDurationError,
                       label: "Tenure",
                       items:
                           tenures
@@ -110,7 +110,7 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                         final selected = tenures.firstWhere(
                           (t) => t.durationInMonths.toString() == value,
                         );
-                        durationController.text =
+                        accountDurationController.text =
                             selected.durationInMonths.toString();
                         interestRateController.text =
                             selected.interestRate.toString();
@@ -120,7 +120,7 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: durationController,
+                      controller: accountDurationController,
                       enabled: false,
                       label: "Duration In Months",
                       prefixIcon: Icon(
@@ -140,11 +140,11 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppDropdownSelect<String>(
-                      value: selectedInstallmentAmount,
+                      value: installmentAmount,
                       errorText: installmentAmountError,
                       label: "Installment Amount",
                       items:
-                          installmentAmounts
+                          tenureAmounts
                               .map(
                                 (amount) => DropdownMenuItem(
                                   value: amount.depositAmount.toString(),
@@ -152,12 +152,12 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                                 ),
                               )
                               .toList(),
-                      onChanged: onInstallmentAmountChanged,
+                      onChanged: onTenureAmountChange,
                       prefixIcon: Icons.attach_money,
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: interestTransferAccountController,
+                      controller: interestTransferToController,
                       label: "Interest Transfer Account",
                       prefixIcon: Icon(
                         FontAwesomeIcons.buildingColumns,

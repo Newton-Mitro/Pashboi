@@ -21,8 +21,8 @@ class LoginUseCase extends UseCase<AuthUserEntity, LoginParams> {
   @override
   ResultFuture<AuthUserEntity> call(LoginParams params) async {
     final loggedInUser = await authRepository.login(
-      params.email,
-      md5.convert(utf8.encode(params.password)).toString(),
+      params.email.trim(),
+      md5.convert(utf8.encode(params.password.trim())).toString(),
     );
 
     return loggedInUser;

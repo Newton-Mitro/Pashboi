@@ -22,9 +22,9 @@ class RegistrationUseCase extends UseCase<String, RegistrationParams> {
   @override
   ResultFuture<String> call(RegistrationParams params) async {
     final authUser = await authRepository.register(
-      params.email,
-      params.password,
-      params.confirmPassword,
+      params.email.trim(),
+      params.password.trim(),
+      params.confirmPassword.trim(),
     );
 
     return authUser;

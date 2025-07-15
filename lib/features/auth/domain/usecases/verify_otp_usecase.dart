@@ -24,7 +24,7 @@ class VerifyOtpUseCase extends UseCase<String, VerifyOtpParams> {
     final authUser = await authRepository.verifyOtp(
       params.otpRegId,
       params.otpValue,
-      params.mobileNumber,
+      params.mobileNumber.trim(),
     );
 
     return authUser;

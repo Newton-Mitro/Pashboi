@@ -10,7 +10,7 @@ import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
 class TransferFromSection extends StatelessWidget {
-  final String? selectedAccountNumber;
+  final String? accountNumber;
   final String? accountError;
   final void Function(String?)? onAccountChanged;
 
@@ -18,18 +18,18 @@ class TransferFromSection extends StatelessWidget {
   final TextEditingController accounTypeController;
   final TextEditingController accountBalanceController;
   final TextEditingController accountWithdrawableController;
-  final TextEditingController accountHolderNameController;
+  final TextEditingController accountOperatorNameController;
 
   const TransferFromSection({
     super.key,
-    required this.selectedAccountNumber,
-    this.accountError,
+    required this.accountNumber,
+    required this.accountError,
     required this.onAccountChanged,
     required this.cardNumberController,
     required this.accounTypeController,
     required this.accountBalanceController,
     required this.accountWithdrawableController,
-    required this.accountHolderNameController,
+    required this.accountOperatorNameController,
   });
 
   @override
@@ -91,7 +91,7 @@ class TransferFromSection extends StatelessWidget {
                         const SizedBox(height: 5),
                         AppDropdownSelect(
                           label: "Account Number",
-                          value: selectedAccountNumber,
+                          value: accountNumber,
                           errorText: accountError,
                           enabled: accountNumbers.isNotEmpty,
                           items:
@@ -124,11 +124,11 @@ class TransferFromSection extends StatelessWidget {
                                   selectedAcc.balance.toString();
                               accountWithdrawableController.text =
                                   selectedAcc.withdrawableBalance.toString();
-                              accountHolderNameController.text =
+                              accountOperatorNameController.text =
                                   debitCardEntity.nameOnCard.toTitleCase();
 
                               if (onAccountChanged != null) {
-                                onAccountChanged!(value);
+                                onAccountChanged!(value.toTitleCase());
                               }
                             }
                           },
