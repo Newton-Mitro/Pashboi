@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/domain/entities/family_and_friend_entity.dart';
-import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
 class AccountHolderSection extends StatelessWidget {
-  final String? accountHolderName;
-  final void Function(String?) onAccountHolderChanged;
+  final TextEditingController accountHolderNameController;
   final String? accountHolderNameError;
   final String? accountOperatorNameError;
 
   final TextEditingController accountForTextController;
   final TextEditingController accountOperatorNameController;
 
-  final List<FamilyAndFriendEntity> familyMembers;
-
   const AccountHolderSection({
     super.key,
-    required this.accountHolderName,
-    required this.onAccountHolderChanged,
-    required this.familyMembers,
+    required this.accountHolderNameController,
     required this.accountForTextController,
     required this.accountOperatorNameController,
     required this.accountOperatorNameError,
@@ -64,18 +56,14 @@ class AccountHolderSection extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                AppDropdownSelect<String>(
+                AppTextInput(
+                  controller: accountHolderNameController,
+                  enabled: false,
                   label: "Account Holder",
-                  prefixIcon: FontAwesomeIcons.percent,
-                  value: accountHolderName,
-                  onChanged: onAccountHolderChanged,
-                  items:
-                      familyMembers.map((member) {
-                        return DropdownMenuItem(
-                          value: member.familyMemberName.toTitleCase(),
-                          child: Text(member.familyMemberName.toTitleCase()),
-                        );
-                      }).toList(),
+                  prefixIcon: Icon(
+                    FontAwesomeIcons.creditCard,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],

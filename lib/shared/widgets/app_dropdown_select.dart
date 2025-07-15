@@ -42,7 +42,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.only(left: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color:

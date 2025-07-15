@@ -114,6 +114,7 @@ class _OpenableAccountsPageState extends State<OpenableAccountsPage> {
                                 AuthRoutesName.createNewAccountPage,
                                 arguments: {
                                   'productCode': openableAccount.productCode,
+                                  'productName': openableAccount.productName,
                                 },
                               );
                             },

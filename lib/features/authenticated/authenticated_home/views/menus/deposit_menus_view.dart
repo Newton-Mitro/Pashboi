@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,6 +22,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_now_description",
         ),
+        "route": AuthRoutesName.depositNowPage,
       },
       {
         "icon": FontAwesomeIcons.clock,
@@ -32,6 +34,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_latter_description",
         ),
+        "route": AuthRoutesName.depositNowPage,
       },
       {
         "icon": FontAwesomeIcons.mobileScreenButton,
@@ -43,6 +46,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_from_bkash_description",
         ),
+        "route": AuthRoutesName.depositNowPage,
       },
       {
         "icon": FontAwesomeIcons.circleInfo,
@@ -54,6 +58,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_request_status_description",
         ),
+        "route": AuthRoutesName.depositNowPage,
       },
       {
         "icon": FontAwesomeIcons.receipt,
@@ -62,6 +67,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_ereceipt_description",
         ),
+        "route": AuthRoutesName.depositNowPage,
       },
     ];
     return SafeArea(
@@ -76,7 +82,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-              debugPrint("Tapped on ${menu['menuName']}");
+              Navigator.pushNamed(context, menu['route']);
             },
           );
         },

@@ -6,6 +6,8 @@ import 'package:pashboi/features/auth/presentation/pages/registration_page.dart'
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
@@ -214,6 +216,7 @@ class AppRoutes {
               ],
               child: AccountOpeningPage(
                 productCode: args['productCode'] ?? '18',
+                productName: args['productName'] ?? 'Savings Account',
               ),
             ),
           );
@@ -229,6 +232,14 @@ class AppRoutes {
           );
         }
         break;
+
+      case AuthRoutesName.depositNowPage:
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => sl<DepositNowStepsBloc>(),
+            child: DepositNowPage(),
+          ),
+        );
 
       default:
         return _materialRoute(const AuthenticatedHome());

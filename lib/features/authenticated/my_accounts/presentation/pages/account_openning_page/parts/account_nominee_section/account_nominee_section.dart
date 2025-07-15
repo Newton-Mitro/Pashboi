@@ -190,15 +190,29 @@ class AccountNomineeSection extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                FontAwesomeIcons.user,
-                                                size: 16,
-                                              ),
-                                              const SizedBox(width: 10),
-                                              Text(nominee.name),
-                                            ],
+                                          Expanded(
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  FontAwesomeIcons.user,
+                                                  size: 16,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Expanded(
+                                                  child: Text(
+                                                    nominee.name,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                    softWrap: true,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           Row(
                                             children: [
@@ -216,10 +230,12 @@ class AccountNomineeSection extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  IconButton(
-                                    icon: const Icon(FontAwesomeIcons.trash),
-                                    onPressed: () => onRemoveNominee(index),
+                                  Expanded(
+                                    flex: 1,
+                                    child: IconButton(
+                                      icon: const Icon(FontAwesomeIcons.trash),
+                                      onPressed: () => onRemoveNominee(index),
+                                    ),
                                   ),
                                 ],
                               ),

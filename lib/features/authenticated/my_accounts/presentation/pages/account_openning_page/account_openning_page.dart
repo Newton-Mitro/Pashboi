@@ -27,8 +27,13 @@ import 'package:pashboi/shared/widgets/step_item.dart';
 
 class AccountOpeningPage extends StatefulWidget {
   final String productCode;
+  final String productName;
 
-  const AccountOpeningPage({super.key, required this.productCode});
+  const AccountOpeningPage({
+    super.key,
+    required this.productCode,
+    required this.productName,
+  });
 
   @override
   State<AccountOpeningPage> createState() => _AccountOpeningPageState();
@@ -47,7 +52,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   final _accountWithdrawableCon = TextEditingController();
   // Account Holder Section
   final _accountForTextController = TextEditingController(text: 'Individual');
-  String? _accountHolderName;
+  final _accountHolderNameCon = TextEditingController();
   String? _accountHolderNameError;
 
   final _accountOperatorNameCon = TextEditingController();
@@ -277,13 +282,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
   }
 
-  void _updateAccountHolderName(String? value) {
-    setState(() {
-      _accountHolderName = value;
-      _accountNameCon.text = value ?? '';
-    });
-  }
-
   void _updateNomineeSelection(String? value) {
     setState(() {
       _nomineeName = value;
@@ -325,6 +323,8 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           accountBalanceController: _accountBalanceCon,
           accountWithdrawableController: _accountWithdrawableCon,
           accountOperatorNameController: _accountOperatorNameCon,
+          accountHolderController: _accountHolderNameCon,
+          accountNameController: _accountNameCon,
         ),
       ),
       StepItem(
@@ -332,10 +332,8 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         widget: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
           builder: (context, state) {
             return AccountHolderSection(
-              accountHolderName: _accountHolderName,
-              onAccountHolderChanged: _updateAccountHolderName,
+              accountHolderNameController: _accountHolderNameCon,
               accountHolderNameError: _accountHolderNameError,
-              familyMembers: state.familyAndFriends,
               accountForTextController: _accountForTextController,
               accountOperatorNameController: _accountOperatorNameCon,
               accountOperatorNameError: _accountOperatorNameError,
@@ -391,8 +389,8 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           interestRateController: _interestRateCon,
           interestTransferToController: _interestTransferToCon,
           nominees: _addedNominees,
-          accountType: _accountTypeCon.text,
-          accountHolderName: _accountHolderName,
+          accountType: widget.productName,
+          accountHolderName: _accountHolderNameCon.text,
           accountOperatorName: _accountOperatorNameCon.text,
         ),
       ),
