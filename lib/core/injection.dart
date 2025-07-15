@@ -14,6 +14,7 @@ import 'package:pashboi/core/locale/services/locale_service_impl.dart';
 import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
 import 'package:pashboi/core/theme/services/theme_service.dart';
 import 'package:pashboi/core/theme/services/theme_service_impl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'services/network/api_service.dart';
 
 final sl = GetIt.instance;
