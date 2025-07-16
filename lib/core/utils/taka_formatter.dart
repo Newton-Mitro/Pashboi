@@ -4,8 +4,8 @@ class TakaFormatter {
   static final _currencyFormat = NumberFormat.currency(
     locale: 'en_BD',
     symbol: '৳',
-    decimalDigits: 0,
-    customPattern: '#,###.## ৳', // Places symbol after amount
+    decimalDigits: 2,
+    customPattern: '#,##,###.## ৳', // Places symbol after amount
   );
 
   /// Formats amount to Taka format: 12,345.67৳

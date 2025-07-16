@@ -43,14 +43,13 @@ class _DepositNowPageState extends State<DepositNowPage> {
 
   final _accountBalanceCon = TextEditingController();
   final _accountWithdrawableCon = TextEditingController();
+  List<CollectionLedgerEntity> selectedLedgers = [];
 
   final _pinController = TextEditingController();
   late final List<TextEditingController> _otpControllers;
   late final List<FocusNode> _focusNodes;
   late final CountDownController _countDownController;
   bool _isWaiting = true;
-
-  List<CollectionLedgerEntity> collectionLedgers = [];
 
   // Card Pin Verification Section
   final _cardNumberCon = TextEditingController();
@@ -205,9 +204,17 @@ class _DepositNowPageState extends State<DepositNowPage> {
     context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
   }
 
-  void _setCollectionLedgers(List<CollectionLedgerEntity> collectionLedgers) {
+  void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
     setState(() {
-      this.collectionLedgers = collectionLedgers;
+      selectedLedgers =
+          newLedgers
+              .map(
+                (ledger) => ledger.copyWith(
+                  depositAmount: ledger.amount,
+                  isSelected: false,
+                ),
+              )
+              .toList();
     });
   }
 
@@ -243,12 +250,46 @@ class _DepositNowPageState extends State<DepositNowPage> {
       ),
       StepItem(
         icon: FontAwesomeIcons.piggyBank,
-        widget: TransactionDetailsSection(collectionLedgers: collectionLedgers),
+        widget: TransactionDetailsSection(
+          ledgers: selectedLedgers,
+          onToggleSelect: (ledger) {
+            setState(() {
+              selectedLedgers =
+                  selectedLedgers.map((l) {
+                    return l.accountId == ledger.accountId &&
+                            l.accountNumber == ledger.accountNumber &&
+                            l.ledgerId == ledger.ledgerId
+                        ? l.copyWith(isSelected: !l.isSelected)
+                        : l;
+                  }).toList();
+            });
+          },
+          onToggleSelectAll: (selectAll) {
+            setState(() {
+              selectedLedgers =
+                  selectedLedgers
+                      .map((l) => l.copyWith(isSelected: selectAll))
+                      .toList();
+            });
+          },
+          onAmountChanged: (ledger, newAmount) {
+            setState(() {
+              selectedLedgers =
+                  selectedLedgers.map((l) {
+                    return l.accountId == ledger.accountId &&
+                            l.accountNumber == ledger.accountNumber &&
+                            l.ledgerId == ledger.ledgerId
+                        ? l.copyWith(depositAmount: newAmount)
+                        : l;
+                  }).toList();
+            });
+          },
+        ),
       ),
 
       StepItem(
         icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: []),
+        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
       ),
       StepItem(
         icon: FontAwesomeIcons.creditCard,

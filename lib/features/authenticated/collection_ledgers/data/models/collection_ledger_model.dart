@@ -7,6 +7,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
     required super.accountName,
     required super.ledgerName,
     required super.accountTypeCode,
+    required super.amount,
     required super.depositAmount,
     required super.accountId,
     required super.defaultAccount,
@@ -22,6 +23,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
     required super.refundBased,
     required super.loanCollectionType,
     required super.accountFor,
+    required super.isSelected,
   });
 
   factory CollectionLedgerModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       accountName: json['AccountName'] as String,
       ledgerName: json['AccountType'] as String,
       accountTypeCode: json['AccountTypeCode'] as String,
+      amount: (json['Amount'] as num).toDouble(),
       depositAmount: (json['Amount'] as num).toDouble(),
       accountId: json['AccountId'] as int,
       ledgerId: json['LedgerId'] as int,
@@ -46,6 +49,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       refundBased: json['IsRefundBased'] as bool,
       loanCollectionType: json['LoanCollectionType'] as String,
       accountFor: json['AccountFor'] as String,
+      isSelected: false,
     );
   }
 
@@ -56,7 +60,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       'accountName': accountName,
       'ledgerName': ledgerName,
       'accountTypeCode': accountTypeCode,
-      'depositAmount': depositAmount,
+      'depositAmount': amount,
       'accountId': accountId,
       'ledgerId': ledgerId,
       'defaultAccount': defaultAccount,
