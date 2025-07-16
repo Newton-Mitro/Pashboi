@@ -19,6 +19,8 @@ class TransferFromSection extends StatelessWidget {
   final TextEditingController accountBalanceController;
   final TextEditingController accountWithdrawableController;
   final TextEditingController accountOperatorNameController;
+  final TextEditingController accountHolderController;
+  final TextEditingController accountNameController;
 
   const TransferFromSection({
     super.key,
@@ -30,6 +32,8 @@ class TransferFromSection extends StatelessWidget {
     required this.accountBalanceController,
     required this.accountWithdrawableController,
     required this.accountOperatorNameController,
+    required this.accountHolderController,
+    required this.accountNameController,
   });
 
   @override
@@ -113,19 +117,25 @@ class TransferFromSection extends StatelessWidget {
                           prefixIcon: Icons.account_balance,
                           onChanged: (value) {
                             if (value != null) {
-                              final selectedAcc = accountNumbers.firstWhere(
+                              final cardAccountType = accountNumbers.firstWhere(
                                 (acc) => acc.number == value,
                               );
 
                               cardNumberController.text =
                                   debitCardEntity!.cardNumber;
-                              accounTypeController.text = selectedAcc.typeName;
+                              accounTypeController.text =
+                                  cardAccountType.typeName;
                               accountBalanceController.text =
-                                  selectedAcc.balance.toString();
+                                  cardAccountType.balance.toString();
                               accountWithdrawableController.text =
-                                  selectedAcc.withdrawableBalance.toString();
-                              accountOperatorNameController.text =
-                                  debitCardEntity.nameOnCard.toTitleCase();
+                                  cardAccountType.withdrawableBalance
+                                      .toString();
+
+                              late String name =
+                                  debitCardEntity!.nameOnCard.toTitleCase();
+                              accountHolderController.text = name;
+                              accountNameController.text = name;
+                              accountOperatorNameController.text = name;
 
                               if (onAccountChanged != null) {
                                 onAccountChanged!(value.toTitleCase());

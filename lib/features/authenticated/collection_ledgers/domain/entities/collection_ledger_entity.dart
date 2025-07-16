@@ -13,6 +13,7 @@ class CollectionLedgerEntity extends Entity<int> {
   final String loanCollectionType;
   final bool defaultAccount;
 
+  final double amount;
   final double depositAmount;
 
   final bool multiplier;
@@ -25,6 +26,7 @@ class CollectionLedgerEntity extends Entity<int> {
   final bool refundBased;
 
   final String accountFor;
+  final bool isSelected;
 
   CollectionLedgerEntity({
     super.id,
@@ -32,6 +34,7 @@ class CollectionLedgerEntity extends Entity<int> {
     required this.accountName,
     required this.ledgerName,
     required this.accountTypeCode,
+    required this.amount,
     required this.depositAmount,
     required this.accountId,
     required this.defaultAccount,
@@ -47,7 +50,58 @@ class CollectionLedgerEntity extends Entity<int> {
     required this.refundBased,
     required this.loanCollectionType,
     required this.accountFor,
+    this.isSelected = false,
   });
+
+  CollectionLedgerEntity copyWith({
+    int? id,
+    int? accountId,
+    String? accountNumber,
+    String? accountName,
+    String? accountTypeCode,
+    int? ledgerId,
+    String? ledgerName,
+    bool? subledger,
+    int? plType,
+    String? loanCollectionType,
+    bool? defaultAccount,
+    double? amount,
+    double? depositAmount,
+    bool? multiplier,
+    bool? editable,
+    double? loanBalance,
+    bool? lps,
+    double? intrestRate,
+    DateTime? lastPaidDate,
+    bool? refundBased,
+    String? accountFor,
+    bool? isSelected,
+  }) {
+    return CollectionLedgerEntity(
+      id: id ?? this.id,
+      accountId: accountId ?? this.accountId,
+      accountNumber: accountNumber ?? this.accountNumber,
+      accountName: accountName ?? this.accountName,
+      accountTypeCode: accountTypeCode ?? this.accountTypeCode,
+      ledgerId: ledgerId ?? this.ledgerId,
+      ledgerName: ledgerName ?? this.ledgerName,
+      subledger: subledger ?? this.subledger,
+      plType: plType ?? this.plType,
+      loanCollectionType: loanCollectionType ?? this.loanCollectionType,
+      defaultAccount: defaultAccount ?? this.defaultAccount,
+      amount: amount ?? this.amount,
+      depositAmount: depositAmount ?? this.depositAmount,
+      multiplier: multiplier ?? this.multiplier,
+      editable: editable ?? this.editable,
+      loanBalance: loanBalance ?? this.loanBalance,
+      lps: lps ?? this.lps,
+      intrestRate: intrestRate ?? this.intrestRate,
+      lastPaidDate: lastPaidDate ?? this.lastPaidDate,
+      refundBased: refundBased ?? this.refundBased,
+      accountFor: accountFor ?? this.accountFor,
+      isSelected: isSelected ?? this.isSelected,
+    );
+  }
 
   @override
   List<Object?> get props => [
@@ -56,6 +110,7 @@ class CollectionLedgerEntity extends Entity<int> {
     accountName,
     ledgerName,
     accountTypeCode,
+    amount,
     depositAmount,
     accountId,
     ledgerId,
@@ -71,5 +126,6 @@ class CollectionLedgerEntity extends Entity<int> {
     refundBased,
     loanCollectionType,
     accountFor,
+    isSelected,
   ];
 }

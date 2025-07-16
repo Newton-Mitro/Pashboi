@@ -42,7 +42,7 @@ class DepositAccountModel extends DepositAccountEntity {
           json['LastPaidDate'] != null
               ? DateTime.tryParse(json['LastPaidDate'])
               : null,
-      nominees: json['AccountNominees'] ?? 'N/A',
+      nominees: json['AccountNominee'] ?? 'N/A',
       maturityDate:
           json['MaturityDate'] != null
               ? DateTime.tryParse(json['MaturityDate'])
