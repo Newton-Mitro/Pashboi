@@ -78,9 +78,9 @@ class _MyAppState extends State<MyApp> {
       return const _LoadingScreen();
     }
 
-    if (appStatusState is AppStatusError) {
-      return AppErrorPage(message: appStatusState.message);
-    }
+    // if (appStatusState is AppStatusError) {
+    //   return AppErrorPage(message: appStatusState.message);
+    // }
 
     if (appStatusState is UnderMaintenance) {
       return const UnderMaintenancePage();
@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
       return const AppErrorPage(message: 'Unexpected onboarding state');
     }
 
-    return const AppErrorPage(message: 'Unexpected app status state');
+    return const LandingPage();
   }
 }
 

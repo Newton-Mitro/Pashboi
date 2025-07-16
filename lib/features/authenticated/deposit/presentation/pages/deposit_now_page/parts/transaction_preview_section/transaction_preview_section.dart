@@ -188,7 +188,7 @@ class InfoRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  collectionLedgerEntity.accountNumber,
+                  "${collectionLedgerEntity.accountNumber.trim()} ${collectionLedgerEntity.plType == 1 ? " - ${collectionLedgerEntity.accountFor.trim()}" : ''}",
                   style: TextStyle(
                     fontSize: 11,
                     color: context.theme.colorScheme.onSurface.withAlpha(180),

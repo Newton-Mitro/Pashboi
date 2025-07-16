@@ -258,7 +258,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                           buildInfoRow(
                             context,
                             "Nominee",
-                            account.nominees,
+                            account.nominees.toTitleCase(),
                             icon: FontAwesomeIcons.userShield,
                           ),
                           BlocBuilder<

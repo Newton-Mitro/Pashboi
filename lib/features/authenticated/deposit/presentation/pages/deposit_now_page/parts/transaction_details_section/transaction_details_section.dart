@@ -56,13 +56,27 @@ class TransactionDetailsSection extends StatelessWidget {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  // Tick/Cross button
                                   Container(
+                                    width: 45,
+                                    height: 45,
+                                    alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      color: context.theme.colorScheme.primary,
+                                      color:
+                                          isSelected
+                                              ? context
+                                                  .theme
+                                                  .colorScheme
+                                                  .primary
+                                              : context
+                                                  .theme
+                                                  .colorScheme
+                                                  .surface,
                                       border: Border.all(
-                                        color:
-                                            context.theme.colorScheme.secondary,
+                                        color: context
+                                            .theme
+                                            .colorScheme
+                                            .onSurface
+                                            .withAlpha(360),
                                         width: 2,
                                       ),
                                       borderRadius: BorderRadius.circular(60),
@@ -72,7 +86,7 @@ class TransactionDetailsSection extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(60),
                                       onTap: () => onToggleSelect(ledger),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(12),
+                                        padding: const EdgeInsets.all(10.0),
                                         child: Icon(
                                           isSelected
                                               ? Icons.check
