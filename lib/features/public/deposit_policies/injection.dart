@@ -31,7 +31,6 @@ void registerDepositPolicyModule() async {
       depositPolicyRemoteDataSource: sl<DepositPolicyRemoteDataSource>(),
       depositPolicyLocalDataSource: sl<DepositPolicyLocalDataSource>(),
       networkInfo: sl<NetworkInfo>(),
-      sharedPreferences: sl<SharedPreferences>(),
     ),
   );
 

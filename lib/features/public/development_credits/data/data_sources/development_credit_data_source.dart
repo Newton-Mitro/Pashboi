@@ -3,12 +3,12 @@ import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/services/network/product_api_service.dart';
 import 'package:pashboi/features/public/development_credits/data/models/development_credits_models.dart';
 
-abstract class DevelopmentCreditDataSource {
+abstract class DevelopmentCreditRemoteDataSource {
   Future<List<DevelopmentCreditsModel>> fetchDevelopmentData();
 }
 
 class DevelopmentCreditRemoteDataSourceImpl
-    implements DevelopmentCreditDataSource {
+    implements DevelopmentCreditRemoteDataSource {
   final ProductApiService productApiService;
 
   DevelopmentCreditRemoteDataSourceImpl({required this.productApiService});
