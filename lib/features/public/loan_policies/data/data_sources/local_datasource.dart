@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:pashboi/features/public/deposit_policies/domain/usecases/fetch_deposit_policy_usecase.dart';
 import 'package:pashboi/features/public/loan_policies/data/models/loan_policy_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
