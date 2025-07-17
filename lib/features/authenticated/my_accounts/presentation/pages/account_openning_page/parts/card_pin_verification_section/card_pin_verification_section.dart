@@ -6,25 +6,30 @@ import 'package:pashboi/shared/widgets/app_text_input.dart';
 class CardPinVerificationSection extends StatelessWidget {
   const CardPinVerificationSection({
     super.key,
-    required this.cardNumberController,
+    required this.cardNumber,
     required this.cardNumberError,
-    required this.cardPinController,
-    required this.pinError,
+    required this.cardPin,
+    required this.cardPinError,
+    required this.onCardPinChanged,
   });
 
-  final TextEditingController cardNumberController;
-  final TextEditingController cardPinController;
-  final String? pinError;
+  final String? cardNumber;
+  final String? cardPin;
   final String? cardNumberError;
+  final String? cardPinError;
+  final void Function(String) onCardPinChanged;
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final colorScheme = theme.colorScheme;
+
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
-            color: context.theme.colorScheme.surface,
-            border: Border.all(color: context.theme.colorScheme.primary),
+            color: colorScheme.surface,
+            border: Border.all(color: colorScheme.primary),
             borderRadius: BorderRadius.circular(6),
           ),
           child: Column(
@@ -37,7 +42,7 @@ class CardPinVerificationSection extends StatelessWidget {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: context.theme.colorScheme.primary,
+                  color: colorScheme.primary,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
@@ -47,7 +52,7 @@ class CardPinVerificationSection extends StatelessWidget {
                   child: Text(
                     "Verify Card PIN",
                     style: TextStyle(
-                      color: context.theme.colorScheme.onPrimary,
+                      color: colorScheme.onPrimary,
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
@@ -60,25 +65,26 @@ class CardPinVerificationSection extends StatelessWidget {
                   children: [
                     const SizedBox(height: 5),
                     AppTextInput(
-                      controller: cardNumberController,
+                      initialValue: cardNumber,
                       enabled: false,
                       errorText: cardNumberError,
                       label: "Card Number",
                       prefixIcon: Icon(
                         FontAwesomeIcons.creditCard,
-                        color: context.theme.colorScheme.onSurface,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: cardPinController,
+                      initialValue: cardPin,
                       label: "Card PIN",
-                      errorText: pinError,
+                      errorText: cardPinError,
                       prefixIcon: Icon(
                         FontAwesomeIcons.lock,
-                        color: context.theme.colorScheme.onSurface,
+                        color: colorScheme.onSurface,
                       ),
                       obscureText: true,
+                      onChanged: onCardPinChanged,
                     ),
                   ],
                 ),
