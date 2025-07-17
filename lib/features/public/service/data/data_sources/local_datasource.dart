@@ -8,16 +8,16 @@ abstract class ServicePolicyLocalDataSource {
 }
 
 class ServicePolicyLocalDataSourceImpl implements ServicePolicyLocalDataSource {
-  final SharedPreferences sharedPreferences;
-  final String servicePolicyName = 'service_policy_data';
+  final SharedPreferences _sharedPreferences;
+  final String _servicePolicyKey = 'service_policy_key';
 
-  ServicePolicyLocalDataSourceImpl(this.sharedPreferences);
+  ServicePolicyLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<List<ServicePolicyModel>> fetchServicePolicy() async {
     try {
-      final jsonString = sharedPreferences.getString(servicePolicyName);
-      if (jsonString == null) return [];
+      final jsonString = _sharedPreferences.getString(_servicePolicyKey);
+      if (jsonString == null) throw Exception('Invalid response format');
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList
@@ -37,6 +37,6 @@ class ServicePolicyLocalDataSourceImpl implements ServicePolicyLocalDataSource {
     final servicePolicyData = jsonEncode(
       servicePolicy.map((e) => (e as dynamic).toJson()).toList(),
     );
-    await sharedPreferences.setString(servicePolicyName, servicePolicyData);
+    await _sharedPreferences.setString(_servicePolicyKey, servicePolicyData);
   }
 }

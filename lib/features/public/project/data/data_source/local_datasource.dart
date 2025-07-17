@@ -8,18 +8,17 @@ abstract class ProjectLocalDataSource {
 }
 
 class ProjectLocalDataSourceImpl implements ProjectLocalDataSource {
-  final SharedPreferences sharedPreferences;
-  final String projectData = 'project_data';
+  final SharedPreferences _sharedPreferences;
+  final String _projectPolicyKey = 'project_policy_key';
 
-  ProjectLocalDataSourceImpl(this.sharedPreferences);
+  ProjectLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<List<ProjectModel>> fetchProject() async {
     try {
-      final jsonString = sharedPreferences.getString(projectData);
+      final jsonString = _sharedPreferences.getString(_projectPolicyKey);
 
-      print("jsonString: $jsonString");
-      if (jsonString == null) return [];
+      if (jsonString == null) throw Exception('Invalid response format');
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList
@@ -34,10 +33,9 @@ class ProjectLocalDataSourceImpl implements ProjectLocalDataSource {
 
   @override
   Future<void> storeProject(List<ProjectModel> project) async {
-    print("project: $project");
     final projectData = jsonEncode(
       project.map((e) => (e as dynamic).toJson()).toList(),
     );
-    await sharedPreferences.setString(projectData, projectData);
+    await _sharedPreferences.setString(_projectPolicyKey, projectData);
   }
 }

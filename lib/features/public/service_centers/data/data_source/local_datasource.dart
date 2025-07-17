@@ -8,16 +8,17 @@ abstract class ServiceCenterLocalDataSource {
 }
 
 class ServiceCenterLocalDataSourceImpl implements ServiceCenterLocalDataSource {
-  final SharedPreferences sharedPreferences;
-  final String serviceCenterName = 'service_Center_data';
+  final SharedPreferences _sharedPreferences;
+  final String _serviceCenterKey = 'service_Center_key';
 
-  ServiceCenterLocalDataSourceImpl(this.sharedPreferences);
+  ServiceCenterLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<List<ServiceCenterModel>> fetchServiceCenter() async {
     try {
-      final jsonString = sharedPreferences.getString(serviceCenterName);
-      if (jsonString == null) return [];
+      final jsonString = _sharedPreferences.getString(_serviceCenterKey);
+      if (jsonString == null) throw Exception('Invalid response format');
+      ;
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList
@@ -37,6 +38,6 @@ class ServiceCenterLocalDataSourceImpl implements ServiceCenterLocalDataSource {
     final serviceCenterData = jsonEncode(
       serviceCenter.map((e) => (e as dynamic).toJson()).toList(),
     );
-    await sharedPreferences.setString(serviceCenterName, serviceCenterData);
+    await _sharedPreferences.setString(_serviceCenterKey, serviceCenterData);
   }
 }

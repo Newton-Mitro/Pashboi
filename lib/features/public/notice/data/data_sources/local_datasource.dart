@@ -8,16 +8,16 @@ abstract class NoticeLocalDataSource {
 }
 
 class NoticeLocalDataSourceImpl implements NoticeLocalDataSource {
-  final SharedPreferences sharedPreferences;
-  final String noticeName = 'Notice_data';
+  final SharedPreferences _sharedPreferences;
+  final String _noticePolicyKey = 'Notice_policy_key';
 
-  NoticeLocalDataSourceImpl(this.sharedPreferences);
+  NoticeLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<List<NoticeModel>> fetchNoticeByCategoryId() async {
     try {
-      final jsonString = sharedPreferences.getString(noticeName);
-      if (jsonString == null) return [];
+      final jsonString = _sharedPreferences.getString(_noticePolicyKey);
+      if (jsonString == null) throw Exception('Invalid response format');
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList
@@ -35,6 +35,6 @@ class NoticeLocalDataSourceImpl implements NoticeLocalDataSource {
     final noticeData = jsonEncode(
       notices.map((e) => (e as dynamic).toJson()).toList(),
     );
-    await sharedPreferences.setString(noticeName, noticeData);
+    await _sharedPreferences.setString(_noticePolicyKey, noticeData);
   }
 }
