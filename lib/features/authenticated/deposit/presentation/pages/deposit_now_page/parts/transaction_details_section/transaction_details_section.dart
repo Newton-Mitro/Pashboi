@@ -92,10 +92,15 @@ class TransactionDetailsSection extends StatelessWidget {
                                               ? Icons.check
                                               : Icons.close,
                                           color:
-                                              context
-                                                  .theme
-                                                  .colorScheme
-                                                  .onPrimary,
+                                              isSelected
+                                                  ? context
+                                                      .theme
+                                                      .colorScheme
+                                                      .onPrimary
+                                                  : context
+                                                      .theme
+                                                      .colorScheme
+                                                      .onSurface,
                                           size: 20,
                                         ),
                                       ),
