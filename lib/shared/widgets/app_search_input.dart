@@ -11,7 +11,7 @@ class AppSearchTextInput extends StatefulWidget {
   final TextInputType keyboardType;
   final bool isSearch;
   final VoidCallback? onSearchPressed;
-  final ValueChanged<String>? onChanged; // 👈 Added
+  final ValueChanged<String>? onChanged;
   final bool enabled;
 
   const AppSearchTextInput({
@@ -25,7 +25,7 @@ class AppSearchTextInput extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.isSearch = false,
     this.onSearchPressed,
-    this.onChanged, // 👈 Added
+    this.onChanged,
     this.enabled = true,
   });
 
@@ -95,7 +95,7 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
             keyboardType: widget.keyboardType,
             enabled: widget.enabled,
             style: TextStyle(color: textColor),
-            onChanged: widget.onChanged, // 👈 Hook up onChanged here
+            onChanged: widget.onChanged,
             decoration: InputDecoration(
               labelText: widget.label,
               labelStyle: TextStyle(color: textColor),
@@ -177,7 +177,7 @@ class _AppSearchTextInputState extends State<AppSearchTextInput> {
       child: IconButton(
         icon: Icon(
           icon,
-          color: disabled ? theme.disabledColor : theme.colorScheme.onSurface,
+          color: disabled ? theme.disabledColor : theme.colorScheme.onPrimary,
         ),
         onPressed: onPressed,
         splashRadius: 20,

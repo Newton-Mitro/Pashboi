@@ -36,6 +36,9 @@ ThemeData get eleganceThemeData => ThemeData(
     surfaceTint: _pinkLightColors.surfaceTint,
   ),
   popupMenuTheme: PopupMenuThemeData(color: _pinkLightColors.surface),
+  radioTheme: RadioThemeData(
+    fillColor: WidgetStateProperty.all(_pinkLightColors.onPrimary),
+  ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
       color: _pinkLightColors.surface, // Background color

@@ -37,6 +37,9 @@ ThemeData get oliverPetalThemeData => ThemeData(
     surfaceTint: _foreverGreenLightColors.surfaceTint,
   ),
   popupMenuTheme: PopupMenuThemeData(color: _foreverGreenLightColors.surface),
+  radioTheme: RadioThemeData(
+    fillColor: WidgetStateProperty.all(_foreverGreenLightColors.onPrimary),
+  ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
       color: _foreverGreenLightColors.surface, // Background color

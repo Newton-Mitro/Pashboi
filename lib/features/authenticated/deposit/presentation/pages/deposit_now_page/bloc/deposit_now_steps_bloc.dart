@@ -163,43 +163,59 @@ class DepositNowStepsBloc
 
     switch (step) {
       case 0:
-        if (data['accountType'] == null ||
-            data['accountType'].toString().isEmpty) {
-          errors['accountType'] = 'Account type is required';
+        if (data['transferFromAccount'] == null ||
+            data['transferFromAccount'].toString().isEmpty) {
+          errors['transferFromAccount'] = 'Select an account to transfer from';
         }
         break;
 
       case 1:
-        if (data['selectedBranch'] == null) {
-          errors['selectedBranch'] = 'Please select a branch';
+        if (data['searchAccountNumber'] == null) {
+          errors['searchAccountNumber'] =
+              'Please enter a search account number';
+        }
+        if (data['searchedAccountHolderName'] == null) {
+          errors['searchedAccountHolderName'] =
+              'Search account holder name is required';
         }
         break;
 
       case 2:
-        final cardNumber = data['cardNumber'] as String? ?? '';
-        final cardPin = data['cardPin'] as String? ?? '';
+        final selectedLedgers =
+            state.collectionLedgers.where((l) => l.isSelected).toList();
+        if (selectedLedgers.isEmpty) {
+          errors['ledgers'] = 'Please select at least one ledger to deposit';
+        } else if (selectedLedgers.any((l) => l.depositAmount <= 0)) {
+          errors['amount'] = 'Each selected ledger must have a deposit amount';
+        } else {
+          final totalDeposit = selectedLedgers.fold<double>(
+            0,
+            (sum, ledger) => sum + (ledger.depositAmount),
+          );
 
-        if (cardNumber.length != 16) {
-          errors['cardNumber'] = 'Card number must be 16 digits';
-        }
-        if (cardPin.length != 4) {
-          errors['cardPin'] = 'PIN must be 4 digits';
-        }
-        break;
+          final totalWithdrawable = double.parse(
+            state.stepData[0]?['accountWithdrawable'] ?? '0',
+          );
 
-      case 3:
-        if (data['confirmation'] != true) {
-          errors['confirmation'] = 'You must confirm to proceed';
+          if (totalDeposit > totalWithdrawable) {
+            errors['ledgers'] =
+                "You don't have enough balance to deposit this amount";
+          }
         }
         break;
 
       case 4:
-        final selectedLedgers =
-            state.collectionLedgers.where((l) => l.isSelected).toList();
-        if (selectedLedgers.isEmpty) {
-          errors['ledgers'] = 'Please select at least one ledger';
-        } else if (selectedLedgers.any((l) => l.depositAmount <= 0)) {
-          errors['amount'] = 'Each selected ledger must have a deposit amount';
+        if (data['cardPin'] == null) {
+          errors['cardPin'] = 'Please enter a card PIN';
+        }
+        if (data['cardPin'].length != 4) {
+          errors['cardPin'] = 'PIN must be 4 digits';
+        }
+        break;
+
+      case 5:
+        if (data['confirmation'] != true) {
+          errors['confirmation'] = 'You must confirm to proceed';
         }
         break;
 

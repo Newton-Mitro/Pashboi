@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class OliverPetalColors implements AppColors {
-  static const Color _primary = Color(0xFFA9D36D); // Your fresh green!
+  static const Color _primary = Color(0xFF3F4D16); // Deep olive green
 
   @override
   Color get primary => _primary;
 
   @override
-  Color get primaryVariant => const Color(0xFF7AA63C); // Darker green variant
+  Color get primaryVariant => Color(0xFF2E370F); // Even deeper olive
 
   @override
   Color get onPrimary => Colors.white;
 
   @override
-  Color get primaryContainer => const Color(0xFFD9EDBB); // Soft pastel green container
+  Color get primaryContainer => Color(0xFFDCE6C2); // Light green-olive wash
 
   @override
-  Color get onPrimaryContainer => const Color(0xFF3E5B23); // Deep contrast text on container
+  Color get onPrimaryContainer => Color(0xFF26330C); // Darker contrast for text
 
   @override
   Color get primaryFixed => _primary;
 
   @override
-  Color get primaryFixedDim => const Color(0xFF95C25F); // Slightly muted green
+  Color get primaryFixedDim => Color(0xFF5D6B2B); // Slightly muted mid-tone olive
 
   @override
   Color get onPrimaryFixed => Colors.white;
@@ -32,25 +32,25 @@ class OliverPetalColors implements AppColors {
   Color get onPrimaryFixedVariant => Colors.white70;
 
   @override
-  Color get secondary => const Color(0xFF8BC34A); // Fresh leafy secondary
+  Color get secondary => Color(0xFF6F8E25); // Olive-adjacent leafy green
 
   @override
-  Color get secondaryVariant => const Color(0xFF689F38); // Deeper green accent
+  Color get secondaryVariant => Color(0xFF566D1D); // Deeper secondary
 
   @override
   Color get onSecondary => Colors.white;
 
   @override
-  Color get secondaryContainer => const Color(0xFFE7F6D5); // Light leafy background
+  Color get secondaryContainer => Color(0xFFEAF4D5); // Light soft green
 
   @override
-  Color get onSecondaryContainer => const Color(0xFF33691E); // Dark green text
+  Color get onSecondaryContainer => Color(0xFF344411); // Text contrast for secondary
 
   @override
-  Color get secondaryFixed => const Color(0xFFB5E07C);
+  Color get secondaryFixed => Color(0xFF9DBF63);
 
   @override
-  Color get secondaryFixedDim => const Color(0xFFA0CC6A);
+  Color get secondaryFixedDim => Color(0xFF7F9E4D);
 
   @override
   Color get onSecondaryFixed => Colors.white;
@@ -59,88 +59,88 @@ class OliverPetalColors implements AppColors {
   Color get onSecondaryFixedVariant => Colors.white70;
 
   @override
-  Color get tertiary => const Color(0xFFB2FF59); // Bright lime tertiary
+  Color get tertiary => Color(0xFFB3C988); // Olive beige green
 
   @override
-  Color get onTertiary => const Color(0xFF263238);
+  Color get onTertiary => Color(0xFF2B3810);
 
   @override
-  Color get tertiaryContainer => const Color(0xFFF1F8E9);
+  Color get tertiaryContainer => Color(0xFFF2F7E2); // Pastel background
 
   @override
-  Color get onTertiaryContainer => const Color(0xFF33691E);
+  Color get onTertiaryContainer => Color(0xFF3C4E16);
 
   @override
-  Color get tertiaryFixed => const Color(0xFFC5E1A5);
+  Color get tertiaryFixed => Color(0xFFCDD8AA);
 
   @override
-  Color get tertiaryFixedDim => const Color(0xFFAED581);
+  Color get tertiaryFixedDim => Color(0xFFB4C28F);
 
   @override
-  Color get onTertiaryFixed => const Color(0xFF263238);
+  Color get onTertiaryFixed => Color(0xFF2B3810);
 
   @override
   Color get onTertiaryFixedVariant => Colors.black54;
 
   @override
-  Color get error => const Color(0xFFB00020);
+  Color get error => Color(0xFFB00020);
 
   @override
   Color get onError => Colors.white;
 
   @override
-  Color get errorContainer => const Color(0xFFFFDAD4);
+  Color get errorContainer => Color(0xFFFFDAD4);
 
   @override
-  Color get onErrorContainer => const Color(0xFF410002);
+  Color get onErrorContainer => Color(0xFF410002);
 
   @override
-  Color get background => const Color(0xFFF9FFF2); // Light minty background
+  Color get background => Color(0xFFF9FFF2); // Very light olive hint
 
   @override
-  Color get onBackground => const Color(0xFF1B1B1F);
+  Color get onBackground => Color(0xFF1B1B1F);
 
   @override
   Color get surface => Colors.white;
 
   @override
-  Color get onSurface => const Color(0xFF1B1B1F);
+  Color get onSurface => Color(0xFF1B1B1F);
 
   @override
-  Color get surfaceDim => const Color(0xFFF2F2F2);
+  Color get surfaceDim => Color(0xFFF2F2F2);
 
   @override
-  Color get surfaceBright => const Color(0xFFFFFFFF);
+  Color get surfaceBright => Color(0xFFFFFFFF);
 
   @override
-  Color get surfaceContainerLowest => const Color(0xFFFFFFFF);
+  Color get surfaceContainerLowest => Color(0xFFFFFFFF);
 
   @override
-  Color get surfaceContainerLow => const Color(0xFFF4F4F4);
+  Color get surfaceContainerLow => Color(0xFFF4F4F4);
 
   @override
-  Color get surfaceContainer => const Color(0xFFEDEDED);
+  Color get surfaceContainer => Color(0xFFE8ECD9);
 
   @override
-  Color get surfaceContainerHigh => const Color(0xFFE5E5E5);
+  Color get surfaceContainerHigh => Color(0xFFDDE3C7);
 
   @override
-  Color get surfaceContainerHighest => const Color(0xFFDADADA);
+  Color get surfaceContainerHighest => Color(0xFFC3CBAF);
 
   @override
-  Color get surfaceVariant => const Color(0xFFD9EDBB); // Match container tone
+  Color get surfaceVariant => Color(0xFFDCE6C2);
 
   @override
-  Color get onSurfaceVariant => const Color(0xFF49454F);
+  Color get onSurfaceVariant => Color(0xFF49454F);
 
   @override
   Color get surfaceTint => _primary;
 
   @override
-  Color get outline => const Color(0xFF7D7D7D);
+  Color get outline => Color(0xFF9DA49B);
 
   @override
-  Color get outlineVariant => const Color(0xFFE1E1E1);
+  Color get outlineVariant => Color(0xFFE1E5D8);
 
   @override
   Color get shadow => Colors.black12;
@@ -149,13 +149,13 @@ class OliverPetalColors implements AppColors {
   Color get scrim => Colors.black38;
 
   @override
-  Color get inverseSurface => const Color(0xFF2E2E2E);
+  Color get inverseSurface => Color(0xFF2E2E2E);
 
   @override
   Color get onInverseSurface => Colors.white;
 
   @override
-  Color get inversePrimary => const Color(0xFFD9EDBB); // Light inverse green
+  Color get inversePrimary => Color(0xFFB3C988);
 
   @override
   Color get selected => _primary;

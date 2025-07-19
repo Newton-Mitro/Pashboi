@@ -11,12 +11,14 @@ class TransactionDetailsSection extends StatelessWidget {
     required this.onToggleSelect,
     required this.onToggleSelectAll,
     required this.onAmountChanged,
+    this.sectionError,
   });
 
   final List<CollectionLedgerEntity> ledgers;
   final void Function(CollectionLedgerEntity) onToggleSelect;
   final void Function(bool selectAll) onToggleSelectAll;
   final void Function(CollectionLedgerEntity, double) onAmountChanged;
+  final String? sectionError;
 
   bool get areAllSelected =>
       ledgers.isNotEmpty && ledgers.every((l) => l.isSelected);
@@ -204,14 +206,35 @@ class TransactionDetailsSection extends StatelessWidget {
                 ),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerRight,
-              child: Text(
-                "Total: ${TakaFormatter.format(selectedTotal)}",
-                style: TextStyle(
-                  color: context.theme.colorScheme.onPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// 👈 Wrapped error text
+                  Expanded(
+                    child: Text(
+                      sectionError ?? "",
+                      style: TextStyle(
+                        color: context.theme.colorScheme.error,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2, // Allows wrapping but limits height
+                      overflow: TextOverflow.visible, // Allows actual wrap
+                      softWrap: true,
+                    ),
+                  ),
+
+                  /// 👉 Total text
+                  Text(
+                    "Total: ${TakaFormatter.format(selectedTotal)}",
+                    style: TextStyle(
+                      color: context.theme.colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

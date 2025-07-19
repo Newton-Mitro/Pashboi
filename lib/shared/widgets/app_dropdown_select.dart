@@ -47,6 +47,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
                     value == item.value
                         ? BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
+                          color: context.theme.colorScheme.secondary,
                           border: Border(
                             left: BorderSide(
                               color: context.theme.colorScheme.onPrimary,
@@ -58,7 +59,15 @@ class AppDropdownSelect<T> extends StatelessWidget {
                             ),
                           ),
                         )
-                        : null,
+                        : BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border(
+                            bottom: BorderSide(
+                              color: context.theme.colorScheme.onPrimary,
+                              width: 1,
+                            ),
+                          ),
+                        ),
                 child: RadioListTile(
                   value: item.value,
                   groupValue: value,

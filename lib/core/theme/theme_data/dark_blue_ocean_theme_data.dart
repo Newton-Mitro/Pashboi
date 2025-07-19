@@ -36,6 +36,9 @@ ThemeData get darkBlueOceanThemeData => ThemeData(
     surfaceTint: _darkBlueOceanColors.surfaceTint,
   ),
   popupMenuTheme: PopupMenuThemeData(color: _darkBlueOceanColors.surface),
+  radioTheme: RadioThemeData(
+    fillColor: WidgetStateProperty.all(_darkBlueOceanColors.onPrimary),
+  ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
       color: _darkBlueOceanColors.surface, // Background color
