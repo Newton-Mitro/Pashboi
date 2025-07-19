@@ -312,19 +312,19 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         widget: TransferFromSection(
           accountNumber: _accountNumber,
           accountError: _accountNumberError,
-          onAccountChanged: (val) {
-            setState(() {
-              _accountNumber = val;
-              _interestTransferToCon.text = val!;
-            });
+          onAccountChanged: (debitCard, selectedAccount) {
+            // setState(() {
+            //   _accountNumber = val;
+            //   _interestTransferToCon.text = val!;
+            // });
           },
-          cardNumberController: _cardNumberCon,
-          accounTypeController: _accountTypeCon,
-          accountBalanceController: _accountBalanceCon,
-          accountWithdrawableController: _accountWithdrawableCon,
-          accountOperatorNameController: _accountOperatorNameCon,
-          accountHolderController: _accountHolderNameCon,
-          accountNameController: _accountNameCon,
+          selectedCardNumber: '',
+          accountTypeName: '',
+          accountBalance: '',
+          accountWithdrawable: '',
+          accountOperatorName: '',
+          accountHolderName: '',
+          accountName: '',
         ),
       ),
       StepItem(
@@ -397,10 +397,11 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       StepItem(
         icon: FontAwesomeIcons.creditCard,
         widget: CardPinVerificationSection(
-          cardNumberController: _cardNumberCon,
+          cardNumber: '',
           cardNumberError: _cardNumberError,
-          cardPinController: _pinController,
-          pinError: _pinError,
+          cardPin: '',
+          cardPinError: _pinError,
+          onCardPinChanged: (val) {},
         ),
       ),
       StepItem(

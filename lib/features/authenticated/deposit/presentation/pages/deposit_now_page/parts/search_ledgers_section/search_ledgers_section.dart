@@ -12,18 +12,29 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SearchLedgersSection extends StatefulWidget {
   final String? sectionTitle;
-  final TextEditingController accountSearchController;
+  final String? searchAccountNumber;
+  final String? beneficiaryAccountNumber;
   final void Function(List<CollectionLedgerEntity> collectionLedgers)
   setCollectionLedgers;
-
-  final TextEditingController accountHolderController;
+  final String? searchedAccountHolderName;
+  final void Function(String? accountNumber) changeSearchAccountNumber;
+  final void Function(String? accountNumber) onChangeSearchAccountNumber;
+  final void Function(String? beneficiaryAccountNumber)
+  changeBeneficiaryAccountNumber;
+  final void Function(String? accountHolderName)
+  changeSearchedAccountHolderName;
 
   const SearchLedgersSection({
     super.key,
-    required this.accountSearchController,
-    required this.accountHolderController,
+    required this.searchAccountNumber,
+    required this.searchedAccountHolderName,
+    required this.beneficiaryAccountNumber,
     required this.sectionTitle,
     required this.setCollectionLedgers,
+    required this.changeSearchAccountNumber,
+    required this.onChangeSearchAccountNumber,
+    required this.changeBeneficiaryAccountNumber,
+    required this.changeSearchedAccountHolderName,
   });
 
   @override
@@ -31,17 +42,13 @@ class SearchLedgersSection extends StatefulWidget {
 }
 
 class _SearchLedgersSectionState extends State<SearchLedgersSection> {
-  String? nomineesAccountNumber;
-
   @override
   void initState() {
     super.initState();
     context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
   }
 
-  void _searchWithAccountNumber() {
-    final searchText = widget.accountSearchController.text.trim();
-
+  void _searchWithAccountNumber(String searchText) {
     if (searchText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter account number")),
@@ -62,26 +69,33 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.message)));
-          widget.accountHolderController.text = "";
+          widget.changeSearchedAccountHolderName("");
         }
         if (state is CollectionLedgerLoaded) {
           final ledgers = state.collectionAggregate.ledgers;
           widget.setCollectionLedgers(ledgers);
 
-          final searchText = widget.accountSearchController.text;
-          final onlyDigits = searchText.replaceAll(RegExp(r'\D'), '');
+          final searchText = widget.searchAccountNumber;
+          final onlyDigits = searchText?.replaceAll(RegExp(r'\D'), '');
 
-          final matchedLedger = ledgers.firstWhere(
-            (ledger) =>
-                ledger.accountNumber.trim().toLowerCase().contains(onlyDigits),
-          );
+          try {
+            final matchedLedger = ledgers.firstWhere((ledger) {
+              return ledger.accountNumber.trim().contains(onlyDigits ?? '');
+            });
 
-          widget.accountSearchController.text =
-              matchedLedger.accountNumber.trim();
-          widget.accountHolderController.text =
+            widget.changeSearchAccountNumber(
+              matchedLedger.accountNumber.trim(),
+            );
+            widget.changeSearchedAccountHolderName(
               state.collectionAggregate.accountHolderInfo.name
                   .trim()
-                  .toTitleCase();
+                  .toTitleCase(),
+            );
+          } catch (_) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text("Account not found")));
+          }
         }
       },
       child: Column(
@@ -125,7 +139,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                       return SizedBox.shrink();
                     } else {
                       return AppDropdownSelect(
-                        value: nomineesAccountNumber,
+                        value: widget.beneficiaryAccountNumber,
                         items:
                             beneficiaries
                                 .map(
@@ -136,12 +150,10 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                                 )
                                 .toList(),
                         onChanged: (value) {
-                          setState(() {
-                            nomineesAccountNumber = value;
-                          });
-                          widget.accountSearchController.text = value!;
+                          widget.changeSearchAccountNumber(value);
+                          widget.changeBeneficiaryAccountNumber(value);
 
-                          _searchWithAccountNumber();
+                          _searchWithAccountNumber(value ?? '');
                         },
                         label: "Beneficiary",
                       );
@@ -154,7 +166,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                 BlocBuilder<CollectionLedgerBloc, CollectionLedgerState>(
                   builder: (context, state) {
                     return AppSearchTextInput(
-                      controller: widget.accountSearchController,
+                      initialValue: widget.searchAccountNumber,
                       label: "Account Number",
                       isSearch: true,
                       enabled: state is! CollectionLedgerLoading,
@@ -162,18 +174,18 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                         FontAwesomeIcons.piggyBank,
                         color: context.theme.colorScheme.onSurface,
                       ),
+                      onChanged: widget.onChangeSearchAccountNumber,
                       onSearchPressed: () {
-                        setState(() {
-                          nomineesAccountNumber = null;
-                        });
-                        _searchWithAccountNumber();
+                        _searchWithAccountNumber(
+                          widget.searchAccountNumber ?? '',
+                        );
                       },
                     );
                   },
                 ),
                 const SizedBox(height: 16),
                 AppTextInput(
-                  controller: widget.accountHolderController,
+                  initialValue: widget.searchedAccountHolderName,
                   label: "Account Holder Name",
                   prefixIcon: Icon(
                     Icons.person,

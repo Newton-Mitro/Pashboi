@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
@@ -12,28 +11,32 @@ import 'package:pashboi/shared/widgets/app_text_input.dart';
 class TransferFromSection extends StatelessWidget {
   final String? accountNumber;
   final String? accountError;
-  final void Function(String?)? onAccountChanged;
+  final void Function(
+    DebitCardEntity debitCard,
+    DepositAccountEntity selectedAccount,
+  )?
+  onAccountChanged;
 
-  final TextEditingController cardNumberController;
-  final TextEditingController accounTypeController;
-  final TextEditingController accountBalanceController;
-  final TextEditingController accountWithdrawableController;
-  final TextEditingController accountOperatorNameController;
-  final TextEditingController accountHolderController;
-  final TextEditingController accountNameController;
+  final String? selectedCardNumber;
+  final String? accountTypeName;
+  final String? accountBalance;
+  final String? accountWithdrawable;
+  final String? accountOperatorName;
+  final String? accountHolderName;
+  final String? accountName;
 
   const TransferFromSection({
     super.key,
     required this.accountNumber,
     required this.accountError,
     required this.onAccountChanged,
-    required this.cardNumberController,
-    required this.accounTypeController,
-    required this.accountBalanceController,
-    required this.accountWithdrawableController,
-    required this.accountOperatorNameController,
-    required this.accountHolderController,
-    required this.accountNameController,
+    required this.selectedCardNumber,
+    required this.accountTypeName,
+    required this.accountBalance,
+    required this.accountWithdrawable,
+    required this.accountOperatorName,
+    required this.accountHolderName,
+    required this.accountName,
   });
 
   @override
@@ -42,12 +45,12 @@ class TransferFromSection extends StatelessWidget {
 
     return BlocBuilder<DebitCardBloc, DebitCardState>(
       builder: (context, state) {
-        DebitCardEntity? debitCardEntity;
-        List<DepositAccountEntity> accountNumbers = [];
+        DebitCardEntity? debitCard;
+        List<DepositAccountEntity> cardAccounts = [];
 
         if (state is DebitCardLoadingSuccess) {
-          accountNumbers = state.debitCard.cardsAccounts;
-          debitCardEntity = state.debitCard;
+          cardAccounts = state.debitCard.cardsAccounts;
+          debitCard = state.debitCard;
         }
 
         return Column(
@@ -97,10 +100,10 @@ class TransferFromSection extends StatelessWidget {
                           label: "Account Number",
                           value: accountNumber,
                           errorText: accountError,
-                          enabled: accountNumbers.isNotEmpty,
+                          enabled: cardAccounts.isNotEmpty,
                           items:
-                              accountNumbers.isNotEmpty
-                                  ? accountNumbers
+                              cardAccounts.isNotEmpty
+                                  ? cardAccounts
                                       .map(
                                         (acc) => DropdownMenuItem(
                                           value: acc.number,
@@ -116,36 +119,20 @@ class TransferFromSection extends StatelessWidget {
                                   ],
                           prefixIcon: Icons.account_balance,
                           onChanged: (value) {
-                            if (value != null) {
-                              final cardAccountType = accountNumbers.firstWhere(
+                            if (value != null && debitCard != null) {
+                              final selectedAcc = cardAccounts.firstWhere(
                                 (acc) => acc.number == value,
                               );
 
-                              cardNumberController.text =
-                                  debitCardEntity!.cardNumber;
-                              accounTypeController.text =
-                                  cardAccountType.typeName;
-                              accountBalanceController.text =
-                                  cardAccountType.balance.toString();
-                              accountWithdrawableController.text =
-                                  cardAccountType.withdrawableBalance
-                                      .toString();
-
-                              late String name =
-                                  debitCardEntity!.nameOnCard.toTitleCase();
-                              accountHolderController.text = name;
-                              accountNameController.text = name;
-                              accountOperatorNameController.text = name;
-
                               if (onAccountChanged != null) {
-                                onAccountChanged!(value.toTitleCase());
+                                onAccountChanged!(debitCard, selectedAcc);
                               }
                             }
                           },
                         ),
                         const SizedBox(height: 12),
                         AppTextInput(
-                          controller: cardNumberController,
+                          initialValue: selectedCardNumber,
                           enabled: false,
                           label: "Card Number",
                           prefixIcon: Icon(
@@ -155,7 +142,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          controller: accounTypeController,
+                          initialValue: accountTypeName,
                           enabled: false,
                           label: "Account Type",
                           prefixIcon: Icon(
@@ -165,7 +152,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          controller: accountBalanceController,
+                          initialValue: accountBalance,
                           enabled: false,
                           label: "Available Balance",
                           prefixIcon: Icon(
@@ -175,7 +162,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          controller: accountWithdrawableController,
+                          initialValue: accountWithdrawable,
                           enabled: false,
                           label: "Withdrawable Balance",
                           prefixIcon: Icon(

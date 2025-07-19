@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/search_ledgers_section/search_ledgers_section.dart';
@@ -28,34 +29,13 @@ class DepositNowPage extends StatefulWidget {
 }
 
 class _DepositNowPageState extends State<DepositNowPage> {
-  // OTP Verification Section
   static const int _otpDuration = 60;
   static const int _otpLength = 6;
-  // From Account Section
-  String? _accountNumber;
-  String? _accountNumberError;
-  final _accountTypeCon = TextEditingController();
-  final _accountNameCon = TextEditingController();
-  final _accountHolderNameCon = TextEditingController();
-  final _accountOperatorNameCon = TextEditingController();
-  final _searchAccountNumberCon = TextEditingController();
-  final _searchAccountHolderNameCon = TextEditingController();
 
-  final _accountBalanceCon = TextEditingController();
-  final _accountWithdrawableCon = TextEditingController();
-  List<CollectionLedgerEntity> selectedLedgers = [];
-
-  final _pinController = TextEditingController();
   late final List<TextEditingController> _otpControllers;
   late final List<FocusNode> _focusNodes;
   late final CountDownController _countDownController;
   bool _isWaiting = true;
-
-  // Card Pin Verification Section
-  final _cardNumberCon = TextEditingController();
-  String? _cardNumberError;
-  String? _pinError;
-  String? _otpError;
 
   Widget _buildProgressStepper(double width, DepositNowStepsState state) {
     final theme = context.theme.colorScheme;
@@ -81,7 +61,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
           wasCompleted: isCompleted,
           child: Center(
             child: Icon(
-              _buildSteps()[index - 1].icon,
+              _buildSteps(state)[index - 1].icon,
               color:
                   isCompleted
                       ? theme.onPrimary
@@ -133,8 +113,9 @@ class _DepositNowPageState extends State<DepositNowPage> {
                       child: KeyedSubtree(
                         key: ValueKey(depositNowStepsState.currentStep),
                         child:
-                            _buildSteps()[depositNowStepsState.currentStep]
-                                .widget,
+                            _buildSteps(
+                              depositNowStepsState,
+                            )[depositNowStepsState.currentStep].widget,
                       ),
                     ),
                   ),
@@ -205,47 +186,98 @@ class _DepositNowPageState extends State<DepositNowPage> {
   }
 
   void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    setState(() {
-      selectedLedgers =
-          newLedgers
-              .map(
-                (ledger) => ledger.copyWith(
-                  depositAmount: ledger.amount,
-                  isSelected: false,
-                ),
-              )
-              .toList();
-    });
+    context.read<DepositNowStepsBloc>().add(
+      SetCollectionLedgers(ledgers: newLedgers),
+    );
   }
 
-  List<StepItem> _buildSteps() {
+  List<StepItem> _buildSteps(DepositNowStepsState state) {
+    final selectedLedgers = state.collectionLedgers;
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
         widget: TransferFromSection(
-          accountNumber: _accountNumber,
-          accountError: _accountNumberError,
-          onAccountChanged: (val) {
-            setState(() {
-              _accountNumber = val;
-            });
+          accountNumber:
+              state.stepData[state.currentStep]?['transferFromAccount'],
+          accountError:
+              state.validationErrors[state
+                  .currentStep]?['transferFromAccountError'],
+          onAccountChanged: (debitCard, selectedAccount) {
+            context.read<DepositNowStepsBloc>().add(
+              UpdateStepData(
+                step: state.currentStep,
+                data: {
+                  'transferFromAccount': selectedAccount.number,
+                  'selectedCardNumber': debitCard.cardNumber,
+                  'accountType': selectedAccount.typeName,
+                  'accountBalance': selectedAccount.balance.toString(),
+                  'accountWithdrawable':
+                      selectedAccount.withdrawableBalance.toString(),
+                  'accountOperatorName':
+                      debitCard.nameOnCard.trim().toTitleCase(),
+                  'accountHolderName':
+                      debitCard.nameOnCard.trim().toTitleCase(),
+                  'accountName': debitCard.nameOnCard.trim().toTitleCase(),
+                },
+              ),
+            );
           },
-          cardNumberController: _cardNumberCon,
-          accounTypeController: _accountTypeCon,
-          accountBalanceController: _accountBalanceCon,
-          accountWithdrawableController: _accountWithdrawableCon,
-          accountOperatorNameController: _accountOperatorNameCon,
-          accountHolderController: _accountHolderNameCon,
-          accountNameController: _accountNameCon,
+          selectedCardNumber:
+              state.stepData[state.currentStep]?['selectedCardNumber'],
+          accountTypeName: state.stepData[state.currentStep]?['accountType'],
+          accountBalance: state.stepData[state.currentStep]?['accountBalance'],
+          accountWithdrawable:
+              state.stepData[state.currentStep]?['accountWithdrawable'],
+          accountOperatorName:
+              state.stepData[state.currentStep]?['accountOperatorName'],
+          accountHolderName:
+              state.stepData[state.currentStep]?['accountHolderName'],
+          accountName: state.stepData[state.currentStep]?['accountName'],
         ),
       ),
       StepItem(
         icon: FontAwesomeIcons.magnifyingGlassChart,
         widget: SearchLedgersSection(
           sectionTitle: "Deposit For",
-          accountSearchController: _searchAccountNumberCon,
-          accountHolderController: _searchAccountHolderNameCon,
+          searchAccountNumber:
+              state.stepData[state.currentStep]?['searchAccountNumber'],
+          searchedAccountHolderName:
+              state.stepData[state.currentStep]?['searchedAccountHolderName'],
           setCollectionLedgers: _setCollectionLedgers,
+          onChangeSearchAccountNumber: (accountNumber) {
+            context.read<DepositNowStepsBloc>().add(
+              UpdateStepData(
+                step: state.currentStep,
+                data: {'searchAccountNumber': accountNumber},
+              ),
+            );
+          },
+          changeSearchAccountNumber: (String? accountNumber) {
+            context.read<DepositNowStepsBloc>().add(
+              UpdateStepData(
+                step: state.currentStep,
+                data: {'searchAccountNumber': accountNumber},
+              ),
+            );
+          },
+          changeSearchedAccountHolderName: (String? accountHolderName) {
+            context.read<DepositNowStepsBloc>().add(
+              UpdateStepData(
+                step: state.currentStep,
+                data: {'searchedAccountHolderName': accountHolderName},
+              ),
+            );
+          },
+          beneficiaryAccountNumber:
+              state.stepData[state.currentStep]?['beneficiaryAccountNumber'],
+          changeBeneficiaryAccountNumber: (String? accountNumber) {
+            context.read<DepositNowStepsBloc>().add(
+              UpdateStepData(
+                step: state.currentStep,
+                data: {'beneficiaryAccountNumber': accountNumber},
+              ),
+            );
+          },
         ),
       ),
       StepItem(
@@ -253,36 +285,19 @@ class _DepositNowPageState extends State<DepositNowPage> {
         widget: TransactionDetailsSection(
           ledgers: selectedLedgers,
           onToggleSelect: (ledger) {
-            setState(() {
-              selectedLedgers =
-                  selectedLedgers.map((l) {
-                    return l.accountId == ledger.accountId &&
-                            l.accountNumber == ledger.accountNumber &&
-                            l.ledgerId == ledger.ledgerId
-                        ? l.copyWith(isSelected: !l.isSelected)
-                        : l;
-                  }).toList();
-            });
+            context.read<DepositNowStepsBloc>().add(
+              ToggleLedgerSelection(ledger),
+            );
           },
           onToggleSelectAll: (selectAll) {
-            setState(() {
-              selectedLedgers =
-                  selectedLedgers
-                      .map((l) => l.copyWith(isSelected: selectAll))
-                      .toList();
-            });
+            context.read<DepositNowStepsBloc>().add(
+              ToggleSelectAllLedgers(selectAll),
+            );
           },
           onAmountChanged: (ledger, newAmount) {
-            setState(() {
-              selectedLedgers =
-                  selectedLedgers.map((l) {
-                    return l.accountId == ledger.accountId &&
-                            l.accountNumber == ledger.accountNumber &&
-                            l.ledgerId == ledger.ledgerId
-                        ? l.copyWith(depositAmount: newAmount)
-                        : l;
-                  }).toList();
-            });
+            context.read<DepositNowStepsBloc>().add(
+              UpdateLedgerAmount(ledger: ledger, newAmount: newAmount),
+            );
           },
         ),
       ),
@@ -294,10 +309,17 @@ class _DepositNowPageState extends State<DepositNowPage> {
       StepItem(
         icon: FontAwesomeIcons.creditCard,
         widget: CardPinVerificationSection(
-          cardNumberController: _cardNumberCon,
-          cardNumberError: _cardNumberError,
-          cardPinController: _pinController,
-          pinError: _pinError,
+          cardNumber: state.stepData[0]?['selectedCardNumber'],
+          cardNumberError:
+              state.validationErrors[0]?['selectedCardNumberError'],
+          cardPin: state.stepData[state.currentStep]?['cardPin'],
+          cardPinError:
+              state.validationErrors[state.currentStep]?['cardPinError'],
+          onCardPinChanged: (pin) {
+            context.read<DepositNowStepsBloc>().add(
+              UpdateStepData(step: state.currentStep, data: {'cardPin': pin}),
+            );
+          },
         ),
       ),
       StepItem(
@@ -308,7 +330,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
           isWaiting: _isWaiting,
           otpDuration: _otpDuration,
           countDownController: _countDownController,
-          otpError: _otpError,
+          otpError: state.validationErrors[state.currentStep]?['otpError'],
           onResendOtp: _resendOTP,
           onOtpChanged: _onOtpChanged,
           clearOtpFields: _clearOtpFields,
@@ -341,12 +363,6 @@ class _DepositNowPageState extends State<DepositNowPage> {
   }
 
   void _disposeControllers() {
-    _cardNumberCon.dispose();
-    _accountTypeCon.dispose();
-    _accountBalanceCon.dispose();
-    _accountWithdrawableCon.dispose();
-    _accountOperatorNameCon.dispose();
-
     try {
       _countDownController.pause();
     } catch (_) {}

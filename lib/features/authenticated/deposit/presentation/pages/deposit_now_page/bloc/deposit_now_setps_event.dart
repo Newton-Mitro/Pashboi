@@ -10,3 +10,52 @@ abstract class DepositNowStepsEvent extends Equatable {
 class DepositNowGoToNextStep extends DepositNowStepsEvent {}
 
 class DepositNowGoToPreviousStep extends DepositNowStepsEvent {}
+
+class UpdateStepData extends DepositNowStepsEvent {
+  final int step;
+  final Map<String, dynamic> data;
+
+  const UpdateStepData({required this.step, required this.data});
+
+  @override
+  List<Object> get props => [step, data];
+}
+
+class SetCollectionLedgers extends DepositNowStepsEvent {
+  final List<CollectionLedgerEntity> ledgers;
+
+  const SetCollectionLedgers({required this.ledgers});
+
+  @override
+  List<Object> get props => [ledgers];
+}
+
+class ToggleLedgerSelection extends DepositNowStepsEvent {
+  final CollectionLedgerEntity ledger;
+
+  const ToggleLedgerSelection(this.ledger);
+
+  @override
+  List<Object> get props => [ledger];
+}
+
+class ToggleSelectAllLedgers extends DepositNowStepsEvent {
+  final bool selectAll;
+
+  const ToggleSelectAllLedgers(this.selectAll);
+
+  @override
+  List<Object> get props => [selectAll];
+}
+
+class UpdateLedgerAmount extends DepositNowStepsEvent {
+  final CollectionLedgerEntity ledger;
+  final double newAmount;
+
+  const UpdateLedgerAmount({required this.ledger, required this.newAmount});
+
+  @override
+  List<Object> get props => [ledger, newAmount];
+}
+
+class ResetDepositNowFlow extends DepositNowStepsEvent {}

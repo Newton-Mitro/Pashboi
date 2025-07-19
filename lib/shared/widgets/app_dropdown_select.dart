@@ -43,27 +43,41 @@ class AppDropdownSelect<T> extends StatelessWidget {
               final item = items[index];
               return Container(
                 padding: const EdgeInsets.only(left: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color:
-                      value == item.value
-                          ? context.theme.colorScheme.scrim
-                          : context.theme.colorScheme.primary,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: RadioListTile(
-                    value: item.value,
-                    groupValue: value,
-                    onChanged: (selectedValue) {
-                      Navigator.of(context).pop();
-                      onChanged(selectedValue);
-                    },
-                    title: item.child,
-                    selected: value == item.value,
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    activeColor: context.theme.colorScheme.onPrimary,
+                decoration:
+                    value == item.value
+                        ? BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border(
+                            left: BorderSide(
+                              color: context.theme.colorScheme.onPrimary,
+                              width: 3,
+                            ),
+                            right: BorderSide(
+                              color: context.theme.colorScheme.onPrimary,
+                              width: 3,
+                            ),
+                          ),
+                        )
+                        : null,
+                child: RadioListTile(
+                  value: item.value,
+                  groupValue: value,
+                  onChanged: (selectedValue) {
+                    Navigator.of(context).pop();
+                    onChanged(selectedValue);
+                  },
+                  title: DefaultTextStyle(
+                    style: TextStyle(
+                      color:
+                          value == item.value
+                              ? context.theme.colorScheme.onPrimary
+                              : context.theme.colorScheme.onPrimary,
+                    ),
+                    child: item.child,
                   ),
+                  selected: value == item.value,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  activeColor: context.theme.colorScheme.onPrimary,
                 ),
               );
             },
@@ -119,7 +133,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
                         : null,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 10,
-                  vertical: 8,
+                  vertical: 12,
                 ),
                 focusedBorder: border.copyWith(
                   borderSide: BorderSide(
