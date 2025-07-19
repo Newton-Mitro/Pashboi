@@ -172,8 +172,10 @@
   "side_menu_title_for_services": "সেবা",
   "side_menu_title_for_privacy_policy": "গোপনীয়তা নীতি",
   "side_menu_title_for_development_credits": "উন্নয়ন কৃতজ্ঞতা",
+  "side_menu_title_for_development_credits_details": "উন্নয়ন কৃতজ্ঞতার বিস্তারিত",
   "side_menu_title_for_services_policy_details": "সেবা নীতিমালা বিস্তারিত",
-  "side_menu_title_for_project_policy_details": "প্রকল্প নীতিমালা বিস্তারিত"
+  "side_menu_title_for_project_policy_details": "প্রকল্প নীতিমালা বিস্তারিত",
+  "side_menu_title_for_services_details": "সেবা বিস্তারিত"
 
 
 }

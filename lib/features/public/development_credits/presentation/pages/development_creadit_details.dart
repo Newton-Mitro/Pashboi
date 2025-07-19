@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/features/public/development_credits/domain/entites/development_credits_entity.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -16,7 +17,15 @@ class DevelopmentCreditDetails extends StatelessWidget {
     final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: Text(credit.name), elevation: 0),
+      appBar: AppBar(
+        title: Text(
+          Locales.string(
+            context,
+            "side_menu_title_for_development_credits_details",
+          ),
+        ),
+        elevation: 0,
+      ),
       body: PageContainer(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

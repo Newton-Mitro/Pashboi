@@ -23,7 +23,7 @@ class DevelopmentCreditsPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            Locales.string(context, "side_menu_title_for_privacy_policy"),
+            Locales.string(context, "side_menu_title_for_development_credits"),
           ),
         ),
         body: PageContainer(
