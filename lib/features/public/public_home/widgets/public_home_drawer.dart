@@ -10,6 +10,7 @@ import 'package:pashboi/features/public/pages/presentation/pages/policy_page.dar
 import 'package:pashboi/features/public/project/presentation/pages/project.dart';
 import 'package:pashboi/features/public/service/presentation/service_page.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 
 class PublicHomeDrawer extends StatelessWidget {
   const PublicHomeDrawer({super.key});
@@ -42,7 +43,7 @@ class PublicHomeDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: FontAwesomeIcons.circleInfo,
-            label: "About Us",
+            label: Locales.string(context, "side_menu_title_for_about_us"),
             onTap: () {
               Navigator.push(
                 context,
@@ -53,7 +54,10 @@ class PublicHomeDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: FontAwesomeIcons.userTie,
-            label: "Founders Profile",
+            label: Locales.string(
+              context,
+              "side_menu_title_for_founder_profile",
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -64,7 +68,10 @@ class PublicHomeDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: FontAwesomeIcons.bullseye,
-            label: "Mission and Vision",
+            label: Locales.string(
+              context,
+              "side_menu_title_for_mission_and_vision",
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -75,7 +82,7 @@ class PublicHomeDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: FontAwesomeIcons.helmetUn,
-            label: "Projects",
+            label: Locales.string(context, "side_menu_title_for_project"),
             onTap: () {
               Navigator.push(
                 context,
@@ -86,7 +93,7 @@ class PublicHomeDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: FontAwesomeIcons.personBiking,
-            label: "Services",
+            label: Locales.string(context, "side_menu_title_for_services"),
             onTap: () {
               Navigator.push(
                 context,
@@ -97,7 +104,10 @@ class PublicHomeDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: FontAwesomeIcons.userShield,
-            label: "Privacy Policy",
+            label: Locales.string(
+              context,
+              "side_menu_title_for_privacy_policy",
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -108,7 +118,10 @@ class PublicHomeDrawer extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: FontAwesomeIcons.code,
-            label: "Development Credits",
+            label: Locales.string(
+              context,
+              "side_menu_title_for_development_credits",
+            ),
             onTap: () {
               Navigator.push(
                 context,

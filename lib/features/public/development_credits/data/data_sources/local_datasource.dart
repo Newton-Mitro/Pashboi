@@ -9,19 +9,17 @@ abstract class DevelopmentCreditsLocalDataSource {
 
 class DevelopmentCreditsLocalDataSourceImpl
     implements DevelopmentCreditsLocalDataSource {
-  final SharedPreferences sharedPreferences;
-  final String developmentCreditsName = 'development_credits';
+  final SharedPreferences _sharedPreferences;
+  final String _developmentCreditsKey = 'development_credits_key';
 
-  DevelopmentCreditsLocalDataSourceImpl(this.sharedPreferences);
+  DevelopmentCreditsLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<List<DevelopmentCreditsModel>> fetchDevelopmentCredits() async {
     try {
-      final jsonString = sharedPreferences.getString(developmentCreditsName);
+      final jsonString = _sharedPreferences.getString(_developmentCreditsKey);
 
-      if (jsonString == null) {
-        return [];
-      }
+      if (jsonString == null) throw Exception('Invalid response format');
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList
@@ -43,6 +41,6 @@ class DevelopmentCreditsLocalDataSourceImpl
     final creditsData = jsonEncode(
       credits.map((e) => (e as dynamic).toJson()).toList(),
     );
-    await sharedPreferences.setString(developmentCreditsName, creditsData);
+    await _sharedPreferences.setString(_developmentCreditsKey, creditsData);
   }
 }

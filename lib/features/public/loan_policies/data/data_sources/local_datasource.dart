@@ -9,17 +9,17 @@ abstract class LoanPolicyLocalDataSource {
 }
 
 class LoanPolicyLocalDataSourceImpl implements LoanPolicyLocalDataSource {
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences _sharedPreferences;
 
-  final String loanPolicyName = 'loan_policy';
+  final String _loanPolicyKey = 'loan_policy_key';
 
-  LoanPolicyLocalDataSourceImpl(this.sharedPreferences);
+  LoanPolicyLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<List<LoanPolicyModel>> fetchLoanPoliciesByCategoryId() async {
     try {
-      final jsonString = sharedPreferences.getString(loanPolicyName);
-      if (jsonString == null) return [];
+      final jsonString = _sharedPreferences.getString(_loanPolicyKey);
+      if (jsonString == null) throw Exception('Invalid response format');
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList
@@ -37,6 +37,6 @@ class LoanPolicyLocalDataSourceImpl implements LoanPolicyLocalDataSource {
     final loanPolicyData = jsonEncode(
       loanPolicies.map((e) => (e as dynamic).toJson()).toList(),
     );
-    await sharedPreferences.setString(loanPolicyName, loanPolicyData);
+    await _sharedPreferences.setString(_loanPolicyKey, loanPolicyData);
   }
 }

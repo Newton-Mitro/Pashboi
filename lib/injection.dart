@@ -40,7 +40,7 @@ Future<void> setupDependencies() async {
   registerProjectModule();
   registerServiceCenterModule();
   registerLoanModule();
-  registerMissionAndVisionModule();
+  registerPageModule();
   registerDevelopmentCreditModule();
   registerDepositModule();
 }

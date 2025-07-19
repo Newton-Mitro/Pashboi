@@ -11,19 +11,19 @@ abstract class DepositPolicyLocalDataSource {
 }
 
 class DepositPolicyLocalDataSourceImpl implements DepositPolicyLocalDataSource {
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences _sharedPreferences;
 
-  final String depositPolicyName = 'deposit_policy_';
+  static const String _depositPolicyKey = 'deposit_policy_key';
 
-  DepositPolicyLocalDataSourceImpl(this.sharedPreferences);
+  DepositPolicyLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<List<DepositPolicyModel>> fetchLoanPoliciesByCategoryId(
     FetchPageProps props,
   ) async {
     try {
-      final jsonString = sharedPreferences.getString(depositPolicyName);
-      if (jsonString == null) return [];
+      final jsonString = _sharedPreferences.getString(_depositPolicyKey);
+      if (jsonString == null) throw Exception('Invalid response format');
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList
@@ -43,6 +43,6 @@ class DepositPolicyLocalDataSourceImpl implements DepositPolicyLocalDataSource {
     final depositPolicyData = jsonEncode(
       depositPolicies.map((e) => (e as dynamic).toJson()).toList(),
     );
-    await sharedPreferences.setString(depositPolicyName, depositPolicyData);
+    await _sharedPreferences.setString(_depositPolicyKey, depositPolicyData);
   }
 }

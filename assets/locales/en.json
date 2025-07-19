@@ -155,5 +155,14 @@
   "personnel_menu_working_out_of_office_history_title": "Working Out of Office History",
   "personnel_menu_working_out_of_office_history_description": "View your history of approved or denied working out of office applications",
   "personnel_menu_todays_punch_title": "Today's Punch",
-  "personnel_menu_todays_punch_description": "Record your in and out times for attendance on the current day"
+  "personnel_menu_todays_punch_description": "Record your in and out times for attendance on the current day",
+  
+  "emergency_contact": "Emergency Contact",
+  "side_menu_title_for_about_us": "About Us",
+  "side_menu_title_for_founder_profile": "Founder Profile",
+  "side_menu_title_for_mission_and_vision": "Mission & Vision",
+  "side_menu_title_for_project": "Project",
+  "side_menu_title_for_services": "Services",
+  "side_menu_title_for_privacy_policy": "Privacy Policy",
+  "side_menu_title_for_development_credits": "Development Credits"
 }

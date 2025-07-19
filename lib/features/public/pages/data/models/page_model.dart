@@ -41,15 +41,15 @@ class PageModel extends PageEntity {
       'title': title,
       'slug': slug,
       'order': order,
-      'shortDescription': shortDescription,
+      'short_description': shortDescription,
       'description': longDescription,
-      'attachmentUrl': attachmentUrl,
-      'attachmentPath': attachmentPath,
-      'attachmentName': attachmentName,
-      'attachmentMimeType': attachmentMimeType,
-      'publishStatus': publishStatus,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
+      'attachment_url': attachmentUrl,
+      'attachment_path': attachmentPath,
+      'attachment_name': attachmentName,
+      'attachment_mime': attachmentMimeType,
+      'publish_status': publishStatus,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
     };
   }
 }

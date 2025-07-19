@@ -3,27 +3,35 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
+import 'package:pashboi/features/public/notice/data/data_sources/local_datasource.dart';
 import 'package:pashboi/features/public/notice/data/data_sources/remote_notice_datasource.dart';
 import 'package:pashboi/features/public/notice/data/models/notice_model.dart';
 import 'package:pashboi/features/public/notice/data/repositories/notice_repository_impl.dart';
 import 'package:pashboi/features/public/notice/domain/enities/notice_entity.dart';
 
+// ✅ Fix: Create proper mocks
 class MockNoticeRemoteDataSource extends Mock
     implements NoticeRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+class MockNoticeLocalDataSource extends Mock implements NoticeLocalDataSource {}
+
 void main() {
   late MockNoticeRemoteDataSource mockRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
+  late MockNoticeLocalDataSource mockLocalDataSource;
   late NoticeRepositoryImpl repository;
 
   setUp(() {
     mockNetworkInfo = MockNetworkInfo();
     mockRemoteDataSource = MockNoticeRemoteDataSource();
+    mockLocalDataSource = MockNoticeLocalDataSource();
+
     repository = NoticeRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       networkInfo: mockNetworkInfo,
+      localDataSource: mockLocalDataSource,
     );
   });
 
@@ -48,38 +56,47 @@ void main() {
   final noticeModelList =
       responseData.map((json) => NoticeModel.fromJson(json)).toList();
 
-  group('checkRemoteData source', () {
-    test("check device is online", () async {
-      // Arrange
+  group('NoticeRepositoryImpl', () {
+    test("should check if the device is online", () async {
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(
         () => mockRemoteDataSource.findNotice(),
       ).thenAnswer((_) async => noticeModelList);
-      // Act
+      when(
+        () => mockLocalDataSource.StoreNotice(any()),
+      ).thenAnswer((_) async => Future.value());
+
       await repository.findNotice();
-      // Assert
+
       verify(() => mockNetworkInfo.isConnected).called(1);
     });
 
-    test("should return data from remote data source if connected", () async {
-      // Arrange
+    test("should return data from remote if connected", () async {
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(
         () => mockRemoteDataSource.findNotice(),
       ).thenAnswer((_) async => noticeModelList);
+      when(
+        () => mockLocalDataSource.StoreNotice(any()),
+      ).thenAnswer((_) async => Future.value());
 
-      // Act
       final result = await repository.findNotice();
 
-      // Assert
       verify(() => mockRemoteDataSource.findNotice()).called(1);
+      verify(() => mockLocalDataSource.StoreNotice(noticeModelList)).called(1);
+      expect(result, Right<Failure, List<NoticeEntity>>(noticeModelList));
+    });
 
-      expect(
-        result,
-        Right<Failure, List<NoticeEntity>>(
-          noticeModelList.cast<NoticeEntity>(),
-        ),
-      );
+    test("should return local data if offline", () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(
+        () => mockLocalDataSource.fetchNoticeByCategoryId(),
+      ).thenAnswer((_) async => noticeModelList);
+
+      final result = await repository.findNotice();
+
+      verify(() => mockLocalDataSource.fetchNoticeByCategoryId()).called(1);
+      expect(result, Right<Failure, List<NoticeEntity>>(noticeModelList));
     });
   });
 }

@@ -3,6 +3,7 @@ import 'package:accordion/accordion.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 
 class ContactUsPage extends StatelessWidget {
   ContactUsPage({super.key});
@@ -71,7 +72,7 @@ class ContactUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Information Pages')),
+      appBar: AppBar(title: Text(Locales.string(context, 'emergency_contact'))),
       body: Accordion(
         headerBorderWidth: 3,
         headerBorderColor: context.theme.colorScheme.primary,
