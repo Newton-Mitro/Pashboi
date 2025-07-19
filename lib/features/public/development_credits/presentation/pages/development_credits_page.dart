@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
@@ -20,7 +21,11 @@ class DevelopmentCreditsPage extends StatelessWidget {
           (context) =>
               sl<DevelopmentCreditBloc>()..add(FetchDevelopmentCreditEvent()),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Development Credit')),
+        appBar: AppBar(
+          title: Text(
+            Locales.string(context, "side_menu_title_for_privacy_policy"),
+          ),
+        ),
         body: PageContainer(
           child: BlocBuilder<DevelopmentCreditBloc, DevelopmentCreditState>(
             builder: (context, state) {

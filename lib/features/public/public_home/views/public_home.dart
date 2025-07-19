@@ -88,7 +88,7 @@ class _PublicHomeScreenState extends State<PublicHomeScreen>
     final List<String> titles = [
       Locales.string(context, 'public_bottom_nav_menu_savings'),
       Locales.string(context, 'public_bottom_nav_menu_loans'),
-      Locales.string(context, 'public_bottom_nav_menu_services_and_projects'),
+      Locales.string(context, 'public_bottom_nav_menu_notices'),
       Locales.string(context, 'public_bottom_nav_menu_service_centers'),
     ];
 

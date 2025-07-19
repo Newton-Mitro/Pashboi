@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/public/pages/domain/usecases/fetch_page_usecase.dart';
@@ -24,7 +25,9 @@ class _MissionAndVisionPageState extends State<MissionAndVisionPage> {
                 ..add(FetchPageEvent(PageProps(pageSlug: 'mission-vision'))),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Mission and Vision'),
+          title: Text(
+            Locales.string(context, "side_menu_title_for_mission_and_vision"),
+          ),
           backgroundColor: context.theme.colorScheme.primary,
           foregroundColor: context.theme.colorScheme.onPrimary,
           elevation: 0,

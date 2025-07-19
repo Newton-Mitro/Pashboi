@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
@@ -21,7 +22,7 @@ class ServicePage extends StatelessWidget {
           (context) => sl<ServicePolicyBloc>()..add(FetchServicePolicyEvent()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Services'),
+          title: Text(Locales.string(context, "side_menu_title_for_services")),
           backgroundColor: context.theme.colorScheme.primary,
           foregroundColor: context.theme.colorScheme.onPrimary,
           elevation: 0,

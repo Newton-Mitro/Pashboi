@@ -66,9 +66,16 @@
   "reset_password_page_reset_password_button": "Reset Password",
 
   "public_bottom_nav_menu_savings": "Saving Policies",
+  "public_bottom_nav_menu_savings_details": "Saving Policies Details",
+
   "public_bottom_nav_menu_loans": "Loan Policies",
+  "public_bottom_nav_menu_loans_details": "Loan Policies Details",
   "public_bottom_nav_menu_services_and_projects": "Services & Projects",
+  
+  "public_bottom_nav_menu_notice_details": "Notice Details",
+
   "public_bottom_nav_menu_notices": "Notices",
+  
   "public_bottom_nav_menu_service_centers": "Service Centers",
 
   "auth_bottom_nav_menu_info": "Info",
@@ -164,5 +171,10 @@
   "side_menu_title_for_project": "Project",
   "side_menu_title_for_services": "Services",
   "side_menu_title_for_privacy_policy": "Privacy Policy",
-  "side_menu_title_for_development_credits": "Development Credits"
+  "side_menu_title_for_development_credits": "Development Credits",
+
+  "side_menu_title_for_services_policy_details": "Service Policy Details",
+  "side_menu_title_for_project_policy_details": "Project Policy Details"
+
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/public/pages/domain/usecases/fetch_page_usecase.dart';
@@ -24,7 +25,9 @@ class _PolicyPageState extends State<PolicyPage> {
                 ..add(FetchPageEvent(PageProps(pageSlug: 'privacy-policy'))),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Privacy Policy'),
+          title: Text(
+            Locales.string(context, "side_menu_title_for_privacy_policy"),
+          ),
           backgroundColor: context.theme.colorScheme.primary,
           foregroundColor: context.theme.colorScheme.onPrimary,
           elevation: 0,
