@@ -13,6 +13,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class SearchLedgersSection extends StatefulWidget {
   final String? sectionTitle;
   final String? searchAccountNumber;
+  final String? searchAccountNumberError;
+  final String? searchedAccountHolderNameError;
   final String? beneficiaryAccountNumber;
   final void Function(List<CollectionLedgerEntity> collectionLedgers)
   setCollectionLedgers;
@@ -28,6 +30,8 @@ class SearchLedgersSection extends StatefulWidget {
     super.key,
     required this.searchAccountNumber,
     required this.searchedAccountHolderName,
+    required this.searchAccountNumberError,
+    required this.searchedAccountHolderNameError,
     required this.beneficiaryAccountNumber,
     required this.sectionTitle,
     required this.setCollectionLedgers,
@@ -140,6 +144,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                     } else {
                       return AppDropdownSelect(
                         value: widget.beneficiaryAccountNumber,
+
                         items:
                             beneficiaries
                                 .map(
@@ -169,6 +174,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                       initialValue: widget.searchAccountNumber,
                       label: "Account Number",
                       isSearch: true,
+                      errorText: widget.searchAccountNumberError,
                       enabled: state is! CollectionLedgerLoading,
                       prefixIcon: Icon(
                         FontAwesomeIcons.piggyBank,
@@ -187,6 +193,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                 AppTextInput(
                   initialValue: widget.searchedAccountHolderName,
                   label: "Account Holder Name",
+                  errorText: widget.searchedAccountHolderNameError,
                   prefixIcon: Icon(
                     Icons.person,
                     color: context.theme.colorScheme.onSurface,

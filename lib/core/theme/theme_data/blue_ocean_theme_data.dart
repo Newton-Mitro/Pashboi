@@ -36,6 +36,9 @@ ThemeData get blueOceanThemeData => ThemeData(
     surfaceTint: _primaryLightColors.surfaceTint,
   ),
   popupMenuTheme: PopupMenuThemeData(color: _primaryLightColors.surface),
+  radioTheme: RadioThemeData(
+    fillColor: WidgetStateProperty.all(_primaryLightColors.onPrimary),
+  ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
       color: _primaryLightColors.surface, // Background color

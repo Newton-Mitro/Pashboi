@@ -36,6 +36,9 @@ ThemeData get darkBlueAbyssThemeData => ThemeData(
     surfaceTint: _primaryDarkColors.surfaceTint,
   ),
   popupMenuTheme: PopupMenuThemeData(color: _primaryDarkColors.surface),
+  radioTheme: RadioThemeData(
+    fillColor: WidgetStateProperty.all(_primaryDarkColors.onPrimary),
+  ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
       color: _primaryDarkColors.surface, // Background color

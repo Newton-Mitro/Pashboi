@@ -200,8 +200,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
           accountNumber:
               state.stepData[state.currentStep]?['transferFromAccount'],
           accountError:
-              state.validationErrors[state
-                  .currentStep]?['transferFromAccountError'],
+              state.validationErrors[state.currentStep]?['transferFromAccount'],
           onAccountChanged: (debitCard, selectedAccount) {
             context.read<DepositNowStepsBloc>().add(
               UpdateStepData(
@@ -241,8 +240,13 @@ class _DepositNowPageState extends State<DepositNowPage> {
           sectionTitle: "Deposit For",
           searchAccountNumber:
               state.stepData[state.currentStep]?['searchAccountNumber'],
+          searchAccountNumberError:
+              state.validationErrors[state.currentStep]?['searchAccountNumber'],
           searchedAccountHolderName:
               state.stepData[state.currentStep]?['searchedAccountHolderName'],
+          searchedAccountHolderNameError:
+              state.validationErrors[state
+                  .currentStep]?['searchedAccountHolderName'],
           setCollectionLedgers: _setCollectionLedgers,
           onChangeSearchAccountNumber: (accountNumber) {
             context.read<DepositNowStepsBloc>().add(
@@ -299,6 +303,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
               UpdateLedgerAmount(ledger: ledger, newAmount: newAmount),
             );
           },
+          sectionError: state.validationErrors[state.currentStep]?['ledgers'],
         ),
       ),
 
@@ -310,11 +315,9 @@ class _DepositNowPageState extends State<DepositNowPage> {
         icon: FontAwesomeIcons.creditCard,
         widget: CardPinVerificationSection(
           cardNumber: state.stepData[0]?['selectedCardNumber'],
-          cardNumberError:
-              state.validationErrors[0]?['selectedCardNumberError'],
+          cardNumberError: state.validationErrors[0]?['selectedCardNumber'],
           cardPin: state.stepData[state.currentStep]?['cardPin'],
-          cardPinError:
-              state.validationErrors[state.currentStep]?['cardPinError'],
+          cardPinError: state.validationErrors[state.currentStep]?['cardPin'],
           onCardPinChanged: (pin) {
             context.read<DepositNowStepsBloc>().add(
               UpdateStepData(step: state.currentStep, data: {'cardPin': pin}),
