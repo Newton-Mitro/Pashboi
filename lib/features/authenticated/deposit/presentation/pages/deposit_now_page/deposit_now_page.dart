@@ -304,6 +304,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
             );
           },
           sectionError: state.validationErrors[state.currentStep]?['ledgers'],
+          amountErrors: state.validationErrors[state.currentStep]?['amounts'],
         ),
       ),
 

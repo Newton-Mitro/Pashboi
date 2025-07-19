@@ -105,19 +105,19 @@ class TransactionPreviewSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Total Amount",
+                    "Total Deposit Amount",
                     style: TextStyle(
-                      color: colorScheme.onPrimary,
+                      color: colorScheme.onSurface,
                       fontWeight: FontWeight.w600,
-                      fontSize: 15,
+                      fontSize: 14,
                     ),
                   ),
                   Text(
                     TakaFormatter.format(totalAmount),
                     style: TextStyle(
-                      color: colorScheme.onPrimary,
+                      color: colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                   ),
                 ],
