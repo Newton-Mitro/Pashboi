@@ -26,8 +26,23 @@ class DepositNowStepsBloc
     DepositNowGoToNextStep event,
     Emitter<DepositNowStepsState> emit,
   ) {
-    if (state.currentStep < lastStep) {
-      emit(state.copyWith(currentStep: state.currentStep + 1));
+    final step = state.currentStep;
+    final errors = _validateDepositNowSteps(step);
+
+    final updatedValidationErrors = Map<int, Map<String, dynamic>>.from(
+      state.validationErrors,
+    );
+    updatedValidationErrors[step] = errors;
+
+    if (errors.isEmpty && step < lastStep) {
+      emit(
+        state.copyWith(
+          currentStep: step + 1,
+          validationErrors: updatedValidationErrors,
+        ),
+      );
+    } else {
+      emit(state.copyWith(validationErrors: updatedValidationErrors));
     }
   }
 
@@ -72,15 +87,36 @@ class DepositNowStepsBloc
     ToggleLedgerSelection event,
     Emitter<DepositNowStepsState> emit,
   ) {
-    final updatedLedgers =
-        state.collectionLedgers.map((l) {
-          if (l.accountId == event.ledger.accountId &&
-              l.accountNumber == event.ledger.accountNumber &&
-              l.ledgerId == event.ledger.ledgerId) {
-            return l.copyWith(isSelected: !(l.isSelected));
-          }
-          return l;
-        }).toList();
+    late List<CollectionLedgerEntity> updatedLedgers;
+
+    if (event.ledger.plType == 2 && event.ledger.subledger) {
+      updatedLedgers =
+          state.collectionLedgers.map((l) {
+            if (l.accountNumber == event.ledger.accountNumber) {
+              return l.copyWith(isSelected: !(event.ledger.isSelected));
+            }
+            return l;
+          }).toList();
+    } else if (event.ledger.plType == 2 && !event.ledger.subledger) {
+      updatedLedgers =
+          state.collectionLedgers.map((l) {
+            if (l.accountNumber == event.ledger.accountNumber &&
+                !event.ledger.subledger) {
+              return l.copyWith(isSelected: true);
+            }
+            return l;
+          }).toList();
+    } else {
+      updatedLedgers =
+          state.collectionLedgers.map((l) {
+            if (l.accountId == event.ledger.accountId &&
+                l.accountNumber == event.ledger.accountNumber &&
+                l.ledgerId == event.ledger.ledgerId) {
+              return l.copyWith(isSelected: !(l.isSelected));
+            }
+            return l;
+          }).toList();
+    }
 
     emit(state.copyWith(collectionLedgers: updatedLedgers));
   }
@@ -119,5 +155,59 @@ class DepositNowStepsBloc
     Emitter<DepositNowStepsState> emit,
   ) {
     emit(const DepositNowStepsState(currentStep: 0));
+  }
+
+  Map<String, dynamic> _validateDepositNowSteps(int step) {
+    final data = state.stepData[step] ?? {};
+    final errors = <String, dynamic>{};
+
+    switch (step) {
+      case 0:
+        if (data['accountType'] == null ||
+            data['accountType'].toString().isEmpty) {
+          errors['accountType'] = 'Account type is required';
+        }
+        break;
+
+      case 1:
+        if (data['selectedBranch'] == null) {
+          errors['selectedBranch'] = 'Please select a branch';
+        }
+        break;
+
+      case 2:
+        final cardNumber = data['cardNumber'] as String? ?? '';
+        final cardPin = data['cardPin'] as String? ?? '';
+
+        if (cardNumber.length != 16) {
+          errors['cardNumber'] = 'Card number must be 16 digits';
+        }
+        if (cardPin.length != 4) {
+          errors['cardPin'] = 'PIN must be 4 digits';
+        }
+        break;
+
+      case 3:
+        if (data['confirmation'] != true) {
+          errors['confirmation'] = 'You must confirm to proceed';
+        }
+        break;
+
+      case 4:
+        final selectedLedgers =
+            state.collectionLedgers.where((l) => l.isSelected).toList();
+        if (selectedLedgers.isEmpty) {
+          errors['ledgers'] = 'Please select at least one ledger';
+        } else if (selectedLedgers.any((l) => l.depositAmount <= 0)) {
+          errors['amount'] = 'Each selected ledger must have a deposit amount';
+        }
+        break;
+
+      // No validation needed for final review/step 5
+      default:
+        break;
+    }
+
+    return errors;
   }
 }

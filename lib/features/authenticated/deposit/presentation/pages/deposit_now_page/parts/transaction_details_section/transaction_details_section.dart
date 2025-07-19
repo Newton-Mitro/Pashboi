@@ -157,7 +157,7 @@ class TransactionDetailsSection extends StatelessWidget {
                                     width: 105,
                                     height: 36,
                                     child: TextFormField(
-                                      enabled: isSelected,
+                                      enabled: isSelected && !ledger.editable,
                                       initialValue:
                                           ledger.depositAmount.toString(),
                                       decoration: const InputDecoration(
