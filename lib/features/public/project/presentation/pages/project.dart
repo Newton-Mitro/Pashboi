@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
@@ -17,7 +18,7 @@ class ProjectPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Project'),
+        title: Text(Locales.string(context, "side_menu_title_for_project")),
         backgroundColor: context.theme.colorScheme.primary,
         foregroundColor: context.theme.colorScheme.onPrimary,
         elevation: 0,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/features/public/notice/domain/enities/notice_entity.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -15,7 +16,12 @@ class NoticeDetailsPage extends StatelessWidget {
     final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: Text(notice.title), elevation: 0),
+      appBar: AppBar(
+        title: Text(
+          Locales.string(context, "public_bottom_nav_menu_notice_details"),
+        ),
+        elevation: 0,
+      ),
       body: PageContainer(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

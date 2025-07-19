@@ -16,7 +16,7 @@ class ServicePolicyDetailsPage extends StatelessWidget {
     final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Service Policy Details'), elevation: 0),
+      appBar: AppBar(title: const Text('Service Policy '), elevation: 0),
       body: PageContainer(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

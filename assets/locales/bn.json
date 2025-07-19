@@ -66,8 +66,15 @@
   "reset_password_page_reset_password_button": "পাসওয়ার্ড রিসেট করুন",
 
   "public_bottom_nav_menu_savings": "সঞ্চয় নীতিমালা",
+  "public_bottom_nav_menu_savings_details": "সঞ্চয় নীতিমালা বিস্তারিত",
+
   "public_bottom_nav_menu_loans": "ঋণ নীতিমালা",
+  "public_bottom_nav_menu_loans_details": "ঋণ নীতিমালা বিস্তারিত",
+
   "public_bottom_nav_menu_services_and_projects": "সেবা ও প্রকল্প",
+
+  "public_bottom_nav_menu_notice_details": "নোটিশ বিস্তারিত",
+
   "public_bottom_nav_menu_notices": "নোটিশ",
   "public_bottom_nav_menu_service_centers": "সার্ভিস সেন্টার",
 
@@ -164,5 +171,9 @@
   "side_menu_title_for_project": "প্রকল্প",
   "side_menu_title_for_services": "সেবা",
   "side_menu_title_for_privacy_policy": "গোপনীয়তা নীতি",
-  "side_menu_title_for_development_credits": "উন্নয়ন কৃতজ্ঞতা"
+  "side_menu_title_for_development_credits": "উন্নয়ন কৃতজ্ঞতা",
+  "side_menu_title_for_services_policy_details": "সেবা নীতিমালা বিস্তারিত",
+  "side_menu_title_for_project_policy_details": "প্রকল্প নীতিমালা বিস্তারিত"
+
+
 }

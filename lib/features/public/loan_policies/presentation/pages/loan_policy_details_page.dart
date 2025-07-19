@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/public/loan_policies/domain/entites/loan_policy_entity.dart';
@@ -17,7 +18,12 @@ class LoanPolicyDetailsPage extends StatelessWidget {
     final bool showIcon = imageUrl.isEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Deposit Policy Details'), elevation: 0),
+      appBar: AppBar(
+        title: Text(
+          Locales.string(context, "public_bottom_nav_menu_loans_details"),
+        ),
+        elevation: 0,
+      ),
       body: PageContainer(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

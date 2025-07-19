@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/features/public/pages/domain/usecases/fetch_page_usecase.dart';
@@ -23,7 +24,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
               sl<PageBloc>()..add(FetchPageEvent(PageProps(pageSlug: 'about'))),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('About Us'),
+          title: Text(Locales.string(context, "side_menu_title_for_about_us")),
           backgroundColor: context.theme.colorScheme.primary,
           foregroundColor: context.theme.colorScheme.onPrimary,
           elevation: 0,
