@@ -3,6 +3,7 @@ import 'package:pashboi/features/authenticated/cards/injection.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/injection.dart';
 import 'package:pashboi/features/authenticated/deposit/injection.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/injection.dart';
+import 'package:pashboi/features/authenticated/loan_payment/injection.dart';
 import 'package:pashboi/features/authenticated/my_accounts/injection.dart';
 import 'package:pashboi/features/authenticated/my_loans/injection.dart';
 import 'package:pashboi/features/authenticated/profile/injection.dart';
@@ -22,12 +23,12 @@ import 'core/injection.dart';
 import 'features/auth/injection.dart';
 
 Future<void> setupDependencies() async {
-  await registerCoreServices(); // Core services
-  registerOnboardingModule(); // Onboarding module
-  registerAppStatusModule(); // MyApp module
+  await registerCoreServices();
+  registerOnboardingModule();
+  registerAppStatusModule();
   registerCardModule();
   registerFamilyAndFriendsModule();
-  registerAuthModule(); // Auth module
+  registerAuthModule();
   registerMyAccountsModule();
   registerProfileModule();
   registerDepositPolicyModule();
@@ -43,4 +44,5 @@ Future<void> setupDependencies() async {
   registerPageModule();
   registerDevelopmentCreditModule();
   registerDepositModule();
+  registerLoanPaymentModule();
 }

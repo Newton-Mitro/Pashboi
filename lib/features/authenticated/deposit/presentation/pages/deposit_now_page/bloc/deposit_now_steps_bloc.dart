@@ -20,6 +20,8 @@ class DepositNowStepsBloc
     on<ToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
     on<UpdateLedgerAmount>(_onUpdateLedgerAmount);
     on<ResetDepositNowFlow>(_onResetFlow);
+    // update lps amount
+    on<UpdateLpsAmount>(_onUpdateLpsAmount);
   }
 
   void _onGoToNextStep(
@@ -89,7 +91,7 @@ class DepositNowStepsBloc
   ) {
     late List<CollectionLedgerEntity> updatedLedgers;
 
-    if (event.ledger.plType == 2 && event.ledger.subledger) {
+    if (event.ledger.subledger) {
       updatedLedgers =
           state.collectionLedgers.map((l) {
             if (l.accountNumber == event.ledger.accountNumber) {
@@ -97,7 +99,7 @@ class DepositNowStepsBloc
             }
             return l;
           }).toList();
-    } else if (event.ledger.plType == 2) {
+    } else if (event.ledger.plType == 2 || event.ledger.plType == 1) {
       updatedLedgers =
           state.collectionLedgers.map((l) {
             if (l.accountNumber == event.ledger.accountNumber &&
@@ -140,6 +142,11 @@ class DepositNowStepsBloc
     UpdateLedgerAmount event,
     Emitter<DepositNowStepsState> emit,
   ) {
+    if (!event.ledger.subledger &&
+        event.ledger.plType == 2 &&
+        event.ledger.lps) {
+      return;
+    }
     final updatedLedgers =
         state.collectionLedgers.map((l) {
           if (l.accountId == event.ledger.accountId &&
@@ -158,6 +165,21 @@ class DepositNowStepsBloc
     Emitter<DepositNowStepsState> emit,
   ) {
     emit(const DepositNowStepsState(currentStep: 0));
+  }
+
+  void _onUpdateLpsAmount(
+    UpdateLpsAmount event,
+    Emitter<DepositNowStepsState> emit,
+  ) {
+    final updatedLedgers =
+        state.collectionLedgers.map((l) {
+          if (l.collectionType == 'LoanLpsAmount') {
+            return l.copyWith(depositAmount: event.newAmount);
+          }
+          return l;
+        }).toList();
+
+    emit(state.copyWith(collectionLedgers: updatedLedgers));
   }
 
   Map<String, dynamic> _validateDepositNowSteps(int step) {

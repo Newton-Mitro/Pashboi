@@ -58,4 +58,13 @@ class UpdateLedgerAmount extends DepositNowStepsEvent {
   List<Object> get props => [ledger, newAmount];
 }
 
+class UpdateLpsAmount extends DepositNowStepsEvent {
+  final double newAmount;
+
+  const UpdateLpsAmount({required this.newAmount});
+
+  @override
+  List<Object> get props => [newAmount];
+}
+
 class ResetDepositNowFlow extends DepositNowStepsEvent {}

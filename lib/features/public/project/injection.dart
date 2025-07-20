@@ -10,8 +10,6 @@ import 'package:pashboi/features/public/project/presentation/bloc/project_bloc.d
 import 'package:shared_preferences/shared_preferences.dart';
 
 void registerProjectModule() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-
   sl.registerLazySingleton<ProjectRemoteDataSource>(
     () =>
         ProjectRemoteDataSourceImpl(productApiService: sl<ProductApiService>()),
@@ -36,5 +34,4 @@ void registerProjectModule() async {
   sl.registerFactory<ProjectBloc>(
     () => ProjectBloc(projectUseCase: sl<FetchProjectUseCase>()),
   );
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
@@ -46,7 +47,7 @@ class LoanPaymentRemoteDataSourceImpl implements LoanPaymentRemoteDataSource {
         if (dataString == null) throw Exception('Invalid response format');
 
         final loanPaymentModel = LoanPaymentModel.fromJson(
-          JsonUtil.decodeModel(dataString),
+          jsonDecode(dataString),
         );
 
         return loanPaymentModel;

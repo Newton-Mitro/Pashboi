@@ -8,20 +8,20 @@ import 'package:pashboi/features/authenticated/loan_payment/domain/repositories/
 import 'package:pashboi/features/authenticated/loan_payment/domain/usecases/fetch_loan_payment_usecase.dart';
 
 class LoanPaymentRepositoryImpl implements LoanPaymentRepository {
-  final LoanPaymentRemoteDataSource _loanPaymentRemoteDataSource;
+  final LoanPaymentRemoteDataSource loanPaymentRemoteDataSource;
   final NetworkInfo networkInfo;
 
   LoanPaymentRepositoryImpl({
-    required LoanPaymentRemoteDataSource datasource,
+    required this.loanPaymentRemoteDataSource,
     required this.networkInfo,
-  }) : _loanPaymentRemoteDataSource = datasource;
+  });
 
   @override
   ResultFuture<LoanPaymentEntity> fetchLoanPayment(
     FetchLoanPaymentProps props,
   ) async {
     try {
-      final result = await _loanPaymentRemoteDataSource.fetchLoanPayment(props);
+      final result = await loanPaymentRemoteDataSource.fetchLoanPayment(props);
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));

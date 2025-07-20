@@ -10,7 +10,6 @@ import 'package:pashboi/features/public/service/presentation/bloc/service_policy
 import 'package:shared_preferences/shared_preferences.dart';
 
 void registerServicePolicyModule() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
   // Register Data Sources
   sl.registerLazySingleton<ServicePolicyRemoteDataSource>(
     () => ServicePolicyRemoteDataSourceImpl(
@@ -43,6 +42,4 @@ void registerServicePolicyModule() async {
       fetchServicePolicyUseCase: sl<FetchServicePolicyUseCase>(),
     ),
   );
-
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

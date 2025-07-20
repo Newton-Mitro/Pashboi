@@ -21,8 +21,9 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
     required super.intrestRate,
     required super.lastPaidDate,
     required super.refundBased,
-    required super.loanCollectionType,
+    required super.collectionType,
     required super.accountFor,
+    required super.isRefundBased,
     required super.isSelected,
   });
 
@@ -47,8 +48,9 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       intrestRate: (json['InterestRate'] as num).toDouble(),
       lastPaidDate: DateTime.parse(json['LastPaidDate'] as String),
       refundBased: json['IsRefundBased'] as bool,
-      loanCollectionType: json['LoanCollectionType'] as String,
+      collectionType: json['LoanCollectionType'] as String,
       accountFor: json['AccountFor'] as String,
+      isRefundBased: json['IsRefundBased'] as bool,
       isSelected: false,
     );
   }
@@ -73,7 +75,8 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       'intrestRate': intrestRate,
       'lastPaidDate': lastPaidDate.toIso8601String(),
       'refundBased': refundBased,
-      'loanCollectionType': loanCollectionType,
+      'LoanCollectionType': collectionType,
+      'isRefundBased': isRefundBased,
       'accountFor': accountFor,
     };
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/loan_payment/presentation/pages/bloc/loan_payment_bloc.dart';
 
 class TransactionDetailsSection extends StatelessWidget {
   const TransactionDetailsSection({
@@ -191,6 +193,31 @@ class TransactionDetailsSection extends StatelessWidget {
                                             final amount =
                                                 double.tryParse(value) ?? 0.0;
                                             onAmountChanged(ledger, amount);
+                                            if (amount > 0 &&
+                                                ledger.lps &&
+                                                !ledger.subledger &&
+                                                ledger.plType == 2) {
+                                              context
+                                                  .read<LoanPaymentBloc>()
+                                                  .add(
+                                                    FetchLoanPayment(
+                                                      interestDays: 0,
+                                                      interestRate:
+                                                          ledger.intrestRate,
+                                                      loanBalance:
+                                                          ledger.loanBalance,
+                                                      loanRefundAmount:
+                                                          ledger.depositAmount,
+                                                      moduleCode:
+                                                          ledger
+                                                              .accountTypeCode,
+                                                      issuedDate: '',
+                                                      lastPaidDate:
+                                                          ledger.lastPaidDate
+                                                              .toIso8601String(),
+                                                    ),
+                                                  );
+                                            }
                                           },
                                         ),
                                       ),
