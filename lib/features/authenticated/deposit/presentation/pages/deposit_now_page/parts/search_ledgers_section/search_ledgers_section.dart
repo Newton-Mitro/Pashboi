@@ -46,12 +46,6 @@ class SearchLedgersSection extends StatefulWidget {
 }
 
 class _SearchLedgersSectionState extends State<SearchLedgersSection> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
-  }
-
   void _searchWithAccountNumber(String searchText) {
     if (searchText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(

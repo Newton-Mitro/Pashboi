@@ -18,7 +18,6 @@ class ServiceCenterLocalDataSourceImpl implements ServiceCenterLocalDataSource {
     try {
       final jsonString = _sharedPreferences.getString(_serviceCenterKey);
       if (jsonString == null) throw Exception('Invalid response format');
-      ;
 
       final List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList

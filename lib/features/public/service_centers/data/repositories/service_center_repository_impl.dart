@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:pashboi/core/errors/failures.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';

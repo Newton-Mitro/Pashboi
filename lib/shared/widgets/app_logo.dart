@@ -22,7 +22,10 @@ class AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin {
         return Column(
           children: [
             Image.asset(
-              state is DarkBlueAbyssTheme || state is DarkBlueOceanTheme
+              state is DarkAbyssTheme ||
+                      state is BlueOceanDarkTheme ||
+                      state is OliverPetalDarkTheme ||
+                      state is EleganceDarkTheme
                   ? AppImages.pathLogoDark
                   : AppImages.pathLogo,
               width: widget.width,

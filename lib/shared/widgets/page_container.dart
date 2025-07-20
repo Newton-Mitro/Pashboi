@@ -9,13 +9,13 @@ class PageContainer extends StatelessWidget {
   const PageContainer({super.key, required this.child});
 
   String _getBackgroundImage(ThemeSelectorState state) {
-    if (state is DarkBlueAbyssTheme) {
+    if (state is DarkAbyssTheme) {
       return AppImages.darkBlueAbyssthemeBackground;
     } else if (state is OliverPetalTheme) {
       return AppImages.oliverPetalThemeBackground;
     } else if (state is EleganceTheme) {
       return AppImages.eleganceThemeBackground;
-    } else if (state is DarkBlueOceanTheme) {
+    } else if (state is BlueOceanDarkTheme) {
       return AppImages.darkBlueOceanThemeBackground;
     } else {
       return AppImages.blueOceanThemeBackground;

@@ -1,81 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/blue_ocean_colors.dart';
+import 'package:pashboi/core/theme/values/colors/dark_abyss_colors.dart';
 
-final _blueOceanColors = BlueOceanColors();
-
-ThemeData get blueOceanThemeData => ThemeData(
+final _darkAbyssColors = DarkAbyssColors();
+ThemeData get darkAbyssThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _blueOceanColors.background,
-  colorScheme: ColorScheme.light(
-    primary: _blueOceanColors.primary,
-    onPrimary: _blueOceanColors.onPrimary,
-    primaryContainer: _blueOceanColors.primaryContainer,
-    onPrimaryContainer: _blueOceanColors.onPrimaryContainer,
-    secondary: _blueOceanColors.secondary,
-    onSecondary: _blueOceanColors.onSecondary,
-    secondaryContainer: _blueOceanColors.secondaryContainer,
-    onSecondaryContainer: _blueOceanColors.onSecondaryContainer,
-    tertiary: _blueOceanColors.tertiary,
-    onTertiary: _blueOceanColors.onTertiary,
-    tertiaryContainer: _blueOceanColors.tertiaryContainer,
-    onTertiaryContainer: _blueOceanColors.onTertiaryContainer,
-    error: _blueOceanColors.error,
-    onError: _blueOceanColors.onError,
-    errorContainer: _blueOceanColors.errorContainer,
-    onErrorContainer: _blueOceanColors.onErrorContainer,
-    surface: _blueOceanColors.surface,
-    onSurface: _blueOceanColors.onSurface,
-    surfaceContainerHighest: _blueOceanColors.surfaceContainer,
-    onSurfaceVariant: _blueOceanColors.onSurfaceVariant,
-    outline: _blueOceanColors.outline,
-    shadow: _blueOceanColors.shadow,
-    inverseSurface: _blueOceanColors.inverseSurface,
-    onInverseSurface: _blueOceanColors.onInverseSurface,
-    inversePrimary: _blueOceanColors.inversePrimary,
-    surfaceTint: _blueOceanColors.surfaceTint,
+  scaffoldBackgroundColor: _darkAbyssColors.background,
+  colorScheme: ColorScheme.dark(
+    brightness: Brightness.dark,
+    primary: _darkAbyssColors.primary,
+    onPrimary: _darkAbyssColors.onPrimary,
+    primaryContainer: _darkAbyssColors.primaryContainer,
+    onPrimaryContainer: _darkAbyssColors.onPrimaryContainer,
+    secondary: _darkAbyssColors.secondary,
+    onSecondary: _darkAbyssColors.onSecondary,
+    secondaryContainer: _darkAbyssColors.secondaryContainer,
+    onSecondaryContainer: _darkAbyssColors.onSecondaryContainer,
+    tertiary: _darkAbyssColors.tertiary,
+    onTertiary: _darkAbyssColors.onTertiary,
+    tertiaryContainer: _darkAbyssColors.tertiaryContainer,
+    onTertiaryContainer: _darkAbyssColors.onTertiaryContainer,
+    error: _darkAbyssColors.error,
+    onError: _darkAbyssColors.onError,
+    errorContainer: _darkAbyssColors.errorContainer,
+    onErrorContainer: _darkAbyssColors.onErrorContainer,
+    surface: _darkAbyssColors.surface,
+    onSurface: _darkAbyssColors.onSurface,
+    surfaceContainerHighest: _darkAbyssColors.surfaceContainer,
+    onSurfaceVariant: _darkAbyssColors.onSurfaceVariant,
+    outline: _darkAbyssColors.outline,
+    shadow: _darkAbyssColors.shadow,
+    inverseSurface: _darkAbyssColors.inverseSurface,
+    onInverseSurface: _darkAbyssColors.onInverseSurface,
+    inversePrimary: _darkAbyssColors.inversePrimary,
+    surfaceTint: _darkAbyssColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _blueOceanColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _darkAbyssColors.surface),
   radioTheme: RadioThemeData(
-    fillColor: WidgetStateProperty.all(_blueOceanColors.onPrimary),
+    fillColor: WidgetStateProperty.all(_darkAbyssColors.onPrimary),
   ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _blueOceanColors.surface, // Background color
+      color: _darkAbyssColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _blueOceanColors.onSurface, // Foreground (text) color
+      color: _darkAbyssColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_blueOceanColors.primary),
-    trackColor: WidgetStateProperty.all(_blueOceanColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_darkAbyssColors.primary),
+    trackColor: WidgetStateProperty.all(_darkAbyssColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_blueOceanColors.onSurface),
+  textTheme: _buildTextTheme(_darkAbyssColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _blueOceanColors.onPrimary,
+      color: _darkAbyssColors.onPrimary,
     ),
-    backgroundColor: _blueOceanColors.primary,
+    backgroundColor: _darkAbyssColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _blueOceanColors.onPrimary),
+    iconTheme: IconThemeData(color: _darkAbyssColors.onPrimary),
   ),
   tabBarTheme: TabBarThemeData(
-    indicatorColor: _blueOceanColors.error,
-    labelColor: _blueOceanColors.selected,
-    unselectedLabelColor: _blueOceanColors.unSelected,
+    indicatorColor: _darkAbyssColors.error,
+    labelColor: _darkAbyssColors.selected,
+    unselectedLabelColor: _darkAbyssColors.unSelected,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _blueOceanColors.primary,
-    selectedItemColor: _blueOceanColors.selected,
-    unselectedItemColor: _blueOceanColors.unSelected,
+    backgroundColor: _darkAbyssColors.primary,
+    selectedItemColor: _darkAbyssColors.selected,
+    unselectedItemColor: _darkAbyssColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -83,10 +83,10 @@ ThemeData get blueOceanThemeData => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _blueOceanColors.secondary),
+        side: BorderSide(color: _darkAbyssColors.secondary),
       ),
-      backgroundColor: _blueOceanColors.primary,
-      foregroundColor: _blueOceanColors.onPrimary,
+      backgroundColor: _darkAbyssColors.primary,
+      foregroundColor: _darkAbyssColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

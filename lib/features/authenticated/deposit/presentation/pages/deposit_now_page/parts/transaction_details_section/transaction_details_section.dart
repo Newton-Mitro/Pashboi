@@ -12,6 +12,7 @@ class TransactionDetailsSection extends StatelessWidget {
     required this.onToggleSelectAll,
     required this.onAmountChanged,
     this.sectionError,
+    this.amountErrors = const {},
   });
 
   final List<CollectionLedgerEntity> ledgers;
@@ -19,6 +20,7 @@ class TransactionDetailsSection extends StatelessWidget {
   final void Function(bool selectAll) onToggleSelectAll;
   final void Function(CollectionLedgerEntity, double) onAmountChanged;
   final String? sectionError;
+  final Map<String, String>? amountErrors;
 
   bool get areAllSelected =>
       ledgers.isNotEmpty && ledgers.every((l) => l.isSelected);
@@ -45,141 +47,167 @@ class TransactionDetailsSection extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    bottom: 60,
+                    bottom: 47,
                   ), // space for footer
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(8, 16, 16, 40),
                     child: Column(
                       children:
                           ledgers.map((ledger) {
                             final isSelected = ledger.isSelected;
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 5),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          isSelected
-                                              ? context
-                                                  .theme
-                                                  .colorScheme
-                                                  .primary
-                                              : context
-                                                  .theme
-                                                  .colorScheme
-                                                  .surface,
-                                      border: Border.all(
-                                        color: context
-                                            .theme
-                                            .colorScheme
-                                            .onSurface
-                                            .withAlpha(360),
-                                        width: 2,
-                                      ),
-                                      borderRadius: BorderRadius.circular(60),
-                                    ),
-                                    margin: const EdgeInsets.all(4),
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(60),
-                                      onTap: () => onToggleSelect(ledger),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Icon(
-                                          isSelected
-                                              ? Icons.check
-                                              : Icons.close,
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+
+                                    children: [
+                                      Container(
+                                        width: 45,
+                                        height: 45,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
                                           color:
                                               isSelected
                                                   ? context
                                                       .theme
                                                       .colorScheme
-                                                      .onPrimary
+                                                      .primary
                                                   : context
                                                       .theme
                                                       .colorScheme
-                                                      .onSurface,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 4),
-
-                                  // Ledger info
-                                  Expanded(
-                                    flex: 4,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          ledger.ledgerName.trim(),
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          "${ledger.accountNumber.trim()} ${ledger.plType == 1 ? " - ${ledger.accountFor.trim()}" : ''}",
-                                          style: TextStyle(
-                                            fontSize: 12,
+                                                      .surface,
+                                          border: Border.all(
                                             color: context
                                                 .theme
                                                 .colorScheme
                                                 .onSurface
-                                                .withAlpha(180),
-                                            fontWeight: FontWeight.bold,
+                                                .withAlpha(360),
+                                            width: 2,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            60,
                                           ),
                                         ),
-                                        if (ledger.plType == 1)
-                                          Text(
-                                            ledger.accountName
-                                                .toTitleCase()
-                                                .trim(),
-                                            style: TextStyle(
-                                              color: context
-                                                  .theme
-                                                  .colorScheme
-                                                  .onSurface
-                                                  .withAlpha(180),
-                                              fontSize: 12,
+                                        margin: const EdgeInsets.all(4),
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(
+                                            60,
+                                          ),
+                                          onTap: () => onToggleSelect(ledger),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Icon(
+                                              isSelected
+                                                  ? Icons.check
+                                                  : Icons.close,
+                                              color:
+                                                  isSelected
+                                                      ? context
+                                                          .theme
+                                                          .colorScheme
+                                                          .onPrimary
+                                                      : context
+                                                          .theme
+                                                          .colorScheme
+                                                          .onSurface,
+                                              size: 20,
                                             ),
                                           ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  // Amount input
-                                  SizedBox(
-                                    width: 105,
-                                    height: 36,
-                                    child: TextFormField(
-                                      enabled: isSelected && !ledger.editable,
-                                      initialValue:
-                                          ledger.depositAmount.toString(),
-                                      decoration: const InputDecoration(
-                                        labelText: "Amt",
-                                        border: OutlineInputBorder(),
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 8,
                                         ),
                                       ),
-                                      style: const TextStyle(fontSize: 13),
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        final amount =
-                                            double.tryParse(value) ?? 0.0;
-                                        onAmountChanged(ledger, amount);
-                                      },
-                                    ),
+                                      const SizedBox(width: 4),
+
+                                      // Ledger info
+                                      Expanded(
+                                        flex: 4,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              ledger.ledgerName.trim(),
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              "${ledger.accountNumber.trim()} ${ledger.plType == 1 ? " - ${ledger.accountFor.trim()}" : ''}",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onSurface
+                                                    .withAlpha(180),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (ledger.plType == 1)
+                                              Text(
+                                                ledger.accountName
+                                                    .toTitleCase()
+                                                    .trim(),
+                                                style: TextStyle(
+                                                  color: context
+                                                      .theme
+                                                      .colorScheme
+                                                      .onSurface
+                                                      .withAlpha(180),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      // Amount input
+                                      SizedBox(
+                                        width: 105,
+                                        height: 36,
+                                        child: TextFormField(
+                                          enabled:
+                                              isSelected && !ledger.editable,
+
+                                          initialValue:
+                                              ledger.depositAmount.toString(),
+                                          decoration: InputDecoration(
+                                            labelText: "Amt",
+                                            border: OutlineInputBorder(),
+                                            isDense: true,
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                  horizontal: 8,
+                                                  vertical: 8,
+                                                ),
+                                          ),
+                                          style: const TextStyle(fontSize: 13),
+                                          keyboardType: TextInputType.number,
+                                          onChanged: (value) {
+                                            final amount =
+                                                double.tryParse(value) ?? 0.0;
+                                            onAmountChanged(ledger, amount);
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
+                                  amountErrors?[ledger.ledgerId.toString()] !=
+                                          null
+                                      ? Text(
+                                        amountErrors![ledger.ledgerId
+                                            .toString()]!,
+                                        style: TextStyle(
+                                          color:
+                                              context.theme.colorScheme.error,
+                                          fontSize: 12,
+                                        ),
+                                      )
+                                      : const SizedBox.shrink(),
                                 ],
                               ),
                             );
@@ -196,46 +224,78 @@ class TransactionDetailsSection extends StatelessWidget {
             bottom: 0,
             left: 0,
             right: 0,
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: context.theme.colorScheme.primary.withOpacity(0.9),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(6),
-                  bottomRight: Radius.circular(6),
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  /// 👈 Wrapped error text
-                  Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // 🔻 Optional: Error Text
+                if (sectionError?.isNotEmpty ?? false)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.error.withOpacity(0.1),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(6),
+                        topRight: Radius.circular(6),
+                      ),
+                    ),
                     child: Text(
-                      sectionError ?? "",
+                      sectionError!,
                       style: TextStyle(
                         color: context.theme.colorScheme.error,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
-                      maxLines: 2, // Allows wrapping but limits height
-                      overflow: TextOverflow.visible, // Allows actual wrap
-                      softWrap: true,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
 
-                  /// 👉 Total text
-                  Text(
-                    "Total: ${TakaFormatter.format(selectedTotal)}",
-                    style: TextStyle(
-                      color: context.theme.colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                // 🔻 Total Bar
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: context.theme.colorScheme.primary,
+                        width: 1.2,
+                      ),
+                    ),
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(8),
                     ),
                   ),
-                ],
-              ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Deposit Amount:",
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        TakaFormatter.format(selectedTotal),
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -246,7 +306,7 @@ class TransactionDetailsSection extends StatelessWidget {
   Widget _buildHeader(BuildContext context, String title) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       decoration: BoxDecoration(
         color: context.theme.colorScheme.primary,
         borderRadius: const BorderRadius.only(
@@ -255,9 +315,47 @@ class TransactionDetailsSection extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Container(
+              width: 45,
+              height: 45,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color:
+                    areAllSelected
+                        ? context.theme.colorScheme.error.withAlpha(360)
+                        : context.theme.colorScheme.surfaceContainer,
+                border: Border.all(
+                  color:
+                      areAllSelected
+                          ? context.theme.colorScheme.onPrimary.withAlpha(360)
+                          : context.theme.colorScheme.outlineVariant.withAlpha(
+                            360,
+                          ),
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(60),
+              ),
+              margin: const EdgeInsets.all(4),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(60),
+                onTap: () => onToggleSelectAll(!areAllSelected),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Icon(
+                    areAllSelected ? Icons.remove_done : Icons.done_all,
+                    color:
+                        areAllSelected
+                            ? context.theme.colorScheme.onPrimary
+                            : context.theme.colorScheme.onSurfaceVariant,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+
             Text(
               title,
               style: TextStyle(
@@ -266,21 +364,7 @@ class TransactionDetailsSection extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            TextButton.icon(
-              onPressed: () => onToggleSelectAll(!areAllSelected),
-              icon: Icon(
-                areAllSelected ? Icons.remove_done : Icons.done_all,
-                color: context.theme.colorScheme.onPrimary,
-              ),
-              label: Text(
-                areAllSelected ? "Deselect All" : "Select All",
-                style: TextStyle(
-                  color: context.theme.colorScheme.onPrimary,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            const SizedBox(width: 45),
           ],
         ),
       ),

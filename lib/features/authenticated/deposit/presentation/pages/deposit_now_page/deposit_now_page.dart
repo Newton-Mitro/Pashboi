@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/search_ledgers_section/search_ledgers_section.dart';
@@ -183,6 +184,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
     super.initState();
     _initializeControllers();
     context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
+    context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
   }
 
   void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
@@ -304,6 +306,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
             );
           },
           sectionError: state.validationErrors[state.currentStep]?['ledgers'],
+          amountErrors: state.validationErrors[state.currentStep]?['amounts'],
         ),
       ),
 

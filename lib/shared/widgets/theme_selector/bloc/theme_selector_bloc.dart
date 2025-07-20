@@ -7,11 +7,13 @@ part 'theme_selector_event.dart';
 part 'theme_selector_state.dart';
 
 enum ThemeName {
-  darkBlueAbyss('darkBlueAbyss'),
+  darkAbyss('darkAbyss'),
   blueOcean('blueOcean'),
+  blueOceanDark('blueOceanDark'),
   elegance('elegance'),
+  eleganceDark('eleganceDark'),
   oliverPetal('oliverPetal'),
-  darkBlueOcean('darkBlueOcean');
+  oliverPetalDark('oliverPetalDark');
 
   final String themeKey;
   const ThemeName(this.themeKey);
@@ -29,11 +31,17 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
 
   ThemeSelectorBloc({required this.themeService}) : super(BlueOceanTheme()) {
     on<LoadTheme>(_onLoadTheme);
-    on<SetBlueOceanTheme>(_onSetPrimaryLightTheme);
-    on<SetEleganceTheme>(_onSetPinkLightTheme);
-    on<SetDarkBlueAbyssTheme>(_onSetPrimaryDarkTheme);
-    on<SetOliverPetalTheme>(_onSetForeverGreenLightTheme);
-    on<SetDarkBlueOceanTheme>(_onSetDarkBlueOceanTheme);
+
+    on<SetDarkAbyssTheme>(_setDarkAbyssTheme);
+
+    on<SetBlueOceanTheme>(_setBlueOceanTheme);
+    on<SetBlueOceanDarkTheme>(_onSetBlueOceanDarkTheme);
+
+    on<SetEleganceTheme>(_setEleganceTheme);
+    on<SetEleganceDarkTheme>(_setEleganceDarkTheme);
+
+    on<SetOliverPetalTheme>(_setOliverPetalTheme);
+    on<SetOliverPetalDarkTheme>(_setOliverPetalDarkTheme);
   }
 
   Future<void> _onLoadTheme(
@@ -44,25 +52,42 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     final theme = ThemeName.fromKey(storedKey);
 
     switch (theme) {
-      case ThemeName.darkBlueAbyss:
-        emit(DarkBlueAbyssTheme());
+      case ThemeName.darkAbyss:
+        emit(DarkAbyssTheme());
         break;
-      case ThemeName.oliverPetal:
-        emit(OliverPetalTheme());
-        break;
+
       case ThemeName.blueOcean:
         emit(BlueOceanTheme());
         break;
+      case ThemeName.blueOceanDark:
+        emit(BlueOceanDarkTheme());
+        break;
+
+      case ThemeName.oliverPetal:
+        emit(OliverPetalTheme());
+        break;
+      case ThemeName.oliverPetalDark:
+        emit(OliverPetalDarkTheme());
+        break;
+
       case ThemeName.elegance:
         emit(EleganceTheme());
         break;
-      case ThemeName.darkBlueOcean:
-        emit(DarkBlueOceanTheme());
+      case ThemeName.eleganceDark:
+        emit(EleganceDarkTheme());
         break;
     }
   }
 
-  Future<void> _onSetPrimaryLightTheme(
+  Future<void> _setDarkAbyssTheme(
+    SetDarkAbyssTheme event,
+    Emitter<ThemeSelectorState> emit,
+  ) async {
+    await themeService.setTheme(ThemeName.darkAbyss.themeKey);
+    emit(DarkAbyssTheme());
+  }
+
+  Future<void> _setBlueOceanTheme(
     SetBlueOceanTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
@@ -70,7 +95,15 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     emit(BlueOceanTheme());
   }
 
-  Future<void> _onSetPinkLightTheme(
+  Future<void> _onSetBlueOceanDarkTheme(
+    SetBlueOceanDarkTheme event,
+    Emitter<ThemeSelectorState> emit,
+  ) async {
+    await themeService.setTheme(ThemeName.blueOceanDark.themeKey);
+    emit(BlueOceanDarkTheme());
+  }
+
+  Future<void> _setEleganceTheme(
     SetEleganceTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
@@ -78,15 +111,15 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     emit(EleganceTheme());
   }
 
-  Future<void> _onSetPrimaryDarkTheme(
-    SetDarkBlueAbyssTheme event,
+  Future<void> _setEleganceDarkTheme(
+    SetEleganceDarkTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme(ThemeName.darkBlueAbyss.themeKey);
-    emit(DarkBlueAbyssTheme());
+    await themeService.setTheme(ThemeName.eleganceDark.themeKey);
+    emit(EleganceDarkTheme());
   }
 
-  Future<void> _onSetForeverGreenLightTheme(
+  Future<void> _setOliverPetalTheme(
     SetOliverPetalTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
@@ -94,11 +127,11 @@ class ThemeSelectorBloc extends Bloc<ThemeSelectorEvent, ThemeSelectorState> {
     emit(OliverPetalTheme());
   }
 
-  Future<void> _onSetDarkBlueOceanTheme(
-    SetDarkBlueOceanTheme event,
+  Future<void> _setOliverPetalDarkTheme(
+    SetOliverPetalDarkTheme event,
     Emitter<ThemeSelectorState> emit,
   ) async {
-    await themeService.setTheme(ThemeName.darkBlueOcean.themeKey);
-    emit(DarkBlueOceanTheme());
+    await themeService.setTheme(ThemeName.oliverPetalDark.themeKey);
+    emit(OliverPetalDarkTheme());
   }
 }

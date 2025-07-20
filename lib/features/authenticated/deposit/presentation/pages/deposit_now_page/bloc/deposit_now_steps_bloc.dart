@@ -97,12 +97,15 @@ class DepositNowStepsBloc
             }
             return l;
           }).toList();
-    } else if (event.ledger.plType == 2 && !event.ledger.subledger) {
+    } else if (event.ledger.plType == 2) {
       updatedLedgers =
           state.collectionLedgers.map((l) {
             if (l.accountNumber == event.ledger.accountNumber &&
-                !event.ledger.subledger) {
+                !event.ledger.isSelected) {
               return l.copyWith(isSelected: true);
+            } else if (l.accountNumber == event.ledger.accountNumber &&
+                event.ledger.ledgerId == l.ledgerId) {
+              return l.copyWith(isSelected: false);
             }
             return l;
           }).toList();
@@ -185,30 +188,52 @@ class DepositNowStepsBloc
             state.collectionLedgers.where((l) => l.isSelected).toList();
         if (selectedLedgers.isEmpty) {
           errors['ledgers'] = 'Please select at least one ledger to deposit';
-        } else if (selectedLedgers.any((l) => l.depositAmount <= 0)) {
-          errors['amount'] = 'Each selected ledger must have a deposit amount';
         } else {
-          final totalDeposit = selectedLedgers.fold<double>(
-            0,
-            (sum, ledger) => sum + (ledger.depositAmount),
-          );
+          // Map ledgerId to error message for invalid deposit amounts
+          final Map<String, String> amountErrors = {};
 
-          final totalWithdrawable = double.parse(
-            state.stepData[0]?['accountWithdrawable'] ?? '0',
-          );
+          for (final ledger in selectedLedgers) {
+            if (ledger.depositAmount <= 0) {
+              amountErrors[ledger.ledgerId.toString()] =
+                  'Deposit amount must be greater than zero';
+            } else if (ledger.depositAmount < ledger.amount) {
+              amountErrors[ledger.ledgerId.toString()] =
+                  'Deposit amount cannot be less than the ${ledger.amount}';
+            } else if (ledger.multiplier &&
+                ledger.depositAmount % ledger.amount != 0) {
+              amountErrors[ledger.ledgerId.toString()] =
+                  'Deposit amount must be a multiple of ${ledger.amount}';
+            } else if (ledger.plType == 2 &&
+                ledger.depositAmount > ledger.loanBalance) {
+              amountErrors[ledger.ledgerId.toString()] =
+                  'Deposit amount cannot be greater than the ${ledger.loanBalance}';
+            }
+          }
 
-          if (totalDeposit > totalWithdrawable) {
-            errors['ledgers'] =
-                "You don't have enough balance to deposit this amount";
+          if (amountErrors.isNotEmpty) {
+            errors['amounts'] = amountErrors;
+          } else {
+            final totalDeposit = selectedLedgers.fold<double>(
+              0,
+              (sum, ledger) => sum + (ledger.depositAmount),
+            );
+
+            final totalWithdrawable = double.parse(
+              state.stepData[0]?['accountWithdrawable'] ?? '0',
+            );
+
+            if (totalDeposit > totalWithdrawable) {
+              errors['ledgers'] =
+                  "You don't have enough balance to deposit this amount";
+            }
           }
         }
         break;
 
       case 4:
-        if (data['cardPin'] == null) {
+        if (data['cardPin'] == null || data['cardPin'].toString().isEmpty) {
           errors['cardPin'] = 'Please enter a card PIN';
-        }
-        if (data['cardPin'].length != 4) {
+        } else if (data['cardPin'].length != 4) {
           errors['cardPin'] = 'PIN must be 4 digits';
         }
         break;
