@@ -17,6 +17,20 @@ class ThemeSelector extends StatelessWidget {
       itemBuilder:
           (context) => [
             PopupMenuItem(
+              value: SetDarkAbyssTheme(),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.color_lens,
+                    size: 18,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                  SizedBox(width: 8),
+                  Text('Dark Abyss'),
+                ],
+              ),
+            ),
+            PopupMenuItem(
               value: SetBlueOceanTheme(),
               child: Row(
                 children: [
@@ -27,6 +41,20 @@ class ThemeSelector extends StatelessWidget {
                   ),
                   SizedBox(width: 8),
                   Text('Blue Ocean'),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: SetBlueOceanDarkTheme(),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.color_lens,
+                    size: 18,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                  SizedBox(width: 8),
+                  Text('Blue Ocean Dark'),
                 ],
               ),
             ),
@@ -45,7 +73,7 @@ class ThemeSelector extends StatelessWidget {
               ),
             ),
             PopupMenuItem(
-              value: SetDarkBlueAbyssTheme(),
+              value: SetEleganceDarkTheme(),
               child: Row(
                 children: [
                   Icon(
@@ -54,10 +82,11 @@ class ThemeSelector extends StatelessWidget {
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Dark Blue Abyss'),
+                  Text('Elegance Dark'),
                 ],
               ),
             ),
+
             PopupMenuItem(
               value: SetOliverPetalTheme(),
               child: Row(
@@ -74,7 +103,7 @@ class ThemeSelector extends StatelessWidget {
             ),
 
             PopupMenuItem(
-              value: SetDarkBlueOceanTheme(),
+              value: SetOliverPetalDarkTheme(),
               child: Row(
                 children: [
                   Icon(
@@ -83,7 +112,7 @@ class ThemeSelector extends StatelessWidget {
                     color: context.theme.colorScheme.onSurface,
                   ),
                   SizedBox(width: 8),
-                  Text('Dark Blue Ocean'),
+                  Text('Oliver Petal Dark'),
                 ],
               ),
             ),

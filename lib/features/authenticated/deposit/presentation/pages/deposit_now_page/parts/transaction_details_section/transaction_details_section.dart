@@ -47,7 +47,7 @@ class TransactionDetailsSection extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    bottom: 50,
+                    bottom: 47,
                   ), // space for footer
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(8, 16, 16, 40),
@@ -58,10 +58,12 @@ class TransactionDetailsSection extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 5),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
+
                                     children: [
                                       Container(
                                         width: 45,
@@ -271,14 +273,26 @@ class TransactionDetailsSection extends StatelessWidget {
                       bottom: Radius.circular(8),
                     ),
                   ),
-                  child: Text(
-                    "Total Deposit Amount: ${TakaFormatter.format(selectedTotal)}",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: context.theme.colorScheme.onSurface,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Deposit Amount:",
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        TakaFormatter.format(selectedTotal),
+                        style: TextStyle(
+                          color: context.theme.colorScheme.onSurface,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -292,7 +306,7 @@ class TransactionDetailsSection extends StatelessWidget {
   Widget _buildHeader(BuildContext context, String title) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       decoration: BoxDecoration(
         color: context.theme.colorScheme.primary,
         borderRadius: const BorderRadius.only(
@@ -301,9 +315,47 @@ class TransactionDetailsSection extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Container(
+              width: 45,
+              height: 45,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color:
+                    areAllSelected
+                        ? context.theme.colorScheme.error.withAlpha(360)
+                        : context.theme.colorScheme.surfaceContainer,
+                border: Border.all(
+                  color:
+                      areAllSelected
+                          ? context.theme.colorScheme.onPrimary.withAlpha(360)
+                          : context.theme.colorScheme.outlineVariant.withAlpha(
+                            360,
+                          ),
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(60),
+              ),
+              margin: const EdgeInsets.all(4),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(60),
+                onTap: () => onToggleSelectAll(!areAllSelected),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Icon(
+                    areAllSelected ? Icons.remove_done : Icons.done_all,
+                    color:
+                        areAllSelected
+                            ? context.theme.colorScheme.onPrimary
+                            : context.theme.colorScheme.onSurfaceVariant,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+
             Text(
               title,
               style: TextStyle(
@@ -312,21 +364,7 @@ class TransactionDetailsSection extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            TextButton.icon(
-              onPressed: () => onToggleSelectAll(!areAllSelected),
-              icon: Icon(
-                areAllSelected ? Icons.remove_done : Icons.done_all,
-                color: context.theme.colorScheme.onPrimary,
-              ),
-              label: Text(
-                areAllSelected ? "Deselect All" : "Select All",
-                style: TextStyle(
-                  color: context.theme.colorScheme.onPrimary,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            const SizedBox(width: 45),
           ],
         ),
       ),

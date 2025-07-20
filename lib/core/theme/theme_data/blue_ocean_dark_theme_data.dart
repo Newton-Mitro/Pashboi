@@ -2,80 +2,80 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
 import 'package:pashboi/core/theme/values/colors/dark_blue_ocean_colors.dart';
 
-final _darkBlueOceanColors = DarkBlueOceanColors();
-ThemeData get darkBlueOceanThemeData => ThemeData(
+final _blueOceanDarkColors = DarkBlueOceanColors();
+ThemeData get blueOceanDarkThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _darkBlueOceanColors.background,
+  scaffoldBackgroundColor: _blueOceanDarkColors.background,
   colorScheme: ColorScheme.dark(
     brightness: Brightness.dark,
-    primary: _darkBlueOceanColors.primary,
-    onPrimary: _darkBlueOceanColors.onPrimary,
-    primaryContainer: _darkBlueOceanColors.primaryContainer,
-    onPrimaryContainer: _darkBlueOceanColors.onPrimaryContainer,
-    secondary: _darkBlueOceanColors.secondary,
-    onSecondary: _darkBlueOceanColors.onSecondary,
-    secondaryContainer: _darkBlueOceanColors.secondaryContainer,
-    onSecondaryContainer: _darkBlueOceanColors.onSecondaryContainer,
-    tertiary: _darkBlueOceanColors.tertiary,
-    onTertiary: _darkBlueOceanColors.onTertiary,
-    tertiaryContainer: _darkBlueOceanColors.tertiaryContainer,
-    onTertiaryContainer: _darkBlueOceanColors.onTertiaryContainer,
-    error: _darkBlueOceanColors.error,
-    onError: _darkBlueOceanColors.onError,
-    errorContainer: _darkBlueOceanColors.errorContainer,
-    onErrorContainer: _darkBlueOceanColors.onErrorContainer,
-    surface: _darkBlueOceanColors.surface,
-    onSurface: _darkBlueOceanColors.onSurface,
-    surfaceContainerHighest: _darkBlueOceanColors.surfaceContainer,
-    onSurfaceVariant: _darkBlueOceanColors.onSurfaceVariant,
-    outline: _darkBlueOceanColors.outline,
-    shadow: _darkBlueOceanColors.shadow,
-    inverseSurface: _darkBlueOceanColors.inverseSurface,
-    onInverseSurface: _darkBlueOceanColors.onInverseSurface,
-    inversePrimary: _darkBlueOceanColors.inversePrimary,
-    surfaceTint: _darkBlueOceanColors.surfaceTint,
+    primary: _blueOceanDarkColors.primary,
+    onPrimary: _blueOceanDarkColors.onPrimary,
+    primaryContainer: _blueOceanDarkColors.primaryContainer,
+    onPrimaryContainer: _blueOceanDarkColors.onPrimaryContainer,
+    secondary: _blueOceanDarkColors.secondary,
+    onSecondary: _blueOceanDarkColors.onSecondary,
+    secondaryContainer: _blueOceanDarkColors.secondaryContainer,
+    onSecondaryContainer: _blueOceanDarkColors.onSecondaryContainer,
+    tertiary: _blueOceanDarkColors.tertiary,
+    onTertiary: _blueOceanDarkColors.onTertiary,
+    tertiaryContainer: _blueOceanDarkColors.tertiaryContainer,
+    onTertiaryContainer: _blueOceanDarkColors.onTertiaryContainer,
+    error: _blueOceanDarkColors.error,
+    onError: _blueOceanDarkColors.onError,
+    errorContainer: _blueOceanDarkColors.errorContainer,
+    onErrorContainer: _blueOceanDarkColors.onErrorContainer,
+    surface: _blueOceanDarkColors.surface,
+    onSurface: _blueOceanDarkColors.onSurface,
+    surfaceContainerHighest: _blueOceanDarkColors.surfaceContainer,
+    onSurfaceVariant: _blueOceanDarkColors.onSurfaceVariant,
+    outline: _blueOceanDarkColors.outline,
+    shadow: _blueOceanDarkColors.shadow,
+    inverseSurface: _blueOceanDarkColors.inverseSurface,
+    onInverseSurface: _blueOceanDarkColors.onInverseSurface,
+    inversePrimary: _blueOceanDarkColors.inversePrimary,
+    surfaceTint: _blueOceanDarkColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _darkBlueOceanColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _blueOceanDarkColors.surface),
   radioTheme: RadioThemeData(
-    fillColor: WidgetStateProperty.all(_darkBlueOceanColors.onPrimary),
+    fillColor: WidgetStateProperty.all(_blueOceanDarkColors.onPrimary),
   ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _darkBlueOceanColors.surface, // Background color
+      color: _blueOceanDarkColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _darkBlueOceanColors.onSurface, // Foreground (text) color
+      color: _blueOceanDarkColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_darkBlueOceanColors.primary),
-    trackColor: WidgetStateProperty.all(_darkBlueOceanColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_blueOceanDarkColors.primary),
+    trackColor: WidgetStateProperty.all(_blueOceanDarkColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_darkBlueOceanColors.onSurface),
+  textTheme: _buildTextTheme(_blueOceanDarkColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _darkBlueOceanColors.onPrimary,
+      color: _blueOceanDarkColors.onPrimary,
     ),
-    backgroundColor: _darkBlueOceanColors.primary,
+    backgroundColor: _blueOceanDarkColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _darkBlueOceanColors.onPrimary),
+    iconTheme: IconThemeData(color: _blueOceanDarkColors.onPrimary),
   ),
   tabBarTheme: TabBarThemeData(
-    indicatorColor: _darkBlueOceanColors.error,
-    labelColor: _darkBlueOceanColors.selected,
-    unselectedLabelColor: _darkBlueOceanColors.unSelected,
+    indicatorColor: _blueOceanDarkColors.error,
+    labelColor: _blueOceanDarkColors.selected,
+    unselectedLabelColor: _blueOceanDarkColors.unSelected,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _darkBlueOceanColors.primary,
-    selectedItemColor: _darkBlueOceanColors.selected,
-    unselectedItemColor: _darkBlueOceanColors.unSelected,
+    backgroundColor: _blueOceanDarkColors.primary,
+    selectedItemColor: _blueOceanDarkColors.selected,
+    unselectedItemColor: _blueOceanDarkColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -83,10 +83,10 @@ ThemeData get darkBlueOceanThemeData => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _darkBlueOceanColors.secondary),
+        side: BorderSide(color: _blueOceanDarkColors.secondary),
       ),
-      backgroundColor: _darkBlueOceanColors.primary,
-      foregroundColor: _darkBlueOceanColors.onPrimary,
+      backgroundColor: _blueOceanDarkColors.primary,
+      foregroundColor: _blueOceanDarkColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

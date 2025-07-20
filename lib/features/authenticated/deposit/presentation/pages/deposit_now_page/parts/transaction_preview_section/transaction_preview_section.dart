@@ -105,7 +105,7 @@ class TransactionPreviewSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Total Deposit Amount",
+                    "Total Deposit Amount:",
                     style: TextStyle(
                       color: colorScheme.onSurface,
                       fontWeight: FontWeight.w600,

@@ -97,12 +97,15 @@ class DepositNowStepsBloc
             }
             return l;
           }).toList();
-    } else if (event.ledger.plType == 2 && !event.ledger.subledger) {
+    } else if (event.ledger.plType == 2) {
       updatedLedgers =
           state.collectionLedgers.map((l) {
             if (l.accountNumber == event.ledger.accountNumber &&
-                !event.ledger.subledger) {
+                !event.ledger.isSelected) {
               return l.copyWith(isSelected: true);
+            } else if (l.accountNumber == event.ledger.accountNumber &&
+                event.ledger.ledgerId == l.ledgerId) {
+              return l.copyWith(isSelected: false);
             }
             return l;
           }).toList();
@@ -200,6 +203,10 @@ class DepositNowStepsBloc
                 ledger.depositAmount % ledger.amount != 0) {
               amountErrors[ledger.ledgerId.toString()] =
                   'Deposit amount must be a multiple of ${ledger.amount}';
+            } else if (ledger.plType == 2 &&
+                ledger.depositAmount > ledger.loanBalance) {
+              amountErrors[ledger.ledgerId.toString()] =
+                  'Deposit amount cannot be greater than the ${ledger.loanBalance}';
             }
           }
 

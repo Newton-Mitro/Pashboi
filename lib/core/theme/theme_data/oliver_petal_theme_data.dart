@@ -2,81 +2,81 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
 import 'package:pashboi/core/theme/values/colors/oliver_petal_colors.dart';
 
-final _foreverGreenLightColors = OliverPetalColors();
+final _oliverPetalColors = OliverPetalColors();
 
 ThemeData get oliverPetalThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _foreverGreenLightColors.background,
+  scaffoldBackgroundColor: _oliverPetalColors.background,
 
   colorScheme: ColorScheme.light(
-    primary: _foreverGreenLightColors.primary,
-    onPrimary: _foreverGreenLightColors.onPrimary,
-    primaryContainer: _foreverGreenLightColors.primaryContainer,
-    onPrimaryContainer: _foreverGreenLightColors.onPrimaryContainer,
-    secondary: _foreverGreenLightColors.secondary,
-    onSecondary: _foreverGreenLightColors.onSecondary,
-    secondaryContainer: _foreverGreenLightColors.secondaryContainer,
-    onSecondaryContainer: _foreverGreenLightColors.onSecondaryContainer,
-    tertiary: _foreverGreenLightColors.tertiary,
-    onTertiary: _foreverGreenLightColors.onTertiary,
-    tertiaryContainer: _foreverGreenLightColors.tertiaryContainer,
-    onTertiaryContainer: _foreverGreenLightColors.onTertiaryContainer,
-    error: _foreverGreenLightColors.error,
-    onError: _foreverGreenLightColors.onError,
-    errorContainer: _foreverGreenLightColors.errorContainer,
-    onErrorContainer: _foreverGreenLightColors.onErrorContainer,
-    surface: _foreverGreenLightColors.surface,
-    onSurface: _foreverGreenLightColors.onSurface,
-    surfaceContainerHighest: _foreverGreenLightColors.surfaceContainer,
-    onSurfaceVariant: _foreverGreenLightColors.onSurfaceVariant,
-    outline: _foreverGreenLightColors.outline,
-    shadow: _foreverGreenLightColors.shadow,
-    inverseSurface: _foreverGreenLightColors.inverseSurface,
-    onInverseSurface: _foreverGreenLightColors.onInverseSurface,
-    inversePrimary: _foreverGreenLightColors.inversePrimary,
-    surfaceTint: _foreverGreenLightColors.surfaceTint,
+    primary: _oliverPetalColors.primary,
+    onPrimary: _oliverPetalColors.onPrimary,
+    primaryContainer: _oliverPetalColors.primaryContainer,
+    onPrimaryContainer: _oliverPetalColors.onPrimaryContainer,
+    secondary: _oliverPetalColors.secondary,
+    onSecondary: _oliverPetalColors.onSecondary,
+    secondaryContainer: _oliverPetalColors.secondaryContainer,
+    onSecondaryContainer: _oliverPetalColors.onSecondaryContainer,
+    tertiary: _oliverPetalColors.tertiary,
+    onTertiary: _oliverPetalColors.onTertiary,
+    tertiaryContainer: _oliverPetalColors.tertiaryContainer,
+    onTertiaryContainer: _oliverPetalColors.onTertiaryContainer,
+    error: _oliverPetalColors.error,
+    onError: _oliverPetalColors.onError,
+    errorContainer: _oliverPetalColors.errorContainer,
+    onErrorContainer: _oliverPetalColors.onErrorContainer,
+    surface: _oliverPetalColors.surface,
+    onSurface: _oliverPetalColors.onSurface,
+    surfaceContainerHighest: _oliverPetalColors.surfaceContainer,
+    onSurfaceVariant: _oliverPetalColors.onSurfaceVariant,
+    outline: _oliverPetalColors.outline,
+    shadow: _oliverPetalColors.shadow,
+    inverseSurface: _oliverPetalColors.inverseSurface,
+    onInverseSurface: _oliverPetalColors.onInverseSurface,
+    inversePrimary: _oliverPetalColors.inversePrimary,
+    surfaceTint: _oliverPetalColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _foreverGreenLightColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _oliverPetalColors.surface),
   radioTheme: RadioThemeData(
-    fillColor: WidgetStateProperty.all(_foreverGreenLightColors.onPrimary),
+    fillColor: WidgetStateProperty.all(_oliverPetalColors.onPrimary),
   ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _foreverGreenLightColors.surface, // Background color
+      color: _oliverPetalColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _foreverGreenLightColors.onSurface, // Foreground (text) color
+      color: _oliverPetalColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_foreverGreenLightColors.primary),
-    trackColor: WidgetStateProperty.all(_foreverGreenLightColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_oliverPetalColors.primary),
+    trackColor: WidgetStateProperty.all(_oliverPetalColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_foreverGreenLightColors.onSurface),
+  textTheme: _buildTextTheme(_oliverPetalColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _foreverGreenLightColors.onPrimary,
+      color: _oliverPetalColors.onPrimary,
     ),
-    backgroundColor: _foreverGreenLightColors.primary,
+    backgroundColor: _oliverPetalColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _foreverGreenLightColors.onPrimary),
+    iconTheme: IconThemeData(color: _oliverPetalColors.onPrimary),
   ),
   tabBarTheme: TabBarThemeData(
-    indicatorColor: _foreverGreenLightColors.error,
-    labelColor: _foreverGreenLightColors.selected,
-    unselectedLabelColor: _foreverGreenLightColors.unSelected,
+    indicatorColor: _oliverPetalColors.error,
+    labelColor: _oliverPetalColors.selected,
+    unselectedLabelColor: _oliverPetalColors.unSelected,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _foreverGreenLightColors.primary,
-    selectedItemColor: _foreverGreenLightColors.selected,
-    unselectedItemColor: _foreverGreenLightColors.unSelected,
+    backgroundColor: _oliverPetalColors.primary,
+    selectedItemColor: _oliverPetalColors.selected,
+    unselectedItemColor: _oliverPetalColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -84,10 +84,10 @@ ThemeData get oliverPetalThemeData => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _foreverGreenLightColors.secondary),
+        side: BorderSide(color: _oliverPetalColors.secondary),
       ),
-      backgroundColor: _foreverGreenLightColors.primary,
-      foregroundColor: _foreverGreenLightColors.onPrimary,
+      backgroundColor: _oliverPetalColors.primary,
+      foregroundColor: _oliverPetalColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

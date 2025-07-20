@@ -2,80 +2,80 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
 import 'package:pashboi/core/theme/values/colors/elegance_colors.dart';
 
-final _pinkLightColors = EleganceColors();
+final _eleganceColors = EleganceColors();
 
 ThemeData get eleganceThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _pinkLightColors.background,
+  scaffoldBackgroundColor: _eleganceColors.background,
   colorScheme: ColorScheme.light(
-    primary: _pinkLightColors.primary,
-    onPrimary: _pinkLightColors.onPrimary,
-    primaryContainer: _pinkLightColors.primaryContainer,
-    onPrimaryContainer: _pinkLightColors.onPrimaryContainer,
-    secondary: _pinkLightColors.secondary,
-    onSecondary: _pinkLightColors.onSecondary,
-    secondaryContainer: _pinkLightColors.secondaryContainer,
-    onSecondaryContainer: _pinkLightColors.onSecondaryContainer,
-    tertiary: _pinkLightColors.tertiary,
-    onTertiary: _pinkLightColors.onTertiary,
-    tertiaryContainer: _pinkLightColors.tertiaryContainer,
-    onTertiaryContainer: _pinkLightColors.onTertiaryContainer,
-    error: _pinkLightColors.error,
-    onError: _pinkLightColors.onError,
-    errorContainer: _pinkLightColors.errorContainer,
-    onErrorContainer: _pinkLightColors.onErrorContainer,
-    surface: _pinkLightColors.surface,
-    onSurface: _pinkLightColors.onSurface,
-    surfaceContainerHighest: _pinkLightColors.surfaceContainer,
-    onSurfaceVariant: _pinkLightColors.onSurfaceVariant,
-    outline: _pinkLightColors.outline,
-    shadow: _pinkLightColors.shadow,
-    inverseSurface: _pinkLightColors.inverseSurface,
-    onInverseSurface: _pinkLightColors.onInverseSurface,
-    inversePrimary: _pinkLightColors.inversePrimary,
-    surfaceTint: _pinkLightColors.surfaceTint,
+    primary: _eleganceColors.primary,
+    onPrimary: _eleganceColors.onPrimary,
+    primaryContainer: _eleganceColors.primaryContainer,
+    onPrimaryContainer: _eleganceColors.onPrimaryContainer,
+    secondary: _eleganceColors.secondary,
+    onSecondary: _eleganceColors.onSecondary,
+    secondaryContainer: _eleganceColors.secondaryContainer,
+    onSecondaryContainer: _eleganceColors.onSecondaryContainer,
+    tertiary: _eleganceColors.tertiary,
+    onTertiary: _eleganceColors.onTertiary,
+    tertiaryContainer: _eleganceColors.tertiaryContainer,
+    onTertiaryContainer: _eleganceColors.onTertiaryContainer,
+    error: _eleganceColors.error,
+    onError: _eleganceColors.onError,
+    errorContainer: _eleganceColors.errorContainer,
+    onErrorContainer: _eleganceColors.onErrorContainer,
+    surface: _eleganceColors.surface,
+    onSurface: _eleganceColors.onSurface,
+    surfaceContainerHighest: _eleganceColors.surfaceContainer,
+    onSurfaceVariant: _eleganceColors.onSurfaceVariant,
+    outline: _eleganceColors.outline,
+    shadow: _eleganceColors.shadow,
+    inverseSurface: _eleganceColors.inverseSurface,
+    onInverseSurface: _eleganceColors.onInverseSurface,
+    inversePrimary: _eleganceColors.inversePrimary,
+    surfaceTint: _eleganceColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _pinkLightColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _eleganceColors.surface),
   radioTheme: RadioThemeData(
-    fillColor: WidgetStateProperty.all(_pinkLightColors.onPrimary),
+    fillColor: WidgetStateProperty.all(_eleganceColors.onPrimary),
   ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _pinkLightColors.surface, // Background color
+      color: _eleganceColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _pinkLightColors.onSurface, // Foreground (text) color
+      color: _eleganceColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_pinkLightColors.primary),
-    trackColor: WidgetStateProperty.all(_pinkLightColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_eleganceColors.primary),
+    trackColor: WidgetStateProperty.all(_eleganceColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_pinkLightColors.onSurface),
+  textTheme: _buildTextTheme(_eleganceColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _pinkLightColors.onPrimary,
+      color: _eleganceColors.onPrimary,
     ),
-    backgroundColor: _pinkLightColors.primary,
+    backgroundColor: _eleganceColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _pinkLightColors.onPrimary),
+    iconTheme: IconThemeData(color: _eleganceColors.onPrimary),
   ),
   tabBarTheme: TabBarThemeData(
-    indicatorColor: _pinkLightColors.error,
-    labelColor: _pinkLightColors.selected,
-    unselectedLabelColor: _pinkLightColors.unSelected,
+    indicatorColor: _eleganceColors.error,
+    labelColor: _eleganceColors.selected,
+    unselectedLabelColor: _eleganceColors.unSelected,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _pinkLightColors.primary,
-    selectedItemColor: _pinkLightColors.selected,
-    unselectedItemColor: _pinkLightColors.unSelected,
+    backgroundColor: _eleganceColors.primary,
+    selectedItemColor: _eleganceColors.selected,
+    unselectedItemColor: _eleganceColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -83,10 +83,10 @@ ThemeData get eleganceThemeData => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _pinkLightColors.secondary),
+        side: BorderSide(color: _eleganceColors.secondary),
       ),
-      backgroundColor: _pinkLightColors.primary,
-      foregroundColor: _pinkLightColors.onPrimary,
+      backgroundColor: _eleganceColors.primary,
+      foregroundColor: _eleganceColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

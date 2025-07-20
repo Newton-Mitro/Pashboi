@@ -24,8 +24,9 @@ class PageRepositoryImpl implements PageRepository {
     try {
       if (!await networkInfo.isConnected) {
         final localPages = await pageLocalDataSource.fetchPage(props.pageSlug);
-        if (localPages == null)
+        if (localPages == null) {
           throw Exception('No local page found for slug: ${props.pageSlug}');
+        }
 
         return Right(localPages);
       }

@@ -1,81 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/theme/animations/fade_slide_transition.dart';
-import 'package:pashboi/core/theme/values/colors/dark_blue_abyss_colors.dart';
+import 'package:pashboi/core/theme/values/colors/oliver_petal_dark_colors.dart';
 
-final _primaryDarkColors = DarkBlueAbyssColors();
-ThemeData get darkBlueAbyssThemeData => ThemeData(
+final _oliverPetalDarkColors = OliverPetalDarkColors();
+ThemeData get oliverPetalDarkThemeData => ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: _primaryDarkColors.background,
+  scaffoldBackgroundColor: _oliverPetalDarkColors.background,
   colorScheme: ColorScheme.dark(
     brightness: Brightness.dark,
-    primary: _primaryDarkColors.primary,
-    onPrimary: _primaryDarkColors.onPrimary,
-    primaryContainer: _primaryDarkColors.primaryContainer,
-    onPrimaryContainer: _primaryDarkColors.onPrimaryContainer,
-    secondary: _primaryDarkColors.secondary,
-    onSecondary: _primaryDarkColors.onSecondary,
-    secondaryContainer: _primaryDarkColors.secondaryContainer,
-    onSecondaryContainer: _primaryDarkColors.onSecondaryContainer,
-    tertiary: _primaryDarkColors.tertiary,
-    onTertiary: _primaryDarkColors.onTertiary,
-    tertiaryContainer: _primaryDarkColors.tertiaryContainer,
-    onTertiaryContainer: _primaryDarkColors.onTertiaryContainer,
-    error: _primaryDarkColors.error,
-    onError: _primaryDarkColors.onError,
-    errorContainer: _primaryDarkColors.errorContainer,
-    onErrorContainer: _primaryDarkColors.onErrorContainer,
-    surface: _primaryDarkColors.surface,
-    onSurface: _primaryDarkColors.onSurface,
-    surfaceContainerHighest: _primaryDarkColors.surfaceContainer,
-    onSurfaceVariant: _primaryDarkColors.onSurfaceVariant,
-    outline: _primaryDarkColors.outline,
-    shadow: _primaryDarkColors.shadow,
-    inverseSurface: _primaryDarkColors.inverseSurface,
-    onInverseSurface: _primaryDarkColors.onInverseSurface,
-    inversePrimary: _primaryDarkColors.inversePrimary,
-    surfaceTint: _primaryDarkColors.surfaceTint,
+    primary: _oliverPetalDarkColors.primary,
+    onPrimary: _oliverPetalDarkColors.onPrimary,
+    primaryContainer: _oliverPetalDarkColors.primaryContainer,
+    onPrimaryContainer: _oliverPetalDarkColors.onPrimaryContainer,
+    secondary: _oliverPetalDarkColors.secondary,
+    onSecondary: _oliverPetalDarkColors.onSecondary,
+    secondaryContainer: _oliverPetalDarkColors.secondaryContainer,
+    onSecondaryContainer: _oliverPetalDarkColors.onSecondaryContainer,
+    tertiary: _oliverPetalDarkColors.tertiary,
+    onTertiary: _oliverPetalDarkColors.onTertiary,
+    tertiaryContainer: _oliverPetalDarkColors.tertiaryContainer,
+    onTertiaryContainer: _oliverPetalDarkColors.onTertiaryContainer,
+    error: _oliverPetalDarkColors.error,
+    onError: _oliverPetalDarkColors.onError,
+    errorContainer: _oliverPetalDarkColors.errorContainer,
+    onErrorContainer: _oliverPetalDarkColors.onErrorContainer,
+    surface: _oliverPetalDarkColors.surface,
+    onSurface: _oliverPetalDarkColors.onSurface,
+    surfaceContainerHighest: _oliverPetalDarkColors.surfaceContainer,
+    onSurfaceVariant: _oliverPetalDarkColors.onSurfaceVariant,
+    outline: _oliverPetalDarkColors.outline,
+    shadow: _oliverPetalDarkColors.shadow,
+    inverseSurface: _oliverPetalDarkColors.inverseSurface,
+    onInverseSurface: _oliverPetalDarkColors.onInverseSurface,
+    inversePrimary: _oliverPetalDarkColors.inversePrimary,
+    surfaceTint: _oliverPetalDarkColors.surfaceTint,
   ),
-  popupMenuTheme: PopupMenuThemeData(color: _primaryDarkColors.surface),
+  popupMenuTheme: PopupMenuThemeData(color: _oliverPetalDarkColors.surface),
   radioTheme: RadioThemeData(
-    fillColor: WidgetStateProperty.all(_primaryDarkColors.onPrimary),
+    fillColor: WidgetStateProperty.all(_oliverPetalDarkColors.onPrimary),
   ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: _primaryDarkColors.surface, // Background color
+      color: _oliverPetalDarkColors.surface, // Background color
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: TextStyle(
-      color: _primaryDarkColors.onSurface, // Foreground (text) color
+      color: _oliverPetalDarkColors.onSurface, // Foreground (text) color
       fontSize: 14,
     ),
     waitDuration: Duration(milliseconds: 500),
     showDuration: Duration(seconds: 2),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(_primaryDarkColors.primary),
-    trackColor: WidgetStateProperty.all(_primaryDarkColors.onSurface),
+    thumbColor: WidgetStateProperty.all(_oliverPetalDarkColors.primary),
+    trackColor: WidgetStateProperty.all(_oliverPetalDarkColors.onSurface),
   ),
-  textTheme: _buildTextTheme(_primaryDarkColors.onSurface),
+  textTheme: _buildTextTheme(_oliverPetalDarkColors.onSurface),
   fontFamily: 'Roboto',
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
-      color: _primaryDarkColors.onPrimary,
+      color: _oliverPetalDarkColors.onPrimary,
     ),
-    backgroundColor: _primaryDarkColors.primary,
+    backgroundColor: _oliverPetalDarkColors.primary,
     elevation: 0,
-    iconTheme: IconThemeData(color: _primaryDarkColors.onPrimary),
+    iconTheme: IconThemeData(color: _oliverPetalDarkColors.onPrimary),
   ),
   tabBarTheme: TabBarThemeData(
-    indicatorColor: _primaryDarkColors.error,
-    labelColor: _primaryDarkColors.selected,
-    unselectedLabelColor: _primaryDarkColors.unSelected,
+    indicatorColor: _oliverPetalDarkColors.error,
+    labelColor: _oliverPetalDarkColors.selected,
+    unselectedLabelColor: _oliverPetalDarkColors.unSelected,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: _primaryDarkColors.primary,
-    selectedItemColor: _primaryDarkColors.selected,
-    unselectedItemColor: _primaryDarkColors.unSelected,
+    backgroundColor: _oliverPetalDarkColors.primary,
+    selectedItemColor: _oliverPetalDarkColors.selected,
+    unselectedItemColor: _oliverPetalDarkColors.unSelected,
   ),
   pageTransitionsTheme: _pageTransitionsTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -83,10 +83,10 @@ ThemeData get darkBlueAbyssThemeData => ThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30), // also slightly tighter curve
-        side: BorderSide(color: _primaryDarkColors.secondary),
+        side: BorderSide(color: _oliverPetalDarkColors.secondary),
       ),
-      backgroundColor: _primaryDarkColors.primary,
-      foregroundColor: _primaryDarkColors.onPrimary,
+      backgroundColor: _oliverPetalDarkColors.primary,
+      foregroundColor: _oliverPetalDarkColors.onPrimary,
       textStyle: const TextStyle(
         fontSize: 16, // slightly smaller text
         fontWeight: FontWeight.w600,

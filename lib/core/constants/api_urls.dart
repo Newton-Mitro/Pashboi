@@ -45,6 +45,9 @@ class ApiUrls {
   static const String getLoanStatement = 'loans_v2/getLoanStatement';
   static const String getLoanSureties = 'sureties_v1/getLoanSuretyGiven';
 
+  // Loan Repayment
+  static const String fetchLoanRepayment = 'loans_V1/calculateLoanPayment';
+
   // Deposit
   static const String getCollectionAccounts =
       'deposits_V1/getCollectionAccount';
