@@ -35,6 +35,7 @@ class LoanPaymentBloc extends Bloc<LoanPaymentEvent, LoanPaymentState> {
 
         final loanResult = await fetchLoanPaymentUseCase.call(
           FetchLoanPaymentProps(
+            loanNumber: event.loanNumber,
             interestDays: event.interestDays,
             interestRate: event.interestRate,
             loanBalance: event.loanBalance,

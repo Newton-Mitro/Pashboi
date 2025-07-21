@@ -1,6 +1,7 @@
 import 'package:pashboi/core/entities/entity.dart';
 
 class LoanPaymentEntity extends Entity<int> {
+  final String loanNumber;
   final double loanRefundAmount;
   final double interestAmount;
   final double loanFineAmount;
@@ -10,6 +11,7 @@ class LoanPaymentEntity extends Entity<int> {
 
   LoanPaymentEntity({
     super.id,
+    required this.loanNumber,
     required this.loanRefundAmount,
     required this.interestAmount,
     required this.loanFineAmount,
@@ -21,6 +23,7 @@ class LoanPaymentEntity extends Entity<int> {
   @override
   List<Object?> get props => [
     id,
+    loanNumber,
     loanRefundAmount,
     interestAmount,
     loanFineAmount,

@@ -5,6 +5,7 @@ class CollectionLedgerEntity extends Entity<int> {
   final String accountNumber;
   final String accountName;
   final String accountTypeCode;
+  final String moduleCode;
 
   final int ledgerId;
   final String ledgerName;
@@ -35,6 +36,7 @@ class CollectionLedgerEntity extends Entity<int> {
     required this.accountName,
     required this.ledgerName,
     required this.accountTypeCode,
+    required this.moduleCode,
     required this.amount,
     required this.depositAmount,
     required this.accountId,
@@ -61,6 +63,7 @@ class CollectionLedgerEntity extends Entity<int> {
     String? accountNumber,
     String? accountName,
     String? accountTypeCode,
+    String? moduleCode,
     int? ledgerId,
     String? ledgerName,
     bool? subledger,
@@ -86,6 +89,7 @@ class CollectionLedgerEntity extends Entity<int> {
       accountNumber: accountNumber ?? this.accountNumber,
       accountName: accountName ?? this.accountName,
       accountTypeCode: accountTypeCode ?? this.accountTypeCode,
+      moduleCode: moduleCode ?? this.moduleCode,
       ledgerId: ledgerId ?? this.ledgerId,
       ledgerName: ledgerName ?? this.ledgerName,
       subledger: subledger ?? this.subledger,
@@ -114,6 +118,7 @@ class CollectionLedgerEntity extends Entity<int> {
     accountName,
     ledgerName,
     accountTypeCode,
+    moduleCode,
     amount,
     depositAmount,
     accountId,

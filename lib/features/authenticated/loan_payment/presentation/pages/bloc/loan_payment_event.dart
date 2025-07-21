@@ -8,6 +8,7 @@ sealed class LoanPaymentEvent extends Equatable {
 }
 
 class FetchLoanPayment extends LoanPaymentEvent {
+  final String loanNumber;
   final int interestDays;
   final double interestRate;
   final double loanBalance;
@@ -17,6 +18,7 @@ class FetchLoanPayment extends LoanPaymentEvent {
   final String? lastPaidDate;
 
   const FetchLoanPayment({
+    required this.loanNumber,
     required this.interestDays,
     required this.interestRate,
     required this.loanBalance,

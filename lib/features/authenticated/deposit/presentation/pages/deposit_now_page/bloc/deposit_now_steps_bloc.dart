@@ -173,7 +173,8 @@ class DepositNowStepsBloc
   ) {
     final updatedLedgers =
         state.collectionLedgers.map((l) {
-          if (l.collectionType == 'LoanLpsAmount') {
+          if (l.collectionType.trim() == 'LoanLpsAmount' &&
+              l.accountNumber == event.loanNumber) {
             return l.copyWith(depositAmount: event.newAmount);
           }
           return l;
@@ -218,7 +219,8 @@ class DepositNowStepsBloc
             if (ledger.depositAmount <= 0) {
               amountErrors[ledger.ledgerId.toString()] =
                   'Deposit amount must be greater than zero';
-            } else if (ledger.depositAmount < ledger.amount) {
+            } else if (!ledger.subledger &&
+                ledger.depositAmount < ledger.amount) {
               amountErrors[ledger.ledgerId.toString()] =
                   'Deposit amount cannot be less than the ${ledger.amount}';
             } else if (ledger.multiplier &&

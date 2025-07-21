@@ -30,6 +30,7 @@ class LoanPaymentRemoteDataSourceImpl implements LoanPaymentRemoteDataSource {
           "ByUserId": props.userId,
           "EmployeeCode": props.employeeCode,
           "PersonId": props.personId,
+          "LoanNumber": props.loanNumber,
           "Days": props.interestDays,
           "InterestRate": props.interestRate,
           "IssuedAmount": props.loanBalance,
@@ -46,9 +47,12 @@ class LoanPaymentRemoteDataSourceImpl implements LoanPaymentRemoteDataSource {
         final dataString = response.data?['Data'];
         if (dataString == null) throw Exception('Invalid response format');
 
-        final loanPaymentModel = LoanPaymentModel.fromJson(
-          jsonDecode(dataString),
-        );
+        final loanPayments = jsonDecode(dataString) as List;
+        final Map<String, dynamic> loanPayment = loanPayments[0];
+
+        loanPayment['LoanNumber'] = props.loanNumber;
+
+        final loanPaymentModel = LoanPaymentModel.fromJson(loanPayment);
 
         return loanPaymentModel;
       } else {
