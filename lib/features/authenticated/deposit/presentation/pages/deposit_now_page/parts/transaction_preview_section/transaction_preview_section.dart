@@ -53,7 +53,7 @@ class TransactionPreviewSection extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      "Accounts to Deposit Preview",
+                      "Preview of Deposit",
                       style: TextStyle(
                         color: colorScheme.onPrimary,
                         fontSize: 16,

@@ -80,7 +80,12 @@ class CardPage extends StatelessWidget {
                             enabled: true,
                             onPressed: () {
                               context.read<DebitCardBloc>().add(
-                                const DebitCardReIssue(),
+                                const DebitCardReIssue(
+                                  cardNumber: '',
+                                  cardTypeCode: '',
+                                  virtualCard: true,
+                                  nameOnCard: '',
+                                ),
                               );
                             },
                           ),
@@ -94,7 +99,9 @@ class CardPage extends StatelessWidget {
                     label: "Issue a Card",
                     enabled: true,
                     onPressed: () {
-                      context.read<DebitCardBloc>().add(const DebitCardIssue());
+                      context.read<DebitCardBloc>().add(
+                        const DebitCardIssue(cardTypeCode: '', withCard: true),
+                      );
                     },
                   ),
                 );

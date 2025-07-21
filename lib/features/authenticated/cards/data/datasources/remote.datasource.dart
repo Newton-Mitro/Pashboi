@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
+import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/features/authenticated/cards/data/models/card_model.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
@@ -42,7 +43,7 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        ApiUrls.login,
+        ApiUrls.issueCard,
         data: {
           "UserName": issueDebitCardUseCaseProps.email,
           "CardTypeCode": issueDebitCardUseCaseProps.cardTypeCode,
@@ -58,7 +59,14 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
 
         return dataString;
       } else {
@@ -91,8 +99,14 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
 
         final decoded = jsonDecode(dataString);
 
@@ -116,11 +130,11 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        ApiUrls.login,
+        ApiUrls.lockTheCard,
         data: {
           "UserName": lockTheCardUseCaseProps.email,
-          "CardNumber": lockTheCardUseCaseProps.cardNumber,
-          "AccountNumber": lockTheCardUseCaseProps.accountNumber,
+          "CardNo": lockTheCardUseCaseProps.cardNumber,
+          "AccountNo": lockTheCardUseCaseProps.accountNumber,
           "NameOnCard": lockTheCardUseCaseProps.nameOnCard,
           "MobileNumber": lockTheCardUseCaseProps.mobileNumber,
           "RolePermission": lockTheCardUseCaseProps.rolePermissionId,
@@ -133,7 +147,14 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
 
         return dataString;
       } else {
@@ -150,7 +171,7 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        ApiUrls.login,
+        ApiUrls.cardReIssue,
         data: {
           "UserName": reIssueDebitCardUsecaseProps.email,
           "CardTypeCode": reIssueDebitCardUsecaseProps.cardTypeCode,
@@ -168,7 +189,14 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
 
         return dataString;
       } else {
@@ -185,10 +213,12 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
   ) async {
     try {
       final response = await apiService.post(
-        ApiUrls.login,
+        ApiUrls.verifyCardPIN,
         data: {
           "UserName": verifyCardPinUseCaseProps.email,
-          "CardNumber": verifyCardPinUseCaseProps.cardNumber,
+          "CardNo": verifyCardPinUseCaseProps.cardNumber,
+          "AccountNo": verifyCardPinUseCaseProps.accountNumber,
+          "SecretKey": verifyCardPinUseCaseProps.cardPIN,
           "NameOnCard": verifyCardPinUseCaseProps.nameOnCard,
           "MobileNumber": verifyCardPinUseCaseProps.mobileNumber,
           "RolePermission": verifyCardPinUseCaseProps.rolePermissionId,
@@ -201,9 +231,19 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
 
-        return dataString;
+        final Map<String, dynamic> data = jsonDecode(dataString);
+        final String otpRegId = data['OTPRegId'] ?? '';
+
+        return otpRegId;
       } else {
         throw Exception('Login failed with status ${response.statusCode}');
       }

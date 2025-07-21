@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
 class AppTextInput extends StatefulWidget {
@@ -9,6 +10,7 @@ class AppTextInput extends StatefulWidget {
   final Icon? prefixIcon;
   final bool obscureText;
   final TextInputType keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   final bool enabled;
   final void Function(String)? onChanged;
 
@@ -21,6 +23,7 @@ class AppTextInput extends StatefulWidget {
     this.prefixIcon,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.inputFormatters,
     this.enabled = true,
     this.onChanged,
   });
@@ -42,7 +45,6 @@ class _AppTextInputState extends State<AppTextInput> {
     isObscured = widget.obscureText;
     _internalController = widget.controller ?? TextEditingController();
 
-    // Set initial value for internal controller only
     if (widget.controller == null && widget.initialValue != null) {
       _internalController.text = widget.initialValue!;
     }
@@ -51,8 +53,6 @@ class _AppTextInputState extends State<AppTextInput> {
   @override
   void didUpdateWidget(covariant AppTextInput oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // Update internal controller text if initialValue changed
     if (widget.controller == null &&
         widget.initialValue != null &&
         widget.initialValue != oldWidget.initialValue &&
@@ -63,7 +63,6 @@ class _AppTextInputState extends State<AppTextInput> {
 
   @override
   void dispose() {
-    // Only dispose if we created it
     if (widget.controller == null) {
       _internalController.dispose();
     }
@@ -84,6 +83,7 @@ class _AppTextInputState extends State<AppTextInput> {
             controller: effectiveController,
             obscureText: isObscured,
             keyboardType: widget.keyboardType,
+            inputFormatters: widget.inputFormatters,
             enabled: widget.enabled,
             onChanged: widget.onChanged,
             style: TextStyle(
