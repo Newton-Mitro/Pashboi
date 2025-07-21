@@ -15,6 +15,7 @@ import 'package:pashboi/features/authenticated/family_and_friends/presentation/p
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/bloc/fetch_dependents_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/bloc/my_account_bloc.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/change_password/bloc/change_password_bloc.dart';
 import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/injection.dart';
@@ -50,6 +51,7 @@ void main() async {
         BlocProvider(create: (context) => sl<RelationshipBloc>()),
         BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
         BlocProvider(create: (context) => sl<MyAccountBloc>()),
+        BlocProvider(create: (context) => sl<ChangePasswordBloc>()),
       ],
       child: const MyApp(),
     ),
