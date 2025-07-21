@@ -7,6 +7,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
     required super.accountName,
     required super.ledgerName,
     required super.accountTypeCode,
+    required super.moduleCode,
     required super.amount,
     required super.depositAmount,
     required super.accountId,
@@ -21,8 +22,9 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
     required super.intrestRate,
     required super.lastPaidDate,
     required super.refundBased,
-    required super.loanCollectionType,
+    required super.collectionType,
     required super.accountFor,
+    required super.isRefundBased,
     required super.isSelected,
   });
 
@@ -33,6 +35,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       accountName: json['AccountName'] as String,
       ledgerName: json['AccountType'] as String,
       accountTypeCode: json['AccountTypeCode'] as String,
+      moduleCode: json['ModuleCode'] ?? '',
       amount: (json['Amount'] as num).toDouble(),
       depositAmount: (json['Amount'] as num).toDouble(),
       accountId: json['AccountId'] as int,
@@ -47,8 +50,9 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       intrestRate: (json['InterestRate'] as num).toDouble(),
       lastPaidDate: DateTime.parse(json['LastPaidDate'] as String),
       refundBased: json['IsRefundBased'] as bool,
-      loanCollectionType: json['LoanCollectionType'] as String,
+      collectionType: json['LoanCollectionType'] as String,
       accountFor: json['AccountFor'] as String,
+      isRefundBased: json['IsRefundBased'] as bool,
       isSelected: false,
     );
   }
@@ -60,6 +64,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       'accountName': accountName,
       'ledgerName': ledgerName,
       'accountTypeCode': accountTypeCode,
+      'moduleCode': moduleCode,
       'depositAmount': amount,
       'accountId': accountId,
       'ledgerId': ledgerId,
@@ -73,7 +78,8 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
       'intrestRate': intrestRate,
       'lastPaidDate': lastPaidDate.toIso8601String(),
       'refundBased': refundBased,
-      'loanCollectionType': loanCollectionType,
+      'LoanCollectionType': collectionType,
+      'isRefundBased': isRefundBased,
       'accountFor': accountFor,
     };
   }

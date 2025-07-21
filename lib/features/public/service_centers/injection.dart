@@ -10,8 +10,6 @@ import 'package:pashboi/features/public/service_centers/presentation/bloc/servic
 import 'package:shared_preferences/shared_preferences.dart';
 
 void registerServiceCenterModule() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-
   sl.registerLazySingleton<ServiceCenterRemoteDataSource>(
     () => ServiceCenterRemoteDataSourceImpl(
       productApiService: sl<ProductApiService>(),
@@ -40,6 +38,4 @@ void registerServiceCenterModule() async {
       fetchServiceCenterUseCase: sl<FetchServiceCenterUseCase>(),
     ),
   );
-
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

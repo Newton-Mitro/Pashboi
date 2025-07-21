@@ -5,12 +5,13 @@ class CollectionLedgerEntity extends Entity<int> {
   final String accountNumber;
   final String accountName;
   final String accountTypeCode;
+  final String moduleCode;
 
   final int ledgerId;
   final String ledgerName;
   final bool subledger;
   final int plType;
-  final String loanCollectionType;
+  final String collectionType;
   final bool defaultAccount;
 
   final double amount;
@@ -27,6 +28,7 @@ class CollectionLedgerEntity extends Entity<int> {
 
   final String accountFor;
   final bool isSelected;
+  final bool isRefundBased;
 
   CollectionLedgerEntity({
     super.id,
@@ -34,6 +36,7 @@ class CollectionLedgerEntity extends Entity<int> {
     required this.accountName,
     required this.ledgerName,
     required this.accountTypeCode,
+    required this.moduleCode,
     required this.amount,
     required this.depositAmount,
     required this.accountId,
@@ -48,8 +51,9 @@ class CollectionLedgerEntity extends Entity<int> {
     required this.intrestRate,
     required this.lastPaidDate,
     required this.refundBased,
-    required this.loanCollectionType,
+    required this.collectionType,
     required this.accountFor,
+    required this.isRefundBased,
     this.isSelected = false,
   });
 
@@ -59,11 +63,12 @@ class CollectionLedgerEntity extends Entity<int> {
     String? accountNumber,
     String? accountName,
     String? accountTypeCode,
+    String? moduleCode,
     int? ledgerId,
     String? ledgerName,
     bool? subledger,
     int? plType,
-    String? loanCollectionType,
+    String? collectionType,
     bool? defaultAccount,
     double? amount,
     double? depositAmount,
@@ -75,6 +80,7 @@ class CollectionLedgerEntity extends Entity<int> {
     DateTime? lastPaidDate,
     bool? refundBased,
     String? accountFor,
+    bool? isRefundBased,
     bool? isSelected,
   }) {
     return CollectionLedgerEntity(
@@ -83,11 +89,12 @@ class CollectionLedgerEntity extends Entity<int> {
       accountNumber: accountNumber ?? this.accountNumber,
       accountName: accountName ?? this.accountName,
       accountTypeCode: accountTypeCode ?? this.accountTypeCode,
+      moduleCode: moduleCode ?? this.moduleCode,
       ledgerId: ledgerId ?? this.ledgerId,
       ledgerName: ledgerName ?? this.ledgerName,
       subledger: subledger ?? this.subledger,
       plType: plType ?? this.plType,
-      loanCollectionType: loanCollectionType ?? this.loanCollectionType,
+      collectionType: collectionType ?? this.collectionType,
       defaultAccount: defaultAccount ?? this.defaultAccount,
       amount: amount ?? this.amount,
       depositAmount: depositAmount ?? this.depositAmount,
@@ -100,6 +107,7 @@ class CollectionLedgerEntity extends Entity<int> {
       refundBased: refundBased ?? this.refundBased,
       accountFor: accountFor ?? this.accountFor,
       isSelected: isSelected ?? this.isSelected,
+      isRefundBased: isRefundBased ?? this.isRefundBased,
     );
   }
 
@@ -110,6 +118,7 @@ class CollectionLedgerEntity extends Entity<int> {
     accountName,
     ledgerName,
     accountTypeCode,
+    moduleCode,
     amount,
     depositAmount,
     accountId,
@@ -124,8 +133,9 @@ class CollectionLedgerEntity extends Entity<int> {
     intrestRate,
     lastPaidDate,
     refundBased,
-    loanCollectionType,
+    collectionType,
     accountFor,
+    isRefundBased,
     isSelected,
   ];
 }

@@ -3,6 +3,7 @@ import 'package:pashboi/features/authenticated/loan_payment/domain/entities/loan
 class LoanPaymentModel extends LoanPaymentEntity {
   LoanPaymentModel({
     required super.id,
+    required super.loanNumber,
     required super.loanRefundAmount,
     required super.interestAmount,
     required super.loanFineAmount,
@@ -14,6 +15,7 @@ class LoanPaymentModel extends LoanPaymentEntity {
   factory LoanPaymentModel.fromJson(Map<String, dynamic> json) {
     return LoanPaymentModel(
       id: json['id'] ?? 0,
+      loanNumber: json['LoanNumber'] ?? '',
       loanRefundAmount: json['LoanRefundAmount'] ?? 0.0,
       interestAmount: json['InterestAmount'] ?? 0.0,
       loanFineAmount: json['LoanFine'] ?? 0.0,
@@ -26,6 +28,7 @@ class LoanPaymentModel extends LoanPaymentEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'LoanNumber': loanNumber,
       'LoanRefundAmount': loanRefundAmount,
       'InterestAmount': interestAmount,
       'LoanFine': loanFineAmount,

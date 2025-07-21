@@ -10,8 +10,6 @@ import 'package:pashboi/features/public/development_credits/presentation/bloc/de
 import 'package:shared_preferences/shared_preferences.dart';
 
 void registerDevelopmentCreditModule() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-
   sl.registerLazySingleton<DevelopmentCreditRemoteDataSource>(
     () => DevelopmentCreditRemoteDataSourceImpl(
       productApiService: sl<ProductApiService>(),
@@ -43,6 +41,4 @@ void registerDevelopmentCreditModule() async {
       developmentCreditsUseCase: sl<DevelopmentCreditsUseCase>(),
     ),
   );
-
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

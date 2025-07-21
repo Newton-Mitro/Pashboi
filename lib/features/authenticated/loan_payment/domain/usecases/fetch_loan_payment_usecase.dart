@@ -5,15 +5,17 @@ import 'package:pashboi/features/authenticated/loan_payment/domain/entities/loan
 import 'package:pashboi/features/authenticated/loan_payment/domain/repositories/loan_payment_repository.dart';
 
 class FetchLoanPaymentProps extends BaseRequestProps {
+  final String loanNumber;
   final int interestDays;
   final double interestRate;
   final double loanBalance;
-  final double? loanRefundAmount;
+  final double loanRefundAmount;
   final String moduleCode;
-  final DateTime issuedDate;
-  final DateTime lastPaidDate;
+  final String? issuedDate;
+  final String? lastPaidDate;
 
   const FetchLoanPaymentProps({
+    required this.loanNumber,
     required this.interestDays,
     required this.interestRate,
     required this.loanBalance,
