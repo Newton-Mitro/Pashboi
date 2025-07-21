@@ -48,8 +48,8 @@ class TransferFromSection extends StatelessWidget {
         DebitCardEntity? debitCard;
         List<DepositAccountEntity> cardAccounts = [];
 
-        if (state is DebitCardLoadingSuccess) {
-          cardAccounts = state.debitCard.cardsAccounts;
+        if (state.debitCard != null) {
+          cardAccounts = state.debitCard!.cardsAccounts;
           debitCard = state.debitCard;
         }
 

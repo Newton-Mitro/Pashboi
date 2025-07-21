@@ -1,29 +1,35 @@
 part of 'debit_card_bloc.dart';
 
-sealed class DebitCardState extends Equatable {
-  const DebitCardState();
+class DebitCardState extends Equatable {
+  final bool isLoading;
+  final DebitCardEntity? debitCard;
+  final String? successMessage;
+  final String? error;
+
+  const DebitCardState({
+    this.isLoading = false,
+    this.debitCard,
+    this.successMessage,
+    this.error,
+  });
+
+  DebitCardState copyWith({
+    bool? isLoading,
+    bool? isRequestProcessing,
+    DebitCardEntity? debitCard,
+    String? successMessage,
+    String? error,
+  }) {
+    return DebitCardState(
+      isLoading: isLoading ?? this.isLoading,
+      debitCard: debitCard ?? this.debitCard,
+      successMessage: successMessage,
+      error: error,
+    );
+  }
+
+  factory DebitCardState.initial() => const DebitCardState();
 
   @override
-  List<Object> get props => [];
-}
-
-final class DebitCardInitial extends DebitCardState {}
-
-class DebitCardLoading extends DebitCardState {}
-
-class DebitCardRequestProcessing extends DebitCardState {}
-
-class DebitCardLoadingSuccess extends DebitCardState {
-  final DebitCardEntity debitCard;
-  const DebitCardLoadingSuccess(this.debitCard);
-}
-
-class DebitCardRequestSuccess extends DebitCardState {
-  final String message;
-  const DebitCardRequestSuccess(this.message);
-}
-
-class DebitCardError extends DebitCardState {
-  final String error;
-  const DebitCardError(this.error);
+  List<Object?> get props => [isLoading, debitCard, successMessage, error];
 }

@@ -33,7 +33,7 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     required this.lockTheCardUseCase,
     required this.verifyCardPinUseCase,
     required this.getAuthUserUseCase,
-  }) : super(DebitCardInitial()) {
+  }) : super(const DebitCardState()) {
     on<DebitCardLoad>(_onLoad);
     on<DebitCardIssue>(_onIssue);
     on<DebitCardReIssue>(_onReIssue);
@@ -46,7 +46,8 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     UserEntity? userEntity;
 
     authResult.fold(
-      (failure) => emit(DebitCardError('Failed to load user information')),
+      (failure) =>
+          emit(state.copyWith(error: 'Failed to load user information')),
       (authData) => userEntity = authData.user,
     );
 
@@ -57,7 +58,7 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     DebitCardLoad event,
     Emitter<DebitCardState> emit,
   ) async {
-    emit(DebitCardLoading());
+    emit(state.copyWith(isLoading: true, error: null, successMessage: null));
 
     try {
       user = await _getUser(emit);
@@ -75,11 +76,15 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       dataState.fold(
-        (failure) => emit(DebitCardError(failure.message)),
-        (debitCard) => emit(DebitCardLoadingSuccess(debitCard)),
+        (failure) =>
+            emit(state.copyWith(isLoading: false, error: failure.message)),
+        (debitCard) =>
+            emit(state.copyWith(isLoading: false, debitCard: debitCard)),
       );
     } catch (e) {
-      emit(DebitCardError('Failed to load debit card'));
+      emit(
+        state.copyWith(isLoading: false, error: 'Failed to load debit card'),
+      );
     }
   }
 
@@ -87,7 +92,7 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     DebitCardIssue event,
     Emitter<DebitCardState> emit,
   ) async {
-    emit(DebitCardRequestProcessing());
+    emit(state.copyWith(isLoading: true, error: null, successMessage: null));
 
     try {
       user ??= await _getUser(emit);
@@ -107,11 +112,17 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       result.fold(
-        (failure) => emit(DebitCardError(failure.message)),
-        (_) => emit(DebitCardRequestSuccess('Card issued successfully')),
+        (failure) =>
+            emit(state.copyWith(isLoading: false, error: failure.message)),
+        (_) => emit(
+          state.copyWith(
+            isLoading: false,
+            successMessage: 'Card issued successfully',
+          ),
+        ),
       );
     } catch (e) {
-      emit(DebitCardError('Card issue failed'));
+      emit(state.copyWith(isLoading: false, error: 'Card issue failed'));
     }
   }
 
@@ -119,7 +130,7 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     DebitCardReIssue event,
     Emitter<DebitCardState> emit,
   ) async {
-    emit(DebitCardRequestProcessing());
+    emit(state.copyWith(isLoading: true, error: null, successMessage: null));
 
     try {
       final result = await reIssueDebitCardUsecase.call(
@@ -138,11 +149,17 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       result.fold(
-        (failure) => emit(DebitCardError(failure.message)),
-        (_) => emit(DebitCardRequestSuccess('Card reissued successfully')),
+        (failure) =>
+            emit(state.copyWith(isLoading: false, error: failure.message)),
+        (_) => emit(
+          state.copyWith(
+            isLoading: false,
+            successMessage: 'Card reissued successfully',
+          ),
+        ),
       );
     } catch (e) {
-      emit(DebitCardError('Card reissue failed'));
+      emit(state.copyWith(isLoading: false, error: 'Card reissue failed'));
     }
   }
 
@@ -150,7 +167,7 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     DebitCardBlock event,
     Emitter<DebitCardState> emit,
   ) async {
-    emit(DebitCardRequestProcessing());
+    emit(state.copyWith(isLoading: true, error: null, successMessage: null));
 
     try {
       user ??= await _getUser(emit);
@@ -171,11 +188,17 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       result.fold(
-        (failure) => emit(DebitCardError(failure.message)),
-        (_) => emit(DebitCardRequestSuccess('Card blocked successfully')),
+        (failure) =>
+            emit(state.copyWith(isLoading: false, error: failure.message)),
+        (_) => emit(
+          state.copyWith(
+            isLoading: false,
+            successMessage: 'Card blocked successfully',
+          ),
+        ),
       );
     } catch (e) {
-      emit(DebitCardError('Failed to block card'));
+      emit(state.copyWith(isLoading: false, error: 'Failed to block card'));
     }
   }
 
@@ -183,7 +206,7 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     DebitCardPinVerify event,
     Emitter<DebitCardState> emit,
   ) async {
-    emit(DebitCardRequestProcessing());
+    emit(state.copyWith(isLoading: true, error: null, successMessage: null));
 
     try {
       user ??= await _getUser(emit);
@@ -205,11 +228,13 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       result.fold(
-        (failure) => emit(DebitCardError(failure.message)),
-        (pinRegId) => emit(DebitCardRequestSuccess(pinRegId)),
+        (failure) =>
+            emit(state.copyWith(isLoading: false, error: failure.message)),
+        (pinRegId) =>
+            emit(state.copyWith(isLoading: false, successMessage: pinRegId)),
       );
     } catch (e) {
-      emit(DebitCardError('PIN verification failed'));
+      emit(state.copyWith(isLoading: false, error: 'PIN verification failed'));
     }
   }
 }

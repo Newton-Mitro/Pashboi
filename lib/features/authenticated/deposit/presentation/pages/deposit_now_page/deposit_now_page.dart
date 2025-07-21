@@ -84,20 +84,23 @@ class _DepositNowPageState extends State<DepositNowPage> {
       listeners: [
         BlocListener<DebitCardBloc, DebitCardState>(
           listener: (context, state) {
-            if (state is DebitCardRequestSuccess) {
+            if (state.successMessage != null) {
               context.read<DepositNowStepsBloc>().add(
-                UpdateStepData(step: 4, data: {'OTPRegId': state.message}),
+                UpdateStepData(
+                  step: 4,
+                  data: {'OTPRegId': state.successMessage},
+                ),
               );
               context.read<DepositNowStepsBloc>().add(DepositNowGoToNextStep());
             }
-            if (state is DebitCardError) {
+            if (state.error != null) {
               final snackBar = SnackBar(
                 elevation: 0,
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.transparent,
                 content: AwesomeSnackbarContent(
                   title: 'Oops!',
-                  message: state.error,
+                  message: state.error!,
                   contentType: ContentType.failure,
                 ),
               );
