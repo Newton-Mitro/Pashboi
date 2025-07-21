@@ -5,14 +5,17 @@ class DepositNowStepsState extends Equatable {
   final Map<int, Map<String, dynamic>> validationErrors;
   final Map<int, Map<String, dynamic>> stepData;
   final List<CollectionLedgerEntity> collectionLedgers;
+  final bool isLoading;
 
   const DepositNowStepsState({
     required this.currentStep,
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
+    bool? isLoading,
   }) : validationErrors = validationErrors ?? const {},
        stepData = stepData ?? const {},
+       isLoading = isLoading ?? false,
        collectionLedgers = collectionLedgers ?? const [];
 
   DepositNowStepsState copyWith({
@@ -20,12 +23,14 @@ class DepositNowStepsState extends Equatable {
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
+    bool? isLoading,
   }) {
     return DepositNowStepsState(
       currentStep: currentStep ?? this.currentStep,
       validationErrors: validationErrors ?? this.validationErrors,
       stepData: stepData ?? this.stepData,
       collectionLedgers: collectionLedgers ?? this.collectionLedgers,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 
@@ -35,5 +40,6 @@ class DepositNowStepsState extends Equatable {
     validationErrors,
     stepData,
     collectionLedgers,
+    isLoading,
   ];
 }

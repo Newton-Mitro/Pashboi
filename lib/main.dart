@@ -13,6 +13,7 @@ import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/deb
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/bloc/fetch_dependents_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/bloc/my_account_bloc.dart';
 import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
@@ -50,6 +51,7 @@ void main() async {
         BlocProvider(create: (context) => sl<RelationshipBloc>()),
         BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
         BlocProvider(create: (context) => sl<MyAccountBloc>()),
+        BlocProvider(create: (context) => sl<OtpBloc>()),
       ],
       child: const MyApp(),
     ),

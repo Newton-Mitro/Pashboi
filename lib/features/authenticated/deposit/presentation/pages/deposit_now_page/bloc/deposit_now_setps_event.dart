@@ -9,6 +9,15 @@ abstract class DepositNowStepsEvent extends Equatable {
 
 class DepositNowGoToNextStep extends DepositNowStepsEvent {}
 
+class DepositNowValidateStep extends DepositNowStepsEvent {
+  final int step;
+
+  const DepositNowValidateStep(this.step);
+
+  @override
+  List<Object> get props => [step];
+}
+
 class DepositNowGoToPreviousStep extends DepositNowStepsEvent {}
 
 class UpdateStepData extends DepositNowStepsEvent {
