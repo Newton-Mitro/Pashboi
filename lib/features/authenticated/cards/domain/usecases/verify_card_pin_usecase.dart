@@ -7,6 +7,7 @@ class VerifyCardPinUseCaseProps extends BaseRequestProps {
   final String cardNumber;
   final String nameOnCard;
   final String cardPIN;
+  final String accountNumber;
 
   const VerifyCardPinUseCaseProps({
     required super.email,
@@ -18,16 +19,17 @@ class VerifyCardPinUseCaseProps extends BaseRequestProps {
     required this.cardNumber,
     required this.nameOnCard,
     required this.cardPIN,
+    required this.accountNumber,
   });
 }
 
-class VerifyCardPinUseCase extends UseCase<Object, VerifyCardPinUseCaseProps> {
+class VerifyCardPinUseCase extends UseCase<String, VerifyCardPinUseCaseProps> {
   final CardRepository cardRepository;
 
   VerifyCardPinUseCase({required this.cardRepository});
 
   @override
-  ResultFuture<Object> call(VerifyCardPinUseCaseProps params) async {
+  ResultFuture<String> call(VerifyCardPinUseCaseProps params) async {
     return cardRepository.verifyCardPIN(params);
   }
 }

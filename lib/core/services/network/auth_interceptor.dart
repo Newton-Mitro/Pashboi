@@ -26,6 +26,8 @@ class AuthInterceptor extends Interceptor {
 
       return handler.next(options);
     } catch (e) {
+      options.headers['Accept'] = 'application/json';
+      options.headers['Content-Type'] = 'application/json';
       return handler.next(options);
     }
   }

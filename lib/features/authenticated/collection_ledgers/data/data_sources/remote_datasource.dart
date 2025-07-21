@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
+import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/utils/json_util.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/data/models/collection_ledger_model.dart';
@@ -43,7 +44,14 @@ class CollectionLedgerRemoteDataSourceImpl
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
 
         final jsonResponse = JsonUtil.decodeModel(dataString);
 

@@ -19,7 +19,7 @@ abstract class CardRepository {
   ResultFuture<String> lockTheCard(
     LockTheCardUseCaseProps lockTheCardUseCaseProps,
   );
-  ResultFuture<Object> verifyCardPIN(
+  ResultFuture<String> verifyCardPIN(
     VerifyCardPinUseCaseProps verifyCardPinUseCaseProps,
   );
 }

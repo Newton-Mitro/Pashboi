@@ -77,7 +77,7 @@ class CardRepositoryImpl implements CardRepository {
   }
 
   @override
-  ResultFuture<Object> verifyCardPIN(
+  ResultFuture<String> verifyCardPIN(
     VerifyCardPinUseCaseProps verifyCardPinUseCaseProps,
   ) async {
     try {

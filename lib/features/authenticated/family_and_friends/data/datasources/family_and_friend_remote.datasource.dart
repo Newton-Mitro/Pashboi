@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
+import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/data/models/family_and_friend_model.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/add_family_and_friend_usecase.dart';
@@ -43,7 +44,15 @@ class FamilyAndFriendRemoteDataSourceImpl
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
+
         final decoded = jsonDecode(dataString);
 
         if (decoded is List && decoded.isNotEmpty) {
@@ -88,7 +97,14 @@ class FamilyAndFriendRemoteDataSourceImpl
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception('Invalid response format');
+        final errorMessage = response.data?['Message'];
+        if (dataString == null || dataString.isEmpty) {
+          if (errorMessage != null) {
+            throw ServerException(message: errorMessage);
+          } else {
+            throw ServerException(message: 'Invalid response format');
+          }
+        }
 
         return dataString;
       } else {

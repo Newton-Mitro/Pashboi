@@ -5,7 +5,7 @@ class ServerException implements Exception {
   ServerException({this.message = ErrorMessage.serverError});
 
   @override
-  String toString() => "ServerException: $message";
+  String toString() => message;
 }
 
 class CacheException implements Exception {
@@ -13,7 +13,7 @@ class CacheException implements Exception {
   CacheException({this.message = ErrorMessage.cacheError});
 
   @override
-  String toString() => "CacheException: $message";
+  String toString() => message;
 }
 
 class ValidationException implements Exception {
@@ -25,7 +25,7 @@ class ValidationException implements Exception {
   });
 
   @override
-  String toString() => "ValidationException: $errors";
+  String toString() => message;
 }
 
 class NetworkException implements Exception {
@@ -33,7 +33,7 @@ class NetworkException implements Exception {
   NetworkException({this.message = ErrorMessage.noInternet});
 
   @override
-  String toString() => "NetworkException: $message";
+  String toString() => message;
 }
 
 class UnauthorizedException implements Exception {
@@ -41,7 +41,7 @@ class UnauthorizedException implements Exception {
   UnauthorizedException({this.message = ErrorMessage.unauthorized});
 
   @override
-  String toString() => "UnauthorizedException: $message";
+  String toString() => message;
 }
 
 class ForbiddenException implements Exception {
@@ -49,5 +49,5 @@ class ForbiddenException implements Exception {
   ForbiddenException({this.message = ErrorMessage.forbidden});
 
   @override
-  String toString() => "ForbiddenException: $message";
+  String toString() => message;
 }

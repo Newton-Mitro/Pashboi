@@ -12,17 +12,48 @@ class DebitCardLoad extends DebitCardEvent {
 }
 
 class DebitCardIssue extends DebitCardEvent {
-  const DebitCardIssue();
+  final String cardTypeCode;
+  final bool withCard;
+
+  const DebitCardIssue({required this.cardTypeCode, required this.withCard});
 }
 
 class DebitCardReIssue extends DebitCardEvent {
-  const DebitCardReIssue();
+  final String cardNumber;
+  final String cardTypeCode;
+  final bool virtualCard;
+  final String nameOnCard;
+
+  const DebitCardReIssue({
+    required this.cardNumber,
+    required this.cardTypeCode,
+    required this.virtualCard,
+    required this.nameOnCard,
+  });
 }
 
 class DebitCardBlock extends DebitCardEvent {
-  const DebitCardBlock();
+  final String cardNumber;
+  final String accountNumber;
+  final String nameOnCard;
+
+  const DebitCardBlock({
+    required this.cardNumber,
+    required this.accountNumber,
+    required this.nameOnCard,
+  });
 }
 
 class DebitCardPinVerify extends DebitCardEvent {
-  const DebitCardPinVerify();
+  final String cardNumber;
+  final String nameOnCard;
+  final String cardPIN;
+  final String accountNumber;
+
+  const DebitCardPinVerify({
+    required this.cardNumber,
+    required this.nameOnCard,
+    required this.cardPIN,
+    required this.accountNumber,
+  });
 }

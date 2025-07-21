@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
@@ -84,6 +85,11 @@ class CardPinVerificationSection extends StatelessWidget {
                         color: colorScheme.onSurface,
                       ),
                       obscureText: true,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(4),
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       onChanged: onCardPinChanged,
                     ),
                   ],

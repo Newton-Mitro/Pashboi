@@ -39,11 +39,11 @@ Token: {{token}}
 }
 
 ### Response
-# {
-#   "Data": {
-#     "OTPRegId": "32513"
-#   },
-#   "Status": "success",
-#   "Message": null
-# }
+{
+  "Data": {
+    "OTPRegId": "32513"
+  },
+  "Status": "success",
+  "Message": null
+}
 

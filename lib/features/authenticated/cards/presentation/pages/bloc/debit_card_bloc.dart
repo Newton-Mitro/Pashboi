@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
@@ -20,6 +23,9 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
   final LockTheCardUseCase lockTheCardUseCase;
   final VerifyCardPinUseCase verifyCardPinUseCase;
   final GetAuthUserUseCase getAuthUserUseCase;
+
+  late UserEntity? user;
+
   DebitCardBloc({
     required this.getMyCardUseCase,
     required this.issueDebitCardUseCase,
@@ -35,34 +41,33 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     on<DebitCardPinVerify>(_onPinVerify);
   }
 
+  Future<UserEntity?> _getUser(Emitter<DebitCardState> emit) async {
+    final authResult = await getAuthUserUseCase.call(NoParams());
+    UserEntity? userEntity;
+
+    authResult.fold(
+      (failure) => emit(DebitCardError('Failed to load user information')),
+      (authData) => userEntity = authData.user,
+    );
+
+    return userEntity;
+  }
+
   Future<void> _onLoad(
     DebitCardLoad event,
     Emitter<DebitCardState> emit,
   ) async {
     emit(DebitCardLoading());
+
     try {
-      final authUser = await getAuthUserUseCase.call(NoParams());
-      UserEntity? user;
-
-      authUser.fold(
-        (left) {
-          emit(DebitCardError('Failed to load user information'));
-        },
-        (right) {
-          user = right.user;
-        },
-      );
-
-      if (user == null) {
-        emit(DebitCardError('User not found'));
-        return;
-      }
+      user = await _getUser(emit);
+      if (user == null) return;
 
       final dataState = await getMyCardUseCase.call(
         GetMyCardUseCaseProps(
           email: user!.loginEmail,
           userId: user!.userId,
-          rolePermissionId: ' 56208',
+          rolePermissionId: user!.roleId,
           personId: user!.personId,
           employeeCode: user!.employeeCode,
           mobileNumber: user!.regMobile,
@@ -70,12 +75,8 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       dataState.fold(
-        (failure) {
-          emit(DebitCardError(failure.message));
-        },
-        (debitCard) {
-          emit(DebitCardLoadingSuccess(debitCard));
-        },
+        (failure) => emit(DebitCardError(failure.message)),
+        (debitCard) => emit(DebitCardLoadingSuccess(debitCard)),
       );
     } catch (e) {
       emit(DebitCardError('Failed to load debit card'));
@@ -87,8 +88,28 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     Emitter<DebitCardState> emit,
   ) async {
     emit(DebitCardRequestProcessing());
+
     try {
-      emit(DebitCardRequestSuccess('Card issued successfully'));
+      user ??= await _getUser(emit);
+      if (user == null) return;
+
+      final result = await issueDebitCardUseCase.call(
+        IssueDebitCardUseCaseProps(
+          email: user!.loginEmail,
+          userId: user!.userId,
+          rolePermissionId: user!.roleId,
+          personId: user!.personId,
+          employeeCode: user!.employeeCode,
+          mobileNumber: user!.regMobile,
+          cardTypeCode: event.cardTypeCode,
+          withCard: event.withCard,
+        ),
+      );
+
+      result.fold(
+        (failure) => emit(DebitCardError(failure.message)),
+        (_) => emit(DebitCardRequestSuccess('Card issued successfully')),
+      );
     } catch (e) {
       emit(DebitCardError('Card issue failed'));
     }
@@ -99,8 +120,27 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     Emitter<DebitCardState> emit,
   ) async {
     emit(DebitCardRequestProcessing());
+
     try {
-      emit(DebitCardRequestSuccess('Card reissued successfully'));
+      final result = await reIssueDebitCardUsecase.call(
+        ReIssueDebitCardUsecaseProps(
+          email: user!.loginEmail,
+          userId: user!.userId,
+          rolePermissionId: user!.roleId,
+          personId: user!.personId,
+          employeeCode: user!.employeeCode,
+          mobileNumber: user!.regMobile,
+          cardTypeCode: event.cardTypeCode,
+          cardNumber: event.cardNumber,
+          virtualCard: event.virtualCard,
+          nameOnCard: event.nameOnCard,
+        ),
+      );
+
+      result.fold(
+        (failure) => emit(DebitCardError(failure.message)),
+        (_) => emit(DebitCardRequestSuccess('Card reissued successfully')),
+      );
     } catch (e) {
       emit(DebitCardError('Card reissue failed'));
     }
@@ -111,8 +151,29 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     Emitter<DebitCardState> emit,
   ) async {
     emit(DebitCardRequestProcessing());
+
     try {
-      emit(DebitCardRequestSuccess('Card blocked successfully'));
+      user ??= await _getUser(emit);
+      if (user == null) return;
+
+      final result = await lockTheCardUseCase.call(
+        LockTheCardUseCaseProps(
+          email: user!.loginEmail,
+          userId: user!.userId,
+          rolePermissionId: user!.roleId,
+          personId: user!.personId,
+          employeeCode: user!.employeeCode,
+          mobileNumber: user!.regMobile,
+          cardNumber: event.cardNumber,
+          accountNumber: event.accountNumber,
+          nameOnCard: event.nameOnCard,
+        ),
+      );
+
+      result.fold(
+        (failure) => emit(DebitCardError(failure.message)),
+        (_) => emit(DebitCardRequestSuccess('Card blocked successfully')),
+      );
     } catch (e) {
       emit(DebitCardError('Failed to block card'));
     }
@@ -123,8 +184,30 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
     Emitter<DebitCardState> emit,
   ) async {
     emit(DebitCardRequestProcessing());
+
     try {
-      emit(DebitCardRequestSuccess('PIN verified'));
+      user ??= await _getUser(emit);
+      if (user == null) return;
+
+      final result = await verifyCardPinUseCase.call(
+        VerifyCardPinUseCaseProps(
+          email: user!.loginEmail,
+          userId: user!.userId,
+          rolePermissionId: user!.roleId,
+          personId: user!.personId,
+          employeeCode: user!.employeeCode,
+          mobileNumber: user!.regMobile,
+          cardNumber: event.cardNumber,
+          nameOnCard: event.nameOnCard,
+          cardPIN: md5.convert(utf8.encode(event.cardPIN.trim())).toString(),
+          accountNumber: event.accountNumber,
+        ),
+      );
+
+      result.fold(
+        (failure) => emit(DebitCardError(failure.message)),
+        (pinRegId) => emit(DebitCardRequestSuccess(pinRegId)),
+      );
     } catch (e) {
       emit(DebitCardError('PIN verification failed'));
     }
