@@ -29,4 +29,5 @@ final class AuthRoutesName {
   static const String addBeneficiaryPage = '/addBeneficiaryPage';
 
   static const String personnelPage = '/personnelPage';
+  static const String changePasswordPage = '/changePasswordPage';
 }

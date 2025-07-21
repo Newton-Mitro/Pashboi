@@ -193,6 +193,10 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                 AuthRoutesName.profilePage,
                               );
                             } else if (value == 1) {
+                              Navigator.pushNamed(
+                                context,
+                                AuthRoutesName.changePasswordPage,
+                              );
                               debugPrint('Change password tapped');
                             } else if (value == 2) {
                               await showDialog(

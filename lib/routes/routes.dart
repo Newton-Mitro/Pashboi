@@ -13,6 +13,9 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
@@ -26,8 +29,6 @@ import 'package:pashboi/features/public/project/domain/entites/project_entity.da
 import 'package:pashboi/features/public/project/presentation/pages/project_details_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/authenticated_home.dart';
-import 'package:pashboi/features/authenticated/profile/presentation/pages/profile_page.dart';
-import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/my_loans_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/loan_details_page.dart';
@@ -164,6 +165,9 @@ class AppRoutes {
 
       case AuthRoutesName.dependentsPage:
         return _materialRoute(DependentsPage());
+
+      case AuthRoutesName.changePasswordPage:
+        return _materialRoute(ChangePassword());
 
       case AuthRoutesName.operatingAccountsPage:
         if (args is Map<String, int>) {

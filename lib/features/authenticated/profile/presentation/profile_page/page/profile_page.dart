@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
-import 'package:pashboi/features/authenticated/profile/presentation/pages/bloc/profile_bloc.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class ProfilePage extends StatefulWidget {
