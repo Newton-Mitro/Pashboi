@@ -42,31 +42,31 @@ class CardPage extends StatelessWidget {
             listeners: [
               BlocListener<DebitCardBloc, DebitCardState>(
                 listener: (context, state) {
-                  if (state is DebitCardRequestSuccess) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  if (state.successMessage != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(state.successMessage!)),
+                    );
                     context.read<DebitCardBloc>().add(const DebitCardLoad());
-                  } else if (state is DebitCardError) {
+                  } else if (state.error != null) {
                     ScaffoldMessenger.of(
                       context,
-                    ).showSnackBar(SnackBar(content: Text(state.error)));
+                    ).showSnackBar(SnackBar(content: Text(state.error!)));
                   }
                 },
               ),
             ],
             child: BlocBuilder<DebitCardBloc, DebitCardState>(
               builder: (context, state) {
-                if (state is DebitCardLoading) {
+                if (state.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                if (state is DebitCardError) {
-                  return Center(child: Text(state.error));
+                if (state.error != null) {
+                  return Center(child: Text(state.error!));
                 }
 
-                if (state is DebitCardLoadingSuccess) {
-                  final card = state.debitCard;
+                if (state.debitCard != null) {
+                  final card = state.debitCard!;
                   final expired = _isExpired(card.expiryDate);
 
                   return Column(

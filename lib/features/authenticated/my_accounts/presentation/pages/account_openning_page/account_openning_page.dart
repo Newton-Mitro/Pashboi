@@ -404,21 +404,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           onCardPinChanged: (val) {},
         ),
       ),
-      StepItem(
-        icon: FontAwesomeIcons.key,
-        widget: OtpVerificationSection(
-          otpControllers: _otpControllers,
-          focusNodes: _focusNodes,
-          isWaiting: _isWaiting,
-          otpDuration: _otpDuration,
-          countDownController: _countDownController,
-          otpError: _otpError,
-          onResendOtp: _resendOTP,
-          onOtpChanged: _onOtpChanged,
-          clearOtpFields: _clearOtpFields,
-          onOtpComplete: _onOtpComplete,
-        ),
-      ),
+      StepItem(icon: FontAwesomeIcons.key, widget: OtpVerificationSection()),
     ];
   }
 

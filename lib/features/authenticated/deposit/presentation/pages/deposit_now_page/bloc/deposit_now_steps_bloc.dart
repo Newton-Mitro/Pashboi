@@ -22,6 +22,7 @@ class DepositNowStepsBloc
     on<ResetDepositNowFlow>(_onResetFlow);
     // update lps amount
     on<UpdateLpsAmount>(_onUpdateLpsAmount);
+    on<DepositNowValidateStep>(_onValidateStep);
   }
 
   void _onGoToNextStep(
@@ -181,6 +182,22 @@ class DepositNowStepsBloc
         }).toList();
 
     emit(state.copyWith(collectionLedgers: updatedLedgers));
+  }
+
+  void _onValidateStep(
+    DepositNowValidateStep event,
+    Emitter<DepositNowStepsState> emit,
+  ) {
+    final step = event.step ?? state.currentStep;
+
+    final errors = _validateDepositNowSteps(step);
+    final updatedValidationErrors = Map<int, Map<String, dynamic>>.from(
+      state.validationErrors,
+    );
+
+    updatedValidationErrors[step] = errors;
+
+    emit(state.copyWith(validationErrors: updatedValidationErrors));
   }
 
   Map<String, dynamic> _validateDepositNowSteps(int step) {

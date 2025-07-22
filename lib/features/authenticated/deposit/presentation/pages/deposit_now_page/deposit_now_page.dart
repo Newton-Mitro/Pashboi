@@ -84,20 +84,23 @@ class _DepositNowPageState extends State<DepositNowPage> {
       listeners: [
         BlocListener<DebitCardBloc, DebitCardState>(
           listener: (context, state) {
-            if (state is DebitCardRequestSuccess) {
+            if (state.successMessage != null) {
               context.read<DepositNowStepsBloc>().add(
-                UpdateStepData(step: 4, data: {'OTPRegId': state.message}),
+                UpdateStepData(
+                  step: 4,
+                  data: {'OTPRegId': state.successMessage},
+                ),
               );
               context.read<DepositNowStepsBloc>().add(DepositNowGoToNextStep());
             }
-            if (state is DebitCardError) {
+            if (state.error != null) {
               final snackBar = SnackBar(
                 elevation: 0,
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.transparent,
                 content: AwesomeSnackbarContent(
                   title: 'Oops!',
-                  message: state.error,
+                  message: state.error!,
                   contentType: ContentType.failure,
                 ),
               );
@@ -119,105 +122,131 @@ class _DepositNowPageState extends State<DepositNowPage> {
 
           return Scaffold(
             appBar: AppBar(title: const Text('Deposit Now')),
-            body: PageContainer(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 15,
-                    ),
-                    child: _buildProgressStepper(width, depositNowStepsState),
-                  ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
-                        transitionBuilder:
-                            (child, animation) => SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(1, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: child,
-                            ),
-                        child: KeyedSubtree(
-                          key: ValueKey(depositNowStepsState.currentStep),
-                          child:
-                              _buildSteps(
-                                depositNowStepsState,
-                              )[depositNowStepsState.currentStep].widget,
+            body: Stack(
+              children: [
+                PageContainer(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 15,
+                        ),
+                        child: _buildProgressStepper(
+                          width,
+                          depositNowStepsState,
                         ),
                       ),
-                    ),
-                  ),
-                  SafeArea(
-                    maintainBottomViewPadding: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 15,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          isFirstStep
-                              ? const SizedBox(width: 100)
-                              : AppPrimaryButton(
-                                horizontalPadding: 10,
-                                iconBefore: const Icon(
-                                  FontAwesomeIcons.angleLeft,
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            transitionBuilder:
+                                (child, animation) => SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(1, 0),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: child,
                                 ),
-                                label: "Previous",
-                                onPressed: () {
-                                  context.read<DepositNowStepsBloc>().add(
-                                    DepositNowGoToPreviousStep(),
-                                  );
-                                },
-                              ),
-                          isLastStep
-                              ? const SizedBox(width: 100)
-                              : AppPrimaryButton(
-                                horizontalPadding: 10,
-                                iconAfter: const Icon(
-                                  FontAwesomeIcons.angleRight,
-                                ),
-                                label: "Next",
-                                onPressed: () {
-                                  if (depositNowStepsState.currentStep == 4) {
-                                    context.read<DebitCardBloc>().add(
-                                      DebitCardPinVerify(
-                                        accountNumber:
-                                            depositNowStepsState
-                                                .stepData[0]?['transferFromAccount'],
-                                        cardNumber:
-                                            depositNowStepsState
-                                                .stepData[0]?['selectedCardNumber'],
-                                        nameOnCard:
-                                            depositNowStepsState
-                                                .stepData[0]?['accountOperatorName'],
-                                        cardPIN:
-                                            depositNowStepsState
-                                                .stepData[depositNowStepsState
-                                                .currentStep]?['cardPin'],
-                                      ),
-                                    );
-                                    print("Submitting Card PIN Verification");
-                                    return;
-                                  }
-                                  context.read<DepositNowStepsBloc>().add(
-                                    DepositNowGoToNextStep(),
-                                  );
-                                },
-                              ),
-                        ],
+                            child: KeyedSubtree(
+                              key: ValueKey(depositNowStepsState.currentStep),
+                              child:
+                                  _buildSteps(
+                                    depositNowStepsState,
+                                  )[depositNowStepsState.currentStep].widget,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      SafeArea(
+                        maintainBottomViewPadding: true,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 15,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              isFirstStep
+                                  ? const SizedBox(width: 100)
+                                  : AppPrimaryButton(
+                                    horizontalPadding: 10,
+                                    iconBefore: const Icon(
+                                      FontAwesomeIcons.angleLeft,
+                                    ),
+                                    label: "Previous",
+                                    onPressed: () {
+                                      context.read<DepositNowStepsBloc>().add(
+                                        DepositNowGoToPreviousStep(),
+                                      );
+                                    },
+                                  ),
+                              isLastStep
+                                  ? const SizedBox(width: 100)
+                                  : AppPrimaryButton(
+                                    horizontalPadding: 10,
+                                    iconAfter: const Icon(
+                                      FontAwesomeIcons.angleRight,
+                                    ),
+                                    label: "Next",
+                                    onPressed: () {
+                                      if (depositNowStepsState.currentStep ==
+                                          4) {
+                                        context.read<DepositNowStepsBloc>().add(
+                                          DepositNowValidateStep(4),
+                                        );
+                                        context.read<DebitCardBloc>().add(
+                                          DebitCardPinVerify(
+                                            accountNumber:
+                                                depositNowStepsState
+                                                    .stepData[0]?['transferFromAccount'],
+                                            cardNumber:
+                                                depositNowStepsState
+                                                    .stepData[0]?['selectedCardNumber'],
+                                            nameOnCard:
+                                                depositNowStepsState
+                                                    .stepData[0]?['accountOperatorName'],
+                                            cardPIN:
+                                                depositNowStepsState
+                                                    .stepData[depositNowStepsState
+                                                    .currentStep]?['cardPin'],
+                                          ),
+                                        );
+                                        print(
+                                          "Submitting Card PIN Verification",
+                                        );
+                                        return;
+                                      }
+                                      context.read<DepositNowStepsBloc>().add(
+                                        DepositNowGoToNextStep(),
+                                      );
+                                    },
+                                  ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                BlocBuilder<DebitCardBloc, DebitCardState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return Container(
+                        color: Colors.black.withOpacity(0.4),
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    } else if (state.error != null) {
+                      return const SizedBox.shrink();
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ],
             ),
             bottomNavigationBar:
                 isLastStep ? _buildSubmitButton(width, context) : null,
@@ -382,21 +411,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
           },
         ),
       ),
-      StepItem(
-        icon: FontAwesomeIcons.key,
-        widget: OtpVerificationSection(
-          otpControllers: _otpControllers,
-          focusNodes: _focusNodes,
-          isWaiting: _isWaiting,
-          otpDuration: _otpDuration,
-          countDownController: _countDownController,
-          otpError: state.validationErrors[state.currentStep]?['otpError'],
-          onResendOtp: _resendOTP,
-          onOtpChanged: _onOtpChanged,
-          clearOtpFields: _clearOtpFields,
-          onOtpComplete: _onOtpComplete,
-        ),
-      ),
+      StepItem(icon: FontAwesomeIcons.key, widget: OtpVerificationSection()),
     ];
   }
 
