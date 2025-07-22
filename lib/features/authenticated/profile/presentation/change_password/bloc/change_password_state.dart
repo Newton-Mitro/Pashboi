@@ -28,3 +28,12 @@ final class ChangePasswordError extends ChangePasswordState {
   @override
   List<Object> get props => [message];
 }
+
+final class ChangePasswordValidationError extends ChangePasswordState {
+  final Map<String, String> errors;
+
+  const ChangePasswordValidationError(this.errors);
+
+  @override
+  List<Object> get props => [errors];
+}

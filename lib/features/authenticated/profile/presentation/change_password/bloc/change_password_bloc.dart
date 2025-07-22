@@ -27,6 +27,25 @@ class ChangePasswordBloc
     ChangePasswordSubmitted event,
     Emitter<ChangePasswordState> emit,
   ) async {
+    final errors = <String, String>{};
+
+    if (event.currentPassword.trim().isEmpty) {
+      errors['currentPassword'] = 'Current password is required';
+    }
+    if (event.newPassword.trim().isEmpty) {
+      errors['newPassword'] = 'New password is required';
+    }
+    if (event.confirmPassword.trim().isEmpty) {
+      errors['confirmPassword'] = 'Confirm password is required';
+    }
+    if (event.newPassword != event.confirmPassword) {
+      errors['confirmPassword'] = 'Passwords do not match';
+    }
+    if (errors.isNotEmpty) {
+      emit(ChangePasswordValidationError(errors));
+      return;
+    }
+
     emit(ChangePasswordLoading());
 
     final userResult = await getAuthUserUseCase(NoParams());
