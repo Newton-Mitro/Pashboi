@@ -5,14 +5,22 @@ class DepositNowStepsState extends Equatable {
   final Map<int, Map<String, dynamic>> validationErrors;
   final Map<int, Map<String, dynamic>> stepData;
   final List<CollectionLedgerEntity> collectionLedgers;
+  final DepositAccountEntity? selectedAccount;
+  final DebitCardEntity? selectedCard;
   final bool isLoading;
+  final String? error;
+  final String? successMessage;
 
   const DepositNowStepsState({
     required this.currentStep,
+    this.selectedAccount,
+    this.selectedCard,
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
     bool? isLoading,
+    this.error,
+    this.successMessage,
   }) : validationErrors = validationErrors ?? const {},
        stepData = stepData ?? const {},
        isLoading = isLoading ?? false,
@@ -23,14 +31,22 @@ class DepositNowStepsState extends Equatable {
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
+    DepositAccountEntity? selectedAccount,
+    DebitCardEntity? selectedCard,
     bool? isLoading,
+    String? error,
+    String? successMessage,
   }) {
     return DepositNowStepsState(
       currentStep: currentStep ?? this.currentStep,
       validationErrors: validationErrors ?? this.validationErrors,
       stepData: stepData ?? this.stepData,
       collectionLedgers: collectionLedgers ?? this.collectionLedgers,
+      selectedAccount: selectedAccount ?? this.selectedAccount,
+      selectedCard: selectedCard ?? this.selectedCard,
       isLoading: isLoading ?? this.isLoading,
+      error: error,
+      successMessage: successMessage,
     );
   }
 
@@ -40,6 +56,10 @@ class DepositNowStepsState extends Equatable {
     validationErrors,
     stepData,
     collectionLedgers,
+    selectedAccount,
+    selectedCard,
     isLoading,
+    error,
+    successMessage,
   ];
 }

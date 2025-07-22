@@ -77,4 +77,24 @@ class UpdateLpsAmount extends DepositNowStepsEvent {
   List<Object> get props => [loanNumber, newAmount];
 }
 
+class SelectCardAccount extends DepositNowStepsEvent {
+  final DepositAccountEntity selectedCardAccount;
+
+  const SelectCardAccount(this.selectedCardAccount);
+
+  @override
+  List<Object> get props => [selectedCardAccount];
+}
+
+class SelectDebitCard extends DepositNowStepsEvent {
+  final DebitCardEntity selectedCard;
+
+  const SelectDebitCard(this.selectedCard);
+
+  @override
+  List<Object> get props => [selectedCard];
+}
+
 class ResetDepositNowFlow extends DepositNowStepsEvent {}
+
+class SubmitDepositNow extends DepositNowStepsEvent {}

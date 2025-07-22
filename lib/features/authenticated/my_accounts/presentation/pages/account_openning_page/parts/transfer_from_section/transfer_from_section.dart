@@ -19,8 +19,8 @@ class TransferFromSection extends StatelessWidget {
 
   final String? selectedCardNumber;
   final String? accountTypeName;
-  final String? accountBalance;
-  final String? accountWithdrawable;
+  final double accountBalance;
+  final double accountWithdrawable;
   final String? accountOperatorName;
   final String? accountHolderName;
   final String? accountName;
@@ -152,7 +152,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          initialValue: accountBalance,
+                          initialValue: accountBalance.toString(),
                           enabled: false,
                           label: "Available Balance",
                           prefixIcon: Icon(
@@ -162,7 +162,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          initialValue: accountWithdrawable,
+                          initialValue: accountWithdrawable.toString(),
                           enabled: false,
                           label: "Withdrawable Balance",
                           prefixIcon: Icon(

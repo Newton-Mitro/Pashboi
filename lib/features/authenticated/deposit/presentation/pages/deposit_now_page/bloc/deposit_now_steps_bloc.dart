@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pashboi/core/usecases/usecase.dart';
+import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
+import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 part 'deposit_now_setps_event.dart';
 part 'deposit_now_steps_state.dart';
 
@@ -10,8 +18,13 @@ class DepositNowStepsBloc
   static const int firstStep = 0;
   static const int lastStep = 5;
   static const int totalSteps = lastStep + 1;
+  final GetAuthUserUseCase getAuthUserUseCase;
+  final SubmitDepositNowUseCase submitDepositNowUseCase;
 
-  DepositNowStepsBloc() : super(const DepositNowStepsState(currentStep: 0)) {
+  DepositNowStepsBloc({
+    required this.getAuthUserUseCase,
+    required this.submitDepositNowUseCase,
+  }) : super(const DepositNowStepsState(currentStep: 0)) {
     on<DepositNowGoToNextStep>(_onGoToNextStep);
     on<DepositNowGoToPreviousStep>(_onGoToPreviousStep);
     on<UpdateStepData>(_onUpdateStepData);
@@ -20,9 +33,12 @@ class DepositNowStepsBloc
     on<ToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
     on<UpdateLedgerAmount>(_onUpdateLedgerAmount);
     on<ResetDepositNowFlow>(_onResetFlow);
+    on<SelectCardAccount>(_onSelectCardAccount);
+    on<SelectDebitCard>(_onSelectDebitCard);
     // update lps amount
     on<UpdateLpsAmount>(_onUpdateLpsAmount);
     on<DepositNowValidateStep>(_onValidateStep);
+    on<SubmitDepositNow>(_onSubmitDepositNow);
   }
 
   void _onGoToNextStep(
@@ -168,6 +184,20 @@ class DepositNowStepsBloc
     emit(const DepositNowStepsState(currentStep: 0));
   }
 
+  void _onSelectCardAccount(
+    SelectCardAccount event,
+    Emitter<DepositNowStepsState> emit,
+  ) {
+    emit(state.copyWith(selectedAccount: event.selectedCardAccount));
+  }
+
+  void _onSelectDebitCard(
+    SelectDebitCard event,
+    Emitter<DepositNowStepsState> emit,
+  ) {
+    emit(state.copyWith(selectedCard: event.selectedCard));
+  }
+
   void _onUpdateLpsAmount(
     UpdateLpsAmount event,
     Emitter<DepositNowStepsState> emit,
@@ -188,7 +218,7 @@ class DepositNowStepsBloc
     DepositNowValidateStep event,
     Emitter<DepositNowStepsState> emit,
   ) {
-    final step = event.step ?? state.currentStep;
+    final step = event.step;
 
     final errors = _validateDepositNowSteps(step);
     final updatedValidationErrors = Map<int, Map<String, dynamic>>.from(
@@ -200,14 +230,76 @@ class DepositNowStepsBloc
     emit(state.copyWith(validationErrors: updatedValidationErrors));
   }
 
+  void _onSubmitDepositNow(
+    SubmitDepositNow event,
+    Emitter<DepositNowStepsState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+
+    try {
+      final authUserResult = await getAuthUserUseCase.call(NoParams());
+
+      if (authUserResult.isLeft()) {
+        emit(state.copyWith(error: 'User not found', isLoading: false));
+        return;
+      }
+
+      final user = authUserResult.getOrElse(() => throw Exception()).user;
+
+      final totalAmount = state.collectionLedgers
+          .where((ledger) => ledger.isSelected)
+          .fold<double>(0.0, (sum, ledger) => sum + ledger.depositAmount);
+
+      final accountResult = await submitDepositNowUseCase.call(
+        SubmitDepositNowProps(
+          email: user.loginEmail,
+          userId: user.userId,
+          rolePermissionId: user.roleId,
+          personId: user.personId,
+          employeeCode: user.employeeCode,
+          mobileNumber: user.regMobile,
+          accountNumber: state.selectedAccount!.number,
+          accountHolderName:
+              state.selectedCard!.nameOnCard.toLowerCase().trim(),
+          accountId: state.selectedAccount!.id,
+          accountType: state.selectedAccount!.typeName,
+          cardNumber: state.selectedCard!.cardNumber,
+          depositDate: DateTime.now().toIso8601String(),
+          ledgerId: state.selectedAccount!.ledgerId,
+          cardPin:
+              md5
+                  .convert(utf8.encode(state.stepData[4]?['cardPin'].trim()))
+                  .toString(),
+          totalDepositAmount: totalAmount,
+          transactionMethod: '12',
+          otpRegId: state.stepData[4]?['OTPRegId'],
+          otpValue: state.stepData[5]?['OTP'],
+          transactionType: 'DepositRequest',
+          collectionLedgers: state.collectionLedgers,
+        ),
+      );
+
+      accountResult.fold(
+        (failure) =>
+            emit(state.copyWith(error: failure.message, isLoading: false)),
+        (message) =>
+            emit(state.copyWith(successMessage: message, isLoading: false)),
+      );
+    } catch (_) {
+      emit(
+        state.copyWith(error: 'Failed to submit deposit now', isLoading: false),
+      );
+    }
+  }
+
   Map<String, dynamic> _validateDepositNowSteps(int step) {
     final data = state.stepData[step] ?? {};
     final errors = <String, dynamic>{};
 
     switch (step) {
       case 0:
-        if (data['transferFromAccount'] == null ||
-            data['transferFromAccount'].toString().isEmpty) {
+        if (state.selectedAccount == null ||
+            state.selectedAccount!.number.isEmpty) {
           errors['transferFromAccount'] = 'Select an account to transfer from';
         }
         break;
@@ -259,9 +351,10 @@ class DepositNowStepsBloc
               (sum, ledger) => sum + (ledger.depositAmount),
             );
 
-            final totalWithdrawable = double.parse(
-              state.stepData[0]?['accountWithdrawable'] ?? '0',
-            );
+            final totalWithdrawable =
+                state.selectedAccount != null
+                    ? state.selectedAccount!.withdrawableBalance
+                    : 0;
 
             if (totalDeposit > totalWithdrawable) {
               errors['ledgers'] =
