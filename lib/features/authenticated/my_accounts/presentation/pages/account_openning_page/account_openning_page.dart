@@ -404,7 +404,10 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           onCardPinChanged: (val) {},
         ),
       ),
-      StepItem(icon: FontAwesomeIcons.key, widget: OtpVerificationSection()),
+      StepItem(
+        icon: FontAwesomeIcons.key,
+        widget: OtpVerificationSection(resendOTP: () {}),
+      ),
     ];
   }
 

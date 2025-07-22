@@ -13,8 +13,8 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     : super(
         OtpState(
           otpValues: List.generate(otpLength, (_) => ''),
-          isWaiting: true,
-          countdownRemaining: 30,
+          isWaiting: false,
+          countdownRemaining: 0,
         ),
       ) {
     on<OtpDigitChanged>(_onDigitChanged);
@@ -22,6 +22,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     on<StartOtpCountdown>(_onStartCountdown);
     on<TickOtpCountdown>(_onTick);
     on<ResendOtpRequested>(_onResend);
+    add(StartOtpCountdown());
   }
 
   void _onDigitChanged(OtpDigitChanged event, Emitter<OtpState> emit) {
@@ -41,29 +42,31 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
 
   void _onStartCountdown(StartOtpCountdown event, Emitter<OtpState> emit) {
     _countdownTimer?.cancel();
-    const int duration = 30;
+    const duration = 30;
+
+    emit(state.copyWith(isWaiting: true, countdownRemaining: duration));
 
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final remaining = duration - timer.tick;
       if (remaining <= 0) {
         timer.cancel();
+        add(TickOtpCountdown(0)); // ⏰ Time’s up
+      } else {
+        add(TickOtpCountdown(remaining));
       }
-      add(TickOtpCountdown(remaining));
     });
-
-    emit(state.copyWith(isWaiting: true, countdownRemaining: duration));
   }
 
   void _onTick(TickOtpCountdown event, Emitter<OtpState> emit) {
-    if (event.remaining <= 0) {
-      emit(state.copyWith(isWaiting: false, countdownRemaining: 0));
-    } else {
-      emit(state.copyWith(countdownRemaining: event.remaining));
-    }
+    emit(
+      state.copyWith(
+        countdownRemaining: event.remaining,
+        isWaiting: event.remaining > 0,
+      ),
+    );
   }
 
   void _onResend(ResendOtpRequested event, Emitter<OtpState> emit) {
-    // Trigger API resend if needed, e.g. repository call
     add(StartOtpCountdown());
   }
 

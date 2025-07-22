@@ -6,7 +6,8 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section/bloc/otp_bloc.dart';
 
 class OtpVerificationSection extends StatefulWidget {
-  const OtpVerificationSection({super.key});
+  final void Function() resendOTP;
+  const OtpVerificationSection({super.key, required this.resendOTP});
 
   @override
   State<OtpVerificationSection> createState() => _OtpVerificationSectionState();
@@ -21,7 +22,10 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
   @override
   void initState() {
     super.initState();
-    final otpLength = context.read<OtpBloc>().state.otpValues.length;
+
+    final otpState = context.read<OtpBloc>().state;
+    final otpLength = otpState.otpValues.length;
+
     _otpControllers = List.generate(otpLength, (_) => TextEditingController());
     _focusNodes = List.generate(otpLength, (_) => FocusNode());
     _countDownController = CountDownController();
@@ -33,15 +37,14 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
         }
       });
     }
-  }
+    context.read<OtpBloc>().add(ClearOtpFields());
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final otpState = context.read<OtpBloc>().state;
+    // ✅ Start countdown immediately if state is already waiting
     if (otpState.isWaiting && !_hasStartedCountdown) {
-      _countDownController.start();
-      _hasStartedCountdown = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _countDownController.start();
+        _hasStartedCountdown = true;
+      });
     }
   }
 
@@ -65,8 +68,10 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
         if (state.isWaiting) {
           _hasStartedCountdown = false;
           Future.microtask(() {
-            _countDownController.restart(duration: state.countdownRemaining);
-            _hasStartedCountdown = true;
+            if (state.countdownRemaining > 0) {
+              _countDownController.restart(duration: state.countdownRemaining);
+              _hasStartedCountdown = true;
+            }
           });
         }
       },
@@ -205,18 +210,24 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
                                   height: 60,
                                   ringColor: Colors.grey.shade300,
                                   fillColor:
-                                      context.theme.colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   backgroundColor: Colors.transparent,
                                   strokeWidth: 6.0,
                                   strokeCap: StrokeCap.round,
                                   isTimerTextShown: true,
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: context.theme.colorScheme.onSurface,
-                                  ),
                                   isReverse: true,
-                                  autoStart: false,
-                                  onComplete: () {},
+                                  isReverseAnimation: true,
+                                  autoStart: true,
+                                  textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: context.theme.colorScheme.onPrimary,
+                                  ),
+                                  onComplete: () {
+                                    context.read<OtpBloc>().add(
+                                      TickOtpCountdown(0),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
@@ -231,23 +242,32 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
                               ],
                             )
                           else
-                            TextButton(
-                              onPressed: () {
-                                context.read<OtpBloc>().add(ClearOtpFields());
-                                context.read<OtpBloc>().add(
-                                  ResendOtpRequested(),
-                                );
-                              },
-                              child: Text(
-                                Locales.string(
-                                  context,
-                                  "otp_verification_page_reseend_otp_button",
+                            Column(
+                              children: [
+                                Text("Don't receive the OTP?"),
+                                TextButton(
+                                  onPressed: () {
+                                    context.read<OtpBloc>().add(
+                                      ClearOtpFields(),
+                                    );
+                                    context.read<OtpBloc>().add(
+                                      ResendOtpRequested(),
+                                    );
+                                    widget.resendOTP();
+                                  },
+                                  child: Text(
+                                    Locales.string(
+                                      context,
+                                      "otp_verification_page_reseend_otp_button",
+                                    ),
+                                    style: TextStyle(
+                                      color:
+                                          context.theme.colorScheme.onSurface,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
                                 ),
-                                style: TextStyle(
-                                  color: context.theme.colorScheme.onSurface,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
+                              ],
                             ),
                         ],
                       ),

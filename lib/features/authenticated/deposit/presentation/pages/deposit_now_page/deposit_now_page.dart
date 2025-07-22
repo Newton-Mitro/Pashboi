@@ -11,10 +11,10 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposi
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/search_ledgers_section/search_ledgers_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section/card_pin_verification_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section/otp_verification_section.dart';
@@ -32,14 +32,6 @@ class DepositNowPage extends StatefulWidget {
 }
 
 class _DepositNowPageState extends State<DepositNowPage> {
-  static const int _otpDuration = 60;
-  static const int _otpLength = 6;
-
-  late final List<TextEditingController> _otpControllers;
-  late final List<FocusNode> _focusNodes;
-  late final CountDownController _countDownController;
-  bool _isWaiting = true;
-
   Widget _buildProgressStepper(double width, DepositNowStepsState state) {
     final theme = context.theme.colorScheme;
 
@@ -108,6 +100,16 @@ class _DepositNowPageState extends State<DepositNowPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
+            }
+          },
+        ),
+        BlocListener<OtpBloc, OtpState>(
+          listener: (context, state) {
+            if (state.otpValues.length == 6 &&
+                state.otpValues.every((digit) => digit.isNotEmpty)) {
+              context.read<DepositNowStepsBloc>().add(
+                UpdateStepData(step: 5, data: {'OTP': state.otpValues.join()}),
+              );
             }
           },
         ),
@@ -199,23 +201,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
                                         context.read<DepositNowStepsBloc>().add(
                                           DepositNowValidateStep(4),
                                         );
-                                        context.read<DebitCardBloc>().add(
-                                          DebitCardPinVerify(
-                                            accountNumber:
-                                                depositNowStepsState
-                                                    .stepData[0]?['transferFromAccount'],
-                                            cardNumber:
-                                                depositNowStepsState
-                                                    .stepData[0]?['selectedCardNumber'],
-                                            nameOnCard:
-                                                depositNowStepsState
-                                                    .stepData[0]?['accountOperatorName'],
-                                            cardPIN:
-                                                depositNowStepsState
-                                                    .stepData[depositNowStepsState
-                                                    .currentStep]?['cardPin'],
-                                          ),
-                                        );
+                                        _verifyCardPIN(depositNowStepsState);
                                         print(
                                           "Submitting Card PIN Verification",
                                         );
@@ -258,14 +244,12 @@ class _DepositNowPageState extends State<DepositNowPage> {
 
   @override
   void dispose() {
-    _disposeControllers();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _initializeControllers();
     context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
     context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
   }
@@ -273,6 +257,19 @@ class _DepositNowPageState extends State<DepositNowPage> {
   void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
     context.read<DepositNowStepsBloc>().add(
       SetCollectionLedgers(ledgers: newLedgers),
+    );
+  }
+
+  void _verifyCardPIN(DepositNowStepsState depositNowStepsState) {
+    context.read<DebitCardBloc>().add(
+      DebitCardPinVerify(
+        accountNumber: depositNowStepsState.stepData[0]?['transferFromAccount'],
+        cardNumber: depositNowStepsState.stepData[0]?['selectedCardNumber'],
+        nameOnCard: depositNowStepsState.stepData[0]?['accountOperatorName'],
+        cardPIN:
+            depositNowStepsState.stepData[depositNowStepsState
+                .currentStep]?['cardPin'],
+      ),
     );
   }
 
@@ -411,7 +408,14 @@ class _DepositNowPageState extends State<DepositNowPage> {
           },
         ),
       ),
-      StepItem(icon: FontAwesomeIcons.key, widget: OtpVerificationSection()),
+      StepItem(
+        icon: FontAwesomeIcons.key,
+        widget: OtpVerificationSection(
+          resendOTP: () {
+            _verifyCardPIN(state);
+          },
+        ),
+      ),
     ];
   }
 
@@ -428,61 +432,6 @@ class _DepositNowPageState extends State<DepositNowPage> {
         label: 'Hold & Press to Submit',
         onSubmit: _submitOpenAnAccount,
       ),
-    );
-  }
-
-  void _clearOtpFields() {
-    for (final controller in _otpControllers) {
-      controller.clear();
-    }
-  }
-
-  void _disposeControllers() {
-    try {
-      _countDownController.pause();
-    } catch (_) {}
-
-    for (final controller in _otpControllers) {
-      controller.dispose();
-    }
-    for (final focusNode in _focusNodes) {
-      focusNode.dispose();
-    }
-  }
-
-  void _initializeControllers() {
-    _otpControllers = List.generate(_otpLength, (_) => TextEditingController());
-    _focusNodes = List.generate(_otpLength, (_) => FocusNode());
-    _countDownController = CountDownController();
-    _countDownController.start();
-
-    for (int i = 0; i < _focusNodes.length; i++) {
-      _focusNodes[i].addListener(() {
-        if (_focusNodes[i].hasFocus) {
-          _otpControllers[i].clear();
-        }
-      });
-    }
-  }
-
-  void _onOtpChanged(String value, int index) {
-    if (value.isNotEmpty && index < _otpLength - 1) {
-      FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
-    } else if (value.isEmpty && index > 0) {
-      FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
-    }
-  }
-
-  void _onOtpComplete() {}
-
-  void _resendOTP() {
-    setState(() => _isWaiting = true);
-    try {
-      _countDownController.restart(duration: _otpDuration);
-    } catch (_) {}
-
-    context.read<VerifyMobileNumberBloc>().add(
-      SubmitMobileNumber(mobileNumber: "0123456789", isRegistered: true),
     );
   }
 
