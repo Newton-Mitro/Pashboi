@@ -39,6 +39,11 @@ Token: {{token}}
   "TotalAmount": 0.0,
   "TotalDepositAmount": 2900.0,
   "TransactionMethod": "12",
+  "OTPRegId": "92012",
+  "OTPValue": "121212",
+  "TransactionType": "DepositRequest",
+  "AccountNo": "L-0001356",
+  
   "TransactionModels": [
     {
       "AccountId": 133974,
@@ -111,18 +116,12 @@ Token: {{token}}
       "PlType": 1
     }
   ],
-  "TransactionType": "DepositRequest",
-  "AccountNo": "L-0001356",
-  "Gender": "M",
-  "IncludeSelf": false,
+  
+
   "ByUserId": 14,
-  "DeviceRegId": "16659",
   "EmployeeCode": "1224",
-  "IMEI": "5b991844dc0b8968 - 9940ef34-d131-428c-a5a2-18c0a1071977",
   "MobileNo": "+880-1683670118",
   "MobileNumber": "+880-1683670118",
-  "OTPRegId": "92012",
-  "OTPValue": "121212",
   "PersonId": 20528,
   "RequestFrom": "MMS",
   "RequestTime": "Jan 11, 2024 5:06:53 PM",

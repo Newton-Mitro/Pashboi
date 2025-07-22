@@ -2,7 +2,6 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
@@ -113,6 +112,44 @@ class _DepositNowPageState extends State<DepositNowPage> {
             }
           },
         ),
+        BlocListener<DepositNowStepsBloc, DepositNowStepsState>(
+          listener: (context, state) {
+            if (state.error != null) {
+              final snackBar = SnackBar(
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Oops!',
+                  message: state.error!,
+                  contentType: ContentType.failure,
+                ),
+              );
+
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            }
+
+            if (state.successMessage != null) {
+              Navigator.of(context).pop();
+              final snackBar = SnackBar(
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Oops!',
+                  message: state.successMessage!,
+                  contentType: ContentType.success,
+                ),
+              );
+
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            }
+          },
+        ),
       ],
 
       child: BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
@@ -202,9 +239,6 @@ class _DepositNowPageState extends State<DepositNowPage> {
                                           DepositNowValidateStep(4),
                                         );
                                         _verifyCardPIN(depositNowStepsState);
-                                        print(
-                                          "Submitting Card PIN Verification",
-                                        );
                                         return;
                                       }
                                       context.read<DepositNowStepsBloc>().add(
@@ -263,9 +297,10 @@ class _DepositNowPageState extends State<DepositNowPage> {
   void _verifyCardPIN(DepositNowStepsState depositNowStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
-        accountNumber: depositNowStepsState.stepData[0]?['transferFromAccount'],
-        cardNumber: depositNowStepsState.stepData[0]?['selectedCardNumber'],
-        nameOnCard: depositNowStepsState.stepData[0]?['accountOperatorName'],
+        accountNumber: depositNowStepsState.selectedAccount!.number,
+        cardNumber: depositNowStepsState.selectedCard!.cardNumber,
+        nameOnCard:
+            depositNowStepsState.selectedCard!.nameOnCard.toLowerCase().trim(),
         cardPIN:
             depositNowStepsState.stepData[depositNowStepsState
                 .currentStep]?['cardPin'],
@@ -279,41 +314,31 @@ class _DepositNowPageState extends State<DepositNowPage> {
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
         widget: TransferFromSection(
-          accountNumber:
-              state.stepData[state.currentStep]?['transferFromAccount'],
+          accountNumber: state.selectedAccount?.number,
           accountError:
               state.validationErrors[state.currentStep]?['transferFromAccount'],
           onAccountChanged: (debitCard, selectedAccount) {
             context.read<DepositNowStepsBloc>().add(
-              UpdateStepData(
-                step: state.currentStep,
-                data: {
-                  'transferFromAccount': selectedAccount.number,
-                  'selectedCardNumber': debitCard.cardNumber,
-                  'accountType': selectedAccount.typeName,
-                  'accountBalance': selectedAccount.balance.toString(),
-                  'accountWithdrawable':
-                      selectedAccount.withdrawableBalance.toString(),
-                  'accountOperatorName':
-                      debitCard.nameOnCard.trim().toTitleCase(),
-                  'accountHolderName':
-                      debitCard.nameOnCard.trim().toTitleCase(),
-                  'accountName': debitCard.nameOnCard.trim().toTitleCase(),
-                },
-              ),
+              SelectCardAccount(selectedAccount),
             );
+            context.read<DepositNowStepsBloc>().add(SelectDebitCard(debitCard));
           },
-          selectedCardNumber:
-              state.stepData[state.currentStep]?['selectedCardNumber'],
-          accountTypeName: state.stepData[state.currentStep]?['accountType'],
-          accountBalance: state.stepData[state.currentStep]?['accountBalance'],
+
+          selectedCardNumber: state.selectedCard?.cardNumber,
+          accountTypeName: state.selectedAccount?.typeName,
+          accountBalance:
+              state.selectedAccount != null
+                  ? state.selectedAccount!.balance
+                  : 0,
           accountWithdrawable:
-              state.stepData[state.currentStep]?['accountWithdrawable'],
+              state.selectedAccount != null
+                  ? state.selectedAccount!.withdrawableBalance
+                  : 0,
           accountOperatorName:
-              state.stepData[state.currentStep]?['accountOperatorName'],
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
           accountHolderName:
-              state.stepData[state.currentStep]?['accountHolderName'],
-          accountName: state.stepData[state.currentStep]?['accountName'],
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
+          accountName: state.selectedCard?.nameOnCard.toTitleCase().trim(),
         ),
       ),
       StepItem(
@@ -397,7 +422,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
       StepItem(
         icon: FontAwesomeIcons.creditCard,
         widget: CardPinVerificationSection(
-          cardNumber: state.stepData[0]?['selectedCardNumber'],
+          cardNumber: state.selectedCard?.cardNumber,
           cardNumberError: state.validationErrors[0]?['selectedCardNumber'],
           cardPin: state.stepData[state.currentStep]?['cardPin'],
           cardPinError: state.validationErrors[state.currentStep]?['cardPin'],
@@ -422,18 +447,26 @@ class _DepositNowPageState extends State<DepositNowPage> {
   Widget _buildSubmitButton(double width, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: ProgressSubmitButton(
-        width: width - 10,
-        height: 100,
-        enabled: true,
-        backgroundColor: context.theme.colorScheme.primary,
-        progressColor: context.theme.colorScheme.secondary,
-        foregroundColor: context.theme.colorScheme.onPrimary,
-        label: 'Hold & Press to Submit',
-        onSubmit: _submitOpenAnAccount,
+      child: BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
+        builder: (context, state) {
+          return ProgressSubmitButton(
+            width: width - 10,
+            height: 100,
+            enabled: !state.isLoading,
+            backgroundColor: context.theme.colorScheme.primary,
+            progressColor: context.theme.colorScheme.secondary,
+            foregroundColor: context.theme.colorScheme.onPrimary,
+            label: 'Hold & Press to Submit',
+            onSubmit: () {
+              _submitOpenAnAccount(state);
+            },
+          );
+        },
       ),
     );
   }
 
-  void _submitOpenAnAccount() {}
+  void _submitOpenAnAccount(DepositNowStepsState state) {
+    context.read<DepositNowStepsBloc>().add(SubmitDepositNow());
+  }
 }

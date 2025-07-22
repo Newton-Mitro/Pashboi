@@ -57,6 +57,21 @@ class CollectionLedgerEntity extends Entity<int> {
     this.isSelected = false,
   });
 
+  Map<String, dynamic> toJson() => {
+    'AccountId': accountId,
+    'AccountNo': accountNumber.trim(),
+    'AccountType': accountTypeCode.trim(),
+    'Amount': depositAmount,
+    'IsDefaulter': defaultAccount,
+    'IsLps': lps,
+    'IsMultiplier': multiplier,
+    'IsNotEditable': editable,
+    'IsRefundBased': isRefundBased,
+    'IsSubLedger': subledger,
+    'LedgerId': ledgerId,
+    'PlType': plType,
+  };
+
   CollectionLedgerEntity copyWith({
     int? id,
     int? accountId,
