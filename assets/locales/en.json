@@ -71,7 +71,7 @@
   "public_bottom_nav_menu_loans": "Loan Policies",
   "public_bottom_nav_menu_loans_details": "Loan Policies Details",
   "public_bottom_nav_menu_services_and_projects": "Services & Projects",
-  
+
   "public_bottom_nav_menu_notice_details": "Notice Details",
 
   "public_bottom_nav_menu_notices": "Notices",
@@ -170,8 +170,11 @@
   "side_menu_title_for_mission_and_vision": "Mission & Vision",
   "side_menu_title_for_project": "Project",
   "side_menu_title_for_services": "Services",
+  "side_menu_title_for_services_details": "Services Details",
   "side_menu_title_for_privacy_policy": "Privacy Policy",
   "side_menu_title_for_development_credits": "Development Credits",
+
+  "side_menu_title_for_development_credits_details": "Development Credits Details",
 
   "side_menu_title_for_services_policy_details": "Service Policy Details",
   "side_menu_title_for_project_policy_details": "Project Policy Details"

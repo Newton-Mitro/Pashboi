@@ -5,6 +5,7 @@ import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/features/authenticated/profile/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/profile/domain/entities/person_entity.dart';
 import 'package:pashboi/features/authenticated/profile/domain/repositories/profile_repository.dart';
+import 'package:pashboi/features/authenticated/profile/domain/usecases/change_password_usecase.dart';
 import 'package:pashboi/features/authenticated/profile/domain/usecases/get_profile_usecase.dart';
 import 'package:pashboi/features/authenticated/profile/domain/usecases/update_profile_image_usecase.dart';
 
@@ -31,6 +32,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ResultFuture<String> updateProfileImage(UpdateProfileImageProps props) async {
     try {
       final result = await profileRemoteDataSource.updateProfileImage(props);
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> changePassword(ChangePasswordProps props) async {
+    try {
+      final result = await profileRemoteDataSource.changePassword(props);
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));

@@ -5,12 +5,14 @@ import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/utils/json_util.dart';
 import 'package:pashboi/features/authenticated/profile/data/models/person_model.dart';
+import 'package:pashboi/features/authenticated/profile/domain/usecases/change_password_usecase.dart';
 import 'package:pashboi/features/authenticated/profile/domain/usecases/get_profile_usecase.dart';
 import 'package:pashboi/features/authenticated/profile/domain/usecases/update_profile_image_usecase.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<PersonModel> getProfile(GetProfileProps props);
   Future<String> updateProfileImage(UpdateProfileImageProps props);
+  Future<String> changePassword(ChangePasswordProps props);
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
@@ -93,6 +95,41 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
         return dataString;
       } else {
         throw Exception('Login failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> changePassword(ChangePasswordProps props) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.changePassword,
+        data: {
+          "UserName": props.email,
+          "UID": props.userId,
+          "ByUserId": props.userId,
+          "RolePermissionId": props.rolePermissionId,
+          "PersonId": props.personId,
+          "EmployeeCode": props.employeeCode,
+          "MobileNumber": props.mobileNumber,
+          "MobileNo": props.mobileNumber,
+          "Password": props.currentPassword,
+          "NewPassword": props.newPassword,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        if (dataString == null) throw Exception('Invalid response format');
+
+        return dataString;
+      } else {
+        throw Exception(
+          'Change password failed with status ${response.statusCode}',
+        );
       }
     } catch (e) {
       rethrow;
