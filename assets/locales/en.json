@@ -177,7 +177,12 @@
   "side_menu_title_for_development_credits_details": "Development Credits Details",
 
   "side_menu_title_for_services_policy_details": "Service Policy Details",
-  "side_menu_title_for_project_policy_details": "Project Policy Details"
+  "side_menu_title_for_project_policy_details": "Project Policy Details",
+
+  "change_password_title": "Change Password",
+  "current_password_title": "Current Password",
+  "new_password_title": "New Password",
+  "confirm_password_title": "Confirm Password"
 
 
 }

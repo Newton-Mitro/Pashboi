@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/bloc/change_password_bloc.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
@@ -47,7 +48,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Change Password')),
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'change_password_title')),
+      ),
       body: BlocListener<ChangePasswordBloc, ChangePasswordState>(
         listener: (context, state) {
           if (state is ChangePasswordError) {
@@ -115,8 +118,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                             context.theme.colorScheme.onSurface,
                                       ),
                                       const SizedBox(height: 4),
-                                      const Text(
-                                        "Change Password",
+                                      Text(
+                                        Locales.string(
+                                          context,
+                                          'change_password_title',
+                                        ),
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -126,7 +132,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   const SizedBox(height: 45),
                                   AppTextInput(
-                                    label: 'Current Password',
+                                    label: Locales.string(
+                                      context,
+                                      'current_password_title',
+                                    ),
                                     controller: currentPasswordController,
                                     errorText:
                                         state is ChangePasswordValidationError
@@ -163,7 +172,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                       color:
                                           context.theme.colorScheme.onSurface,
                                     ),
-                                    label: 'New Password',
+                                    label: Locales.string(
+                                      context,
+                                      'new_password_title',
+                                    ),
                                   ),
                                   PasswordStrengthIndicatorPlus(
                                     textController: newPasswordController,
@@ -187,7 +199,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                                 : null
                                             : null,
                                     controller: confirmPasswordController,
-                                    label: 'Confirm New Password',
+                                    label: Locales.string(
+                                      context,
+                                      'confirm_password_title',
+                                    ),
                                     obscureText: true,
                                   ),
                                 ],
