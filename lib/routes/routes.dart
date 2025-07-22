@@ -14,7 +14,7 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
-import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password.dart';
+import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
@@ -168,7 +168,7 @@ class AppRoutes {
         return _materialRoute(DependentsPage());
 
       case AuthRoutesName.changePasswordPage:
-        return _materialRoute(ChangePassword());
+        return _materialRoute(ChangePasswordPage());
 
       case AuthRoutesName.operatingAccountsPage:
         if (args is Map<String, int>) {

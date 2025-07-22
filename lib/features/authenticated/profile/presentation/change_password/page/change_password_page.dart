@@ -10,14 +10,14 @@ import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_bu
 import 'package:password_strength_indicator_plus/password_strength_indicator_plus.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
 
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final TextEditingController currentPasswordController =
       TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
@@ -32,20 +32,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     super.dispose();
   }
 
-  bool _isValidInput() {
-    return currentPasswordController.text.trim().isNotEmpty &&
-        newPasswordController.text.trim().isNotEmpty &&
-        confirmPasswordController.text.trim().isNotEmpty;
-  }
-
   void _submit() {
-    if (!_isValidInput()) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Please enter all fields")));
-      return;
-    }
-
     context.read<ChangePasswordBloc>().add(
       ChangePasswordSubmitted(
         currentPassword: currentPasswordController.text.trim(),
@@ -84,16 +71,10 @@ class _ChangePasswordState extends State<ChangePassword> {
             }
           }
           if (state is ChangePasswordSuccess) {
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(
-            //     content: Text(state.message),
-            //     backgroundColor: Colors.green,
-            //   ),
-            // );
             final snackBar = SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
-              backgroundColor: context.theme.colorScheme.primary,
+              backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'Success',
                 message: state.message,
@@ -104,7 +85,6 @@ class _ChangePasswordState extends State<ChangePassword> {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(snackBar);
-            // Navigator.pop(context);
           }
         },
         child: BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
@@ -124,9 +104,27 @@ class _ChangePasswordState extends State<ChangePassword> {
                             child: IntrinsicHeight(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                spacing: 16,
+                                spacing: 10,
                                 children: [
-                                  Icon(FontAwesomeIcons.key, size: 40),
+                                  Column(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.key,
+                                        size: 40,
+                                        color:
+                                            context.theme.colorScheme.onSurface,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        "Change Password",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 45),
                                   AppTextInput(
                                     label: 'Current Password',
                                     controller: currentPasswordController,
@@ -171,6 +169,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     textController: newPasswordController,
                                     hideRules: true,
                                   ),
+                                  const SizedBox(height: 1),
                                   AppTextInput(
                                     prefixIcon: Icon(
                                       Icons.lock,
