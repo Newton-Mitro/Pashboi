@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/account_transaction_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/account_statment_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/bloc/account_statement_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class AccountDetailsPage extends StatefulWidget {
   final String accountNumber;
@@ -109,7 +108,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: const Text('Account Details')),
+        appBar: AppBar(title: Text('Account Details')),
         body: PageContainer(
           child: BlocBuilder<AccountDetailsBloc, AccountDetailsState>(
             builder: (context, state) {
@@ -261,136 +260,52 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                             account.nominees.toTitleCase(),
                             icon: FontAwesomeIcons.userShield,
                           ),
-                          BlocBuilder<
-                            AccountStatementBloc,
-                            AccountStatementState
-                          >(
-                            builder: (context, accountStatementState) {
-                              if (accountStatementState
-                                  is AccountStatementLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-
-                              if (accountStatementState
-                                  is AccountStatementSuccess) {
-                                final accountStatement =
-                                    accountStatementState.transactions;
-                                return Column(
-                                  children: [
-                                    const SizedBox(height: 20),
-                                    SfCartesianChart(
-                                      title: ChartTitle(
-                                        text: 'Half Yearly Transactions',
-                                        textStyle: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      legend: Legend(
-                                        isVisible: true,
-                                        position: LegendPosition.top,
-                                        overflowMode:
-                                            LegendItemOverflowMode.wrap,
-                                      ),
-                                      tooltipBehavior: TooltipBehavior(
-                                        enable: true,
-                                      ),
-                                      primaryXAxis: CategoryAxis(),
-                                      primaryYAxis: NumericAxis(),
-                                      series: <CartesianSeries>[
-                                        LineSeries<
-                                          AccountTransactionEntity,
-                                          String
-                                        >(
-                                          name: 'Cash IN',
-                                          dataSource: accountStatement,
-                                          xValueMapper:
-                                              (txn, _) =>
-                                                  MyDateUtils.getShortMonthName(
-                                                    txn.date,
-                                                  ),
-                                          yValueMapper: (txn, _) => txn.credit,
-                                          color: Colors.green,
-                                          markerSettings: const MarkerSettings(
-                                            isVisible: true,
-                                          ),
-                                        ),
-                                        LineSeries<
-                                          AccountTransactionEntity,
-                                          String
-                                        >(
-                                          name: 'Cash OUT',
-                                          dataSource: accountStatement,
-                                          xValueMapper:
-                                              (txn, _) =>
-                                                  MyDateUtils.getShortMonthName(
-                                                    txn.date,
-                                                  ),
-                                          yValueMapper: (txn, _) => txn.debit,
-                                          color: Colors.red,
-                                          markerSettings: const MarkerSettings(
-                                            isVisible: true,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      margin: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          10.0,
-                                        ),
-                                        color:
-                                            context.theme.colorScheme.surface,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            "Half Yearly Statement",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color:
-                                                  context
-                                                      .theme
-                                                      .colorScheme
-                                                      .onSurface,
-                                            ),
-                                          ),
-                                          AccountStatmentSection(
-                                            accountStatment: accountStatement,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 50),
-                                  ],
-                                );
-                              }
-                              if (accountStatementState
-                                  is AccountStatementError) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(
-                                    accountStatementState.error,
-                                    style: TextStyle(
-                                      color: context.theme.colorScheme.error,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                );
-                              }
-
-                              return const SizedBox.shrink();
-                            },
-                          ),
+                          // AccountStatementPage(),
                         ],
                       ),
+                      const SizedBox(height: 20),
+
+                      if (!["18", "30", "22"].contains(account.typeCode)) ...[
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BlocProvider(
+                                      create:
+                                          (_) =>
+                                              sl<AccountStatementBloc>()..add(
+                                                FetchAccountStatementEvent(
+                                                  accountNumber:
+                                                      widget.accountNumber,
+                                                ),
+                                              ),
+                                      child: AccountStatementPage(
+                                        accountNumber: widget.accountNumber,
+                                      ),
+                                    ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            backgroundColor: context.theme.colorScheme.primary,
+                            foregroundColor:
+                                context.theme.colorScheme.onPrimary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text(
+                            "View Account Statement",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 );
