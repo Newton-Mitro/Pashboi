@@ -9,9 +9,11 @@ import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.d
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
 import 'package:pashboi/features/authenticated/loan_payment/presentation/pages/bloc/loan_payment_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
@@ -198,6 +200,25 @@ class AppRoutes {
         if (args is Map<String, String>) {
           return _materialRoute(
             AccountDetailsPage(accountNumber: args['accountNumber'] ?? ''),
+          );
+        }
+        break;
+
+      case AuthRoutesName.accountStatement:
+        if (args is Map<String, String>) {
+          return _materialRoute(
+            BlocProvider(
+              create:
+                  (context) =>
+                      sl<AccountStatementBloc>()..add(
+                        FetchAccountStatementEvent(
+                          accountNumber: args['accountNumber'] ?? '',
+                        ),
+                      ),
+              child: AccountStatementPage(
+                accountNumber: args['accountNumber'] ?? '',
+              ),
+            ),
           );
         }
         break;

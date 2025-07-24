@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
@@ -10,6 +9,7 @@ import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_section/bloc/account_statement_bloc.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class AccountDetailsPage extends StatefulWidget {
@@ -268,26 +268,15 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       if (!["18", "30", "22"].contains(account.typeCode)) ...[
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushNamed(
                               context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => BlocProvider(
-                                      create:
-                                          (_) =>
-                                              sl<AccountStatementBloc>()..add(
-                                                FetchAccountStatementEvent(
-                                                  accountNumber:
-                                                      widget.accountNumber,
-                                                ),
-                                              ),
-                                      child: AccountStatementPage(
-                                        accountNumber: widget.accountNumber,
-                                      ),
-                                    ),
-                              ),
+                              AuthRoutesName.accountStatement,
+                              arguments: {
+                                'accountNumber': account.number.trim(),
+                              },
                             );
                           },
+
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 20,
