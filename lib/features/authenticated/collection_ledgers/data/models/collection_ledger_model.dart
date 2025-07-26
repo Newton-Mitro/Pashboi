@@ -57,6 +57,7 @@ class CollectionLedgerModel extends CollectionLedgerEntity {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

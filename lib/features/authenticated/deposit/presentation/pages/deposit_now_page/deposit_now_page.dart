@@ -458,7 +458,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
             foregroundColor: context.theme.colorScheme.onPrimary,
             label: 'Hold & Press to Submit',
             onSubmit: () {
-              _submitOpenAnAccount(state);
+              _submitDepositNow(state);
             },
           );
         },
@@ -466,7 +466,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
     );
   }
 
-  void _submitOpenAnAccount(DepositNowStepsState state) {
+  void _submitDepositNow(DepositNowStepsState state) {
     context.read<DepositNowStepsBloc>().add(SubmitDepositNow());
   }
 }

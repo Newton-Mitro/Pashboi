@@ -74,7 +74,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
 
         // Positioned Expand/Collapse Icon
         Positioned(
-          top: -20,
+          top: -15,
           child: ClipRect(
             child: Align(
               alignment: Alignment.topCenter,
@@ -107,13 +107,13 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                         size: 16,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
-                      // Text(
-                      //   isExpanded ? 'less' : 'more',
-                      //   style: TextStyle(
-                      //     fontSize: 10,
-                      //     color: Theme.of(context).colorScheme.onPrimary,
-                      //   ),
-                      // ),
+                      Text(
+                        isExpanded ? 'less' : 'more',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
                     ],
                   ),
                 ),

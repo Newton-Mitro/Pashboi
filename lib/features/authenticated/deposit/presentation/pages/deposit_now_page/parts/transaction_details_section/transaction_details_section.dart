@@ -120,8 +120,8 @@ class TransactionDetailsSection extends StatelessWidget {
                                               ),
                                               child: Icon(
                                                 isSelected
-                                                    ? Icons.check
-                                                    : Icons.close,
+                                                    ? Icons.check_outlined
+                                                    : Icons.square_rounded,
                                                 color:
                                                     isSelected
                                                         ? context

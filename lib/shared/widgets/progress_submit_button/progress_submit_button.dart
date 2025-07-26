@@ -22,8 +22,8 @@ class ProgressSubmitButton extends StatefulWidget {
     this.backgroundColor = Colors.blue,
     this.foregroundColor = Colors.white,
     this.progressColor = Colors.red,
-    this.duration = 2,
-    this.enabled = true, // <-- default true
+    this.duration = 1,
+    this.enabled = true,
   });
 
   @override
@@ -94,38 +94,42 @@ class _ProgressSubmitButtonState extends State<ProgressSubmitButton> {
             : widget.foregroundColor.withOpacity(0.5);
 
     return GestureDetector(
-      onLongPressStart: (_) => _startTimer(),
-      onLongPressEnd: (_) => _cancelTimer(),
-      child: AbsorbPointer(
-        absorbing: !widget.enabled,
-        child: Opacity(
-          opacity: widget.enabled ? 1.0 : 0.6,
-          child: SizedBox(
-            width: widget.width,
-            height: widget.height,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                CustomPaint(
-                  size: Size(widget.width, widget.height),
-                  painter: HalfCirclePainter(
-                    progress: _progress,
-                    backgroundColor: backgroundColor,
-                    progressColor: widget.progressColor,
-                  ),
-                ),
-                Positioned(
-                  bottom: widget.height / 3,
-                  child: Text(
-                    widget.label,
-                    style: TextStyle(
-                      color: foregroundColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+      onTapDown: (_) => _startTimer(), // <--- Fast trigger
+      onTapUp: (_) => _cancelTimer(),
+      onTapCancel: () => _cancelTimer(),
+      child: Material(
+        color: Colors.transparent,
+        child: AbsorbPointer(
+          absorbing: !widget.enabled,
+          child: Opacity(
+            opacity: widget.enabled ? 1.0 : 0.6,
+            child: SizedBox(
+              width: widget.width,
+              height: widget.height,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  CustomPaint(
+                    size: Size(widget.width, widget.height),
+                    painter: HalfCirclePainter(
+                      progress: _progress,
+                      backgroundColor: backgroundColor,
+                      progressColor: widget.progressColor,
                     ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    bottom: widget.height / 3,
+                    child: Text(
+                      widget.label,
+                      style: TextStyle(
+                        color: foregroundColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
