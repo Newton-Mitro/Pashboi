@@ -15,17 +15,19 @@ import 'package:pashboi/features/authenticated/authenticated_home/views/menus/lo
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/payment_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/transfer_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/withdraw_menus_view.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/widgets/app_bottom_navigation_bar.dart';
+import 'package:pashboi/features/authenticated/authenticated_home/widgets/authenticated_bottom_sheet.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/authenticated_home_drawer.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/base64_image_widget.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
+import 'package:pashboi/features/public/public_home/bloc/home_screen_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_dialog.dart';
 import 'package:pashboi/shared/widgets/language_switch/language_switch.dart';
 import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
+import 'package:r_nav_n_sheet/r_nav_n_sheet.dart';
 
 class AuthenticatedHome extends StatefulWidget {
   const AuthenticatedHome({super.key});
@@ -61,51 +63,61 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
     final List<Map<String, dynamic>> menuItems = [
       {
         "icon": FontAwesomeIcons.circleUser,
+        "activeIcon": FontAwesomeIcons.userCheck,
         "label": Locales.string(context, 'auth_bottom_nav_menu_info'),
         "index": 0,
       },
       {
         "icon": FontAwesomeIcons.buildingColumns,
+        "activeIcon": FontAwesomeIcons.university,
         "label": Locales.string(context, 'auth_bottom_nav_menu_accounts'),
         "index": 1,
       },
       {
         "icon": FontAwesomeIcons.fileInvoiceDollar,
+        "activeIcon": FontAwesomeIcons.fileCircleExclamation,
         "label": Locales.string(context, 'auth_bottom_nav_menu_loan'),
         "index": 2,
       },
       {
         "icon": FontAwesomeIcons.piggyBank,
+        "activeIcon": FontAwesomeIcons.piggyBank, // No strong alt available
         "label": Locales.string(context, 'auth_bottom_nav_menu_deposit'),
         "index": 3,
       },
       {
         "icon": FontAwesomeIcons.rightLeft,
+        "activeIcon": FontAwesomeIcons.arrowsLeftRightToLine,
         "label": Locales.string(context, 'auth_bottom_nav_menu_transfer'),
         "index": 4,
       },
       {
         "icon": FontAwesomeIcons.moneyBill,
+        "activeIcon": FontAwesomeIcons.moneyCheckDollar,
         "label": Locales.string(context, 'auth_bottom_nav_menu_withdraw'),
         "index": 5,
       },
       {
         "icon": FontAwesomeIcons.wallet,
+        "activeIcon": FontAwesomeIcons.sackDollar,
         "label": Locales.string(context, 'auth_bottom_nav_menu_payment'),
         "index": 6,
       },
       {
         "icon": FontAwesomeIcons.peopleRoof,
+        "activeIcon": FontAwesomeIcons.houseChimneyUser,
         "label": Locales.string(context, 'auth_bottom_nav_menu_family'),
         "index": 7,
       },
       {
         "icon": FontAwesomeIcons.userGroup,
+        "activeIcon": FontAwesomeIcons.userFriends,
         "label": Locales.string(context, 'auth_bottom_nav_menu_beneficiary'),
         "index": 8,
       },
       {
         "icon": FontAwesomeIcons.userShield,
+        "activeIcon": FontAwesomeIcons.shieldHalved,
         "label": Locales.string(context, 'auth_bottom_nav_menu_surety'),
         "index": 9,
       },
@@ -164,12 +176,13 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                           : null;
 
                   return Scaffold(
-                    drawer: AuthenticatedHomeDrawer(
-                      menuItems: menuItems,
-                      user: user,
-                    ),
+                    // drawer: AuthenticatedHomeDrawer(
+                    //   menuItems: menuItems,
+                    //   user: user,
+                    // ),
                     appBar: AppBar(
                       title: Text(menuItems[selectedPage]['label']),
+                      automaticallyImplyLeading: false,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(20),
@@ -306,13 +319,30 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                         child: PageContainer(child: menuViews[selectedPage]),
                       ),
                     ),
-                    bottomNavigationBar: CustomBottomNav(
-                      selectedIndex: selectedPage,
-                      onTap:
-                          (index) => context.read<AuthenticatedHomeBloc>().add(
-                            ChangePageEvent(index),
-                          ),
-                      menuItems: menuItems,
+                    bottomNavigationBar: RNavNSheet(
+                      onTap: (index) {
+                        context.read<AuthenticatedHomeBloc>().add(
+                          ChangePageEvent(index),
+                        );
+                      },
+                      initialSelectedIndex: selectedPage,
+                      backgroundColor: context.theme.colorScheme.primary,
+                      borderColors: [
+                        context.theme.colorScheme.primary,
+                        context.theme.colorScheme.secondary,
+                        context.theme.colorScheme.primary,
+                      ],
+                      sheetOpenIcon: FontAwesomeIcons.listUl,
+                      sheetCloseIcon: FontAwesomeIcons.cross,
+                      sheet: AuthenticatedBottomSheet(menuItems: menuItems),
+                      items: List.generate(
+                        4,
+                        (i) => RNavItem(
+                          icon: menuItems[i]['icon'],
+                          // activeIcon: menuItems[i]['activeIcon'],
+                          label: menuItems[i]['label'],
+                        ),
+                      ),
                     ),
                   );
                 },
