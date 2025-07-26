@@ -139,6 +139,8 @@ class DepositAccountRemoteDataSourceImpl
           "${startDate.year}/${startDate.month}/${startDate.day}";
       final formattedEndDate = "${now.month}/${now.year}/${now.day}";
 
+      print('account fromDate: ${props.fromDate}');
+
       final response = await apiService.post(
         ApiUrls.getAccountStatement,
         data: {
@@ -151,8 +153,8 @@ class DepositAccountRemoteDataSourceImpl
           "MobileNumber": props.mobileNumber,
           "MobileNo": props.mobileNumber,
           "AccountNo": props.accountNumber,
-          "StartDate": formattedStartDate,
-          "EndDate": formattedEndDate,
+          "StartDate": props.fromDate,
+          "EndDate": props.toDate,
           "RequestFrom": "MobileApp",
         },
       );

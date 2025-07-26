@@ -13,6 +13,7 @@ import 'package:pashboi/shared/widgets/page_container.dart';
 
 class AccountDetailsPage extends StatefulWidget {
   final String accountNumber;
+
   const AccountDetailsPage({super.key, required this.accountNumber});
 
   @override
@@ -27,7 +28,6 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
     IconData icon = Icons.info_outline,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5),
       margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -92,15 +92,6 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               (context) =>
                   sl<AccountDetailsBloc>()..add(
                     FetchAccountDetailsEvent(
-                      accountNumber: widget.accountNumber,
-                    ),
-                  ),
-        ),
-        BlocProvider(
-          create:
-              (context) =>
-                  sl<AccountStatementBloc>()..add(
-                    FetchAccountStatementEvent(
                       accountNumber: widget.accountNumber,
                     ),
                   ),

@@ -48,6 +48,8 @@ class AccountStatementBloc
             employeeCode: user!.employeeCode,
             mobileNumber: user!.regMobile,
             accountNumber: event.accountNumber,
+            fromDate: event.fromDate,
+            toDate: event.toDate,
           ),
         );
 

@@ -9,8 +9,14 @@ sealed class AccountStatementEvent extends Equatable {
 
 class FetchAccountStatementEvent extends AccountStatementEvent {
   final String accountNumber;
-  const FetchAccountStatementEvent({required this.accountNumber});
+  final String fromDate;
+  final String toDate;
+  const FetchAccountStatementEvent({
+    required this.accountNumber,
+    required this.fromDate,
+    required this.toDate,
+  });
 
   @override
-  List<Object> get props => [accountNumber];
+  List<Object> get props => [accountNumber, fromDate, toDate];
 }

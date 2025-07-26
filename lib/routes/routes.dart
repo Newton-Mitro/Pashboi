@@ -208,13 +208,7 @@ class AppRoutes {
         if (args is Map<String, String>) {
           return _materialRoute(
             BlocProvider(
-              create:
-                  (context) =>
-                      sl<AccountStatementBloc>()..add(
-                        FetchAccountStatementEvent(
-                          accountNumber: args['accountNumber'] ?? '',
-                        ),
-                      ),
+              create: (context) => sl<AccountStatementBloc>(),
               child: AccountStatementPage(
                 accountNumber: args['accountNumber'] ?? '',
               ),

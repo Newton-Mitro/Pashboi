@@ -6,6 +6,8 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/d
 
 class GetAccountStatementProps extends BaseRequestProps {
   final String accountNumber;
+  final String? fromDate;
+  final String? toDate;
 
   const GetAccountStatementProps({
     required super.email,
@@ -15,6 +17,8 @@ class GetAccountStatementProps extends BaseRequestProps {
     required super.employeeCode,
     required super.mobileNumber,
     required this.accountNumber,
+    required this.fromDate,
+    required this.toDate,
   });
 }
 
