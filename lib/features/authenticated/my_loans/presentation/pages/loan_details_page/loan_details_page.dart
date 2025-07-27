@@ -7,7 +7,6 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/bloc/loan_details_bloc.dart';
-import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 

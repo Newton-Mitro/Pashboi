@@ -116,7 +116,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                         ),
                         const SizedBox(height: 12),
                         AppSecondaryButton(
-                          label: "Apply Filter",
+                          label: "",
                           iconBefore: const Icon(Icons.filter_alt),
                           onPressed: () {
                             if (_errorText == null) {
