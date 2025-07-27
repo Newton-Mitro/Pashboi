@@ -33,7 +33,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
             color: context.theme.colorScheme.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(
-              color: context.theme.colorScheme.secondary,
+              color: context.theme.colorScheme.primary,
               width: 1.5,
             ),
             boxShadow: [
@@ -81,8 +81,8 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                   child: SingleChildScrollView(
                     controller: scrollController,
                     child: Wrap(
-                      spacing: 12, // Slightly tighter horizontal spacing
-                      runSpacing: 12,
+                      spacing: 10, // Slightly tighter horizontal spacing
+                      runSpacing: 10,
                       children:
                           menuItems.skip(4).map((item) {
                             final int index = item['index'] as int;
@@ -97,7 +97,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                width: 74,
+                                width: 84,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 8,
                                   horizontal: 8,
@@ -107,7 +107,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                       isActive
                                           ? activeBgColor
                                           : inactiveBgColor,
-                                  borderRadius: BorderRadius.circular(100),
+                                  borderRadius: BorderRadius.circular(25),
                                   border:
                                       isActive
                                           ? Border.all(

@@ -34,7 +34,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_latter_description",
         ),
-        "route": AuthRoutesName.depositNowPage,
+        "route": AuthRoutesName.depositLaterPage,
       },
       {
         "icon": FontAwesomeIcons.mobileScreenButton,

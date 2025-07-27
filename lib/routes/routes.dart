@@ -6,6 +6,8 @@ import 'package:pashboi/features/auth/presentation/pages/registration_page.dart'
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
 import 'package:pashboi/features/authenticated/loan_payment/presentation/pages/bloc/loan_payment_bloc.dart';
@@ -263,6 +265,17 @@ class AppRoutes {
               BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
             ],
             child: DepositNowPage(),
+          ),
+        );
+
+      case AuthRoutesName.depositLaterPage:
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => sl<DepositLaterStepsBloc>()),
+              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+            ],
+            child: DepositLaterPage(),
           ),
         );
 

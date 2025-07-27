@@ -335,7 +335,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                           ChangePageEvent(index),
                         );
                       },
-                      initialSelectedIndex: selectedPage,
+                      initialSelectedIndex: 0,
                       backgroundColor: context.theme.colorScheme.primary,
                       borderColors: [
                         context.theme.colorScheme.primary,
