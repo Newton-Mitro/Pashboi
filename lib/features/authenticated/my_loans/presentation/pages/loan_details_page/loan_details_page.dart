@@ -131,13 +131,6 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
                   sl<LoanDetsilsBloc>()
                     ..add(FetchLoanDetsilsEvent(loanNumber: widget.loanNumber)),
         ),
-        BlocProvider(
-          create:
-              (context) =>
-                  sl<LoanStatementBloc>()..add(
-                    FetchLoanStatementEvent(loanNumber: widget.loanNumber),
-                  ),
-        ),
       ],
       child: Scaffold(
         appBar: AppBar(title: const Text('Loan Details')),

@@ -6,6 +6,8 @@ import 'package:pashboi/features/authenticated/my_loans/domain/repositories/loan
 
 class FetchLoanStatementProps extends BaseRequestProps {
   final String loanNumber;
+  final String? fromDate;
+  final String? toDate;
 
   const FetchLoanStatementProps({
     required this.loanNumber,
@@ -15,6 +17,8 @@ class FetchLoanStatementProps extends BaseRequestProps {
     required super.personId,
     required super.employeeCode,
     required super.mobileNumber,
+    required this.fromDate,
+    required this.toDate,
   });
 }
 

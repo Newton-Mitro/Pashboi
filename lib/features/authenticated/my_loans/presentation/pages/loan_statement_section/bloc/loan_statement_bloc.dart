@@ -47,6 +47,8 @@ class LoanStatementBloc extends Bloc<LoanStatementEvent, LoanStatementState> {
             employeeCode: user!.employeeCode,
             mobileNumber: user!.regMobile,
             loanNumber: event.loanNumber,
+            fromDate: event.fromDate,
+            toDate: event.toDate,
           ),
         );
 

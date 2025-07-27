@@ -13,14 +13,10 @@ import 'package:pashboi/features/authenticated/my_loans/domain/usecases/fetch_my
 abstract class LoanRemoteDataSource {
   Future<List<LoanAccountModel>> fetchMyLoans(FetchMyLoansProps props);
   Future<LoanAccountModel> fetchLoanDetails(FetchLoanDetailsProps props);
-  // Future<String> createInstantLoanAccount(LoanAccountEntity loanAccount);
-  // Future<String> createProductLoanAccount(LoanAccountEntity loanAccount);
+
   Future<List<LoanTransactionModel>> fetchLoanStatement(
     FetchLoanStatementProps props,
   );
-  // Future<void> getEligibleCollateralAccounts(int id);
-  // Future<void> getEligibleLoanProducts(int id);
-  // Future<void> getLoanAgainstProductInterest(int id);
 }
 
 class LoanRemoteDataSourceImpl implements LoanRemoteDataSource {
@@ -76,15 +72,6 @@ class LoanRemoteDataSourceImpl implements LoanRemoteDataSource {
     FetchLoanStatementProps props,
   ) async {
     try {
-      // Calculate dynamic dates
-      final now = DateTime.now();
-      final startDate = DateTime(now.year, now.month - 6, now.day);
-
-      // Format dates (adjust format as per backend requirement)
-      final formattedStartDate =
-          "${startDate.year}/${startDate.month}/${startDate.day}";
-      final formattedEndDate = "${now.month}/${now.year}/${now.day}";
-
       final response = await apiService.post(
         ApiUrls.getLoanStatement,
         data: {
@@ -97,8 +84,8 @@ class LoanRemoteDataSourceImpl implements LoanRemoteDataSource {
           "MobileNumber": props.mobileNumber,
           "MobileNo": props.mobileNumber,
           "loanNo": props.loanNumber,
-          "StartDate": formattedStartDate,
-          "EndDate": formattedEndDate,
+          "StartDate": props.fromDate,
+          "EndDate": props.toDate,
           "RequestFrom": "MobileApp",
         },
       );
