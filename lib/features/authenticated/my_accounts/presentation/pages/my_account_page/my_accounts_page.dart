@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/bloc/my_account_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -20,7 +21,9 @@ class MyAccountsPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<MyAccountBloc>()..add(FetchMyAccountEvent(0)),
       child: Scaffold(
-        appBar: AppBar(title: const Text('My Accounts')),
+        appBar: AppBar(
+          title: Text(Locales.string(context, 'my_account_title')),
+        ),
         body: PageContainer(
           child: BlocBuilder<MyAccountBloc, MyAccountState>(
             builder: (context, state) {
@@ -79,7 +82,7 @@ class MyAccountsPage extends StatelessWidget {
                         ),
                         enableSideBySideSeriesPlacement: true,
                         title: ChartTitle(
-                          text: 'Account Summary',
+                          text: Locales.string(context, 'account_summery'),
                           textStyle: TextStyle(
                             color: context.theme.colorScheme.onSurface,
                             fontWeight: FontWeight.bold,

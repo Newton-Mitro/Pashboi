@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/widgets/account_statment_section.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
@@ -55,7 +56,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Account Statement")),
+      appBar: AppBar(title: Text(Locales.string(context, 'account_statement'))),
       body: BlocBuilder<AccountStatementBloc, AccountStatementState>(
         builder: (context, state) {
           if (state is AccountStatementLoading) {
@@ -155,7 +156,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   Widget _buildChart(List<AccountTransactionEntity> transactions) {
     return SfCartesianChart(
       title: ChartTitle(
-        text: 'Transactions Graph',
+        text: Locales.string(context, 'transaction_graph'),
         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       legend: Legend(
@@ -168,7 +169,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       primaryYAxis: NumericAxis(),
       series: <CartesianSeries>[
         LineSeries<AccountTransactionEntity, String>(
-          name: 'Cash IN',
+          name: Locales.string(context, 'cash_in'),
           dataSource: transactions,
           xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
           yValueMapper: (txn, _) => txn.credit,
@@ -176,7 +177,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
           markerSettings: const MarkerSettings(isVisible: true),
         ),
         LineSeries<AccountTransactionEntity, String>(
-          name: 'Cash OUT',
+          name: Locales.string(context, 'cash_out'),
           dataSource: transactions,
           xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
           yValueMapper: (txn, _) => txn.debit,
@@ -202,7 +203,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
         children: [
           const SizedBox(height: 16),
           Text(
-            "Statement",
+            Locales.string(context, 'statement'),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

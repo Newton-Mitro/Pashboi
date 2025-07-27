@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/features/authenticated/my_loans/domain/entities/loan_transaction_entity.dart';
@@ -57,7 +58,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Loan Statement')),
+      appBar: AppBar(title: Text(Locales.string(context, 'loan_statement'))),
       body: BlocBuilder<LoanStatementBloc, LoanStatementState>(
         builder: (context, loanStatement) {
           if (loanStatement is LoanStatementLoading) {
@@ -142,7 +143,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                   const SizedBox(height: 20),
                   SfCartesianChart(
                     title: ChartTitle(
-                      text: 'Transactions Graph',
+                      text: Locales.string(context, 'transaction_graph'),
                       textStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -158,7 +159,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                     primaryYAxis: NumericAxis(),
                     series: <CartesianSeries>[
                       LineSeries<LoanTransactionEntity, String>(
-                        name: 'Loan Issued',
+                        name: Locales.string(context, 'loan_issued'),
                         dataSource: transactions,
                         xValueMapper:
                             (txn, _) => MyDateUtils.getShortMonthName(
@@ -169,7 +170,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                         markerSettings: const MarkerSettings(isVisible: true),
                       ),
                       LineSeries<LoanTransactionEntity, String>(
-                        name: 'Loan Repaid',
+                        name: Locales.string(context, 'loan_repaid'),
                         dataSource: transactions,
                         xValueMapper:
                             (txn, _) => MyDateUtils.getShortMonthName(
@@ -193,7 +194,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                       children: [
                         const SizedBox(height: 16),
                         Text(
-                          "Statement",
+                          Locales.string(context, 'statement'),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

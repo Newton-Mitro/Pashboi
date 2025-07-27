@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/features/authenticated/my_loans/domain/entities/loan_account_entity.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/bloc/my_loans_bloc.dart';
@@ -20,7 +21,7 @@ class MyLoansPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<MyLoansBloc>()..add(FetchMyLoansEvent()),
       child: Scaffold(
-        appBar: AppBar(title: const Text('My Loans')),
+        appBar: AppBar(title: Text(Locales.string(context, 'my_loans'))),
         body: PageContainer(
           child: BlocBuilder<MyLoansBloc, MyLoansState>(
             builder: (context, state) {
@@ -79,7 +80,7 @@ class MyLoansPage extends StatelessWidget {
                         ),
                         enableSideBySideSeriesPlacement: true,
                         title: ChartTitle(
-                          text: 'Loan Summary',
+                          text: Locales.string(context, 'loan_summery'),
                           textStyle: TextStyle(
                             color: context.theme.colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
@@ -92,7 +93,10 @@ class MyLoansPage extends StatelessWidget {
                             dataSource: accountList,
                             xValueMapper: (data, _) => data.shortTypeName,
                             yValueMapper: (data, _) => data.loanBalance,
-                            name: 'Loans',
+                            name: Locales.string(
+                              context,
+                              'auth_bottom_nav_menu_loan',
+                            ),
                             color: context.theme.colorScheme.primary,
                             dataLabelMapper:
                                 (data, _) =>

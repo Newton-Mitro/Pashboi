@@ -131,20 +131,16 @@
 
   "withdraw_menu_withdraw_through_atm_title": "এটিএমের মাধ্যমে উত্তোলন",
   "withdraw_menu_withdraw_through_atm_description": "আপনার অ্যাকাউন্ট থেকে এটিএম ব্যবহার করে নগদ উত্তোলন শুরু করুন অথবা পরিচালনা করুন",
-
   "payment_menu_payments_title": "পেমেন্ট",
   "payment_menu_payments_description": "আপনার অ্যাকাউন্ট থেকে সেবার জন্য পেমেন্ট করুন",
-
   "family_menu_family_&_relatives_title": "পরিবার ও আত্মীয়স্বজন",
   "family_menu_family_&_relatives_description": "এখান থেকে আপনার পরিবার ও আত্মীয়দের সম্পর্ক হিসেবে সংযুক্ত করুন",
   "family_menu_add_family_or_relatives_title": "পরিবার বা আত্মীয় যুক্ত করুন",
   "family_menu_add_family_or_relatives_description": "আপনার পরিবার ও আত্মীয়দের সম্পর্ক হিসেবে এখানে যুক্ত করুন",
-
   "beneficiary_menu_beneficiaries_title": "লাভভোগী",
   "beneficiary_menu_beneficiaries_description": "আপনার সমস্ত অবলম্বিতদের জন্য নির্ধারিত স্থান।",
   "beneficiary_menu_add_beneficiaries_title": "লাভভোগী যুক্ত করুন",
   "beneficiary_menu_add_beneficiaries_description": "আপনার সমস্ত অবলম্বিতদের জন্য নির্ধারিত স্থান।",
-
   "personnel_menu_leave_application_title": "ছুটির আবেদন",
   "personnel_menu_leave_application_description": "ছুটির ধরন ও তারিখ নির্ধারণ করে আনুষ্ঠানিকভাবে আবেদন জমা দিন",
   "personnel_menu_fallback_acceptance_title": "ফলব্যাক গ্রহণ",
@@ -163,7 +159,6 @@
   "personnel_menu_working_out_of_office_history_description": "আপনার অনুমোদিত বা বাতিলকৃত অফিসের বাইরে কাজের ইতিহাস দেখুন",
   "personnel_menu_todays_punch_title": "আজকের পাঞ্চ",
   "personnel_menu_todays_punch_description": "আজকের দিনে আপনার উপস্থিতির সময় রেকর্ড করুন",
-
   "emergency_contact": "জরুরি যোগাযোগ",
   "side_menu_title_for_about_us": "আমাদের সম্পর্কে",
   "side_menu_title_for_founder_profile": "প্রতিষ্ঠাতার প্রোফাইল",
@@ -176,11 +171,38 @@
   "side_menu_title_for_services_policy_details": "সেবা নীতিমালা বিস্তারিত",
   "side_menu_title_for_project_policy_details": "প্রকল্প নীতিমালা বিস্তারিত",
   "side_menu_title_for_services_details": "সেবা বিস্তারিত",
-
   "change_password_title": "পাসওয়ার্ড পরিবর্তন",
   "current_password_title": "বর্তমান পাসওয়ার্ড",
   "new_password_title": "নতুন পাসওয়ার্ড",
-  "confirm_password_title": "পাসওয়ার্ড নিশ্চিত করুন"
-
+  "confirm_password_title": "পাসওয়ার্ড নিশ্চিত করুন",
+  "openable_accounts": "খোলা যাবে এমন অ্যাকাউন্টসমূহ",
+  "my_account_title": "আমার অ্যাকাউন্ট",
+  "account_summery": "অ্যাকাউন্টের গ্রাফ",
+  "account_details": "অ্যাকাউন্টের বিবরণ",
+  "balance": "ব্যালেন্স",
+  "last_deposit_date": "সর্বশেষ জমার তারিখ",
+ "last_repayment_date": "সর্বশেষ পরিশোধের তারিখ",
+  "refund_amount": "ফেরত অর্থের পরিমাণ",
+  "loan_end_date": "ঋণ সমাপ্তির তারিখ",
+  "interest_rate": "সুদের হার",
+  "interest_days": "সুদের দিন",
+  "installments": "কিস্তি",
+  "defaulter_reason": "বাকি থাকা/ডিফল্ট করার কারণ",
+  "maturity_date": "মেয়াদপূর্তির তারিখ",
+  "nominee": "মনোনীত ব্যক্তি",
+  "view_account_statement": "অ্যাকাউন্ট স্টেটমেন্ট দেখুন",
+  "account_statement": "অ্যাকাউন্ট স্টেটমেন্ট",
+  "transaction_graph": "লেনদেন গ্রাফ",
+  "statement": "স্টেটমেন্ট",
+  "cash_in": "আয়",
+  "cash_out": "ব্যয়",
+  "loan_summery": "ঋণ গ্রাফ",
+  "my_loans": "আমার ঋণ",
+  "loan_details": "ঋণ বিবরণ",
+  "issued": "ইস্যু করা হয়েছে",
+  "loan_statement": "ঋণ স্টেটমেন্ট",
+  "loan_issued": "ঋণ প্রদান করা হয়েছে",
+  "loan_repaid": "ঋণ পরিশোধ করা হয়েছে",
+  "withdrawable": "উত্তোলনযোগ্য"
 
 }

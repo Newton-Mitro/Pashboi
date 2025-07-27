@@ -97,6 +97,7 @@
   "info_menu_card_title": "Card’s",
   "info_menu_card_description": "View, manage, and request your  cards from here",
 
+  "openable_accounts": "Openable Accounts",
   "accounts_menu_accounts_title": "Accounts",
   "accounts_menu_accounts_description": "View and manage your  accounts, balances, and transactions from here",
   "accounts_menu_open_an_account_title": "Open an Account",
@@ -173,17 +174,39 @@
   "side_menu_title_for_services_details": "Services Details",
   "side_menu_title_for_privacy_policy": "Privacy Policy",
   "side_menu_title_for_development_credits": "Development Credits",
-
   "side_menu_title_for_development_credits_details": "Development Credits Details",
-
   "side_menu_title_for_services_policy_details": "Service Policy Details",
   "side_menu_title_for_project_policy_details": "Project Policy Details",
-
   "change_password_title": "Change Password",
   "current_password_title": "Current Password",
   "new_password_title": "New Password",
-  "confirm_password_title": "Confirm Password"
-
-
+  "confirm_password_title": "Confirm Password",
+  "my_account_title": "My Accounts",
+  "account_summery": "Account Summery",
+  "account_details": "Account Details",
+  "balance": "Balance",
+  "last_deposit_date": "Last Deposit Date",
+  "maturity_date": "Maturity Date",
+  "nominee": "Nominee",
+  "view_account_statement": "View Account Statement",
+  "account_statement": "Account Statement",
+  "transaction_graph": "Transaction Graph",
+  "statement": "Statement",
+  "cash_in": "Cash In",
+  "cash_out": "Cash Out",
+  "loan_summery": "Loan Summery",
+  "my_loans": "My Loan",
+  "issued": "Issued",
+  "last_repayment_date": "Last Repayment Date",
+  "refund_amount": "Refund Amount",
+  "loan_end_date": "Loan End Date",
+  "interest_rate": "Interest Rate",
+  "interest_days": "Interest Days",
+  "installments": "Installments",
+  "defaulter_reason": "Defaulter Reason",
+  "loan_statement": "Loan Statement",
+  "loan_issued": "Loan Issued",
+  "loan_repaid": "Loan Repaid",
+  "withdrawable": "Withdrawable"
 
 }
