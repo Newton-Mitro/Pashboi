@@ -12,6 +12,7 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposi
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
 import 'package:pashboi/features/authenticated/loan_payment/presentation/pages/bloc/loan_payment_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_statement_page.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_opening_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
@@ -35,7 +36,7 @@ import 'package:pashboi/features/public/notice/presentation/pages/notice_details
 import 'package:pashboi/features/public/project/domain/entites/project_entity.dart';
 import 'package:pashboi/features/public/project/presentation/pages/project_details_page.dart';
 import 'package:pashboi/features/public/public_home/views/public_home.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/views/authenticated_home.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/views/authenticated_home.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/card_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/my_loans_page/my_loans_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/loan_details_page.dart';
@@ -46,7 +47,6 @@ import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/my_account_page/my_accounts_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/account_details_page.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/account_openning_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/operating_accounts_page/operating_accounts_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/dependents_page.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/add_operating_account_page/add_operating_account_page.dart';

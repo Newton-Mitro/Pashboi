@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/bloc/authenticated_home_bloc.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/bloc/authenticated_home_bloc.dart';
 
 class AuthenticatedBottomSheet extends StatelessWidget {
   final List<Map<String, dynamic>> menuItems;
