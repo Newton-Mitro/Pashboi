@@ -8,7 +8,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/entities/depos
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
-class TransferFromSection extends StatelessWidget {
+class TransferFromSection extends StatefulWidget {
   final String? accountNumber;
   final String? accountError;
   final void Function(
@@ -38,6 +38,17 @@ class TransferFromSection extends StatelessWidget {
     required this.accountHolderName,
     required this.accountName,
   });
+
+  @override
+  State<TransferFromSection> createState() => _TransferFromSectionState();
+}
+
+class _TransferFromSectionState extends State<TransferFromSection> {
+  @override
+  void initState() {
+    context.read<DebitCardBloc>().add(DebitCardLoad());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +109,8 @@ class TransferFromSection extends StatelessWidget {
                         const SizedBox(height: 5),
                         AppDropdownSelect(
                           label: "Account Number",
-                          value: accountNumber,
-                          errorText: accountError,
+                          value: widget.accountNumber,
+                          errorText: widget.accountError,
                           enabled: cardAccounts.isNotEmpty,
                           items:
                               cardAccounts.isNotEmpty
@@ -124,15 +135,18 @@ class TransferFromSection extends StatelessWidget {
                                 (acc) => acc.number == value,
                               );
 
-                              if (onAccountChanged != null) {
-                                onAccountChanged!(debitCard, selectedAcc);
+                              if (widget.onAccountChanged != null) {
+                                widget.onAccountChanged!(
+                                  debitCard,
+                                  selectedAcc,
+                                );
                               }
                             }
                           },
                         ),
                         const SizedBox(height: 12),
                         AppTextInput(
-                          initialValue: selectedCardNumber,
+                          initialValue: widget.selectedCardNumber,
                           enabled: false,
                           label: "Card Number",
                           prefixIcon: Icon(
@@ -142,7 +156,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          initialValue: accountTypeName,
+                          initialValue: widget.accountTypeName,
                           enabled: false,
                           label: "Account Type",
                           prefixIcon: Icon(
@@ -152,7 +166,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          initialValue: accountBalance.toString(),
+                          initialValue: widget.accountBalance.toString(),
                           enabled: false,
                           label: "Available Balance",
                           prefixIcon: Icon(
@@ -162,7 +176,7 @@ class TransferFromSection extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         AppTextInput(
-                          initialValue: accountWithdrawable.toString(),
+                          initialValue: widget.accountWithdrawable.toString(),
                           enabled: false,
                           label: "Withdrawable Balance",
                           prefixIcon: Icon(

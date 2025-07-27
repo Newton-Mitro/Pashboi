@@ -19,7 +19,8 @@ class AuthenticatedBottomSheet extends StatelessWidget {
 
         final Color activeIconColor = context.theme.colorScheme.onPrimary;
         final Color activeBgColor = context.theme.colorScheme.primary;
-        final Color inactiveIconColor = context.theme.colorScheme.primary;
+        final Color inactiveIconColor = context.theme.colorScheme.onSurface
+            .withAlpha(180);
         final Color inactiveBgColor = context.theme.colorScheme.surface;
 
         return Container(
@@ -32,7 +33,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
             color: context.theme.colorScheme.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(
-              color: context.theme.colorScheme.primary,
+              color: context.theme.colorScheme.secondary,
               width: 1.5,
             ),
             boxShadow: [
@@ -104,13 +105,6 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                                 width: 2,
                                               )
                                               : null,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.05),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 4),
-                                        ),
-                                      ],
                                     ),
                                     child: Icon(
                                       item['icon'] as IconData,

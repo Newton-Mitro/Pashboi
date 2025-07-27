@@ -14,7 +14,6 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/card_pin_verification_section/card_pin_verification_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/otp_verification_section/otp_verification_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/transfer_from_section/transfer_from_section.dart';
@@ -284,7 +283,6 @@ class _DepositNowPageState extends State<DepositNowPage> {
   @override
   void initState() {
     super.initState();
-    context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
     context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
   }
 
@@ -450,7 +448,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
       child: BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
         builder: (context, state) {
           return ProgressSubmitButton(
-            width: width - 10,
+            width: width - 30,
             height: 100,
             enabled: !state.isLoading,
             backgroundColor: context.theme.colorScheme.primary,
