@@ -24,11 +24,11 @@ class AuthenticatedBottomSheet extends StatelessWidget {
         final Color inactiveBgColor = context.theme.colorScheme.surface;
 
         return Container(
-          width: double.infinity,
+          width: MediaQuery.of(context).size.width * 0.97,
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.4,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
           decoration: BoxDecoration(
             color: context.theme.colorScheme.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -97,10 +97,10 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                width: 84,
+                                width: 72,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 8,
-                                  horizontal: 8,
+                                  horizontal: 2,
                                 ),
                                 decoration: BoxDecoration(
                                   color:
