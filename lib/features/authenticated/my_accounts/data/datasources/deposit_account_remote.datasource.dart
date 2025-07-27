@@ -131,16 +131,6 @@ class DepositAccountRemoteDataSourceImpl
   ) async {
     try {
       // Calculate dynamic dates
-      final now = DateTime.now();
-      final startDate = DateTime(now.year, now.month - 6, now.day);
-
-      // Format dates (adjust format as per backend requirement)
-      final formattedStartDate =
-          "${startDate.year}/${startDate.month}/${startDate.day}";
-      final formattedEndDate = "${now.month}/${now.year}/${now.day}";
-
-      print('account fromDate: ${props.fromDate}');
-
       final response = await apiService.post(
         ApiUrls.getAccountStatement,
         data: {

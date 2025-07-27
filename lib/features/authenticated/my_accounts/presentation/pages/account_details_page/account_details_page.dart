@@ -8,7 +8,6 @@ import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class AccountDetailsPage extends StatefulWidget {

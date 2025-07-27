@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/widgets/account_statment_section.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/utils/my_date_utils.dart';
+import 'package:pashboi/features/authenticated/my_loans/domain/entities/loan_transaction_entity.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statment_section.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
 import 'package:pashboi/shared/widgets/buttons/app_secondary_button.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:pashboi/core/utils/my_date_utils.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/account_transaction_entity.dart';
-import 'package:pashboi/core/extensions/app_context.dart';
 
-class AccountStatementPage extends StatefulWidget {
-  final String accountNumber;
-  const AccountStatementPage({super.key, required this.accountNumber});
+class LoanStatementPage extends StatefulWidget {
+  final String loanNumber;
+  const LoanStatementPage({super.key, required this.loanNumber});
 
   @override
-  State<AccountStatementPage> createState() => _AccountStatementPageState();
+  State<LoanStatementPage> createState() => _LoanStatementPageState();
 }
 
-class _AccountStatementPageState extends State<AccountStatementPage> {
+class _LoanStatementPageState extends State<LoanStatementPage> {
   late DateTime startDate;
   late DateTime endDate;
   String? _errorText;
 
   @override
   void initState() {
+    super.initState();
     endDate = DateTime.now();
     startDate = DateTime(endDate.year, endDate.month - 3, endDate.day);
 
-    context.read<AccountStatementBloc>().add(
-      FetchAccountStatementEvent(
-        accountNumber: widget.accountNumber,
-        fromDate: "${startDate.year}/${startDate.month}/${startDate.day}",
-        toDate: "${endDate.month}/${endDate.year}/${endDate.day}",
+    context.read<LoanStatementBloc>().add(
+      FetchLoanStatementEvent(
+        loanNumber: widget.loanNumber,
+        fromDate: _formatDate(startDate),
+        toDate: _formatDate(endDate),
       ),
     );
-    super.initState();
   }
 
   void _handleDateChange(DateTime date, {required bool isFromDate}) {
@@ -52,17 +52,20 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
     });
   }
 
+  String _formatDate(DateTime date) =>
+      "${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Account Statement")),
-      body: BlocBuilder<AccountStatementBloc, AccountStatementState>(
+      appBar: AppBar(title: const Text("Loan Statement")),
+      body: BlocBuilder<LoanStatementBloc, LoanStatementState>(
         builder: (context, state) {
-          if (state is AccountStatementLoading) {
+          if (state is LoanStatementLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state is AccountStatementError) {
+          if (state is LoanStatementError) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -75,7 +78,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
             );
           }
 
-          if (state is AccountStatementSuccess) {
+          if (state is LoanStatementSuccess) {
             final transactions = state.transactions;
 
             return SingleChildScrollView(
@@ -104,7 +107,6 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       child: Column(
         children: [
           Row(
-            spacing: 5,
             children: [
               Expanded(
                 child: AppDatePicker(
@@ -114,7 +116,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
                   errorText: _errorText,
                 ),
               ),
-
+              const SizedBox(width: 10),
               Expanded(
                 child: AppDatePicker(
                   selectedDate: endDate,
@@ -128,16 +130,15 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
           ),
           const SizedBox(height: 12),
           AppSecondaryButton(
-            label: "",
-            iconBefore: Icon(Icons.filter_alt),
+            label: "Filter",
+            iconBefore: const Icon(Icons.filter_alt),
             onPressed: () {
               if (_errorText == null) {
-                context.read<AccountStatementBloc>().add(
-                  FetchAccountStatementEvent(
-                    accountNumber: widget.accountNumber,
-                    fromDate:
-                        "${startDate.year}/${startDate.month}/${startDate.day}",
-                    toDate: "${endDate.year}/${endDate.month}/${endDate.day}",
+                context.read<LoanStatementBloc>().add(
+                  FetchLoanStatementEvent(
+                    loanNumber: widget.loanNumber,
+                    fromDate: _formatDate(startDate),
+                    toDate: _formatDate(endDate),
                   ),
                 );
               } else {
@@ -152,10 +153,10 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
     );
   }
 
-  Widget _buildChart(List<AccountTransactionEntity> transactions) {
+  Widget _buildChart(List<LoanTransactionEntity> transactions) {
     return SfCartesianChart(
       title: ChartTitle(
-        text: 'Transactions Graph',
+        text: 'Loan Transactions Chart',
         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       legend: Legend(
@@ -167,19 +168,21 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       primaryXAxis: CategoryAxis(),
       primaryYAxis: NumericAxis(),
       series: <CartesianSeries>[
-        LineSeries<AccountTransactionEntity, String>(
-          name: 'Cash IN',
+        LineSeries<LoanTransactionEntity, String>(
+          name: 'Loan Issued',
           dataSource: transactions,
-          xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
-          yValueMapper: (txn, _) => txn.credit,
+          xValueMapper:
+              (txn, _) => MyDateUtils.getShortMonthName(txn.transactionDate),
+          yValueMapper: (txn, _) => txn.creditAmount,
           color: Colors.green,
           markerSettings: const MarkerSettings(isVisible: true),
         ),
-        LineSeries<AccountTransactionEntity, String>(
-          name: 'Cash OUT',
+        LineSeries<LoanTransactionEntity, String>(
+          name: 'Loan Repaid',
           dataSource: transactions,
-          xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
-          yValueMapper: (txn, _) => txn.debit,
+          xValueMapper:
+              (txn, _) => MyDateUtils.getShortMonthName(txn.transactionDate),
+          yValueMapper: (txn, _) => txn.debitAmount,
           color: Colors.red,
           markerSettings: const MarkerSettings(isVisible: true),
         ),
@@ -189,7 +192,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
 
   Widget _buildStatementList(
     BuildContext context,
-    List<AccountTransactionEntity> transactions,
+    List<LoanTransactionEntity> transactions,
   ) {
     return Container(
       padding: const EdgeInsets.all(8.0),
@@ -202,14 +205,14 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
         children: [
           const SizedBox(height: 16),
           Text(
-            "Statement",
+            "Loan Statement",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: context.theme.colorScheme.onSurface,
             ),
           ),
-          AccountStatmentSection(accountStatment: transactions),
+          LoanStatmentSection(loanStatement: transactions),
         ],
       ),
     );
