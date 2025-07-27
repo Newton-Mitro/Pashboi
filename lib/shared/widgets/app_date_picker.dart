@@ -57,7 +57,7 @@ class AppDatePicker extends StatelessWidget {
 
     final formattedDate =
         selectedDate != null
-            ? DateFormat.yMMMMd().format(selectedDate!)
+            ? DateFormat('d MMM y').format(selectedDate!)
             : 'Select a date';
 
     return Column(
