@@ -26,7 +26,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
         return Container(
           width: double.infinity,
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.6,
+            maxHeight: MediaQuery.of(context).size.height * 0.4,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
           decoration: BoxDecoration(
@@ -47,6 +47,11 @@ class AuthenticatedBottomSheet extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              Text(
+                "navigation Menus".toUpperCase(),
+                style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 2),
               // Top handle
               Container(
                 width: 40,
@@ -58,6 +63,14 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                 ),
               ),
 
+              SizedBox(height: 20),
+
+              // Divider(
+              //   height: 24,
+              //   thickness: 1,
+              //   color: context.theme.colorScheme.secondary.withAlpha(360),
+              // ),
+
               // Scrollable icon grid
               Expanded(
                 child: Scrollbar(
@@ -68,76 +81,79 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                   child: SingleChildScrollView(
                     controller: scrollController,
                     child: Wrap(
-                      spacing: 16,
-                      runSpacing: 16,
+                      spacing: 12, // Slightly tighter horizontal spacing
+                      runSpacing: 12,
                       children:
                           menuItems.skip(4).map((item) {
                             final int index = item['index'] as int;
                             final bool isActive = index == currentIndex;
 
-                            return GestureDetector(
+                            return InkWell(
+                              borderRadius: BorderRadius.circular(16),
                               onTap: () {
                                 Navigator.pop(context);
                                 context.read<AuthenticatedHomeBloc>().add(
                                   ChangePageEvent(index),
                                 );
                               },
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width: 64,
-                                    height: 64,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          isActive
-                                              ? activeBgColor
-                                              : inactiveBgColor,
-                                      borderRadius: BorderRadius.circular(16),
-                                      border:
-                                          isActive
-                                              ? Border.all(
-                                                color:
-                                                    context
-                                                        .theme
-                                                        .colorScheme
-                                                        .primary,
-                                                width: 2,
-                                              )
-                                              : null,
-                                    ),
-                                    child: Icon(
+                              child: Container(
+                                width: 74,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      isActive
+                                          ? activeBgColor
+                                          : inactiveBgColor,
+                                  borderRadius: BorderRadius.circular(100),
+                                  border:
+                                      isActive
+                                          ? Border.all(
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .primary,
+                                            width: 2,
+                                          )
+                                          : null,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  spacing: 8,
+                                  children: [
+                                    Icon(
                                       item['icon'] as IconData,
                                       color:
                                           isActive
                                               ? activeIconColor
                                               : inactiveIconColor,
-                                      size: 28,
+                                      size: 24,
                                     ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    item['label'] as String,
-                                    style: context.theme.textTheme.bodySmall
-                                        ?.copyWith(
-                                          color:
-                                              isActive
-                                                  ? context
-                                                      .theme
-                                                      .colorScheme
-                                                      .onSurface
-                                                  : context
-                                                      .theme
-                                                      .colorScheme
-                                                      .onSurface
-                                                      .withAlpha(360),
-                                          fontWeight:
-                                              isActive
-                                                  ? FontWeight.w600
-                                                  : FontWeight.normal,
-                                        ),
-                                  ),
-                                ],
+
+                                    Text(
+                                      item['label'] as String,
+                                      textAlign: TextAlign.center,
+                                      style: context.theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            fontSize: 12,
+                                            color: context
+                                                .theme
+                                                .colorScheme
+                                                .onSurface
+                                                .withOpacity(
+                                                  isActive ? 1.0 : 0.6,
+                                                ),
+                                            fontWeight:
+                                                isActive
+                                                    ? FontWeight.w600
+                                                    : FontWeight.normal,
+                                          ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           }).toList(),
@@ -145,8 +161,6 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-
-              const SizedBox(height: 70),
             ],
           ),
         );

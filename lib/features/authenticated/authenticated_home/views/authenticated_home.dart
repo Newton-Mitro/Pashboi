@@ -119,6 +119,18 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
         "label": Locales.string(context, 'auth_bottom_nav_menu_surety'),
         "index": 9,
       },
+      // {
+      //   "icon": FontAwesomeIcons.helmetSafety,
+      //   "activeIcon": FontAwesomeIcons.shieldHalved,
+      //   "label": "Personnel",
+      //   "index": 10,
+      // },
+      // {
+      //   "icon": FontAwesomeIcons.helmetSafety,
+      //   "activeIcon": FontAwesomeIcons.shieldHalved,
+      //   "label": "AGM Counter",
+      //   "index": 11,
+      // },
     ];
 
     return MultiBlocProvider(
@@ -332,6 +344,12 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                       ],
                       sheetOpenIcon: FontAwesomeIcons.listUl,
                       sheetCloseIcon: FontAwesomeIcons.cross,
+                      sheetOpenIconColor: context.theme.colorScheme.primary,
+                      sheetOpenIconBoxColor:
+                          context.theme.colorScheme.onPrimary,
+                      unselectedItemColor: context.theme.colorScheme.onPrimary
+                          .withAlpha(120),
+                      selectedItemColor: context.theme.colorScheme.onPrimary,
                       sheet: AuthenticatedBottomSheet(menuItems: menuItems),
                       items: List.generate(
                         4,

@@ -31,65 +31,89 @@ class AppDropdownSelect<T> extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
       builder: (_) {
-        final sheetHeight = MediaQuery.of(context).size.height * 0.4;
+        final sheetHeight = MediaQuery.of(context).size.height * 0.5;
         return SizedBox(
           height: sheetHeight,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            itemCount: items.length,
-            separatorBuilder:
-                (_, __) => const SizedBox(height: 12), // spacing between items
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return Container(
-                padding: const EdgeInsets.only(left: 16),
-                decoration:
-                    value == item.value
-                        ? BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: context.theme.colorScheme.secondary,
-                          border: Border(
-                            left: BorderSide(
-                              color: context.theme.colorScheme.onPrimary,
-                              width: 3,
-                            ),
-                            right: BorderSide(
-                              color: context.theme.colorScheme.onPrimary,
-                              width: 3,
-                            ),
-                          ),
-                        )
-                        : BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border(
-                            bottom: BorderSide(
-                              color: context.theme.colorScheme.onPrimary,
-                              width: 1,
-                            ),
-                          ),
-                        ),
-                child: RadioListTile(
-                  value: item.value,
-                  groupValue: value,
-                  onChanged: (selectedValue) {
-                    Navigator.of(context).pop();
-                    onChanged(selectedValue);
-                  },
-                  title: DefaultTextStyle(
-                    style: TextStyle(
-                      color:
-                          value == item.value
-                              ? context.theme.colorScheme.onPrimary
-                              : context.theme.colorScheme.onPrimary,
-                    ),
-                    child: item.child,
-                  ),
-                  selected: value == item.value,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  activeColor: context.theme.colorScheme.onPrimary,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 10),
+              Text(
+                "Select $label",
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 3),
+              // 👇 The top horizontal line
+              Container(
+                width: 40,
+                height: 6,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              );
-            },
+              ),
+              SizedBox(height: 5),
+              // 👇 The actual dropdown list
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 20,
+                  ),
+                  itemCount: items.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return Container(
+                      padding: const EdgeInsets.only(left: 16),
+                      decoration:
+                          value == item.value
+                              ? BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: context.theme.colorScheme.secondary,
+                                border: Border(
+                                  left: BorderSide(
+                                    color: context.theme.colorScheme.onPrimary,
+                                    width: 3,
+                                  ),
+                                  right: BorderSide(
+                                    color: context.theme.colorScheme.onPrimary,
+                                    width: 3,
+                                  ),
+                                ),
+                              )
+                              : BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: context.theme.colorScheme.onPrimary
+                                        .withAlpha(360),
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
+                      child: RadioListTile(
+                        value: item.value,
+                        groupValue: value,
+                        onChanged: (selectedValue) {
+                          Navigator.of(context).pop();
+                          onChanged(selectedValue);
+                        },
+                        title: DefaultTextStyle(
+                          style: TextStyle(
+                            color: context.theme.colorScheme.onPrimary,
+                          ),
+                          child: item.child,
+                        ),
+                        selected: value == item.value,
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        activeColor: context.theme.colorScheme.onPrimary,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
