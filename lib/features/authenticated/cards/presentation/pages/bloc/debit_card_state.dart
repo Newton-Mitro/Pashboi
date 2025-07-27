@@ -5,12 +5,14 @@ class DebitCardState extends Equatable {
   final DebitCardEntity? debitCard;
   final String? successMessage;
   final String? error;
+  final int pinAttempts;
 
   const DebitCardState({
     this.isLoading = false,
     this.debitCard,
     this.successMessage,
     this.error,
+    this.pinAttempts = 0,
   });
 
   DebitCardState copyWith({
@@ -19,17 +21,25 @@ class DebitCardState extends Equatable {
     DebitCardEntity? debitCard,
     String? successMessage,
     String? error,
+    int? pinAttempts,
   }) {
     return DebitCardState(
       isLoading: isLoading ?? this.isLoading,
       debitCard: debitCard ?? this.debitCard,
       successMessage: successMessage,
       error: error,
+      pinAttempts: pinAttempts ?? this.pinAttempts,
     );
   }
 
   factory DebitCardState.initial() => const DebitCardState();
 
   @override
-  List<Object?> get props => [isLoading, debitCard, successMessage, error];
+  List<Object?> get props => [
+    isLoading,
+    debitCard,
+    successMessage,
+    error,
+    pinAttempts,
+  ];
 }

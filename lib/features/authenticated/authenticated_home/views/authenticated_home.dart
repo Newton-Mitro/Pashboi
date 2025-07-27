@@ -16,11 +16,9 @@ import 'package:pashboi/features/authenticated/authenticated_home/views/menus/pa
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/transfer_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/views/menus/withdraw_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/authenticated_bottom_sheet.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/widgets/authenticated_home_drawer.dart';
 import 'package:pashboi/features/authenticated/authenticated_home/widgets/base64_image_widget.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
-import 'package:pashboi/features/public/public_home/bloc/home_screen_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';

@@ -215,7 +215,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ),
 
                   ProgressSubmitButton(
-                    width: width - 10,
+                    width: width - 30,
                     height: 100,
                     enabled: state is ChangePasswordLoading ? false : true,
                     backgroundColor: context.theme.colorScheme.primary,

@@ -415,7 +415,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: ProgressSubmitButton(
-        width: width - 10,
+        width: width - 30,
         height: 100,
         enabled: true,
         backgroundColor: context.theme.colorScheme.primary,

@@ -188,17 +188,29 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       result.fold(
-        (failure) =>
-            emit(state.copyWith(isLoading: false, error: failure.message)),
+        (failure) => emit(
+          state.copyWith(
+            isLoading: false,
+            error: failure.message,
+            successMessage: null,
+          ),
+        ),
         (_) => emit(
           state.copyWith(
             isLoading: false,
             successMessage: 'Card blocked successfully',
+            error: null,
           ),
         ),
       );
     } catch (e) {
-      emit(state.copyWith(isLoading: false, error: 'Failed to block card'));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          error: 'Failed to block card',
+          successMessage: null,
+        ),
+      );
     }
   }
 
@@ -228,13 +240,55 @@ class DebitCardBloc extends Bloc<DebitCardEvent, DebitCardState> {
       );
 
       result.fold(
-        (failure) =>
-            emit(state.copyWith(isLoading: false, error: failure.message)),
-        (pinRegId) =>
-            emit(state.copyWith(isLoading: false, successMessage: pinRegId)),
+        (failure) async {
+          final updatedAttempts = state.pinAttempts + 1;
+
+          if (updatedAttempts >= 3) {
+            // Trigger card block event after 3 failures
+            add(
+              DebitCardBlock(
+                cardNumber: event.cardNumber,
+                accountNumber: event.accountNumber,
+                nameOnCard: event.nameOnCard,
+              ),
+            );
+
+            emit(
+              state.copyWith(
+                isLoading: false,
+                error: 'Card blocked after 3 incorrect PIN attempts',
+                pinAttempts: updatedAttempts,
+                successMessage: null,
+              ),
+            );
+          } else {
+            emit(
+              state.copyWith(
+                isLoading: false,
+                error: 'Incorrect PIN. Attempt $updatedAttempts of 3.',
+                successMessage: null,
+                pinAttempts: updatedAttempts,
+              ),
+            );
+          }
+        },
+        (pinRegId) => emit(
+          state.copyWith(
+            isLoading: false,
+            successMessage: pinRegId,
+            error: null,
+            pinAttempts: 0, // reset on success
+          ),
+        ),
       );
     } catch (e) {
-      emit(state.copyWith(isLoading: false, error: 'PIN verification failed'));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          error: 'PIN verification failed',
+          successMessage: null,
+        ),
+      );
     }
   }
 }
