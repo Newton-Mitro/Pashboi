@@ -74,6 +74,7 @@ class _AddOperatingAccountPageState extends State<AddOperatingAccountPage> {
                           AppDropdownSelect<int>(
                             value: selectedDependentId,
                             label: "Dependents",
+                            enabled: dependents.isNotEmpty,
                             items:
                                 dependents
                                     .map(
