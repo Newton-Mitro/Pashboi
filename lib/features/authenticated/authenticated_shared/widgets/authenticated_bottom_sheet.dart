@@ -139,13 +139,16 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                       style: context.theme.textTheme.bodySmall
                                           ?.copyWith(
                                             fontSize: 12,
-                                            color: context
-                                                .theme
-                                                .colorScheme
-                                                .onSurface
-                                                .withOpacity(
-                                                  isActive ? 1.0 : 0.6,
-                                                ),
+                                            color:
+                                                isActive
+                                                    ? context
+                                                        .theme
+                                                        .colorScheme
+                                                        .onPrimary
+                                                    : context
+                                                        .theme
+                                                        .colorScheme
+                                                        .onSurface,
                                             fontWeight:
                                                 isActive
                                                     ? FontWeight.w600
