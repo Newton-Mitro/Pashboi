@@ -207,6 +207,18 @@
   "loan_statement": "Loan Statement",
   "loan_issued": "Loan Issued",
   "loan_repaid": "Loan Repaid",
-  "withdrawable": "Withdrawable"
+  "withdrawable": "Withdrawable",
+  "from_date": "Form Date",
+  "to_date": "To Date",
+  "title_family_or_relative": "Add Family Or Relation",
+  "account_number": "Account Number",
+  "member_name": "Member Name",
+  "relationship": "Relationship",
+  "select_relationship": "Select Relationship",
+  "title_beneficiary": "Add Beneficiary",
+  "beneficiary": "Beneficiary",
+  "account_holder_name": "Account Holder Name"
+
+
 
 }

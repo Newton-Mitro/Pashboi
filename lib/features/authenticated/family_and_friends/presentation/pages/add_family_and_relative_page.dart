@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
@@ -41,7 +42,9 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
     final theme = context.theme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Family or Relative')),
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'title_family_or_relative')),
+      ),
       body: MultiBlocListener(
         listeners: [
           BlocListener<CollectionLedgerBloc, CollectionLedgerState>(
@@ -92,8 +95,8 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                             color: theme.colorScheme.onSurface,
                           ),
                           const SizedBox(height: 8),
-                          const Text(
-                            "Add Family or Relative",
+                          Text(
+                            Locales.string(context, 'title_family_or_relative'),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -107,7 +110,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                             builder: (context, state) {
                               return AppSearchTextInput(
                                 controller: _accountSearchController,
-                                label: "Account Number",
+                                label: Locales.string(
+                                  context,
+                                  'account_number',
+                                ),
                                 isSearch: true,
                                 enabled: state is! CollectionLedgerLoading,
                                 prefixIcon: Icon(
@@ -136,7 +142,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                           const SizedBox(height: 16),
                           AppTextInput(
                             controller: _accountHolderController,
-                            label: "Member Name",
+                            label: Locales.string(context, 'member_name'),
                             enabled: false,
                             errorText:
                                 familyAndFriendsState.errors != null
@@ -159,7 +165,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                                   is RelationshipLoaded) {
                                 return AppDropdownSelect<String>(
                                   value: selectedRelationship,
-                                  label: "Relationship",
+                                  label: Locales.string(
+                                    context,
+                                    'relationship',
+                                  ),
                                   errorText:
                                       familyAndFriendsState.errors != null
                                           ? familyAndFriendsState

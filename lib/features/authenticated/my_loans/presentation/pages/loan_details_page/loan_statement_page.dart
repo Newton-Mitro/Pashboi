@@ -87,7 +87,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                 child: AppDatePicker(
                   selectedDate: startDate,
                   onDateChanged: (d) => _handleDateChange(d!, isFromDate: true),
-                  label: 'From Date',
+                  label: Locales.string(context, 'from_date'),
                   errorText: _errorText,
                 ),
               ),
@@ -97,7 +97,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                   selectedDate: endDate,
                   onDateChanged:
                       (d) => _handleDateChange(d!, isFromDate: false),
-                  label: 'To Date',
+                  label: Locales.string(context, 'to_date'),
                   errorText: _errorText,
                 ),
               ),

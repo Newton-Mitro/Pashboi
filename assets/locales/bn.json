@@ -203,6 +203,15 @@
   "loan_statement": "ঋণ স্টেটমেন্ট",
   "loan_issued": "ঋণ প্রদান করা হয়েছে",
   "loan_repaid": "ঋণ পরিশোধ করা হয়েছে",
-  "withdrawable": "উত্তোলনযোগ্য"
-
+  "withdrawable": "উত্তোলনযোগ্য",
+  "from_date": "থেকে তারিখ",
+  "to_date": "পর্যন্ত তারিখ",
+  "title_family_or_relative": "পরিবার বা আত্মীয় যুক্ত করুন",
+  "account_number": "অ্যাকাউন্ট নম্বর",
+  "member_name": "সদস্যের নাম",
+  "relationship": "সম্পর্ক",
+  "select_relationship": "সম্পর্ক নির্বাচন করুন",
+  "title_beneficiary": "লাভভোগী যুক্ত করুন",
+  "beneficiary": "লাভভোগী",
+  "account_holder_name": "অ্যাকাউন্ট ধারকের নাম"
 }

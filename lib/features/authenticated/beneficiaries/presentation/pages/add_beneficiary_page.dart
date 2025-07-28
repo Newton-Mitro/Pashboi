@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
@@ -75,7 +76,9 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: const Text('Add Beneficiary')),
+        appBar: AppBar(
+          title: Text(Locales.string(context, 'title_beneficiary')),
+        ),
         body: BlocBuilder<BeneficiaryBloc, BeneficiaryState>(
           builder: (context, beneficiaryState) {
             return PageContainer(
@@ -94,8 +97,8 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                         color: context.theme.colorScheme.onSurface,
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        "Add Beneficiary",
+                      Text(
+                        Locales.string(context, 'title_beneficiary'),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -106,7 +109,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                         builder: (context, state) {
                           return AppSearchTextInput(
                             controller: _accountSearchController,
-                            label: "Account Number",
+                            label: Locales.string(context, 'account_number'),
                             isSearch: true,
                             enabled: state is! CollectionLedgerLoading,
                             prefixIcon: Icon(
@@ -122,16 +125,6 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                             onSearchPressed: () {
                               final searchText =
                                   _accountSearchController.text.trim();
-
-                              // if (searchText.isEmpty) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     const SnackBar(
-                              //       content: Text("Please enter account number"),
-                              //     ),
-                              //   );
-                              //   return;
-                              // }
-
                               context.read<CollectionLedgerBloc>().add(
                                 FetchCollectionLedgersEvent(
                                   searchText: searchText,
@@ -145,7 +138,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                       const SizedBox(height: 16),
                       AppTextInput(
                         controller: _accountHolderController,
-                        label: "Account Holder Name",
+                        label: Locales.string(context, 'account_holder_name'),
                         prefixIcon: Icon(
                           Icons.person,
                           color: context.theme.colorScheme.onSurface,
