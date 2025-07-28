@@ -26,7 +26,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: context.theme.colorScheme.primary,
+      backgroundColor: context.theme.colorScheme.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
@@ -40,15 +40,19 @@ class AppDropdownSelect<T> extends StatelessWidget {
               SizedBox(height: 10),
               Text(
                 "Select $label",
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.colorScheme.onSurface,
+                ),
               ),
               SizedBox(height: 3),
               // 👇 The top horizontal line
               Container(
                 width: 40,
-                height: 6,
+                height: 3,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.5),
+                  color: context.theme.colorScheme.onSurface,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -70,14 +74,14 @@ class AppDropdownSelect<T> extends StatelessWidget {
                           value == item.value
                               ? BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                color: context.theme.colorScheme.secondary,
+                                color: context.theme.colorScheme.primary,
                                 border: Border(
                                   left: BorderSide(
-                                    color: context.theme.colorScheme.onPrimary,
+                                    color: context.theme.colorScheme.onSurface,
                                     width: 3,
                                   ),
                                   right: BorderSide(
-                                    color: context.theme.colorScheme.onPrimary,
+                                    color: context.theme.colorScheme.onSurface,
                                     width: 3,
                                   ),
                                 ),
@@ -86,7 +90,7 @@ class AppDropdownSelect<T> extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: context.theme.colorScheme.onPrimary
+                                    color: context.theme.colorScheme.onSurface
                                         .withAlpha(360),
                                     width: 1,
                                   ),
@@ -101,13 +105,14 @@ class AppDropdownSelect<T> extends StatelessWidget {
                         },
                         title: DefaultTextStyle(
                           style: TextStyle(
-                            color: context.theme.colorScheme.onPrimary,
+                            color:
+                                value == item.value
+                                    ? context.theme.colorScheme.onPrimary
+                                    : context.theme.colorScheme.onSurface,
                           ),
                           child: item.child,
                         ),
                         selected: value == item.value,
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        activeColor: context.theme.colorScheme.onPrimary,
                       ),
                     );
                   },

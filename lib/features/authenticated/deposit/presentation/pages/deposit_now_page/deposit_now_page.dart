@@ -317,10 +317,16 @@ class _DepositNowPageState extends State<DepositNowPage> {
           accountError:
               state.validationErrors[state.currentStep]?['transferFromAccount'],
           onAccountChanged: (debitCard, selectedAccount) {
-            context.read<DepositNowStepsBloc>().add(
-              SelectCardAccount(selectedAccount),
-            );
-            context.read<DepositNowStepsBloc>().add(SelectDebitCard(debitCard));
+            if (debitCard != null) {
+              context.read<DepositNowStepsBloc>().add(
+                SelectDebitCard(debitCard),
+              );
+            }
+            if (selectedAccount != null) {
+              context.read<DepositNowStepsBloc>().add(
+                SelectCardAccount(selectedAccount),
+              );
+            }
           },
 
           selectedCardNumber: state.selectedCard?.cardNumber,

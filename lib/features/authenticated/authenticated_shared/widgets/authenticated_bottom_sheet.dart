@@ -28,7 +28,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.4,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
             color: context.theme.colorScheme.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -97,7 +97,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                width: 72,
+                                width: 76,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 8,
                                   horizontal: 2,
@@ -139,17 +139,16 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                       style: context.theme.textTheme.bodySmall
                                           ?.copyWith(
                                             fontSize: 12,
-                                            color: context
-                                                .theme
-                                                .colorScheme
-                                                .onSurface
-                                                .withOpacity(
-                                                  isActive ? 1.0 : 0.6,
-                                                ),
-                                            fontWeight:
+                                            color:
                                                 isActive
-                                                    ? FontWeight.w600
-                                                    : FontWeight.normal,
+                                                    ? context
+                                                        .theme
+                                                        .colorScheme
+                                                        .onPrimary
+                                                    : context
+                                                        .theme
+                                                        .colorScheme
+                                                        .onSurface,
                                           ),
                                     ),
                                   ],

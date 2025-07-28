@@ -331,12 +331,16 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
           accountError:
               state.validationErrors[state.currentStep]?['transferFromAccount'],
           onAccountChanged: (debitCard, selectedAccount) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterSelectCardAccount(selectedAccount),
-            );
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterSelectDebitCard(debitCard),
-            );
+            if (debitCard != null) {
+              context.read<DepositLaterStepsBloc>().add(
+                DepositLaterSelectDebitCard(debitCard),
+              );
+            }
+            if (selectedAccount != null) {
+              context.read<DepositLaterStepsBloc>().add(
+                DepositLaterSelectCardAccount(selectedAccount),
+              );
+            }
           },
 
           selectedCardNumber: state.selectedCard?.cardNumber,
