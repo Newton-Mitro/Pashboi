@@ -25,17 +25,21 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
 
   @override
   void initState() {
+    super.initState();
     endDate = DateTime.now();
     startDate = DateTime(endDate.year, endDate.month - 3, endDate.day);
 
+    _fetchTransactions();
+  }
+
+  void _fetchTransactions() {
     context.read<AccountStatementBloc>().add(
       FetchAccountStatementEvent(
         accountNumber: widget.accountNumber,
         fromDate: "${startDate.year}/${startDate.month}/${startDate.day}",
-        toDate: "${endDate.month}/${endDate.year}/${endDate.day}",
+        toDate: "${endDate.year}/${endDate.month}/${endDate.day}", // ✅ Fixed
       ),
     );
-    super.initState();
   }
 
   void _handleDateChange(DateTime date, {required bool isFromDate}) {
@@ -45,6 +49,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       } else {
         endDate = date;
       }
+
       if (endDate.isBefore(startDate)) {
         _errorText = 'To Date must be after From Date';
       } else {
@@ -57,44 +62,17 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(Locales.string(context, 'account_statement'))),
-      body: BlocBuilder<AccountStatementBloc, AccountStatementState>(
-        builder: (context, state) {
-          if (state is AccountStatementLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is AccountStatementError) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                state.error,
-                style: TextStyle(
-                  color: context.theme.colorScheme.error,
-                  fontSize: 14,
-                ),
-              ),
-            );
-          }
-
-          if (state is AccountStatementSuccess) {
-            final transactions = state.transactions;
-
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildDatePickers(),
-                  const SizedBox(height: 20),
-                  _buildChart(transactions),
-                  const SizedBox(height: 20),
-                  _buildStatementList(context, transactions),
-                  const SizedBox(height: 50),
-                ],
-              ),
-            );
-          }
-
-          return const SizedBox.shrink();
-        },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildDatePickers(),
+            const SizedBox(height: 20),
+            _buildChartSection(),
+            const SizedBox(height: 20),
+            _buildStatementListSection(),
+            const SizedBox(height: 50),
+          ],
+        ),
       ),
     );
   }
@@ -105,7 +83,6 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       child: Column(
         children: [
           Row(
-            spacing: 5,
             children: [
               Expanded(
                 child: AppDatePicker(
@@ -115,7 +92,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
                   errorText: _errorText,
                 ),
               ),
-
+              const SizedBox(width: 8),
               Expanded(
                 child: AppDatePicker(
                   selectedDate: endDate,
@@ -130,26 +107,67 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
           const SizedBox(height: 12),
           AppSecondaryButton(
             label: "",
-            iconBefore: Icon(Icons.filter_alt),
+            iconBefore: const Icon(Icons.filter_alt),
             onPressed: () {
               if (_errorText == null) {
-                context.read<AccountStatementBloc>().add(
-                  FetchAccountStatementEvent(
-                    accountNumber: widget.accountNumber,
-                    fromDate:
-                        "${startDate.year}/${startDate.month}/${startDate.day}",
-                    toDate: "${endDate.year}/${endDate.month}/${endDate.day}",
+                _fetchTransactions();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(_errorText!),
+                    backgroundColor: Colors.red,
                   ),
                 );
-              } else {
-                setState(() {
-                  _errorText ??= 'Please select valid dates.';
-                });
               }
             },
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildChartSection() {
+    return BlocBuilder<AccountStatementBloc, AccountStatementState>(
+      buildWhen:
+          (prev, curr) =>
+              curr is AccountStatementSuccess ||
+              curr is AccountStatementLoading,
+      builder: (context, state) {
+        if (state is AccountStatementLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is AccountStatementError) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              state.error,
+              style: TextStyle(
+                color: context.theme.colorScheme.error,
+                fontSize: 14,
+              ),
+            ),
+          );
+        }
+
+        if (state is AccountStatementSuccess) {
+          return _buildChart(state.transactions);
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildStatementListSection() {
+    return BlocBuilder<AccountStatementBloc, AccountStatementState>(
+      buildWhen: (prev, curr) => curr is AccountStatementSuccess,
+      builder: (context, state) {
+        if (state is AccountStatementSuccess) {
+          return _buildStatementList(context, state.transactions);
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 
