@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/bloc/authenticated_home_bloc.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/bloc/authenticated_home_bloc.dart';
 
 class AuthenticatedBottomSheet extends StatelessWidget {
   final List<Map<String, dynamic>> menuItems;
@@ -24,16 +24,16 @@ class AuthenticatedBottomSheet extends StatelessWidget {
         final Color inactiveBgColor = context.theme.colorScheme.surface;
 
         return Container(
-          width: double.infinity,
+          width: MediaQuery.of(context).size.width * 0.97,
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.4,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
           decoration: BoxDecoration(
             color: context.theme.colorScheme.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             border: Border.all(
-              color: context.theme.colorScheme.secondary,
+              color: context.theme.colorScheme.primary,
               width: 1.5,
             ),
             boxShadow: [
@@ -81,8 +81,8 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                   child: SingleChildScrollView(
                     controller: scrollController,
                     child: Wrap(
-                      spacing: 12, // Slightly tighter horizontal spacing
-                      runSpacing: 12,
+                      spacing: 10, // Slightly tighter horizontal spacing
+                      runSpacing: 10,
                       children:
                           menuItems.skip(4).map((item) {
                             final int index = item['index'] as int;
@@ -97,17 +97,17 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                width: 74,
+                                width: 72,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 8,
-                                  horizontal: 8,
+                                  horizontal: 2,
                                 ),
                                 decoration: BoxDecoration(
                                   color:
                                       isActive
                                           ? activeBgColor
                                           : inactiveBgColor,
-                                  borderRadius: BorderRadius.circular(100),
+                                  borderRadius: BorderRadius.circular(25),
                                   border:
                                       isActive
                                           ? Border.all(

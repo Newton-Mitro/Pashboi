@@ -1,6 +1,6 @@
-part of 'account_opening_steps_bloc.dart';
+part of 'deposit_later_steps_bloc.dart';
 
-class AccountOpeningStepsState extends Equatable {
+class DepositLaterStepsState extends Equatable {
   final int currentStep;
   final Map<int, Map<String, dynamic>> validationErrors;
   final Map<int, Map<String, dynamic>> stepData;
@@ -11,7 +11,7 @@ class AccountOpeningStepsState extends Equatable {
   final String? error;
   final String? successMessage;
 
-  const AccountOpeningStepsState({
+  const DepositLaterStepsState({
     required this.currentStep,
     this.selectedAccount,
     this.selectedCard,
@@ -26,7 +26,7 @@ class AccountOpeningStepsState extends Equatable {
        isLoading = isLoading ?? false,
        collectionLedgers = collectionLedgers ?? const [];
 
-  AccountOpeningStepsState copyWith({
+  DepositLaterStepsState copyWith({
     int? currentStep,
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
@@ -37,7 +37,7 @@ class AccountOpeningStepsState extends Equatable {
     String? error,
     String? successMessage,
   }) {
-    return AccountOpeningStepsState(
+    return DepositLaterStepsState(
       currentStep: currentStep ?? this.currentStep,
       validationErrors: validationErrors ?? this.validationErrors,
       stepData: stepData ?? this.stepData,

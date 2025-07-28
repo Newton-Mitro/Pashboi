@@ -9,11 +9,11 @@ import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
-part 'account_opening_setps_event.dart';
-part 'account_opening_steps_state.dart';
+part 'deposit_later_setps_event.dart';
+part 'deposit_later_steps_state.dart';
 
-class AccountOpeningStepsBloc
-    extends Bloc<AccountOpeningStepsEvent, AccountOpeningStepsState> {
+class DepositLaterStepsBloc
+    extends Bloc<DepositLaterStepsEvent, DepositLaterStepsState> {
   // Define step range constants
   static const int firstStep = 0;
   static const int lastStep = 5;
@@ -21,29 +21,29 @@ class AccountOpeningStepsBloc
   final GetAuthUserUseCase getAuthUserUseCase;
   final SubmitDepositNowUseCase submitDepositNowUseCase;
 
-  AccountOpeningStepsBloc({
+  DepositLaterStepsBloc({
     required this.getAuthUserUseCase,
     required this.submitDepositNowUseCase,
-  }) : super(const AccountOpeningStepsState(currentStep: 0)) {
-    on<AccountOpeningGoToNextStep>(_onGoToNextStep);
-    on<AccountOpeningGoToPreviousStep>(_onGoToPreviousStep);
-    on<AccountOpeningUpdateStepData>(_onUpdateStepData);
-    on<AccountOpeningSetCollectionLedgers>(_onSetCollectionLedgers);
-    on<AccountOpeningToggleLedgerSelection>(_onToggleLedgerSelection);
-    on<AccountOpeningToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
-    on<AccountOpeningUpdateLedgerAmount>(_onUpdateLedgerAmount);
-    on<AccountOpeningFlowReset>(_onResetFlow);
-    on<AccountOpeningSelectCardAccount>(_onSelectCardAccount);
-    on<AccountOpeningSelectDebitCard>(_onSelectDebitCard);
+  }) : super(const DepositLaterStepsState(currentStep: 0)) {
+    on<DepositLaterGoToNextStep>(_onGoToNextStep);
+    on<DepositLaterGoToPreviousStep>(_onGoToPreviousStep);
+    on<DepositLaterUpdateStepData>(_onUpdateStepData);
+    on<DepositLaterSetCollectionLedgers>(_onSetCollectionLedgers);
+    on<DepoistLaterToggleLedgerSelection>(_onToggleLedgerSelection);
+    on<DepositLaterToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
+    on<DepositLaterUpdateLedgerAmount>(_onUpdateLedgerAmount);
+    on<DepositLaterFlowReset>(_onResetFlow);
+    on<DepositLaterSelectCardAccount>(_onSelectCardAccount);
+    on<DepositLaterSelectDebitCard>(_onSelectDebitCard);
     // update lps amount
-    on<AccountOpeningUpdateLpsAmount>(_onUpdateLpsAmount);
-    on<AccountOpeningValidateStep>(_onValidateStep);
-    on<AccountOpeningSubmit>(_onSubmitDepositNow);
+    on<DepositLaterUpdateLpsAmount>(_onUpdateLpsAmount);
+    on<DepositLaterValidateStep>(_onValidateStep);
+    on<DepositLaterSubmit>(_onSubmitDepositNow);
   }
 
   void _onGoToNextStep(
-    AccountOpeningGoToNextStep event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterGoToNextStep event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     final step = state.currentStep;
     final errors = _validateDepositNowSteps(step);
@@ -66,8 +66,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onGoToPreviousStep(
-    AccountOpeningGoToPreviousStep event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterGoToPreviousStep event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     if (state.currentStep > firstStep) {
       emit(state.copyWith(currentStep: state.currentStep - 1));
@@ -75,8 +75,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onUpdateStepData(
-    AccountOpeningUpdateStepData event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterUpdateStepData event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     final updatedStepData = Map<int, Map<String, dynamic>>.from(state.stepData);
     updatedStepData[event.step] = {
@@ -87,8 +87,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onSetCollectionLedgers(
-    AccountOpeningSetCollectionLedgers event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterSetCollectionLedgers event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     final selectedLedgers =
         event.ledgers
@@ -103,8 +103,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onToggleLedgerSelection(
-    AccountOpeningToggleLedgerSelection event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepoistLaterToggleLedgerSelection event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     late List<CollectionLedgerEntity> updatedLedgers;
 
@@ -144,8 +144,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onToggleSelectAllLedgers(
-    AccountOpeningToggleSelectAllLedgers event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterToggleSelectAllLedgers event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     final updatedLedgers =
         state.collectionLedgers
@@ -156,8 +156,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onUpdateLedgerAmount(
-    AccountOpeningUpdateLedgerAmount event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterUpdateLedgerAmount event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     if (!event.ledger.subledger &&
         event.ledger.plType == 2 &&
@@ -178,29 +178,29 @@ class AccountOpeningStepsBloc
   }
 
   void _onResetFlow(
-    AccountOpeningFlowReset event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterFlowReset event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
-    emit(const AccountOpeningStepsState(currentStep: 0));
+    emit(const DepositLaterStepsState(currentStep: 0));
   }
 
   void _onSelectCardAccount(
-    AccountOpeningSelectCardAccount event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterSelectCardAccount event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     emit(state.copyWith(selectedAccount: event.selectedCardAccount));
   }
 
   void _onSelectDebitCard(
-    AccountOpeningSelectDebitCard event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterSelectDebitCard event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     emit(state.copyWith(selectedCard: event.selectedCard));
   }
 
   void _onUpdateLpsAmount(
-    AccountOpeningUpdateLpsAmount event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterUpdateLpsAmount event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     final updatedLedgers =
         state.collectionLedgers.map((l) {
@@ -215,8 +215,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onValidateStep(
-    AccountOpeningValidateStep event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterValidateStep event,
+    Emitter<DepositLaterStepsState> emit,
   ) {
     final step = event.step;
 
@@ -231,8 +231,8 @@ class AccountOpeningStepsBloc
   }
 
   void _onSubmitDepositNow(
-    AccountOpeningSubmit event,
-    Emitter<AccountOpeningStepsState> emit,
+    DepositLaterSubmit event,
+    Emitter<DepositLaterStepsState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
 

@@ -19,7 +19,7 @@ import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verificati
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/registration_page_bloc/registration_page_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/reset_password_bloc/reset_password_bloc.dart';
-import 'package:pashboi/features/authenticated/authenticated_home/bloc/authenticated_home_bloc.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/bloc/authenticated_home_bloc.dart';
 
 void registerAuthModule() async {
   // Register Data Sources

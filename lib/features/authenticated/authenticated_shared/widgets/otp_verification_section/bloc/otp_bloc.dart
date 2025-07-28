@@ -22,7 +22,6 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     on<StartOtpCountdown>(_onStartCountdown);
     on<TickOtpCountdown>(_onTick);
     on<ResendOtpRequested>(_onResend);
-    add(StartOtpCountdown());
   }
 
   void _onDigitChanged(OtpDigitChanged event, Emitter<OtpState> emit) {
