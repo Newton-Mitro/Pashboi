@@ -80,6 +80,24 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
     CreateBeneficiary event,
     Emitter<BeneficiaryState> emit,
   ) async {
+    final beneficiaryName = event.beneficiaryName;
+    final accountNumber = event.accountNumber;
+
+    final Map<String, String> errors = {};
+
+    if (beneficiaryName.isEmpty) {
+      errors['beneficiaryName'] = 'Please enter beneficiary name';
+    }
+
+    if (accountNumber.isEmpty) {
+      errors['accountNumber'] = "Please enter search account number";
+    }
+
+    if (errors.isNotEmpty) {
+      emit(state.copyWith(errors: errors));
+      return;
+    }
+
     emit(state.copyWith(isLoading: true, error: null));
 
     final user = await _getAuthenticatedUser(emit);
