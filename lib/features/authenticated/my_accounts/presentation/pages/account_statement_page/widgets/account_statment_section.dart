@@ -4,13 +4,14 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/account_transaction_entity.dart';
 
-class AccountStatmentSection extends StatefulWidget {
-  const AccountStatmentSection({super.key, required this.accountStatment});
+class AccountStatementSection extends StatefulWidget {
+  const AccountStatementSection({super.key, required this.accountStatment});
 
   final List<AccountTransactionEntity> accountStatment;
 
   @override
-  State<AccountStatmentSection> createState() => _AccountStatmentSectionState();
+  State<AccountStatementSection> createState() =>
+      _AccountStatementSectionState();
 }
 
 String formatDate(DateTime date, {String format = 'full'}) {
@@ -26,7 +27,7 @@ String formatDate(DateTime date, {String format = 'full'}) {
   }
 }
 
-class _AccountStatmentSectionState extends State<AccountStatmentSection> {
+class _AccountStatementSectionState extends State<AccountStatementSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -73,23 +73,6 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
               }
             },
           ),
-          // BlocListener<FamilyAndFriendsBloc, FamilyAndFriendsState>(
-          //   listener: (context, state) {
-          //     if (state.error != null && state.error!.isNotEmpty) {
-          //       ScaffoldMessenger.of(
-          //         context,
-          //       ).showSnackBar(SnackBar(content: Text(state.error!)));
-          //     }
-
-          //     // Assuming your FamilyAndFriendsState has a way to indicate success;
-          //     // if you have a boolean or specific state, use that:
-          //     if (!state.isLoading && state.error == null) {
-          //       // Could improve this by checking an explicit success event or flag
-          //       // For now, just pop if not loading and no error after add
-          //       Navigator.of(context).pop();
-          //     }
-          //   },
-          // ),
         ],
         child: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
           builder: (context, familyAndFriendsState) {

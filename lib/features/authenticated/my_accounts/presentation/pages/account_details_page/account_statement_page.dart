@@ -210,7 +210,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
               color: context.theme.colorScheme.onSurface,
             ),
           ),
-          AccountStatmentSection(accountStatment: transactions),
+          AccountStatementSection(accountStatment: transactions),
         ],
       ),
     );
