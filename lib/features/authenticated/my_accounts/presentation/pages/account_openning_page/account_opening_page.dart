@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_holder_section/account_holder_section.dart';
@@ -309,12 +308,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
   }
 
-  void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    context.read<AccountOpeningStepsBloc>().add(
-      AccountOpeningSetCollectionLedgers(ledgers: newLedgers),
-    );
-  }
-
   void _verifyCardPIN(AccountOpeningStepsState depositNowStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
@@ -338,24 +331,22 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           accountError:
               state.validationErrors[state.currentStep]?['transferFromAccount'],
           onAccountChanged: (debitCard, selectedAccount) {
-            context.read<AccountOpeningStepsBloc>().add(
-              AccountOpeningSelectCardAccount(selectedAccount),
-            );
-            context.read<AccountOpeningStepsBloc>().add(
-              AccountOpeningSelectDebitCard(debitCard),
-            );
+            if (debitCard != null) {
+              context.read<AccountOpeningStepsBloc>().add(
+                AccountOpeningSelectDebitCard(debitCard),
+              );
+            }
+            if (selectedAccount != null) {
+              context.read<AccountOpeningStepsBloc>().add(
+                AccountOpeningSelectCardAccount(selectedAccount),
+              );
+            }
           },
 
           selectedCardNumber: state.selectedCard?.cardNumber,
           accountTypeName: state.selectedAccount?.typeName,
-          accountBalance:
-              state.selectedAccount != null
-                  ? state.selectedAccount!.balance
-                  : 0,
-          accountWithdrawable:
-              state.selectedAccount != null
-                  ? state.selectedAccount!.withdrawableBalance
-                  : 0,
+          accountBalance: state.selectedAccount?.balance,
+          accountWithdrawable: state.selectedAccount?.withdrawableBalance,
           accountOperatorName:
               state.selectedCard?.nameOnCard.toTitleCase().trim(),
           accountHolderName:
@@ -364,7 +355,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         ),
       ),
       StepItem(
-        icon: FontAwesomeIcons.magnifyingGlassChart,
+        icon: FontAwesomeIcons.userTie,
         widget: AccountHolderSection(
           accountHolderNameController: TextEditingController(),
           accountForTextController: TextEditingController(),
@@ -389,7 +380,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         ),
       ),
       StepItem(
-        icon: FontAwesomeIcons.piggyBank,
+        icon: FontAwesomeIcons.userShield,
         widget: AccountNomineeSection(
           nomineeName: '',
           onNomineeChanged: (value) {},

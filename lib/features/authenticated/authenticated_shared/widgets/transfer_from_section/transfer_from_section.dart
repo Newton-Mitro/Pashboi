@@ -12,15 +12,15 @@ class TransferFromSection extends StatefulWidget {
   final String? accountNumber;
   final String? accountError;
   final void Function(
-    DebitCardEntity debitCard,
-    DepositAccountEntity selectedAccount,
+    DebitCardEntity? debitCard,
+    DepositAccountEntity? selectedAccount,
   )?
   onAccountChanged;
 
   final String? selectedCardNumber;
   final String? accountTypeName;
-  final double accountBalance;
-  final double accountWithdrawable;
+  final double? accountBalance;
+  final double? accountWithdrawable;
   final String? accountOperatorName;
   final String? accountHolderName;
   final String? accountName;
