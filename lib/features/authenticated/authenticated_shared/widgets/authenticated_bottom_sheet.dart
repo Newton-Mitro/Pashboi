@@ -28,7 +28,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.4,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
             color: context.theme.colorScheme.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -97,7 +97,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                width: 72,
+                                width: 76,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 8,
                                   horizontal: 2,
@@ -149,10 +149,6 @@ class AuthenticatedBottomSheet extends StatelessWidget {
                                                         .theme
                                                         .colorScheme
                                                         .onSurface,
-                                            fontWeight:
-                                                isActive
-                                                    ? FontWeight.w600
-                                                    : FontWeight.normal,
                                           ),
                                     ),
                                   ],
