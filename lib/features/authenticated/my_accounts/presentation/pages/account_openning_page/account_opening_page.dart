@@ -10,6 +10,7 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_holder_section/account_holder_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section/account_nominee_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/account_opening_details_section.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_preview_section/account_preview_section.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -23,8 +24,8 @@ import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_bu
 import 'package:pashboi/shared/widgets/step_item.dart';
 
 class AccountOpeningPage extends StatefulWidget {
-  final String? productCode;
-  final String? productName;
+  final String productCode;
+  final String productName;
   const AccountOpeningPage({
     super.key,
     required this.productCode,
@@ -173,7 +174,9 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               AccountOpeningStepsBloc.lastStep;
 
           return Scaffold(
-            appBar: AppBar(title: const Text('Open an Account')),
+            appBar: AppBar(
+              title: Text("Open ${widget.productName.trim().toTitleCase()}"),
+            ),
             body: Stack(
               children: [
                 PageContainer(
@@ -253,10 +256,10 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
                                     onPressed: () {
                                       if (accountOpeningStepsState
                                               .currentStep ==
-                                          4) {
+                                          5) {
                                         context
                                             .read<AccountOpeningStepsBloc>()
-                                            .add(AccountOpeningValidateStep(4));
+                                            .add(AccountOpeningValidateStep(5));
                                         _verifyCardPIN(
                                           accountOpeningStepsState,
                                         );
@@ -308,15 +311,17 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
     context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
   }
 
-  void _verifyCardPIN(AccountOpeningStepsState depositNowStepsState) {
+  void _verifyCardPIN(AccountOpeningStepsState accountOpeningStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
-        accountNumber: depositNowStepsState.selectedAccount!.number,
-        cardNumber: depositNowStepsState.selectedCard!.cardNumber,
+        accountNumber: accountOpeningStepsState.selectedAccount!.number,
+        cardNumber: accountOpeningStepsState.selectedCard!.cardNumber,
         nameOnCard:
-            depositNowStepsState.selectedCard!.nameOnCard.toLowerCase().trim(),
+            accountOpeningStepsState.selectedCard!.nameOnCard
+                .toLowerCase()
+                .trim(),
         cardPIN:
-            depositNowStepsState.stepData[depositNowStepsState
+            accountOpeningStepsState.stepData[accountOpeningStepsState
                 .currentStep]?['cardPin'],
       ),
     );
@@ -342,7 +347,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               );
             }
           },
-
           selectedCardNumber: state.selectedCard?.cardNumber,
           accountTypeName: state.selectedAccount?.typeName,
           accountBalance: state.selectedAccount?.balance,
@@ -357,26 +361,41 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       StepItem(
         icon: FontAwesomeIcons.userTie,
         widget: AccountHolderSection(
-          accountHolderNameController: TextEditingController(),
-          accountForTextController: TextEditingController(),
-          accountOperatorNameController: TextEditingController(),
-          accountOperatorNameError: '',
-          accountHolderNameError: '',
+          accountHolderName:
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
+          accountForText: state.stepData[state.currentStep]?['accountFor'],
+          accountOperatorName:
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
         ),
       ),
       StepItem(
         icon: FontAwesomeIcons.piggyBank,
         widget: AccountOpeningDetailsSection(
-          accountNameController: TextEditingController(),
-          accountDurationController: TextEditingController(),
-          interestRateController: TextEditingController(),
-          interestTransferToController: TextEditingController(),
-          accountDuration: '',
-          tenures: [],
-          tenureAmounts: [],
-          onTenureChanged: (String? value) {},
-          installmentAmount: '',
-          onTenureAmountChange: (String? value) {},
+          productCode: widget.productCode,
+          accountName: '',
+          accountDuration:
+              state.selectedTenure != null
+                  ? state.selectedTenure!.durationInMonths
+                  : 0,
+          interestRate:
+              state.selectedTenure != null
+                  ? state.selectedTenure!.interestRate
+                  : 0,
+          interestTransferTo: '',
+          onTenureChanged: (selectedTenure) {
+            context.read<AccountOpeningStepsBloc>().add(
+              AccountOpeningSelectTenure(selectedTenure!),
+            );
+          },
+          installmentAmount:
+              state.selectedTenureAmount != null
+                  ? state.selectedTenureAmount!.depositAmount
+                  : 0,
+          onTenureAmountChange: (selectedTenureAmount) {
+            context.read<AccountOpeningStepsBloc>().add(
+              AccountOpeningSelectTenureAmount(selectedTenureAmount!),
+            );
+          },
         ),
       ),
       StepItem(
@@ -396,7 +415,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           familyMembers: [],
         ),
       ),
-
       StepItem(
         icon: FontAwesomeIcons.eye,
         widget: AccountPreviewSection(

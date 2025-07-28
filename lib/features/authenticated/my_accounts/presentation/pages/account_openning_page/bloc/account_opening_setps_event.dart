@@ -30,59 +30,6 @@ class AccountOpeningUpdateStepData extends AccountOpeningStepsEvent {
   List<Object> get props => [step, data];
 }
 
-class AccountOpeningSetCollectionLedgers extends AccountOpeningStepsEvent {
-  final List<CollectionLedgerEntity> ledgers;
-
-  const AccountOpeningSetCollectionLedgers({required this.ledgers});
-
-  @override
-  List<Object> get props => [ledgers];
-}
-
-class AccountOpeningToggleLedgerSelection extends AccountOpeningStepsEvent {
-  final CollectionLedgerEntity ledger;
-
-  const AccountOpeningToggleLedgerSelection(this.ledger);
-
-  @override
-  List<Object> get props => [ledger];
-}
-
-class AccountOpeningToggleSelectAllLedgers extends AccountOpeningStepsEvent {
-  final bool selectAll;
-
-  const AccountOpeningToggleSelectAllLedgers(this.selectAll);
-
-  @override
-  List<Object> get props => [selectAll];
-}
-
-class AccountOpeningUpdateLedgerAmount extends AccountOpeningStepsEvent {
-  final CollectionLedgerEntity ledger;
-  final double newAmount;
-
-  const AccountOpeningUpdateLedgerAmount({
-    required this.ledger,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [ledger, newAmount];
-}
-
-class AccountOpeningUpdateLpsAmount extends AccountOpeningStepsEvent {
-  final String loanNumber;
-  final double newAmount;
-
-  const AccountOpeningUpdateLpsAmount({
-    required this.loanNumber,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [loanNumber, newAmount];
-}
-
 class AccountOpeningSelectCardAccount extends AccountOpeningStepsEvent {
   final DepositAccountEntity selectedCardAccount;
 
@@ -90,6 +37,24 @@ class AccountOpeningSelectCardAccount extends AccountOpeningStepsEvent {
 
   @override
   List<Object> get props => [selectedCardAccount];
+}
+
+class AccountOpeningSelectTenure extends AccountOpeningStepsEvent {
+  final TenureEntity selectedTenure;
+
+  const AccountOpeningSelectTenure(this.selectedTenure);
+
+  @override
+  List<Object> get props => [selectedTenure];
+}
+
+class AccountOpeningSelectTenureAmount extends AccountOpeningStepsEvent {
+  final TenureAmountEntity selectedTenureAmount;
+
+  const AccountOpeningSelectTenureAmount(this.selectedTenureAmount);
+
+  @override
+  List<Object> get props => [selectedTenureAmount];
 }
 
 class AccountOpeningSelectDebitCard extends AccountOpeningStepsEvent {

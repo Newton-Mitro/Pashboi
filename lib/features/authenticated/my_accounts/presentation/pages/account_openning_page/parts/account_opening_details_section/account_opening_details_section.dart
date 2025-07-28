@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_amount_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
+import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
-class AccountOpeningDetailsSection extends StatelessWidget {
+class AccountOpeningDetailsSection extends StatefulWidget {
   const AccountOpeningDetailsSection({
     super.key,
-    required this.accountNameController,
-    required this.accountDurationController,
-    required this.interestRateController,
-    required this.interestTransferToController,
+    required this.productCode,
+    required this.accountName,
     required this.accountDuration,
-    required this.tenures,
-    required this.tenureAmounts,
+    required this.interestRate,
+    required this.interestTransferTo,
     required this.onTenureChanged,
     required this.installmentAmount,
     required this.onTenureAmountChange,
@@ -24,23 +25,33 @@ class AccountOpeningDetailsSection extends StatelessWidget {
     this.installmentAmountError,
   });
 
-  final TextEditingController accountNameController;
-  final TextEditingController accountDurationController;
-  final TextEditingController interestRateController;
-  final TextEditingController interestTransferToController;
+  final String? accountName;
+  final String productCode;
+  final int accountDuration;
+  final double interestRate;
+  final String? interestTransferTo;
 
-  final List<TenureEntity> tenures;
-  final List<TenureAmountEntity> tenureAmounts;
-
-  final String? accountDuration;
   final String? accountDurationError;
-  final ValueChanged<String?> onTenureChanged;
+  final ValueChanged<TenureEntity?> onTenureChanged;
 
-  final String? installmentAmount;
+  final double installmentAmount;
   final String? installmentAmountError;
-  final ValueChanged<String?> onTenureAmountChange;
+  final ValueChanged<TenureAmountEntity?> onTenureAmountChange;
 
   final String? accountNameError;
+
+  @override
+  State<AccountOpeningDetailsSection> createState() =>
+      _AccountOpeningDetailsSectionState();
+}
+
+class _AccountOpeningDetailsSectionState
+    extends State<AccountOpeningDetailsSection> {
+  @override
+  void initState() {
+    context.read<TenureBloc>().add(FetchTenuresEvent(widget.productCode));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,43 +95,57 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                 child: Column(
                   children: [
                     AppTextInput(
-                      controller: accountNameController,
+                      controller: TextEditingController(
+                        text: widget.accountName,
+                      ),
                       label: "Account Name",
-                      errorText: accountNameError,
+                      errorText: widget.accountNameError,
                       prefixIcon: Icon(
                         FontAwesomeIcons.user,
                         color: context.theme.colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    AppDropdownSelect<String>(
-                      value: accountDuration,
-                      errorText: accountDurationError,
-                      label: "Tenure",
-                      items:
-                          tenures
-                              .map(
-                                (tenure) => DropdownMenuItem(
-                                  value: tenure.durationInMonths.toString(),
-                                  child: Text(tenure.durationName),
-                                ),
-                              )
-                              .toList(),
-                      onChanged: (value) {
-                        final selected = tenures.firstWhere(
-                          (t) => t.durationInMonths.toString() == value,
+                    BlocBuilder<TenureBloc, TenureState>(
+                      builder: (context, state) {
+                        var tenures =
+                            state is TenureSuccess ? state.tenures : [];
+                        return AppDropdownSelect<String>(
+                          value: widget.accountDuration.toString(),
+                          errorText: widget.accountDurationError,
+                          label: "Tenure",
+                          enabled: tenures.isNotEmpty,
+                          items:
+                              tenures
+                                  .map(
+                                    (tenure) => DropdownMenuItem(
+                                      value: tenure.durationInMonths.toString(),
+                                      child: Text(tenure.durationName),
+                                    ),
+                                  )
+                                  .toList(),
+                          onChanged: (value) {
+                            final TenureEntity selected = tenures.firstWhere(
+                              (t) => t.durationInMonths.toString() == value,
+                            );
+                            // Updating values for duration and interest rate
+                            widget.onTenureChanged(selected);
+                            context.read<TenureAmountBloc>().add(
+                              FetchTenureAmountsEvent(
+                                productCode: widget.productCode,
+                                duration: selected.durationInMonths.toString(),
+                              ),
+                            );
+                          },
+                          prefixIcon: Icons.calendar_today,
                         );
-                        accountDurationController.text =
-                            selected.durationInMonths.toString();
-                        interestRateController.text =
-                            selected.interestRate.toString();
-                        onTenureChanged(value);
                       },
-                      prefixIcon: Icons.calendar_today,
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: accountDurationController,
+                      controller: TextEditingController(
+                        text: widget.accountDuration.toString(),
+                      ),
                       enabled: false,
                       label: "Duration In Months",
                       prefixIcon: Icon(
@@ -130,7 +155,9 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: interestRateController,
+                      controller: TextEditingController(
+                        text: widget.interestRate.toString(),
+                      ),
                       enabled: false,
                       label: "Interest Rate",
                       prefixIcon: Icon(
@@ -139,25 +166,44 @@ class AccountOpeningDetailsSection extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    AppDropdownSelect<String>(
-                      value: installmentAmount,
-                      errorText: installmentAmountError,
-                      label: "Installment Amount",
-                      items:
-                          tenureAmounts
-                              .map(
-                                (amount) => DropdownMenuItem(
-                                  value: amount.depositAmount.toString(),
-                                  child: Text(amount.depositAmount.toString()),
-                                ),
-                              )
-                              .toList(),
-                      onChanged: onTenureAmountChange,
-                      prefixIcon: Icons.attach_money,
+                    BlocBuilder<TenureAmountBloc, TenureAmountState>(
+                      builder: (context, state) {
+                        var tenureAmounts =
+                            state is TenureAmountSuccess
+                                ? state.tenureAmounts
+                                : [];
+                        return AppDropdownSelect<String>(
+                          value: widget.installmentAmount.toString(),
+                          errorText: widget.installmentAmountError,
+                          label: "Installment Amount",
+                          enabled: tenureAmounts.isNotEmpty,
+                          items:
+                              tenureAmounts
+                                  .map(
+                                    (amount) => DropdownMenuItem(
+                                      value: amount.depositAmount.toString(),
+                                      child: Text(
+                                        amount.depositAmount.toString(),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                          onChanged: (value) {
+                            final selected = tenureAmounts.firstWhere(
+                              (t) => t.depositAmount.toString() == value,
+                            );
+                            // Updating values for duration and interest rate
+                            widget.onTenureAmountChange(selected);
+                          },
+                          prefixIcon: Icons.attach_money,
+                        );
+                      },
                     ),
                     const SizedBox(height: 10),
                     AppTextInput(
-                      controller: interestTransferToController,
+                      controller: TextEditingController(
+                        text: widget.interestTransferTo,
+                      ),
                       label: "Interest Transfer Account",
                       prefixIcon: Icon(
                         FontAwesomeIcons.buildingColumns,

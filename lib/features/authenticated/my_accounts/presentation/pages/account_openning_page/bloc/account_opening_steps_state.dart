@@ -7,6 +7,8 @@ class AccountOpeningStepsState extends Equatable {
   final List<NomineeEntity> nominees;
   final DepositAccountEntity? selectedAccount;
   final DebitCardEntity? selectedCard;
+  final TenureEntity? selectedTenure;
+  final TenureAmountEntity? selectedTenureAmount;
   final bool isLoading;
   final String? error;
   final String? successMessage;
@@ -15,6 +17,8 @@ class AccountOpeningStepsState extends Equatable {
     required this.currentStep,
     this.selectedAccount,
     this.selectedCard,
+    this.selectedTenure,
+    this.selectedTenureAmount,
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<NomineeEntity>? nominees,
@@ -33,6 +37,8 @@ class AccountOpeningStepsState extends Equatable {
     List<NomineeEntity>? nominees,
     DepositAccountEntity? selectedAccount,
     DebitCardEntity? selectedCard,
+    TenureEntity? selectedTenure,
+    TenureAmountEntity? selectedTenureAmount,
     bool? isLoading,
     String? error,
     String? successMessage,
@@ -44,6 +50,8 @@ class AccountOpeningStepsState extends Equatable {
       nominees: nominees ?? this.nominees,
       selectedAccount: selectedAccount ?? this.selectedAccount,
       selectedCard: selectedCard ?? this.selectedCard,
+      selectedTenure: selectedTenure ?? this.selectedTenure,
+      selectedTenureAmount: selectedTenureAmount ?? this.selectedTenureAmount,
       isLoading: isLoading ?? this.isLoading,
       error: error,
       successMessage: successMessage,
@@ -58,6 +66,8 @@ class AccountOpeningStepsState extends Equatable {
     nominees,
     selectedAccount,
     selectedCard,
+    selectedTenure,
+    selectedTenureAmount,
     isLoading,
     error,
     successMessage,

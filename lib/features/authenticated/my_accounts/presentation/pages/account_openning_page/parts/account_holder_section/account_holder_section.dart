@@ -4,20 +4,15 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
 class AccountHolderSection extends StatelessWidget {
-  final TextEditingController accountHolderNameController;
-  final String? accountHolderNameError;
-  final String? accountOperatorNameError;
-
-  final TextEditingController accountForTextController;
-  final TextEditingController accountOperatorNameController;
+  final String? accountHolderName;
+  final String? accountForText;
+  final String? accountOperatorName;
 
   const AccountHolderSection({
     super.key,
-    required this.accountHolderNameController,
-    required this.accountForTextController,
-    required this.accountOperatorNameController,
-    required this.accountOperatorNameError,
-    required this.accountHolderNameError,
+    required this.accountHolderName,
+    required this.accountForText,
+    required this.accountOperatorName,
   });
 
   @override
@@ -47,7 +42,7 @@ class AccountHolderSection extends StatelessWidget {
             child: Column(
               children: [
                 AppTextInput(
-                  controller: accountForTextController,
+                  controller: TextEditingController(text: accountForText),
                   enabled: false,
                   label: "Account Type",
                   prefixIcon: Icon(
@@ -57,11 +52,11 @@ class AccountHolderSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 AppTextInput(
-                  controller: accountHolderNameController,
+                  controller: TextEditingController(text: accountHolderName),
                   enabled: false,
                   label: "Account Holder",
                   prefixIcon: Icon(
-                    FontAwesomeIcons.creditCard,
+                    FontAwesomeIcons.user,
                     color: context.theme.colorScheme.onSurface,
                   ),
                 ),
@@ -78,12 +73,7 @@ class AccountHolderSection extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: context.theme.colorScheme.surface,
-        border: Border.all(
-          color:
-              accountHolderNameError != null
-                  ? context.theme.colorScheme.error
-                  : context.theme.colorScheme.primary,
-        ),
+        border: Border.all(color: context.theme.colorScheme.primary),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
@@ -93,11 +83,11 @@ class AccountHolderSection extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: AppTextInput(
-              controller: accountOperatorNameController,
+              controller: TextEditingController(text: accountOperatorName),
               enabled: false,
               label: "Account Operator",
               prefixIcon: Icon(
-                FontAwesomeIcons.creditCard,
+                FontAwesomeIcons.userShield,
                 color: context.theme.colorScheme.onSurface,
               ),
             ),

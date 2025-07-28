@@ -2,10 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_amount_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
 part 'account_opening_setps_event.dart';
 part 'account_opening_steps_state.dart';
 
@@ -13,7 +14,7 @@ class AccountOpeningStepsBloc
     extends Bloc<AccountOpeningStepsEvent, AccountOpeningStepsState> {
   // Define step range constants
   static const int firstStep = 0;
-  static const int lastStep = 5;
+  static const int lastStep = 6;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
   final SubmitDepositNowUseCase submitDepositNowUseCase;
@@ -21,13 +22,22 @@ class AccountOpeningStepsBloc
   AccountOpeningStepsBloc({
     required this.getAuthUserUseCase,
     required this.submitDepositNowUseCase,
-  }) : super(const AccountOpeningStepsState(currentStep: 0)) {
+  }) : super(
+         const AccountOpeningStepsState(
+           currentStep: 0,
+           stepData: {
+             1: {"accountFor": "Personal"},
+           },
+         ),
+       ) {
     on<AccountOpeningGoToNextStep>(_onGoToNextStep);
     on<AccountOpeningGoToPreviousStep>(_onGoToPreviousStep);
     on<AccountOpeningUpdateStepData>(_onUpdateStepData);
     on<AccountOpeningFlowReset>(_onResetFlow);
     on<AccountOpeningSelectCardAccount>(_onSelectCardAccount);
     on<AccountOpeningSelectDebitCard>(_onSelectDebitCard);
+    on<AccountOpeningSelectTenure>(_onSelectTenure);
+    on<AccountOpeningSelectTenureAmount>(_onSelectTenureAmount);
     // update lps amount
     on<AccountOpeningValidateStep>(_onValidateStep);
     // on<AccountOpeningSubmit>(_onSubmitOpenAnAccount);
@@ -97,6 +107,20 @@ class AccountOpeningStepsBloc
     Emitter<AccountOpeningStepsState> emit,
   ) {
     emit(state.copyWith(selectedCard: event.selectedCard));
+  }
+
+  void _onSelectTenure(
+    AccountOpeningSelectTenure event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    emit(state.copyWith(selectedTenure: event.selectedTenure));
+  }
+
+  void _onSelectTenureAmount(
+    AccountOpeningSelectTenureAmount event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    emit(state.copyWith(selectedTenureAmount: event.selectedTenureAmount));
   }
 
   void _onValidateStep(
@@ -189,7 +213,7 @@ class AccountOpeningStepsBloc
         // }
         break;
 
-      case 4:
+      case 5:
         if (data['cardPin'] == null || data['cardPin'].toString().isEmpty) {
           errors['cardPin'] = 'Please enter a card PIN';
         } else if (data['cardPin'].length != 4) {
@@ -197,7 +221,7 @@ class AccountOpeningStepsBloc
         }
         break;
 
-      case 5:
+      case 6:
         if (data['confirmation'] != true) {
           errors['confirmation'] = 'You must confirm to proceed';
         }
