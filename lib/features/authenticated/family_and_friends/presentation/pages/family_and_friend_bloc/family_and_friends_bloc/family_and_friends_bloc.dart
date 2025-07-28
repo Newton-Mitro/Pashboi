@@ -76,6 +76,24 @@ class FamilyAndFriendsBloc
     AddFamilyAndFriend event,
     Emitter<FamilyAndFriendsState> emit,
   ) async {
+    final relationTypeCode = event.relationTypeCode.trim();
+    final childPersonId = event.childPersonId;
+
+    final Map<String, String> errors = {};
+
+    if (relationTypeCode.isEmpty) {
+      errors['relationTypeCode'] = 'Please enter relationship';
+    }
+
+    if (childPersonId == 0) {
+      errors['childPersonId'] = 'Please enter account number';
+    }
+
+    if (errors.isNotEmpty) {
+      emit(FamilyAndFriendValidationError(errors));
+      return;
+    }
+
     emit(state.copyWith(isLoading: true, error: null));
 
     final user = await _getAuthenticatedUser(emit);

@@ -26,3 +26,12 @@ class FamilyAndFriendsState extends Equatable {
   @override
   List<Object?> get props => [isLoading, error, familyAndFriends];
 }
+
+final class FamilyAndFriendValidationError extends FamilyAndFriendsState {
+  final Map<String, String> errors;
+
+  const FamilyAndFriendValidationError(this.errors);
+
+  @override
+  List<Object> get props => [errors];
+}

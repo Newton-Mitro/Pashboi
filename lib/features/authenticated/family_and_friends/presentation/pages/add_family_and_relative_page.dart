@@ -124,24 +124,15 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                               FontAwesomeIcons.piggyBank,
                               color: theme.colorScheme.onSurface,
                             ),
+                            errorText:
+                                state is CollectionLedgerValidationError
+                                    ? state.errors['searchText']
+                                    : null,
                             onSearchPressed: () {
-                              final searchText =
-                                  _accountSearchController.text.trim();
-
-                              if (searchText.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      "Please enter account number",
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
                               context.read<CollectionLedgerBloc>().add(
                                 FetchCollectionLedgersEvent(
-                                  searchText: searchText,
+                                  searchText:
+                                      _accountSearchController.text.trim(),
                                   moduleCode: '16',
                                 ),
                               );
@@ -170,6 +161,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                             return AppDropdownSelect<String>(
                               value: selectedRelationship,
                               label: "Relationship",
+                              errorText: '',
+                              // state is FamilyAndFriendValidationError
+                              //     ? state.errors['relationTypeCode']
+                              //     : null,
                               items:
                                   state.relationships
                                       .map(
@@ -179,13 +174,13 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                                         ),
                                       )
                                       .toList(),
+
                               onChanged: (value) {
                                 setState(() {
                                   selectedRelationship = value;
                                 });
                               },
                               prefixIcon: FontAwesomeIcons.usersViewfinder,
-                              errorText: '',
                             );
                           }
                           return const SizedBox.shrink();
@@ -205,13 +200,13 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                 onSubmit: () {
                   if (!mounted) return;
 
-                  if (selectedRelationship == null ||
-                      _accountHolderController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Please fill all fields")),
-                    );
-                    return;
-                  }
+                  // if (selectedRelationship == null ||
+                  //     _accountHolderController.text.isEmpty) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(content: Text("Please fill all fields")),
+                  //   );
+                  //   return;
+                  // }
 
                   final state = context.read<CollectionLedgerBloc>().state;
                   if (state is CollectionLedgerLoaded) {

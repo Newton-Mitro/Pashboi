@@ -28,3 +28,12 @@ final class CollectionLedgerError extends CollectionLedgerState {
   @override
   List<Object> get props => [message];
 }
+
+final class CollectionLedgerValidationError extends CollectionLedgerState {
+  final Map<String, String> errors;
+
+  const CollectionLedgerValidationError(this.errors);
+
+  @override
+  List<Object> get props => [errors];
+}
