@@ -12,17 +12,11 @@ class FetchFamilyAndFriends extends FamilyAndFriendsEvent {}
 class AddFamilyAndFriend extends FamilyAndFriendsEvent {
   final int childPersonId;
   final String relationTypeCode;
-  final String accountNumber;
-  final String memberName;
-  final String gender;
-  final String relationship;
+  final String searchAccountNumber;
 
   const AddFamilyAndFriend({
     required this.childPersonId,
     required this.relationTypeCode,
-    required this.accountNumber,
-    required this.memberName,
-    required this.gender,
-    required this.relationship,
+    required this.searchAccountNumber,
   });
 }

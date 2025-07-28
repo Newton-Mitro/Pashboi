@@ -76,25 +76,29 @@ class FamilyAndFriendsBloc
     AddFamilyAndFriend event,
     Emitter<FamilyAndFriendsState> emit,
   ) async {
-    final relationTypeCode = event.relationTypeCode.trim();
+    final relationTypeCode = event.relationTypeCode;
     final childPersonId = event.childPersonId;
 
     final Map<String, String> errors = {};
+
+    if (event.searchAccountNumber.isEmpty) {
+      errors['searchAccountNumber'] = 'Please enter search account number';
+    }
 
     if (relationTypeCode.isEmpty) {
       errors['relationTypeCode'] = 'Please enter relationship';
     }
 
     if (childPersonId == 0) {
-      errors['childPersonId'] = 'Please enter account number';
+      errors['memberName'] = "Please search with a valid account number";
     }
 
     if (errors.isNotEmpty) {
-      emit(FamilyAndFriendValidationError(errors));
+      emit(state.copyWith(errors: errors));
       return;
     }
 
-    emit(state.copyWith(isLoading: true, error: null));
+    emit(state.copyWith(isLoading: true, error: null, errors: null));
 
     final user = await _getAuthenticatedUser(emit);
     if (user == null) return;
@@ -107,8 +111,8 @@ class FamilyAndFriendsBloc
         personId: user.personId,
         employeeCode: user.employeeCode,
         mobileNumber: user.regMobile,
-        childPersonId: event.childPersonId,
-        relationTypeCode: event.relationTypeCode,
+        childPersonId: childPersonId,
+        relationTypeCode: relationTypeCode,
       ),
     );
 
@@ -121,13 +125,13 @@ class FamilyAndFriendsBloc
         )..add(
           FamilyAndFriendEntity(
             id: Random().nextInt(1000000),
-            relationName: event.relationship,
             userPersonId: event.childPersonId,
             familyMemberId: event.childPersonId,
-            familyMemberName: event.memberName,
-            familyMemberAge: 1,
-            familyMemberGender: event.gender,
-            requestStatus: 'Pending For Approval',
+            relationName: '',
+            familyMemberName: '',
+            familyMemberAge: 0,
+            familyMemberGender: '',
+            requestStatus: '',
           ),
         );
 
