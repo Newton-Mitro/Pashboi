@@ -10,7 +10,6 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_holder_section/account_holder_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section/account_nominee_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/account_opening_details_section.dart';
-import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_bloc/tenure_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_preview_section/account_preview_section.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -340,10 +339,26 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               context.read<AccountOpeningStepsBloc>().add(
                 AccountOpeningSelectDebitCard(debitCard),
               );
+              context.read<AccountOpeningStepsBloc>().add(
+                AccountOpeningUpdateStepData(
+                  step: 2,
+                  data: {
+                    'accountName': debitCard.nameOnCard.trim().toTitleCase(),
+                  },
+                ),
+              );
             }
             if (selectedAccount != null) {
               context.read<AccountOpeningStepsBloc>().add(
                 AccountOpeningSelectCardAccount(selectedAccount),
+              );
+              context.read<AccountOpeningStepsBloc>().add(
+                AccountOpeningUpdateStepData(
+                  step: 2,
+                  data: {
+                    'interestTransferAccount': selectedAccount.number.trim(),
+                  },
+                ),
               );
             }
           },
@@ -372,7 +387,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
         icon: FontAwesomeIcons.piggyBank,
         widget: AccountOpeningDetailsSection(
           productCode: widget.productCode,
-          accountName: '',
+          accountName: state.stepData[state.currentStep]?['accountName'],
           accountDuration:
               state.selectedTenure != null
                   ? state.selectedTenure!.durationInMonths
@@ -381,7 +396,8 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               state.selectedTenure != null
                   ? state.selectedTenure!.interestRate
                   : 0,
-          interestTransferTo: '',
+          interestTransferTo:
+              state.stepData[state.currentStep]?['interestTransferAccount'],
           onTenureChanged: (selectedTenure) {
             context.read<AccountOpeningStepsBloc>().add(
               AccountOpeningSelectTenure(selectedTenure!),
@@ -401,18 +417,9 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       StepItem(
         icon: FontAwesomeIcons.userShield,
         widget: AccountNomineeSection(
-          nomineeName: '',
-          onNomineeChanged: (value) {},
-          sharePercentage: 0,
-          onSharePercentageChanged: (value) {},
-          onAddNominee: (NomineeEntity) {},
-          onRemoveNominee: (int index) {},
-          remainingPercentage: 0,
-          canAddNominee: () {
-            return true;
-          },
+          onAddNominee: (nominee) {},
+          onRemoveNominee: (nominee) {},
           nominees: [],
-          familyMembers: [],
         ),
       ),
       StepItem(
