@@ -48,6 +48,24 @@ class AccountOpeningSelectTenure extends AccountOpeningStepsEvent {
   List<Object> get props => [selectedTenure];
 }
 
+class AccountOpeningAddNominee extends AccountOpeningStepsEvent {
+  final NomineeEntity nominee;
+
+  const AccountOpeningAddNominee(this.nominee);
+
+  @override
+  List<Object> get props => [nominee];
+}
+
+class AccountOpeningRemoveNominee extends AccountOpeningStepsEvent {
+  final NomineeEntity nominee;
+
+  const AccountOpeningRemoveNominee(this.nominee);
+
+  @override
+  List<Object> get props => [nominee];
+}
+
 class AccountOpeningSelectTenureAmount extends AccountOpeningStepsEvent {
   final TenureAmountEntity selectedTenureAmount;
 

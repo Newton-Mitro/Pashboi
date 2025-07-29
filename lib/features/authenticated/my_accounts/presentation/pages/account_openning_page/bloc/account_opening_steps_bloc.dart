@@ -38,6 +38,8 @@ class AccountOpeningStepsBloc
     on<AccountOpeningSelectDebitCard>(_onSelectDebitCard);
     on<AccountOpeningSelectTenure>(_onSelectTenure);
     on<AccountOpeningSelectTenureAmount>(_onSelectTenureAmount);
+    on<AccountOpeningAddNominee>(_onAddNominee);
+    on<AccountOpeningRemoveNominee>(_onRemoveNominee);
     // update lps amount
     on<AccountOpeningValidateStep>(_onValidateStep);
     // on<AccountOpeningSubmit>(_onSubmitOpenAnAccount);
@@ -139,6 +141,37 @@ class AccountOpeningStepsBloc
     emit(state.copyWith(validationErrors: updatedValidationErrors));
   }
 
+  void _onAddNominee(
+    AccountOpeningAddNominee event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    final totalPercentage = state.nominees.fold<double>(
+      0,
+      (sum, nominee) => sum + (nominee.percentage ?? 0),
+    );
+
+    final newTotal = totalPercentage + (event.nominee.percentage ?? 0);
+
+    if (newTotal > 100) {
+      // Optionally emit error or use a side-effect to show a dialog/snackbar
+      return;
+    }
+
+    final updatedNominees = List<NomineeEntity>.from(state.nominees)
+      ..add(event.nominee);
+
+    emit(state.copyWith(nominees: updatedNominees, validationErrors: {}));
+  }
+
+  void _onRemoveNominee(
+    AccountOpeningRemoveNominee event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) {
+    final updatedNominees = List<NomineeEntity>.from(state.nominees)
+      ..removeWhere((n) => n.id == event.nominee.id);
+    emit(state.copyWith(nominees: updatedNominees));
+  }
+
   void _onSubmitOpenAnAccount() {}
 
   Map<String, dynamic> _validateDepositNowSteps(int step) {
@@ -211,6 +244,23 @@ class AccountOpeningStepsBloc
         //     }
         //   }
         // }
+        break;
+
+      case 3:
+        final nominees = state.nominees;
+        if (nominees.isEmpty) {
+          errors['nominees'] = 'Please add at least one nominee';
+        } else {
+          final totalShare = nominees.fold<double>(
+            0,
+            (sum, nominee) => sum + (nominee.percentage),
+          );
+          if (totalShare > 100) {
+            errors['nominees'] = 'Total nominee share cannot exceed 100%';
+          } else if (totalShare < 100) {
+            errors['nominees'] = 'Total nominee share must be exactly 100%';
+          }
+        }
         break;
 
       case 5:

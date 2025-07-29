@@ -4,11 +4,11 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 
 class AccountPreviewSection extends StatelessWidget {
-  final TextEditingController accountNameController;
-  final TextEditingController accountDurationController;
-  final String? installmentAmount;
-  final TextEditingController interestRateController;
-  final TextEditingController interestTransferToController;
+  final String? accountName;
+  final int accountDuration;
+  final double interestRate;
+  final String? interestTransferTo;
+  final double installmentAmount;
   final List<NomineeEntity> nominees;
   final String? accountType;
   final String? accountHolderName;
@@ -16,10 +16,10 @@ class AccountPreviewSection extends StatelessWidget {
 
   const AccountPreviewSection({
     super.key,
-    required this.accountNameController,
-    required this.accountDurationController,
-    required this.interestRateController,
-    required this.interestTransferToController,
+    required this.accountName,
+    required this.accountDuration,
+    required this.interestRate,
+    required this.interestTransferTo,
     required this.nominees,
     required this.accountType,
     required this.accountHolderName,
@@ -49,7 +49,6 @@ class AccountPreviewSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -72,7 +71,6 @@ class AccountPreviewSection extends StatelessWidget {
                 ),
               ),
 
-              // Scrollable Content with Scrollbar
               ConstrainedBox(
                 constraints: const BoxConstraints(maxHeight: 450),
                 child: Scrollbar(
@@ -83,51 +81,40 @@ class AccountPreviewSection extends StatelessWidget {
                       children: [
                         const SectionTitle("Account Info"),
                         InfoRow("Account Type", accountType ?? ""),
-                        InfoRow("Account Name", accountNameController.text),
-                        InfoRow(
-                          "Tenure",
-                          "${accountDurationController.text} Months",
-                        ),
+                        InfoRow("Account Name", accountName ?? ""),
+                        InfoRow("Tenure", "$accountDuration Months"),
                         InfoRow(
                           "Interest Rate",
-                          interestRateController.text,
+                          interestRate.toString(),
                           icon: FontAwesomeIcons.percent,
                         ),
                         InfoRow(
                           "Deposit Amount",
-                          installmentAmount ?? "0",
+                          installmentAmount.toString(),
                           icon: FontAwesomeIcons.bangladeshiTakaSign,
                         ),
                         InfoRow(
                           "Interest Transfer To",
-                          interestTransferToController.text,
+                          interestTransferTo ?? "",
                         ),
-                        Divider(
-                          height: 30,
-                          color: context.theme.colorScheme.primary,
-                        ),
+
+                        Divider(height: 30, color: colorScheme.primary),
 
                         const SectionTitle("Account Holder"),
                         InfoRow("Full Name", accountHolderName ?? ""),
 
-                        Divider(
-                          height: 30,
-                          color: context.theme.colorScheme.primary,
-                        ),
+                        Divider(height: 30, color: colorScheme.primary),
 
                         const SectionTitle("Account Operator"),
                         InfoRow("Full Name", accountOperatorName ?? ""),
 
-                        Divider(
-                          height: 30,
-                          color: context.theme.colorScheme.primary,
-                        ),
+                        Divider(height: 30, color: colorScheme.primary),
 
                         const SectionTitle("Appointed Nominees"),
                         for (final nominee in nominees)
                           InfoRow(
                             nominee.name,
-                            nominee.percentage.toString(),
+                            "${nominee.percentage}",
                             icon: FontAwesomeIcons.percent,
                           ),
                       ],

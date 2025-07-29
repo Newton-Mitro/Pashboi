@@ -6,6 +6,7 @@ import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_holder_section/account_holder_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_nominee_section/account_nominee_section.dart';
@@ -308,6 +309,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
   void initState() {
     super.initState();
     context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
+    context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
   }
 
   void _verifyCardPIN(AccountOpeningStepsState accountOpeningStepsState) {
@@ -417,23 +419,43 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       StepItem(
         icon: FontAwesomeIcons.userShield,
         widget: AccountNomineeSection(
-          onAddNominee: (nominee) {},
-          onRemoveNominee: (nominee) {},
-          nominees: [],
+          onAddNominee: (nominee) {
+            context.read<AccountOpeningStepsBloc>().add(
+              AccountOpeningAddNominee(nominee),
+            );
+          },
+          onRemoveNominee: (nominee) {
+            context.read<AccountOpeningStepsBloc>().add(
+              AccountOpeningRemoveNominee(nominee),
+            );
+          },
+          nominees: state.nominees,
+          sectionError: state.validationErrors[state.currentStep]?['nominees'],
         ),
       ),
       StepItem(
         icon: FontAwesomeIcons.eye,
         widget: AccountPreviewSection(
-          accountNameController: TextEditingController(),
-          accountDurationController: TextEditingController(),
-          interestRateController: TextEditingController(),
-          interestTransferToController: TextEditingController(),
-          nominees: [],
-          accountType: '',
-          accountHolderName: '',
-          accountOperatorName: '',
-          installmentAmount: '',
+          accountName: state.stepData[2]?['accountName'],
+          accountDuration:
+              state.selectedTenure != null
+                  ? state.selectedTenure!.durationInMonths
+                  : 0,
+          interestRate:
+              state.selectedTenure != null
+                  ? state.selectedTenure!.interestRate
+                  : 0,
+          interestTransferTo: state.stepData[2]?['interestTransferAccount'],
+          installmentAmount:
+              state.selectedTenureAmount != null
+                  ? state.selectedTenureAmount!.depositAmount
+                  : 0,
+          nominees: state.nominees,
+          accountType: state.selectedAccount?.typeName,
+          accountHolderName:
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
+          accountOperatorName:
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
         ),
       ),
       StepItem(
