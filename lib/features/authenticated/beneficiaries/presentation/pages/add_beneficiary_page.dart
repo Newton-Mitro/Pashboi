@@ -165,7 +165,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
             backgroundColor: context.theme.colorScheme.primary,
             progressColor: context.theme.colorScheme.secondary,
             foregroundColor: context.theme.colorScheme.onPrimary,
-            label: 'Hold & Press to Submit',
+            label: Locales.string(context, 'button_title_for_beneficiary'),
             onSubmit: _submit,
           ),
         ),

@@ -241,23 +241,30 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                           },
                           itemBuilder:
                               (context) => [
-                                const PopupMenuItem(
+                                PopupMenuItem(
                                   value: 0,
                                   child: Row(
                                     children: [
                                       Icon(Icons.person, size: 20),
                                       SizedBox(width: 8),
-                                      Text('Profile'),
+                                      Text(
+                                        Locales.string(context, 'profile_text'),
+                                      ),
                                     ],
                                   ),
                                 ),
-                                const PopupMenuItem(
+                                PopupMenuItem(
                                   value: 1,
                                   child: Row(
                                     children: [
                                       Icon(Icons.lock_open_rounded, size: 20),
                                       SizedBox(width: 8),
-                                      Text('Change Password'),
+                                      Text(
+                                        Locales.string(
+                                          context,
+                                          'change_password_text',
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -270,13 +277,15 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                     height: 8,
                                   ),
                                 ),
-                                const PopupMenuItem(
+                                PopupMenuItem(
                                   value: 2,
                                   child: Row(
                                     children: [
                                       Icon(Icons.logout, size: 20),
                                       SizedBox(width: 8),
-                                      Text('Logout'),
+                                      Text(
+                                        Locales.string(context, 'logout_text'),
+                                      ),
                                     ],
                                   ),
                                 ),

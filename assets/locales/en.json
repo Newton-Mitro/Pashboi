@@ -217,8 +217,16 @@
   "select_relationship": "Select Relationship",
   "title_beneficiary": "Add Beneficiary",
   "beneficiary": "Beneficiary",
-  "account_holder_name": "Account Holder Name"
-
-
-
+  "account_holder_name": "Account Holder Name",
+  "button_title_for_add_family_and_relative":"Hold & Press to Submit",
+  "button_title_for_beneficiary": "Hold & Press to Submit",
+  "button_title_for_change_password": "Hold & Press to Submit",
+  "profile_text":"Profile",
+  "change_password_text": "Change Password",
+  "date_of_birth":"Date Of Birth",
+  "blood_group":"Blood Group",
+  "nid":"Nid",
+  "mobile_number":"Mobile Number",
+  "present_address":"Present Address",
+  "permanent_address":"Permanent Address"
 }

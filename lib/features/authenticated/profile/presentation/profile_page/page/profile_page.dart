@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -76,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(title: Text(Locales.string(context, 'profile_text'))),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state.isLoading) {
@@ -175,37 +176,37 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         buildInfoRow(
                           FontAwesomeIcons.baby,
-                          "Date Of Birth",
+                          Locales.string(context, 'date_of_birth'),
                           MyDateUtils.formatDate(person.dateOfBirth),
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.droplet,
-                          "Blood Group",
+                          Locales.string(context, 'blood_group'),
                           person.bloodGroup,
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.idCard,
-                          "NID",
+                          Locales.string(context, 'nid'),
                           person.nid,
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.phoneVolume,
-                          "Mobile Number",
+                          Locales.string(context, 'mobile_number'),
                           person.mobileNumber,
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.locationPin,
-                          "Present Address",
+                          Locales.string(context, 'present_address'),
                           person.presentAddress.toTitleCase(),
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.locationPinLock,
-                          "Permanent Address",
+                          Locales.string(context, 'permanent_address'),
                           person.permanentAddress.toTitleCase(),
                         ),
                       ],

@@ -205,7 +205,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                     backgroundColor: theme.colorScheme.primary,
                     progressColor: theme.colorScheme.secondary,
                     foregroundColor: theme.colorScheme.onPrimary,
-                    label: 'Hold & Press to Submit',
+                    label: Locales.string(
+                      context,
+                      'button_title_for_add_family_and_relative',
+                    ),
                     onSubmit: () {
                       if (!mounted) return;
 
