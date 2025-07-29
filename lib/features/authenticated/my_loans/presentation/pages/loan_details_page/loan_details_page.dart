@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
@@ -132,7 +133,7 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: const Text('Loan Details')),
+        appBar: AppBar(title: Text(Locales.string(context, 'loan_details'))),
         body: PageContainer(
           child: BlocBuilder<LoanDetsilsBloc, LoanDetailsState>(
             builder: (context, state) {
@@ -230,14 +231,15 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
                         children: [
                           _buildCircleStat(
                             context,
-                            "Issued",
+                            Locales.string(context, 'issued'),
+                            // "Issued",
                             TakaFormatter.format(account.issuedAmount),
                             context.theme.colorScheme.primary,
                             context.theme.colorScheme.onPrimary,
                           ),
                           _buildCircleStat(
                             context,
-                            "Balance",
+                            Locales.string(context, 'balance'),
                             TakaFormatter.format(account.loanBalance),
                             context.theme.colorScheme.secondary,
                             context.theme.colorScheme.onSecondary,
@@ -249,42 +251,42 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
                         children: [
                           buildInfoRow(
                             context,
-                            "Last Deposit Date",
+                            Locales.string(context, 'last_repayment_date'),
                             MyDateUtils.formatDate(account.lastPaidDate),
                             icon: FontAwesomeIcons.calendarCheck,
                           ),
                           buildInfoRow(
                             context,
-                            "Refund Amount",
+                            Locales.string(context, 'refund_amount'),
                             TakaFormatter.format(account.refundAmount),
                           ),
                           buildInfoRow(
                             context,
-                            "Last Deposit Date",
+                            Locales.string(context, 'loan_end_date'),
                             MyDateUtils.formatDate(account.loanEndDate),
                             icon: FontAwesomeIcons.hourglassEnd,
                           ),
                           buildInfoRow(
                             context,
-                            "Interest Rate",
+                            Locales.string(context, 'interest_rate'),
                             "${account.interestRate.toStringAsFixed(2)}%",
                             icon: FontAwesomeIcons.percent,
                           ),
                           buildInfoRow(
                             context,
-                            "Interest Days",
+                            Locales.string(context, 'interest_days'),
                             "${account.interestForDays} Days",
                             icon: FontAwesomeIcons.clock,
                           ),
                           buildInfoRow(
                             context,
-                            "Installments",
+                            Locales.string(context, 'installments'),
                             account.numberOfInstallments.toString(),
                             icon: FontAwesomeIcons.listOl,
                           ),
                           buildInfoRow(
                             context,
-                            "Defaulter Reason",
+                            Locales.string(context, 'defaulter_reason'),
                             account.defaulterReason,
                             icon: FontAwesomeIcons.triangleExclamation,
                           ),
@@ -300,8 +302,11 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
                                   },
                                 );
                               },
+
                               icon: const Icon(Icons.show_chart),
-                              label: const Text("View Loan Statement"),
+                              label: Text(
+                                Locales.string(context, 'loan_statement'),
+                              ),
                             ),
                           ),
                         ],

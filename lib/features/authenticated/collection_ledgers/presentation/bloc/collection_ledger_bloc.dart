@@ -18,51 +18,57 @@ class CollectionLedgerBloc
     required this.fetchCollectionLedgersUseCase,
     required this.getAuthUserUseCase,
   }) : super(CollectionLedgerInitial()) {
-    on<FetchCollectionLedgersEvent>((event, emit) async {
-      emit(CollectionLedgerLoading());
+    on<FetchCollectionLedgersEvent>(_onFetchCollectionLedgers);
+  }
 
-      try {
-        final authUser = await getAuthUserUseCase.call(NoParams());
-        UserEntity? user;
+  Future<void> _onFetchCollectionLedgers(
+    FetchCollectionLedgersEvent event,
+    Emitter<CollectionLedgerState> emit,
+  ) async {
+    final searchText = event.searchText.trim();
 
-        authUser.fold(
-          (left) {
-            emit(CollectionLedgerError('Failed to load user information'));
-          },
-          (right) {
-            user = right.user;
-          },
-        );
+    if (searchText.isEmpty) {
+      emit(
+        const CollectionLedgerValidationError({
+          'searchText': 'Please enter account number',
+        }),
+      );
+      return;
+    }
 
-        if (user == null) {
-          emit(CollectionLedgerError('User not found'));
-          return;
-        }
+    emit(CollectionLedgerLoading());
 
-        final dataState = await fetchCollectionLedgersUseCase.call(
-          FetchCollectionLedgersProps(
-            email: user!.loginEmail,
-            userId: user!.userId,
-            rolePermissionId: user!.roleId,
-            personId: user!.personId,
-            employeeCode: user!.employeeCode,
-            mobileNumber: user!.regMobile,
-            searchText: event.searchText,
-            moduleCode: event.moduleCode,
-          ),
-        );
+    try {
+      final authUser = await getAuthUserUseCase.call(NoParams());
 
-        dataState.fold(
-          (failure) {
-            emit(CollectionLedgerError(failure.message));
-          },
-          (collectionLedgers) {
-            emit(CollectionLedgerLoaded(collectionLedgers));
-          },
-        );
-      } catch (e) {
-        emit(CollectionLedgerError('Failed to load collection ledgers'));
-      }
-    });
+      UserEntity? user;
+      authUser.fold(
+        (failure) =>
+            emit(CollectionLedgerError('Failed to load user information')),
+        (success) => user = success.user,
+      );
+
+      if (user == null) return;
+
+      final result = await fetchCollectionLedgersUseCase.call(
+        FetchCollectionLedgersProps(
+          email: user!.loginEmail,
+          userId: user!.userId,
+          rolePermissionId: user!.roleId,
+          personId: user!.personId,
+          employeeCode: user!.employeeCode,
+          mobileNumber: user!.regMobile,
+          searchText: searchText,
+          moduleCode: event.moduleCode,
+        ),
+      );
+
+      result.fold(
+        (failure) => emit(CollectionLedgerError(failure.message)),
+        (ledgers) => emit(CollectionLedgerLoaded(ledgers)),
+      );
+    } catch (e) {
+      emit(CollectionLedgerError('Failed to load collection ledgers'));
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
@@ -28,7 +29,7 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
     final theme = context.theme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Beneficiaries')),
+      appBar: AppBar(title: Text(Locales.string(context, 'beneficiary'))),
       body: PageContainer(
         child: SafeArea(
           child: BlocBuilder<BeneficiaryBloc, BeneficiaryState>(

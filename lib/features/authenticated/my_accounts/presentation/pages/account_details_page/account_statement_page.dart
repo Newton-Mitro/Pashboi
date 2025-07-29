@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/widgets/account_statment_section.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
@@ -24,17 +25,21 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
 
   @override
   void initState() {
+    super.initState();
     endDate = DateTime.now();
     startDate = DateTime(endDate.year, endDate.month - 3, endDate.day);
 
+    _fetchTransactions();
+  }
+
+  void _fetchTransactions() {
     context.read<AccountStatementBloc>().add(
       FetchAccountStatementEvent(
         accountNumber: widget.accountNumber,
         fromDate: "${startDate.year}/${startDate.month}/${startDate.day}",
-        toDate: "${endDate.month}/${endDate.year}/${endDate.day}",
+        toDate: "${endDate.year}/${endDate.month}/${endDate.day}", // ✅ Fixed
       ),
     );
-    super.initState();
   }
 
   void _handleDateChange(DateTime date, {required bool isFromDate}) {
@@ -44,6 +49,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       } else {
         endDate = date;
       }
+
       if (endDate.isBefore(startDate)) {
         _errorText = 'To Date must be after From Date';
       } else {
@@ -55,45 +61,18 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Account Statement")),
-      body: BlocBuilder<AccountStatementBloc, AccountStatementState>(
-        builder: (context, state) {
-          if (state is AccountStatementLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is AccountStatementError) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                state.error,
-                style: TextStyle(
-                  color: context.theme.colorScheme.error,
-                  fontSize: 14,
-                ),
-              ),
-            );
-          }
-
-          if (state is AccountStatementSuccess) {
-            final transactions = state.transactions;
-
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildDatePickers(),
-                  const SizedBox(height: 20),
-                  _buildChart(transactions),
-                  const SizedBox(height: 20),
-                  _buildStatementList(context, transactions),
-                  const SizedBox(height: 50),
-                ],
-              ),
-            );
-          }
-
-          return const SizedBox.shrink();
-        },
+      appBar: AppBar(title: Text(Locales.string(context, 'account_statement'))),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildDatePickers(),
+            const SizedBox(height: 20),
+            _buildChartSection(),
+            const SizedBox(height: 20),
+            _buildStatementListSection(),
+            const SizedBox(height: 50),
+          ],
+        ),
       ),
     );
   }
@@ -104,23 +83,22 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       child: Column(
         children: [
           Row(
-            spacing: 5,
             children: [
               Expanded(
                 child: AppDatePicker(
                   selectedDate: startDate,
                   onDateChanged: (d) => _handleDateChange(d!, isFromDate: true),
-                  label: 'From Date',
+                  label: Locales.string(context, 'from_date'),
                   errorText: _errorText,
                 ),
               ),
-
+              const SizedBox(width: 8),
               Expanded(
                 child: AppDatePicker(
                   selectedDate: endDate,
                   onDateChanged:
                       (d) => _handleDateChange(d!, isFromDate: false),
-                  label: 'To Date',
+                  label: Locales.string(context, 'to_date'),
                   errorText: _errorText,
                 ),
               ),
@@ -129,21 +107,17 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
           const SizedBox(height: 12),
           AppSecondaryButton(
             label: "",
-            iconBefore: Icon(Icons.filter_alt),
+            iconBefore: const Icon(Icons.filter_alt),
             onPressed: () {
               if (_errorText == null) {
-                context.read<AccountStatementBloc>().add(
-                  FetchAccountStatementEvent(
-                    accountNumber: widget.accountNumber,
-                    fromDate:
-                        "${startDate.year}/${startDate.month}/${startDate.day}",
-                    toDate: "${endDate.year}/${endDate.month}/${endDate.day}",
+                _fetchTransactions();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(_errorText!),
+                    backgroundColor: Colors.red,
                   ),
                 );
-              } else {
-                setState(() {
-                  _errorText ??= 'Please select valid dates.';
-                });
               }
             },
           ),
@@ -152,10 +126,55 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
     );
   }
 
+  Widget _buildChartSection() {
+    return BlocBuilder<AccountStatementBloc, AccountStatementState>(
+      buildWhen:
+          (prev, curr) =>
+              curr is AccountStatementSuccess ||
+              curr is AccountStatementLoading,
+      builder: (context, state) {
+        if (state is AccountStatementLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is AccountStatementError) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              state.error,
+              style: TextStyle(
+                color: context.theme.colorScheme.error,
+                fontSize: 14,
+              ),
+            ),
+          );
+        }
+
+        if (state is AccountStatementSuccess) {
+          return _buildChart(state.transactions);
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildStatementListSection() {
+    return BlocBuilder<AccountStatementBloc, AccountStatementState>(
+      buildWhen: (prev, curr) => curr is AccountStatementSuccess,
+      builder: (context, state) {
+        if (state is AccountStatementSuccess) {
+          return _buildStatementList(context, state.transactions);
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
   Widget _buildChart(List<AccountTransactionEntity> transactions) {
     return SfCartesianChart(
       title: ChartTitle(
-        text: 'Transactions Graph',
+        text: Locales.string(context, 'transaction_graph'),
         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       legend: Legend(
@@ -168,7 +187,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       primaryYAxis: NumericAxis(),
       series: <CartesianSeries>[
         LineSeries<AccountTransactionEntity, String>(
-          name: 'Cash IN',
+          name: Locales.string(context, 'cash_in'),
           dataSource: transactions,
           xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
           yValueMapper: (txn, _) => txn.credit,
@@ -176,7 +195,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
           markerSettings: const MarkerSettings(isVisible: true),
         ),
         LineSeries<AccountTransactionEntity, String>(
-          name: 'Cash OUT',
+          name: Locales.string(context, 'cash_out'),
           dataSource: transactions,
           xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
           yValueMapper: (txn, _) => txn.debit,
@@ -202,14 +221,14 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
         children: [
           const SizedBox(height: 16),
           Text(
-            "Statement",
+            Locales.string(context, 'statement'),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: context.theme.colorScheme.onSurface,
             ),
           ),
-          AccountStatmentSection(accountStatment: transactions),
+          AccountStatementSection(accountStatment: transactions),
         ],
       ),
     );
