@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
-import 'package:pashboi/features/my_app/presentation/pages/app_error_page.dart';
 import 'package:pashboi/features/my_app/presentation/pages/new_version_required_page.dart';
 import 'package:pashboi/features/onboarding/presentation/bloc/onboarding_page_bloc.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
@@ -78,10 +77,6 @@ class _MyAppState extends State<MyApp> {
       return const _LoadingScreen();
     }
 
-    // if (appStatusState is AppStatusError) {
-    //   return AppErrorPage(message: appStatusState.message);
-    // }
-
     if (appStatusState is UnderMaintenance) {
       return const UnderMaintenancePage();
     }
@@ -96,16 +91,10 @@ class _MyAppState extends State<MyApp> {
         return const _LoadingScreen();
       }
 
-      if (onboardingState is OnboardingError) {
-        return AppErrorPage(message: onboardingState.message);
-      }
-
       if (onboardingState is OnboardingSeenLoaded) {
         final bool onboardingSeen = onboardingState.seen;
         return onboardingSeen ? const LandingPage() : const OnboardingPage();
       }
-
-      return const AppErrorPage(message: 'Unexpected onboarding state');
     }
 
     return const LandingPage();
