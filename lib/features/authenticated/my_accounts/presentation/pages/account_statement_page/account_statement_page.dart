@@ -1,10 +1,16 @@
+import 'dart:io';
+
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/widgets/account_statment_section.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
 import 'package:pashboi/shared/widgets/buttons/app_secondary_button.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/account_transaction_entity.dart';
@@ -37,7 +43,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       FetchAccountStatementEvent(
         accountNumber: widget.accountNumber,
         fromDate: "${startDate.year}/${startDate.month}/${startDate.day}",
-        toDate: "${endDate.year}/${endDate.month}/${endDate.day}", // ✅ Fixed
+        toDate: "${endDate.year}/${endDate.month}/${endDate.day}",
       ),
     );
   }
@@ -58,6 +64,132 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
     });
   }
 
+  Future<void> createAndSavePdf(
+    List<AccountTransactionEntity> transactions,
+  ) async {
+    final pdf = pw.Document();
+    final logoBytes = await rootBundle.load(
+      'assets/images/brand/company_logo.png',
+    );
+    final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
+
+    pdf.addPage(
+      pw.MultiPage(
+        build:
+            (context) => [
+              pw.Center(
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    // 🖼️ Logo
+                    pw.Image(logoImage, width: 80, height: 80),
+
+                    pw.SizedBox(height: 10),
+
+                    // 🏢 Company Name
+                    pw.Text(
+                      'The Christian Co-operative Credit Union Ltd., Dhaka',
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+
+                    // 📍 Address
+                    pw.Text(
+                      'Rev. Fr. Charles J. Young Bhaban 173/1/A, East Tejturi Bazar,Tejgaon, Dhaka-1215.',
+                      style: pw.TextStyle(fontSize: 7),
+                    ),
+                    pw.Text(
+                      'Phone: 09678771270, 02-48121156, 02-48121157, Hotline (MIS): 01709815406, Hotline (ATM): 01709815400,',
+                      style: pw.TextStyle(fontSize: 7),
+                    ),
+                    pw.Text(
+                      'E-mail:info@cccul.com. © 2025 Dhaka Credit. All Rights Reserved.',
+                      style: pw.TextStyle(fontSize: 7),
+                    ),
+
+                    pw.SizedBox(height: 12),
+
+                    pw.SizedBox(height: 20),
+                    pw.Divider(),
+                    pw.SizedBox(height: 10),
+
+                    // 🧾 Title
+                    pw.Text(
+                      'Account Statement',
+                      style: pw.TextStyle(
+                        fontSize: 18,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    // 👤 Account Info
+                    pw.Text('Account Name: ', style: pw.TextStyle(fontSize: 7)),
+                    pw.Text(
+                      'Account Number:',
+                      style: pw.TextStyle(fontSize: 7),
+                    ),
+                    pw.Text('Account Type: ', style: pw.TextStyle(fontSize: 7)),
+                    pw.SizedBox(height: 10),
+                  ],
+                ),
+              ),
+
+              // 📊 Transaction Table
+              pw.TableHelper.fromTextArray(
+                headers: ['Date', 'Description', 'Credit', 'Debit'],
+                data:
+                    transactions.map((txn) {
+                      return [
+                        txn.date.toIso8601String().split('T').first,
+                        txn.particular,
+                        txn.credit.toStringAsFixed(2),
+                        txn.debit.toStringAsFixed(2),
+                      ];
+                    }).toList(),
+              ),
+            ],
+      ),
+    );
+
+    // For Android 13+ use `Permission.manageExternalStorage`
+    final permission =
+        Platform.isAndroid &&
+                (await Permission.manageExternalStorage.status.isDenied ||
+                    await Permission.storage.status.isDenied)
+            ? await Permission.manageExternalStorage.request()
+            : await Permission.storage.request();
+
+    if (permission.isGranted) {
+      try {
+        final downloadsDir =
+            await ExternalPath.getExternalStoragePublicDirectory(
+              ExternalPath.DIRECTORY_DOWNLOAD,
+            );
+
+        final file = File(
+          "$downloadsDir/account_statement_${DateTime.now().millisecondsSinceEpoch}.pdf",
+        );
+
+        await file.writeAsBytes(await pdf.save());
+
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("✅ PDF saved to Downloads: ${file.path}"),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      } catch (e) {
+        debugPrint("⚠️ Error saving PDF: $e");
+      }
+    } else {
+      // Prompt user to go to settings
+      openAppSettings();
+      debugPrint("❌ Permission not granted, please enable manually");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +203,25 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
             const SizedBox(height: 20),
             _buildStatementListSection(),
             const SizedBox(height: 50),
+            BlocBuilder<AccountStatementBloc, AccountStatementState>(
+              builder: (context, state) {
+                if (state is AccountStatementSuccess) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      await createAndSavePdf(state.transactions);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("PDF saved to Downloads folder"),
+                        ),
+                      );
+                    },
+                    child: const Text("Generate PDF"),
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
+            ),
           ],
         ),
       ),
