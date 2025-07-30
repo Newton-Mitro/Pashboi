@@ -51,24 +51,24 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final depositAccounts =
+                jsonResponse.map((json) {
+                  return TenureAmountModel.fromJson(json);
+                }).toList();
+
+            return depositAccounts;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        final depositAccounts =
-            jsonResponse.map((json) {
-              return TenureAmountModel.fromJson(json);
-            }).toList();
-
-        return depositAccounts;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -99,24 +99,24 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final tenures =
+                jsonResponse.map((json) {
+                  return TenureModel.fromJson(json);
+                }).toList();
+
+            return tenures;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        final tenures =
-            jsonResponse.map((json) {
-              return TenureModel.fromJson(json);
-            }).toList();
-
-        return tenures;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -149,24 +149,24 @@ class AccountUtilRemoteDataSourceImpl implements AccountUtilRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final openableAccounts =
+                jsonResponse.map((json) {
+                  return OpenableAccountModel.fromJson(json);
+                }).toList();
+
+            return openableAccounts;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        final openableAccounts =
-            jsonResponse.map((json) {
-              return OpenableAccountModel.fromJson(json);
-            }).toList();
-
-        return openableAccounts;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;

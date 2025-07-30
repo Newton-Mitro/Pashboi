@@ -46,24 +46,24 @@ class BeneficiaryRemoteDataSourceImpl implements BeneficiaryRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final beneficiaries =
+                jsonResponse
+                    .map((json) => BeneficiaryModel.fromJson(json))
+                    .toList();
+
+            return beneficiaries;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        final beneficiaries =
-            jsonResponse
-                .map((json) => BeneficiaryModel.fromJson(json))
-                .toList();
-
-        return beneficiaries;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -92,11 +92,18 @@ class BeneficiaryRemoteDataSourceImpl implements BeneficiaryRemoteDataSource {
 
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
-        if (dataString == null) throw Exception(response.data?['Message']);
-
-        return dataString;
+        final errorMessage = response.data?['Message'];
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
+            throw ServerException(message: errorMessage);
+          } else {
+            return dataString;
+          }
+        }
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -125,17 +132,17 @@ class BeneficiaryRemoteDataSourceImpl implements BeneficiaryRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            return dataString;
           }
         }
-
-        return dataString;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;

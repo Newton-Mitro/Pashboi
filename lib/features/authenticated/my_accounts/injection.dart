@@ -18,6 +18,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/fetch
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_details_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_statement_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_my_accounts_usecase.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/open_deposit_account_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_details_page/bloc/account_details_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_opening_details_section/bloc/tenure_amount_bloc/tenure_amount_bloc.dart';
@@ -109,11 +110,17 @@ void registerMyAccountsModule() async {
     ),
   );
 
+  sl.registerLazySingleton<OpenDepositAccountUseCase>(
+    () => OpenDepositAccountUseCase(
+      depositAccountRepository: sl<DepositAccountRepository>(),
+    ),
+  );
+
   // Register Bloc
   sl.registerFactory<AccountOpeningStepsBloc>(
     () => AccountOpeningStepsBloc(
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
-      submitDepositNowUseCase: sl<SubmitDepositNowUseCase>(),
+      openDepositAccountUseCase: sl<OpenDepositAccountUseCase>(),
     ),
   );
 

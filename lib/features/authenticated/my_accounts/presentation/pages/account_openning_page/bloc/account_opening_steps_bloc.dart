@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
@@ -7,6 +8,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/entities/depos
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_amount_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/tenure_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/open_deposit_account_usecase.dart';
 part 'account_opening_setps_event.dart';
 part 'account_opening_steps_state.dart';
 
@@ -17,11 +19,11 @@ class AccountOpeningStepsBloc
   static const int lastStep = 6;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
-  final SubmitDepositNowUseCase submitDepositNowUseCase;
+  final OpenDepositAccountUseCase openDepositAccountUseCase;
 
   AccountOpeningStepsBloc({
     required this.getAuthUserUseCase,
-    required this.submitDepositNowUseCase,
+    required this.openDepositAccountUseCase,
   }) : super(
          const AccountOpeningStepsState(
            currentStep: 0,
@@ -42,7 +44,7 @@ class AccountOpeningStepsBloc
     on<AccountOpeningRemoveNominee>(_onRemoveNominee);
     // update lps amount
     on<AccountOpeningValidateStep>(_onValidateStep);
-    // on<AccountOpeningSubmit>(_onSubmitOpenAnAccount);
+    on<AccountOpeningSubmit>(_onSubmitOpenAnAccount);
   }
 
   void _onGoToNextStep(
@@ -172,7 +174,53 @@ class AccountOpeningStepsBloc
     emit(state.copyWith(nominees: updatedNominees));
   }
 
-  void _onSubmitOpenAnAccount() {}
+  void _onSubmitOpenAnAccount(
+    AccountOpeningSubmit event,
+    Emitter<AccountOpeningStepsState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+
+    try {
+      final authUserResult = await getAuthUserUseCase.call(NoParams());
+
+      if (authUserResult.isLeft()) {
+        emit(state.copyWith(error: 'User not found', isLoading: false));
+        return;
+      }
+
+      final user = authUserResult.getOrElse(() => throw Exception()).user;
+
+      final accountResult = await openDepositAccountUseCase.call(
+        OpenDepositAccountParams(
+          accountType: '',
+          accountName: '',
+          accountNumber: '',
+          accountBalance: '',
+          accountCurrency: '',
+          accountDescription: '',
+          otpRegId: '',
+          otpValue: '',
+          email: user.loginEmail,
+          userId: user.userId,
+          rolePermissionId: user.roleId,
+          personId: user.personId,
+          employeeCode: user.employeeCode,
+          mobileNumber: user.regMobile,
+        ),
+      );
+
+      accountResult.fold(
+        (failure) =>
+            emit(state.copyWith(error: failure.message, isLoading: false)),
+        (message) =>
+            emit(state.copyWith(successMessage: message, isLoading: false)),
+      );
+    } catch (_) {
+      emit(
+        state.copyWith(error: 'Failed to submit deposit now', isLoading: false),
+      );
+    }
+  }
 
   Map<String, dynamic> _validateDepositNowSteps(int step) {
     final data = state.stepData[step] ?? {};

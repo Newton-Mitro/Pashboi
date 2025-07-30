@@ -45,39 +45,39 @@ class CollectionLedgerRemoteDataSourceImpl
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModel(dataString);
+
+            final collectionLedgers = jsonResponse['AccountInfoList'];
+
+            final mappedLedgersData =
+                collectionLedgers
+                    .map<CollectionLedgerEntity>(
+                      (item) => CollectionLedgerModel.fromJson(item),
+                    )
+                    .toList();
+
+            final accountHolderInfo = jsonResponse['AccountHolderInfo'];
+
+            final mappedAccountHolderInfo = PersonModel.fromJson(
+              accountHolderInfo.first,
+            );
+
+            final collectionAggregate = CollectionAggregate(
+              ledgers: mappedLedgersData,
+              accountHolderInfo: mappedAccountHolderInfo,
+            );
+
+            return collectionAggregate;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModel(dataString);
-
-        final collectionLedgers = jsonResponse['AccountInfoList'];
-
-        final mappedLedgersData =
-            collectionLedgers
-                .map<CollectionLedgerEntity>(
-                  (item) => CollectionLedgerModel.fromJson(item),
-                )
-                .toList();
-
-        final accountHolderInfo = jsonResponse['AccountHolderInfo'];
-
-        final mappedAccountHolderInfo = PersonModel.fromJson(
-          accountHolderInfo.first,
-        );
-
-        final collectionAggregate = CollectionAggregate(
-          ledgers: mappedLedgersData,
-          accountHolderInfo: mappedAccountHolderInfo,
-        );
-
-        return collectionAggregate;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;

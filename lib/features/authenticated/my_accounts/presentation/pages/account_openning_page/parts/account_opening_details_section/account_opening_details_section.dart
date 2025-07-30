@@ -110,13 +110,24 @@ class _AccountOpeningDetailsSectionState
                       builder: (context, state) {
                         var tenures =
                             state is TenureSuccess ? state.tenures : [];
+
+                        final Map<int, TenureEntity> uniqueMap = {};
+
+                        for (final tenure in tenures) {
+                          uniqueMap.putIfAbsent(
+                            tenure.durationInMonths,
+                            () => tenure,
+                          );
+                        }
+
+                        var filteredTenures = uniqueMap.values.toList();
                         return AppDropdownSelect<String>(
                           value: widget.accountDuration.toString(),
                           errorText: widget.accountDurationError,
                           label: "Tenure",
-                          enabled: tenures.isNotEmpty,
+                          enabled: filteredTenures.isNotEmpty,
                           items:
-                              tenures
+                              filteredTenures
                                   .map(
                                     (tenure) => DropdownMenuItem(
                                       value: tenure.durationInMonths.toString(),

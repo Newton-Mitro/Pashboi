@@ -46,21 +46,21 @@ class LoanRemoteDataSourceImpl implements LoanRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final loanDetails = LoanAccountModel.fromJson(jsonResponse.first);
+
+            return loanDetails;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        final loanDetails = LoanAccountModel.fromJson(jsonResponse.first);
-
-        return loanDetails;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -93,21 +93,21 @@ class LoanRemoteDataSourceImpl implements LoanRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            return jsonResponse
+                .map((json) => LoanTransactionModel.fromJson(json))
+                .toList();
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        return jsonResponse
-            .map((json) => LoanTransactionModel.fromJson(json))
-            .toList();
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -135,24 +135,24 @@ class LoanRemoteDataSourceImpl implements LoanRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final myLoans =
+                jsonResponse.map((json) {
+                  return LoanAccountModel.fromJson(json);
+                }).toList();
+
+            return myLoans;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        final myLoans =
-            jsonResponse.map((json) {
-              return LoanAccountModel.fromJson(json);
-            }).toList();
-
-        return myLoans;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;

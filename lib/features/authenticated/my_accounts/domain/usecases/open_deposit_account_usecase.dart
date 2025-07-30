@@ -1,8 +1,9 @@
-import 'package:dartz/dartz.dart';
+import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/deposit_account_repository.dart';
 
-class OpenDepositAccountUseCaseParams {
+class OpenDepositAccountParams extends BaseRequestProps {
   final String accountType;
   final String accountName;
   final String accountNumber;
@@ -10,9 +11,9 @@ class OpenDepositAccountUseCaseParams {
   final String accountCurrency;
   final String accountDescription;
   final String otpRegId;
-  final String mobileNumber;
+  final String otpValue;
 
-  const OpenDepositAccountUseCaseParams({
+  const OpenDepositAccountParams({
     required this.accountType,
     required this.accountName,
     required this.accountNumber,
@@ -20,15 +21,24 @@ class OpenDepositAccountUseCaseParams {
     required this.accountCurrency,
     required this.accountDescription,
     required this.otpRegId,
-    required this.mobileNumber,
+    required this.otpValue,
+    required super.email,
+    required super.userId,
+    required super.rolePermissionId,
+    required super.personId,
+    required super.employeeCode,
+    required super.mobileNumber,
   });
 }
 
-class OpenDepositAccountUseCase implements UseCase<void, NoParams> {
-  OpenDepositAccountUseCase();
+class OpenDepositAccountUseCase
+    implements UseCase<void, OpenDepositAccountParams> {
+  final DepositAccountRepository depositAccountRepository;
+
+  OpenDepositAccountUseCase({required this.depositAccountRepository});
 
   @override
-  ResultFuture call(NoParams params) async {
-    return Right(null);
+  ResultFuture call(OpenDepositAccountParams params) async {
+    return await depositAccountRepository.openDepositAccount(params);
   }
 }

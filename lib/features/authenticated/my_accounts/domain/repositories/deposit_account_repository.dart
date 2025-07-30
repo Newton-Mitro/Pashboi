@@ -7,6 +7,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/fetch
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_details_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_account_statement_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/get_my_accounts_usecase.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/usecases/open_deposit_account_usecase.dart';
 
 abstract class DepositAccountRepository {
   ResultFuture<List<DepositAccountEntity>> getMyAccounts(
@@ -30,4 +31,6 @@ abstract class DepositAccountRepository {
   );
 
   ResultFuture<String> addOperatingAccount(AddOperatingAccountProps props);
+
+  ResultFuture<String> openDepositAccount(OpenDepositAccountParams props);
 }

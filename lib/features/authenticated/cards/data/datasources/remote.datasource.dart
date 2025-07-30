@@ -60,17 +60,17 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            return dataString;
           }
         }
-
-        return dataString;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -100,24 +100,24 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final decoded = jsonDecode(dataString);
+
+            if (decoded is List && decoded.isNotEmpty) {
+              final firstItem = decoded.first;
+              return DebitCardModel.fromJson(firstItem);
+            } else {
+              throw ServerException(message: 'Card list is empty or invalid');
+            }
           }
         }
-
-        final decoded = jsonDecode(dataString);
-
-        if (decoded is List && decoded.isNotEmpty) {
-          final firstItem = decoded.first;
-          return DebitCardModel.fromJson(firstItem);
-        } else {
-          throw Exception('Card list is empty or invalid');
-        }
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -148,17 +148,17 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            return dataString;
           }
         }
-
-        return dataString;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -190,17 +190,17 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            return dataString;
           }
         }
-
-        return dataString;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -232,20 +232,20 @@ class CardRemoteDataSourceImpl implements CardRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final Map<String, dynamic> data = jsonDecode(dataString);
+            final String otpRegId = data['OTPRegId'] ?? '';
+
+            return otpRegId;
           }
         }
-
-        final Map<String, dynamic> data = jsonDecode(dataString);
-        final String otpRegId = data['OTPRegId'] ?? '';
-
-        return otpRegId;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception('Login failed with status ${response.statusCode}');
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;

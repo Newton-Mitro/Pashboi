@@ -43,28 +43,26 @@ class RelationshipRemoteDataSourceImpl implements RelationshipRemoteDataSource {
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final mappedData =
+                jsonResponse
+                    .map<RelationshipModel>(
+                      (item) => RelationshipModel.fromJson(item),
+                    )
+                    .toList();
+
+            return mappedData;
           }
         }
-
-        final jsonResponse = JsonUtil.decodeModelList(dataString);
-
-        final mappedData =
-            jsonResponse
-                .map<RelationshipModel>(
-                  (item) => RelationshipModel.fromJson(item),
-                )
-                .toList();
-
-        return mappedData;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception(
-          'Failed to fetch relationships. Status: ${response.statusCode}',
-        );
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       throw Exception('Error fetching relationships: ${e.toString()}');

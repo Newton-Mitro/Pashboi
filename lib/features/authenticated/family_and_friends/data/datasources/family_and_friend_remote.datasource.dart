@@ -45,30 +45,28 @@ class FamilyAndFriendRemoteDataSourceImpl
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            final decoded = jsonDecode(dataString);
+
+            if (decoded is List && decoded.isNotEmpty) {
+              final mappedData =
+                  decoded
+                      .map((item) => FamilyAndFriendModel.fromJson(item))
+                      .toList();
+
+              return mappedData;
+            } else {
+              throw ServerException(message: 'Family list is empty or invalid');
+            }
           }
         }
-
-        final decoded = jsonDecode(dataString);
-
-        if (decoded is List && decoded.isNotEmpty) {
-          final mappedData =
-              decoded
-                  .map((item) => FamilyAndFriendModel.fromJson(item))
-                  .toList();
-
-          return mappedData;
-        } else {
-          throw Exception('Card list is empty or invalid');
-        }
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception(
-          'Failed to fetch family and friends, with status ${response.statusCode}',
-        );
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
@@ -98,19 +96,17 @@ class FamilyAndFriendRemoteDataSourceImpl
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
-        if (dataString == null || dataString.isEmpty) {
-          if (errorMessage != null) {
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
             throw ServerException(message: errorMessage);
           } else {
-            throw ServerException(message: 'Invalid response format');
+            return dataString;
           }
         }
-
-        return dataString;
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception(
-          'Failed to add Family or Friend, with status ${response.statusCode}',
-        );
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;
