@@ -193,7 +193,9 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(Locales.string(context, 'account_statement'))),
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'account_statement_page_title')),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -215,7 +217,12 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
                         ),
                       );
                     },
-                    child: const Text("Generate PDF"),
+                    child: Text(
+                      Locales.string(
+                        context,
+                        'account_statement_page_download_pdf_button_text',
+                      ),
+                    ),
                   );
                 }
 
@@ -239,7 +246,10 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
                 child: AppDatePicker(
                   selectedDate: startDate,
                   onDateChanged: (d) => _handleDateChange(d!, isFromDate: true),
-                  label: Locales.string(context, 'from_date'),
+                  label: Locales.string(
+                    context,
+                    'account_statement_page_from_date',
+                  ),
                   errorText: _errorText,
                 ),
               ),
@@ -249,7 +259,10 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
                   selectedDate: endDate,
                   onDateChanged:
                       (d) => _handleDateChange(d!, isFromDate: false),
-                  label: Locales.string(context, 'to_date'),
+                  label: Locales.string(
+                    context,
+                    'account_statement_page_to_date',
+                  ),
                   errorText: _errorText,
                 ),
               ),
@@ -325,7 +338,10 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   Widget _buildChart(List<AccountTransactionEntity> transactions) {
     return SfCartesianChart(
       title: ChartTitle(
-        text: Locales.string(context, 'transaction_graph'),
+        text: Locales.string(
+          context,
+          'account_statement_page_transaction_graph',
+        ),
         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       legend: Legend(
@@ -338,7 +354,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
       primaryYAxis: NumericAxis(),
       series: <CartesianSeries>[
         LineSeries<AccountTransactionEntity, String>(
-          name: Locales.string(context, 'cash_in'),
+          name: Locales.string(context, 'account_statement_page_cash_in'),
           dataSource: transactions,
           xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
           yValueMapper: (txn, _) => txn.credit,
@@ -346,7 +362,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
           markerSettings: const MarkerSettings(isVisible: true),
         ),
         LineSeries<AccountTransactionEntity, String>(
-          name: Locales.string(context, 'cash_out'),
+          name: Locales.string(context, 'account_statement_page_cash_out'),
           dataSource: transactions,
           xValueMapper: (txn, _) => MyDateUtils.getShortMonthName(txn.date),
           yValueMapper: (txn, _) => txn.debit,
@@ -372,7 +388,10 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
         children: [
           const SizedBox(height: 16),
           Text(
-            Locales.string(context, 'statement'),
+            Locales.string(
+              context,
+              'account_statement_page_account_transactions',
+            ),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

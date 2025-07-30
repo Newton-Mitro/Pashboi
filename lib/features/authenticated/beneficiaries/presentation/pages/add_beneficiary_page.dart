@@ -77,7 +77,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: Text(Locales.string(context, 'title_beneficiary')),
+          title: Text(Locales.string(context, 'add_beneficiary_page_title')),
         ),
         body: BlocBuilder<BeneficiaryBloc, BeneficiaryState>(
           builder: (context, beneficiaryState) {
@@ -98,7 +98,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        Locales.string(context, 'title_beneficiary'),
+                        Locales.string(context, 'add_beneficiary_page_title'),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -109,7 +109,10 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                         builder: (context, state) {
                           return AppSearchTextInput(
                             controller: _accountSearchController,
-                            label: Locales.string(context, 'account_number'),
+                            label: Locales.string(
+                              context,
+                              'add_beneficiary_page_account_number_input_label',
+                            ),
                             isSearch: true,
                             enabled: state is! CollectionLedgerLoading,
                             prefixIcon: Icon(
@@ -138,7 +141,10 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                       const SizedBox(height: 16),
                       AppTextInput(
                         controller: _accountHolderController,
-                        label: Locales.string(context, 'account_holder_name'),
+                        label: Locales.string(
+                          context,
+                          'add_beneficiary_page_account_holder_name',
+                        ),
                         prefixIcon: Icon(
                           Icons.person,
                           color: context.theme.colorScheme.onSurface,
@@ -165,7 +171,10 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
             backgroundColor: context.theme.colorScheme.primary,
             progressColor: context.theme.colorScheme.secondary,
             foregroundColor: context.theme.colorScheme.onPrimary,
-            label: Locales.string(context, 'button_title_for_beneficiary'),
+            label: Locales.string(
+              context,
+              'add_beneficiary_page_submit_button_text',
+            ),
             onSubmit: _submit,
           ),
         ),

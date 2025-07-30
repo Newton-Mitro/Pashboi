@@ -3,6 +3,7 @@ import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
@@ -26,7 +27,9 @@ class _OpenableAccountsPageState extends State<OpenableAccountsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Openable Accounts')),
+      appBar: AppBar(
+        title: Text(Locales.string(context, "openable_accounts_page_title")),
+      ),
       body: BlocBuilder<OpenableAccountBloc, OpenableAccountState>(
         builder: (context, state) {
           if (state is OpenableAccountLoading) {
@@ -107,7 +110,10 @@ class _OpenableAccountsPageState extends State<OpenableAccountsPage> {
                         children: [
                           Html(data: openableAccount.description),
                           AppPrimaryButton(
-                            label: "Create Account",
+                            label: Locales.string(
+                              context,
+                              "openable_accounts_page_open_an_account_title",
+                            ),
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,

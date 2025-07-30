@@ -21,7 +21,9 @@ class MyLoansPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<MyLoansBloc>()..add(FetchMyLoansEvent()),
       child: Scaffold(
-        appBar: AppBar(title: Text(Locales.string(context, 'my_loans'))),
+        appBar: AppBar(
+          title: Text(Locales.string(context, 'my_loans_page_title')),
+        ),
         body: PageContainer(
           child: BlocBuilder<MyLoansBloc, MyLoansState>(
             builder: (context, state) {
@@ -80,7 +82,10 @@ class MyLoansPage extends StatelessWidget {
                         ),
                         enableSideBySideSeriesPlacement: true,
                         title: ChartTitle(
-                          text: Locales.string(context, 'loan_summery'),
+                          text: Locales.string(
+                            context,
+                            'my_loans_page_account_balance_graph',
+                          ),
                           textStyle: TextStyle(
                             color: context.theme.colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
@@ -95,7 +100,7 @@ class MyLoansPage extends StatelessWidget {
                             yValueMapper: (data, _) => data.loanBalance,
                             name: Locales.string(
                               context,
-                              'auth_bottom_nav_menu_loan',
+                              'my_loans_page_loan_account_label',
                             ),
                             color: context.theme.colorScheme.primary,
                             dataLabelMapper:

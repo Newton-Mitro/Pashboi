@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/bloc/authenticated_home_bloc.dart';
 
@@ -48,7 +49,10 @@ class AuthenticatedBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                "navigation Menus".toUpperCase(),
+                Locales.string(
+                  context,
+                  'auth_bottom_nav_menu_title',
+                ).toUpperCase(),
                 style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 2),

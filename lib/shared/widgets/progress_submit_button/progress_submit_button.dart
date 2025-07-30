@@ -118,9 +118,10 @@ class _ProgressSubmitButtonState extends State<ProgressSubmitButton> {
                     ),
                   ),
                   Positioned(
-                    bottom: widget.height / 3,
+                    bottom: widget.height / 4,
                     child: Text(
                       widget.label,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: foregroundColor,
                         fontWeight: FontWeight.bold,

@@ -15,6 +15,17 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> infoMenus = [
       {
+        "icon": FontAwesomeIcons.helmetSafety,
+        "menuName": Locales.string(
+          context,
+          "personnel_menu_employee_profile_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "personnel_menu_employee_profile_description",
+        ),
+      },
+      {
         "icon": FontAwesomeIcons.calendarDays,
         "menuName": Locales.string(
           context,

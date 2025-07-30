@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(Locales.string(context, 'profile_text'))),
+      appBar: AppBar(title: Text(Locales.string(context, 'profile_pae_title'))),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state.isLoading) {
@@ -176,37 +176,43 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         buildInfoRow(
                           FontAwesomeIcons.baby,
-                          Locales.string(context, 'date_of_birth'),
+                          Locales.string(context, 'profile_pae_date_of_birth'),
                           MyDateUtils.formatDate(person.dateOfBirth),
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.droplet,
-                          Locales.string(context, 'blood_group'),
+                          Locales.string(context, 'profile_pae_blood_group'),
                           person.bloodGroup,
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.idCard,
-                          Locales.string(context, 'nid'),
+                          Locales.string(context, 'profile_pae_nid'),
                           person.nid,
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.phoneVolume,
-                          Locales.string(context, 'mobile_number'),
+                          Locales.string(context, 'profile_pae_mobile_number'),
                           person.mobileNumber,
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.locationPin,
-                          Locales.string(context, 'present_address'),
+                          Locales.string(
+                            context,
+                            'profile_pae_present_address',
+                          ),
                           person.presentAddress.toTitleCase(),
                         ),
                         const SizedBox(height: 10),
                         buildInfoRow(
                           FontAwesomeIcons.locationPinLock,
-                          Locales.string(context, 'permanent_address'),
+                          Locales.string(
+                            context,
+                            'profile_pae_permanent_address',
+                          ),
                           person.permanentAddress.toTitleCase(),
                         ),
                       ],

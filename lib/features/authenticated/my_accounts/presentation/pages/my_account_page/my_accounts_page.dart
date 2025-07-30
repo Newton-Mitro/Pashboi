@@ -22,7 +22,7 @@ class MyAccountsPage extends StatelessWidget {
       create: (context) => sl<MyAccountBloc>()..add(FetchMyAccountEvent(0)),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(Locales.string(context, 'my_account_title')),
+          title: Text(Locales.string(context, 'my_accounts_page_title')),
         ),
         body: PageContainer(
           child: BlocBuilder<MyAccountBloc, MyAccountState>(
@@ -82,7 +82,10 @@ class MyAccountsPage extends StatelessWidget {
                         ),
                         enableSideBySideSeriesPlacement: true,
                         title: ChartTitle(
-                          text: Locales.string(context, 'account_summery'),
+                          text: Locales.string(
+                            context,
+                            'my_accounts_page_account_balance_graph',
+                          ),
                           textStyle: TextStyle(
                             color: context.theme.colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
@@ -95,7 +98,10 @@ class MyAccountsPage extends StatelessWidget {
                             dataSource: accountList,
                             xValueMapper: (data, _) => data.shortTypeName,
                             yValueMapper: (data, _) => data.balance,
-                            name: 'Deposit Accounts',
+                            name: Locales.string(
+                              context,
+                              'my_accounts_page_deposit_account_label',
+                            ),
                             color: context.theme.colorScheme.primary,
                             dataLabelMapper:
                                 (data, _) => data.balance.toStringAsFixed(0),

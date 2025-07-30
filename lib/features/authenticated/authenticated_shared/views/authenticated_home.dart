@@ -13,6 +13,7 @@ import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/info_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/loans_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/payment_menus_view.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/personnel_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/transfer_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/withdraw_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/authenticated_bottom_sheet.dart';
@@ -47,6 +48,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
     FamilyMenusView(),
     BeneficiaryMenusView(),
     GivenSuretiesPage(),
+    PersonnelMenusView(),
   ];
 
   @override
@@ -109,7 +111,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
       },
       {
         "icon": FontAwesomeIcons.userGroup,
-        "activeIcon": FontAwesomeIcons.userFriends,
+        "activeIcon": FontAwesomeIcons.userGroup,
         "label": Locales.string(context, 'auth_bottom_nav_menu_beneficiary'),
         "index": 8,
       },
@@ -119,12 +121,12 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
         "label": Locales.string(context, 'auth_bottom_nav_menu_surety'),
         "index": 9,
       },
-      // {
-      //   "icon": FontAwesomeIcons.helmetSafety,
-      //   "activeIcon": FontAwesomeIcons.shieldHalved,
-      //   "label": "Personnel",
-      //   "index": 10,
-      // },
+      {
+        "icon": FontAwesomeIcons.helmetSafety,
+        "activeIcon": FontAwesomeIcons.shieldHalved,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
+        "index": 10,
+      },
       // {
       //   "icon": FontAwesomeIcons.helmetSafety,
       //   "activeIcon": FontAwesomeIcons.shieldHalved,
@@ -248,7 +250,10 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                       Icon(Icons.person, size: 20),
                                       SizedBox(width: 8),
                                       Text(
-                                        Locales.string(context, 'profile_text'),
+                                        Locales.string(
+                                          context,
+                                          'tool_profile_menu',
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -262,7 +267,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                       Text(
                                         Locales.string(
                                           context,
-                                          'change_password_text',
+                                          'tool_change_password_menu',
                                         ),
                                       ),
                                     ],
@@ -284,7 +289,10 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                       Icon(Icons.logout, size: 20),
                                       SizedBox(width: 8),
                                       Text(
-                                        Locales.string(context, 'logout_text'),
+                                        Locales.string(
+                                          context,
+                                          'tool_logout_menu',
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -43,7 +43,9 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Locales.string(context, 'title_family_or_relative')),
+        title: Text(
+          Locales.string(context, 'add_family_and_relative_page_title'),
+        ),
       ),
       body: MultiBlocListener(
         listeners: [
@@ -96,7 +98,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            Locales.string(context, 'title_family_or_relative'),
+                            Locales.string(
+                              context,
+                              'add_family_and_relative_page_title',
+                            ),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -112,7 +117,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                                 controller: _accountSearchController,
                                 label: Locales.string(
                                   context,
-                                  'account_number',
+                                  'add_family_and_relative_page_account_number_input_label',
                                 ),
                                 isSearch: true,
                                 enabled: state is! CollectionLedgerLoading,
@@ -142,7 +147,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                           const SizedBox(height: 16),
                           AppTextInput(
                             controller: _accountHolderController,
-                            label: Locales.string(context, 'member_name'),
+                            label: Locales.string(
+                              context,
+                              'add_family_and_relative_page_member_name_input_label',
+                            ),
                             enabled: false,
                             errorText:
                                 familyAndFriendsState.errors != null
@@ -167,7 +175,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                                   value: selectedRelationship,
                                   label: Locales.string(
                                     context,
-                                    'relationship',
+                                    'add_family_and_relative_page_relationship_input_label',
                                   ),
                                   errorText:
                                       familyAndFriendsState.errors != null
@@ -207,7 +215,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                     foregroundColor: theme.colorScheme.onPrimary,
                     label: Locales.string(
                       context,
-                      'button_title_for_add_family_and_relative',
+                      'add_family_and_relative_page_submit_button_text',
                     ),
                     onSubmit: () {
                       if (!mounted) return;

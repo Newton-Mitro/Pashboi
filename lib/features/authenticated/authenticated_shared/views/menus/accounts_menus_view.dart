@@ -26,7 +26,10 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
       },
       {
         "icon": Icons.account_balance,
-        "menuName": Locales.string(context, "openable_accounts"),
+        "menuName": Locales.string(
+          context,
+          "accounts_menu_open_an_account_title",
+        ),
         "menuDescription": Locales.string(
           context,
           "accounts_menu_open_an_account_description",

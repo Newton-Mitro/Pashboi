@@ -98,7 +98,9 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: Text(Locales.string(context, 'account_details'))),
+        appBar: AppBar(
+          title: Text(Locales.string(context, 'account_details_page_title')),
+        ),
         body: PageContainer(
           child: BlocBuilder<AccountDetailsBloc, AccountDetailsState>(
             builder: (context, state) {
@@ -214,7 +216,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         children: [
                           _buildCircleStat(
                             context,
-                            Locales.string(context, 'balance'),
+                            Locales.string(
+                              context,
+                              'account_details_page_balance',
+                            ),
                             TakaFormatter.format(account.balance),
                             context.theme.colorScheme.secondary,
                             context.theme.colorScheme.onSecondary,
@@ -223,7 +228,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                             _buildCircleStat(
                               context,
                               // "Withdrawable",
-                              Locales.string(context, 'withdrawable'),
+                              Locales.string(
+                                context,
+                                'account_details_page_withdrawable',
+                              ),
                               TakaFormatter.format(account.withdrawableBalance),
                               context.theme.colorScheme.primary,
                               context.theme.colorScheme.onPrimary,
@@ -235,19 +243,28 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         children: [
                           buildInfoRow(
                             context,
-                            Locales.string(context, 'last_deposit_date'),
+                            Locales.string(
+                              context,
+                              'account_details_page_last_deposit_date',
+                            ),
                             MyDateUtils.formatDate(account.lastPaidDate),
                             icon: FontAwesomeIcons.calendarCheck,
                           ),
                           buildInfoRow(
                             context,
-                            Locales.string(context, 'maturity_date'),
+                            Locales.string(
+                              context,
+                              'account_details_page_maturity_date',
+                            ),
                             MyDateUtils.formatDate(account.maturityDate),
                             icon: FontAwesomeIcons.hourglassEnd,
                           ),
                           buildInfoRow(
                             context,
-                            Locales.string(context, 'nominee'),
+                            Locales.string(
+                              context,
+                              'account_details_page_nominee',
+                            ),
                             account.nominees.toTitleCase(),
                             icon: FontAwesomeIcons.userShield,
                           ),
@@ -281,7 +298,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                             ),
                           ),
                           child: Text(
-                            Locales.string(context, 'view_account_statement'),
+                            Locales.string(
+                              context,
+                              'account_details_page_view_statement_button_text',
+                            ),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),

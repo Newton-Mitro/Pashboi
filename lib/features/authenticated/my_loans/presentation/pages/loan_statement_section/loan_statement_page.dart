@@ -60,7 +60,9 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(Locales.string(context, 'loan_statement'))),
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'loan_statement_page_title')),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -87,7 +89,10 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                 child: AppDatePicker(
                   selectedDate: startDate,
                   onDateChanged: (d) => _handleDateChange(d!, isFromDate: true),
-                  label: Locales.string(context, 'from_date'),
+                  label: Locales.string(
+                    context,
+                    'loan_statement_page_from_date',
+                  ),
                   errorText: _errorText,
                 ),
               ),
@@ -97,7 +102,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                   selectedDate: endDate,
                   onDateChanged:
                       (d) => _handleDateChange(d!, isFromDate: false),
-                  label: Locales.string(context, 'to_date'),
+                  label: Locales.string(context, 'loan_statement_page_to_date'),
                   errorText: _errorText,
                 ),
               ),
@@ -172,7 +177,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
   Widget _buildChart(List<LoanTransactionEntity> transactions) {
     return SfCartesianChart(
       title: ChartTitle(
-        text: Locales.string(context, 'transaction_graph'),
+        text: Locales.string(context, 'loan_statement_page_transaction_graph'),
         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       legend: Legend(
@@ -185,7 +190,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
       primaryYAxis: NumericAxis(),
       series: <CartesianSeries>[
         LineSeries<LoanTransactionEntity, String>(
-          name: Locales.string(context, 'loan_issued'),
+          name: Locales.string(context, 'loan_statement_page_loan_issued'),
           dataSource: transactions,
           xValueMapper:
               (txn, _) => MyDateUtils.getShortMonthName(txn.transactionDate),
@@ -194,7 +199,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
           markerSettings: const MarkerSettings(isVisible: true),
         ),
         LineSeries<LoanTransactionEntity, String>(
-          name: Locales.string(context, 'loan_repaid'),
+          name: Locales.string(context, 'loan_statement_page_loan_repaid'),
           dataSource: transactions,
           xValueMapper:
               (txn, _) => MyDateUtils.getShortMonthName(txn.transactionDate),
@@ -221,7 +226,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
         children: [
           const SizedBox(height: 16),
           Text(
-            Locales.string(context, 'statement'),
+            Locales.string(context, 'loan_statement_page_loan_transactions'),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

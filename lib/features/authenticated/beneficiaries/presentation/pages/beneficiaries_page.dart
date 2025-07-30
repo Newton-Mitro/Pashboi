@@ -29,7 +29,9 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
     final theme = context.theme;
 
     return Scaffold(
-      appBar: AppBar(title: Text(Locales.string(context, 'beneficiary'))),
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'beneficiaries_page_title')),
+      ),
       body: PageContainer(
         child: SafeArea(
           child: BlocBuilder<BeneficiaryBloc, BeneficiaryState>(

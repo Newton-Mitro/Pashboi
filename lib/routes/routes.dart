@@ -19,7 +19,7 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
-import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_details_page/loan_statement_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';

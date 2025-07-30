@@ -134,7 +134,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   AppTextInput(
                                     label: Locales.string(
                                       context,
-                                      'current_password_title',
+                                      'change_password_current_password_input_label',
                                     ),
                                     controller: currentPasswordController,
                                     errorText:
@@ -174,7 +174,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     ),
                                     label: Locales.string(
                                       context,
-                                      'new_password_title',
+                                      'change_password_new_password_input_label',
                                     ),
                                   ),
                                   PasswordStrengthIndicatorPlus(
@@ -201,7 +201,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     controller: confirmPasswordController,
                                     label: Locales.string(
                                       context,
-                                      'confirm_password_title',
+                                      'change_password_confirm_password_input_label',
                                     ),
                                     obscureText: true,
                                   ),
@@ -223,7 +223,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     foregroundColor: context.theme.colorScheme.onPrimary,
                     label: Locales.string(
                       context,
-                      'button_title_for_change_password',
+                      'change_password_submit_button_text',
                     ),
                     onSubmit: _submit,
                   ),

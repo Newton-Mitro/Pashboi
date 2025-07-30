@@ -26,19 +26,22 @@ class _InfoMenusViewState extends State<InfoMenusView> {
       },
       {
         "icon": FontAwesomeIcons.children,
-        "menuName": Locales.string(context, "accounts_menu_dependents_title"),
+        "menuName": Locales.string(context, "info_menu_dependents_title"),
         "menuDescription": Locales.string(
           context,
-          "accounts_menu_dependents_description",
+          "info_menu_dependents_description",
         ),
         "route": AuthRoutesName.dependentsPage,
       },
       {
         "icon": FontAwesomeIcons.children,
-        "menuName": 'Add Operating Account',
+        "menuName": Locales.string(
+          context,
+          "info_menu_add_operating_account_title",
+        ),
         "menuDescription": Locales.string(
           context,
-          "accounts_menu_dependents_description",
+          "info_menu_add_operating_account_description",
         ),
         "route": AuthRoutesName.addOperatingAccountPage,
       },
