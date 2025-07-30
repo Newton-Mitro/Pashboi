@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
@@ -291,7 +291,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
   @override
   void initState() {
     super.initState();
-    context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
+    context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
   }
 
   void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {

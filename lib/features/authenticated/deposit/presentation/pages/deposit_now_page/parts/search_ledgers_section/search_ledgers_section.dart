@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
@@ -121,7 +121,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                BlocBuilder<BeneficiaryBloc, BeneficiaryState>(
+                BlocBuilder<BeneficiariesBloc, BeneficiariesState>(
                   builder: (context, state) {
                     if (state.isLoading) {
                       return const Center(child: CircularProgressIndicator());

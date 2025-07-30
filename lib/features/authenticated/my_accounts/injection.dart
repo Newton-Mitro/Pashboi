@@ -2,7 +2,6 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/data/datasources/account_util_remote.datasource.dart';
 import 'package:pashboi/features/authenticated/my_accounts/data/datasources/deposit_account_remote.datasource.dart';
 import 'package:pashboi/features/authenticated/my_accounts/data/repositories/account_util_repository.impl.dart';

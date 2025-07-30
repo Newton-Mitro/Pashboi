@@ -8,10 +8,10 @@ import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart
 import 'package:pashboi/features/auth/presentation/bloc/mobile_number_verification_bloc/mobile_number_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/otp_verification_bloc/otp_verification_bloc.dart';
 import 'package:pashboi/features/auth/presentation/bloc/reset_password_bloc/reset_password_bloc.dart';
-import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/dependents_page/bloc/fetch_dependents_bloc.dart';
@@ -47,8 +47,8 @@ void main() async {
         BlocProvider(create: (_) => sl<ResetPasswordBloc>()),
         BlocProvider(create: (context) => sl<DebitCardBloc>()),
         BlocProvider(create: (context) => sl<FetchDependentsBloc>()),
-        BlocProvider(create: (context) => sl<BeneficiaryBloc>()),
-        BlocProvider(create: (context) => sl<FamilyAndFriendsBloc>()),
+        BlocProvider(create: (context) => sl<BeneficiariesBloc>()),
+        BlocProvider(create: (context) => sl<FamilyAndRelativesBloc>()),
         BlocProvider(create: (context) => sl<RelationshipBloc>()),
         BlocProvider(create: (context) => sl<CollectionLedgerBloc>()),
         BlocProvider(create: (context) => sl<MyAccountBloc>()),

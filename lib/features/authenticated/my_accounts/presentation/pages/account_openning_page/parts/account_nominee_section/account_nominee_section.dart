@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
@@ -73,7 +73,7 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
+                BlocBuilder<FamilyAndRelativesBloc, FamilyAndRelativesState>(
                   builder: (context, state) {
                     return AppDropdownSelect<String>(
                       label: "Nominee",

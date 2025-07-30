@@ -1,25 +1,25 @@
-part of 'family_and_friends_bloc.dart';
+part of 'family_and_relatives_bloc.dart';
 
-class FamilyAndFriendsState extends Equatable {
+class FamilyAndRelativesState extends Equatable {
   final bool isLoading;
   final String? error;
   final List<FamilyAndFriendEntity> familyAndFriends;
   final Map<String, String>? errors;
 
-  const FamilyAndFriendsState({
+  const FamilyAndRelativesState({
     this.isLoading = false,
     this.error,
     this.familyAndFriends = const [],
     this.errors,
   });
 
-  FamilyAndFriendsState copyWith({
+  FamilyAndRelativesState copyWith({
     bool? isLoading,
     String? error,
     List<FamilyAndFriendEntity>? familyAndFriends,
     final Map<String, String>? errors,
   }) {
-    return FamilyAndFriendsState(
+    return FamilyAndRelativesState(
       isLoading: isLoading ?? this.isLoading,
       error: error,
       familyAndFriends: familyAndFriends ?? this.familyAndFriends,

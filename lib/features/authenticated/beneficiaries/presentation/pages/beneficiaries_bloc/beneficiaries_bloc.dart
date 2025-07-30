@@ -8,28 +8,28 @@ import 'package:pashboi/features/authenticated/beneficiaries/domain/usecases/add
 import 'package:pashboi/features/authenticated/beneficiaries/domain/usecases/fetch_beneficiaries_usecase.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/domain/usecases/remove_beneficiary_usecase.dart';
 
-part 'beneficiary_event.dart';
-part 'beneficiary_state.dart';
+part 'beneficiaries_event.dart';
+part 'beneficiaries_state.dart';
 
-class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
+class BeneficiariesBloc extends Bloc<BeneficiariesEvent, BeneficiariesState> {
   final FetchBeneficiariesUseCase fetchBeneficiariesUseCase;
   final AddBeneficiaryUseCase addBeneficiary;
   final GetAuthUserUseCase getAuthUserUseCase;
   final RemoveBeneficiaryUseCase removeBeneficiaryUseCase;
 
-  BeneficiaryBloc({
+  BeneficiariesBloc({
     required this.fetchBeneficiariesUseCase,
     required this.addBeneficiary,
     required this.getAuthUserUseCase,
     required this.removeBeneficiaryUseCase,
-  }) : super(const BeneficiaryState()) {
+  }) : super(const BeneficiariesState()) {
     on<FetchBeneficiaries>(_onFetchBeneficiaries);
     on<CreateBeneficiary>(_onCreateBeneficiary);
     on<DeleteBeneficiary>(_onDeleteBeneficiary);
   }
 
   Future<UserEntity?> _getAuthenticatedUser(
-    Emitter<BeneficiaryState> emit,
+    Emitter<BeneficiariesState> emit,
   ) async {
     final authUser = await getAuthUserUseCase(NoParams());
     return authUser.fold((failure) {
@@ -45,7 +45,7 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
 
   Future<void> _onFetchBeneficiaries(
     FetchBeneficiaries event,
-    Emitter<BeneficiaryState> emit,
+    Emitter<BeneficiariesState> emit,
   ) async {
     emit(state.copyWith(isLoading: true, error: null));
 
@@ -78,7 +78,7 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
 
   Future<void> _onCreateBeneficiary(
     CreateBeneficiary event,
-    Emitter<BeneficiaryState> emit,
+    Emitter<BeneficiariesState> emit,
   ) async {
     final beneficiaryName = event.beneficiaryName;
     final accountNumber = event.accountNumber;
@@ -141,7 +141,7 @@ class BeneficiaryBloc extends Bloc<BeneficiaryEvent, BeneficiaryState> {
 
   Future<void> _onDeleteBeneficiary(
     DeleteBeneficiary event,
-    Emitter<BeneficiaryState> emit,
+    Emitter<BeneficiariesState> emit,
   ) async {
     emit(state.copyWith(isLoading: true, error: null));
 

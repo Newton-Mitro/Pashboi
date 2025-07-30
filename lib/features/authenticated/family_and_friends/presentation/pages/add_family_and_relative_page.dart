@@ -1,10 +1,11 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
@@ -49,6 +50,42 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
       ),
       body: MultiBlocListener(
         listeners: [
+          BlocListener<FamilyAndRelativesBloc, FamilyAndRelativesState>(
+            listener: (context, state) {
+              if (state.error != null) {
+                final snackBar = SnackBar(
+                  elevation: 0,
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'Oops!',
+                    message: state.error!,
+                    contentType: ContentType.failure,
+                  ),
+                );
+
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackBar);
+              }
+              if (state.familyAndFriends.isNotEmpty) {
+                final snackBar = SnackBar(
+                  elevation: 0,
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'Oops!',
+                    message: "Beneficiary added successfully",
+                    contentType: ContentType.success,
+                  ),
+                );
+
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackBar);
+              }
+            },
+          ),
           BlocListener<CollectionLedgerBloc, CollectionLedgerState>(
             listener: (context, state) {
               if (state is CollectionLedgerLoaded) {
@@ -79,7 +116,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
             },
           ),
         ],
-        child: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
+        child: BlocBuilder<FamilyAndRelativesBloc, FamilyAndRelativesState>(
           builder: (context, familyAndFriendsState) {
             return PageContainer(
               child: Column(
@@ -220,8 +257,8 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                     onSubmit: () {
                       if (!mounted) return;
 
-                      context.read<FamilyAndFriendsBloc>().add(
-                        AddFamilyAndFriend(
+                      context.read<FamilyAndRelativesBloc>().add(
+                        AddFamilyAndRelative(
                           childPersonId: childPersonId,
                           relationTypeCode: selectedRelationship,
                           searchAccountNumber: _accountSearchController.text,

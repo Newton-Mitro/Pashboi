@@ -8,7 +8,7 @@ import 'package:pashboi/features/authenticated/beneficiaries/domain/repositories
 import 'package:pashboi/features/authenticated/beneficiaries/domain/usecases/add_beneficiary_usecase.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/domain/usecases/fetch_beneficiaries_usecase.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/domain/usecases/remove_beneficiary_usecase.dart';
-import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 
 void registerBeneficiaryModule() async {
   // Register Data Sources
@@ -41,8 +41,8 @@ void registerBeneficiaryModule() async {
     ),
   );
   // Register Bloc
-  sl.registerFactory<BeneficiaryBloc>(
-    () => BeneficiaryBloc(
+  sl.registerFactory<BeneficiariesBloc>(
+    () => BeneficiariesBloc(
       fetchBeneficiariesUseCase: sl<FetchBeneficiariesUseCase>(),
       addBeneficiary: sl<AddBeneficiaryUseCase>(),
       removeBeneficiaryUseCase: sl<RemoveBeneficiaryUseCase>(),

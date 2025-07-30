@@ -4,9 +4,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/bloc/beneficiary_bloc.dart';
-import 'package:pashboi/routes/auth_routes_name.dart';
-import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
+import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_icon_card.dart';
 
@@ -21,7 +19,7 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<BeneficiaryBloc>().add(FetchBeneficiaries());
+    context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
   }
 
   @override
@@ -34,7 +32,7 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
       ),
       body: PageContainer(
         child: SafeArea(
-          child: BlocBuilder<BeneficiaryBloc, BeneficiaryState>(
+          child: BlocBuilder<BeneficiariesBloc, BeneficiariesState>(
             builder: (context, state) {
               if (state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
@@ -93,7 +91,7 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
                       onDismissed: (_) {
-                        context.read<BeneficiaryBloc>().add(
+                        context.read<BeneficiariesBloc>().add(
                           DeleteBeneficiary(info.accountNumber),
                         );
                       },
@@ -150,29 +148,6 @@ class _BeneficiariesPageState extends State<BeneficiariesPage> {
               );
             },
           ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0, top: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Click to add a new beneficiary!',
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: 10),
-            AppPrimaryButton(
-              iconBefore: const Icon(Icons.person_add),
-              label: "Add Beneficiary",
-              onPressed: () {
-                Navigator.pushNamed(context, AuthRoutesName.addBeneficiaryPage);
-              },
-            ),
-          ],
         ),
       ),
     );

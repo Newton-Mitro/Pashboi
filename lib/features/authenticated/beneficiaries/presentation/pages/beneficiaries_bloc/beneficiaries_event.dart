@@ -1,15 +1,15 @@
-part of 'beneficiary_bloc.dart';
+part of 'beneficiaries_bloc.dart';
 
-sealed class BeneficiaryEvent extends Equatable {
-  const BeneficiaryEvent();
+sealed class BeneficiariesEvent extends Equatable {
+  const BeneficiariesEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class FetchBeneficiaries extends BeneficiaryEvent {}
+class FetchBeneficiaries extends BeneficiariesEvent {}
 
-class CreateBeneficiary extends BeneficiaryEvent {
+class CreateBeneficiary extends BeneficiariesEvent {
   final String accountNumber;
   final String beneficiaryName;
 
@@ -22,7 +22,7 @@ class CreateBeneficiary extends BeneficiaryEvent {
   List<Object> get props => [accountNumber, beneficiaryName];
 }
 
-class DeleteBeneficiary extends BeneficiaryEvent {
+class DeleteBeneficiary extends BeneficiariesEvent {
   final String accountNumber;
 
   const DeleteBeneficiary(this.accountNumber);

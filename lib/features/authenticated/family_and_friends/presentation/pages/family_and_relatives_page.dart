@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_friends_bloc/family_and_friends_bloc.dart';
-import 'package:pashboi/routes/auth_routes_name.dart';
-import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_icon_card.dart';
 
@@ -20,7 +18,7 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<FamilyAndFriendsBloc>().add(FetchFamilyAndFriends());
+    context.read<FamilyAndRelativesBloc>().add(FetchFamilyAndRelatives());
   }
 
   @override
@@ -31,7 +29,7 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
       appBar: AppBar(title: const Text('Family and Relatives')),
       body: PageContainer(
         child: SafeArea(
-          child: BlocBuilder<FamilyAndFriendsBloc, FamilyAndFriendsState>(
+          child: BlocBuilder<FamilyAndRelativesBloc, FamilyAndRelativesState>(
             builder: (context, state) {
               if (state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
@@ -72,11 +70,10 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
                 itemCount: familyList.length,
                 itemBuilder: (context, index) {
                   final info = familyList[index];
-                  final isMale =
-                      (info.familyMemberGender ?? '').toUpperCase() == 'M';
+                  final isMale = (info.familyMemberGender).toUpperCase() == 'M';
                   final icon =
                       isMale ? FontAwesomeIcons.mars : FontAwesomeIcons.venus;
-                  final requestStatus = info.requestStatus ?? '';
+                  final requestStatus = info.requestStatus;
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
@@ -95,7 +92,7 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            info.relationName ?? '',
+                            info.relationName,
                             style: TextStyle(
                               fontSize: 12,
                               color: theme.colorScheme.onSurface,
@@ -139,32 +136,6 @@ class _FamilyAndRelativesPageState extends State<FamilyAndRelativesPage> {
               );
             },
           ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0, top: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Click to add a family member or a relative!',
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: 10),
-            AppPrimaryButton(
-              iconBefore: const Icon(Icons.person_add),
-              label: "Add Family or Relative",
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AuthRoutesName.addFamilyMemberPage,
-                );
-              },
-            ),
-          ],
         ),
       ),
     );

@@ -1,25 +1,25 @@
-part of 'beneficiary_bloc.dart';
+part of 'beneficiaries_bloc.dart';
 
-class BeneficiaryState extends Equatable {
+class BeneficiariesState extends Equatable {
   final bool isLoading;
   final List<BeneficiaryEntity> beneficiaries;
   final String? error;
   final Map<String, String>? errors;
 
-  const BeneficiaryState({
+  const BeneficiariesState({
     this.isLoading = false,
     this.beneficiaries = const [],
     this.error,
     this.errors,
   });
 
-  BeneficiaryState copyWith({
+  BeneficiariesState copyWith({
     bool? isLoading,
     List<BeneficiaryEntity>? beneficiaries,
     String? error,
     final Map<String, String>? errors,
   }) {
-    return BeneficiaryState(
+    return BeneficiariesState(
       isLoading: isLoading ?? this.isLoading,
       beneficiaries: beneficiaries ?? this.beneficiaries,
       error: error,

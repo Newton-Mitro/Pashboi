@@ -9,26 +9,26 @@ import 'package:pashboi/features/authenticated/family_and_friends/domain/entitie
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/add_family_and_friend_usecase.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/get_family_and_friends_usecase.dart';
 
-part 'family_and_friends_event.dart';
-part 'family_and_friends_state.dart';
+part 'family_and_relatives_event.dart';
+part 'family_and_relatives_state.dart';
 
-class FamilyAndFriendsBloc
-    extends Bloc<FamilyAndFriendsEvent, FamilyAndFriendsState> {
+class FamilyAndRelativesBloc
+    extends Bloc<FamilyAndRelativesEvent, FamilyAndRelativesState> {
   final GetFamilyAndFriendsUseCase getFamilyAndFriendsUseCase;
   final AddFamilyAndFriendUsecase addFamilyAndFriendUseCase;
   final GetAuthUserUseCase getAuthUserUseCase;
 
-  FamilyAndFriendsBloc({
+  FamilyAndRelativesBloc({
     required this.getFamilyAndFriendsUseCase,
     required this.addFamilyAndFriendUseCase,
     required this.getAuthUserUseCase,
-  }) : super(const FamilyAndFriendsState()) {
-    on<FetchFamilyAndFriends>(_onFetchFamilyAndFriends);
-    on<AddFamilyAndFriend>(_onAddFamilyAndFriend);
+  }) : super(const FamilyAndRelativesState()) {
+    on<FetchFamilyAndRelatives>(_onFetchFamilyAndFriends);
+    on<AddFamilyAndRelative>(_onAddFamilyAndFriend);
   }
 
   Future<UserEntity?> _getAuthenticatedUser(
-    Emitter<FamilyAndFriendsState> emit,
+    Emitter<FamilyAndRelativesState> emit,
   ) async {
     final authUser = await getAuthUserUseCase.call(NoParams());
     return authUser.fold((failure) {
@@ -43,8 +43,8 @@ class FamilyAndFriendsBloc
   }
 
   Future<void> _onFetchFamilyAndFriends(
-    FetchFamilyAndFriends event,
-    Emitter<FamilyAndFriendsState> emit,
+    FetchFamilyAndRelatives event,
+    Emitter<FamilyAndRelativesState> emit,
   ) async {
     emit(state.copyWith(isLoading: true, error: null));
 
@@ -73,8 +73,8 @@ class FamilyAndFriendsBloc
   }
 
   Future<void> _onAddFamilyAndFriend(
-    AddFamilyAndFriend event,
-    Emitter<FamilyAndFriendsState> emit,
+    AddFamilyAndRelative event,
+    Emitter<FamilyAndRelativesState> emit,
   ) async {
     final relationTypeCode = event.relationTypeCode;
     final childPersonId = event.childPersonId;
