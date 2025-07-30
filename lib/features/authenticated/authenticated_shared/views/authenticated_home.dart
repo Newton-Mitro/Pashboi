@@ -25,6 +25,7 @@ import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/app_dialog.dart';
 import 'package:pashboi/shared/widgets/language_switch/language_switch.dart';
+import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.dart';
 import 'package:pashboi/shared/widgets/theme_selector/theme_selector.dart';
 import 'package:r_nav_n_sheet/r_nav_n_sheet.dart';
 
@@ -69,7 +70,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
       },
       {
         "icon": FontAwesomeIcons.buildingColumns,
-        "activeIcon": FontAwesomeIcons.university,
+        "activeIcon": FontAwesomeIcons.buildingColumns,
         "label": Locales.string(context, 'auth_bottom_nav_menu_accounts'),
         "index": 1,
       },
@@ -206,123 +207,158 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                         const ThemeSelector(),
                         const LanguageSwitch(),
                         const SizedBox(width: 10),
-                        PopupMenuButton<int>(
-                          offset: const Offset(0, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          onSelected: (value) async {
-                            if (value == 0) {
-                              Navigator.pushNamed(
-                                context,
-                                AuthRoutesName.profilePage,
-                              );
-                            } else if (value == 1) {
-                              Navigator.pushNamed(
-                                context,
-                                AuthRoutesName.changePasswordPage,
-                              );
-                              debugPrint('Change password tapped');
-                            } else if (value == 2) {
-                              await showDialog(
-                                context: context,
-                                builder:
-                                    (_) => AppDialog(
-                                      title: 'Logout',
-                                      content:
-                                          'Are you sure you want to logout?',
-                                      icon: const Icon(Icons.logout, size: 40),
-                                      onPositiveButtonTap:
-                                          () => context.read<AuthBloc>().add(
-                                            LogoutRequested(),
+                        BlocBuilder<ThemeSelectorBloc, ThemeSelectorState>(
+                          builder: (context, state) {
+                            return PopupMenuButton<int>(
+                              offset: const Offset(0, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              onSelected: (value) async {
+                                if (value == 0) {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AuthRoutesName.profilePage,
+                                  );
+                                } else if (value == 1) {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AuthRoutesName.changePasswordPage,
+                                  );
+                                  debugPrint('Change password tapped');
+                                } else if (value == 2) {
+                                  await showDialog(
+                                    context: context,
+                                    builder:
+                                        (_) => AppDialog(
+                                          title: 'Logout',
+                                          content:
+                                              'Are you sure you want to logout?',
+                                          icon: const Icon(
+                                            Icons.logout,
+                                            size: 40,
                                           ),
-                                      positiveButtonLabel: 'Logout',
+                                          onPositiveButtonTap:
+                                              () => context
+                                                  .read<AuthBloc>()
+                                                  .add(LogoutRequested()),
+                                          positiveButtonLabel: 'Logout',
+                                        ),
+                                  );
+                                }
+                              },
+                              itemBuilder:
+                                  (context) => [
+                                    PopupMenuItem(
+                                      value: 0,
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.person,
+                                            size: 20,
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onSurface,
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            Locales.string(
+                                              context,
+                                              'tool_profile_menu',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                              );
-                            }
-                          },
-                          itemBuilder:
-                              (context) => [
-                                PopupMenuItem(
-                                  value: 0,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.person, size: 20),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        Locales.string(
-                                          context,
-                                          'tool_profile_menu',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 1,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.lock_open_rounded, size: 20),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        Locales.string(
-                                          context,
-                                          'tool_change_password_menu',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const PopupMenuItem(
-                                  enabled: false,
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Divider(
-                                    color: Colors.grey,
-                                    thickness: 1.2,
-                                    height: 8,
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 2,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.logout, size: 20),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        Locales.string(
-                                          context,
-                                          'tool_logout_menu',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: context.theme.colorScheme.onPrimary,
-                                  width: 2,
-                                ),
-                                image: DecorationImage(
-                                  image:
-                                      user != null && user.userPicture != null
-                                          ? Base64ImageWidget(
-                                            base64String: user.userPicture!,
-                                          ).imageProvider
-                                          : const NetworkImage(
-                                            'https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg',
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.lock_open_rounded,
+                                            size: 20,
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onSurface,
                                           ),
-                                  fit: BoxFit.cover,
+                                          SizedBox(width: 8),
+                                          Text(
+                                            Locales.string(
+                                              context,
+                                              'tool_change_password_menu',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const PopupMenuItem(
+                                      enabled: false,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                      ),
+                                      child: Divider(
+                                        color: Colors.grey,
+                                        thickness: 1.2,
+                                        height: 8,
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 2,
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.logout,
+                                            size: 20,
+                                            color:
+                                                context
+                                                    .theme
+                                                    .colorScheme
+                                                    .onSurface,
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            Locales.string(
+                                              context,
+                                              'tool_logout_menu',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color:
+                                          context.theme.colorScheme.onPrimary,
+                                      width: 2,
+                                    ),
+                                    image: DecorationImage(
+                                      image:
+                                          user != null &&
+                                                  user.userPicture != null
+                                              ? Base64ImageWidget(
+                                                base64String: user.userPicture!,
+                                              ).imageProvider
+                                              : const NetworkImage(
+                                                'https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg',
+                                              ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         ),
                       ],
                     ),

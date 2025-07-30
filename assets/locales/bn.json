@@ -20,10 +20,10 @@
 
   "landing_page_welcome_text": "পাশবই-এ স্বাগতম",
   "landing_page_already_have_account_text": "ইতিমধ্যে অ্যাকাউন্ট রয়েছে?",
-  "landing_page_login_instruction": "আপনি যদি ঢাকা ক্রেডিট-এর সদস্য হন এবং ইতোমধ্যে একটি ইউজার অ্যাকাউন্ট থাকে, তাহলে লগইন করুন।",
+  "landing_page_login_instruction": "আপনি যদি ঢাকা ক্রেডিট-এর সদস্য হন \nএবং ইতোমধ্যে একটি ইউজার অ্যাকাউন্ট থাকে, \nতাহলে লগইন করুন।",
   "landing_page_login_button": "লগইন",
   "landing_page_dont_have_account_text": "অ্যাকাউন্ট নেই?",
-  "landing_page_create_account_instruction": "আপনি যদি সদস্য হয়ে অনলাইন সেবা নিবন্ধন করে থাকেন কিন্তু ইউজার অ্যাকাউন্ট না করে থাকেন, তাহলে এখনই একটি অ্যাকাউন্ট তৈরি করুন।",
+  "landing_page_create_account_instruction": "আপনি যদি সদস্য হয়ে অনলাইন সেবা নিবন্ধন করে \nথাকেন কিন্তু ইউজার অ্যাকাউন্ট না করে থাকেন, \nতাহলে এখনই একটি অ্যাকাউন্ট তৈরি করুন।",
   "landing_page_create_account_button": "ইউজার অ্যাকাউন্ট তৈরি করুন",
   "landing_page_product_and_service_instruction": "আমাদের পণ্য ও সেবাসমূহ সম্পর্কে জানতে চাইলে ভিজিট করুন",
   "landing_page_product_and_service_button": "পণ্য ও সেবা",
