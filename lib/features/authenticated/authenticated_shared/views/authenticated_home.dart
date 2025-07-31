@@ -8,6 +8,7 @@ import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart
 import 'package:pashboi/features/authenticated/authenticated_shared/bloc/authenticated_home_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/accounts_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/beneficiary_menus_view.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/dependents_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/deposit_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/family_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/info_menus_view.dart';
@@ -49,6 +50,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
     FamilyMenusView(),
     BeneficiaryMenusView(),
     GivenSuretiesPage(),
+    DependentsMenusView(),
     PersonnelMenusView(),
   ];
 
@@ -123,10 +125,16 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
         "index": 9,
       },
       {
+        "icon": FontAwesomeIcons.children,
+        "activeIcon": FontAwesomeIcons.shieldHalved,
+        "label": Locales.string(context, 'auth_bottom_nav_menu_dependent'),
+        "index": 10,
+      },
+      {
         "icon": FontAwesomeIcons.helmetSafety,
         "activeIcon": FontAwesomeIcons.shieldHalved,
         "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
-        "index": 10,
+        "index": 11,
       },
       // {
       //   "icon": FontAwesomeIcons.helmetSafety,

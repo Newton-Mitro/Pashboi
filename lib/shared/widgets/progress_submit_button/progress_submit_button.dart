@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/shared/widgets/progress_submit_button/half_circle_printer.dart';
 
 class ProgressSubmitButton extends StatefulWidget {
-  final VoidCallback onSubmit;
+  final VoidCallback? onSubmit;
   final String label;
   final double height;
   final double width;
@@ -54,7 +54,7 @@ class _ProgressSubmitButtonState extends State<ProgressSubmitButton> {
 
       if (ticks >= maxTicks) {
         timer.cancel();
-        widget.onSubmit();
+        widget.onSubmit?.call();
         if (mounted) {
           setState(() {
             _progress = 0.0;

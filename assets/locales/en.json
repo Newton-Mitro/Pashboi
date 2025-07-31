@@ -86,6 +86,7 @@
   "auth_bottom_nav_menu_beneficiary": "Beneficiary",
   "auth_bottom_nav_menu_personnel": "Personnel",
   "auth_bottom_nav_menu_surety": "Surety",
+  "auth_bottom_nav_menu_dependent": "dependent",
 
   "info_menu_profile_title": "Profile",
   "info_menu_profile_description": "Your personal information  and manage your profile from here.",
