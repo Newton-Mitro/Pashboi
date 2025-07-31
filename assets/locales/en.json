@@ -261,5 +261,15 @@
   "profile_pae_present_address": "Present Address",
   "profile_pae_permanent_address": "Permanent Address",
 
+  "dependents_page_title": "Dependents",
+
+  "dependents_accounts_page_title": "Dependent's Accounts",
+
+  "add_operating_account_page_title": "Add Operating Account",
+  "add_operating_account_page_dependents_input_label": "Dependents",
+  "add_operating_account_page_dependents_accounts_input_label": "Dependent's Accounts",
+  "add_operating_account_page_mobile_number_input_label": "Mobile Number (OTP will be sent)",
+  "add_operating_account_page_submit_button_text": "Hold & Press to Submit",
+
   "account_opening_page_title": "Open"
 }

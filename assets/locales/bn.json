@@ -260,5 +260,15 @@
   "profile_pae_present_address": "বর্তমান ঠিকানা",
   "profile_pae_permanent_address": "স্থায়ী ঠিকানা",
 
+  "dependents_page_title": "নির্ভরশীল সদস্যগুলি",
+
+  "dependents_accounts_page_title": "নির্ভরশীলদের অ্যাকাউন্ট",
+
+  "add_operating_account_page_title": "অপারেটিং অ্যাকাউন্ট যোগ করুন",
+  "add_operating_account_page_dependents_input_label": "নির্ভরশীল",
+  "add_operating_account_page_dependents_accounts_input_label": "নির্ভরশীলদের অ্যাকাউন্ট",
+  "add_operating_account_page_mobile_number_input_label": "মোবাইল নম্বর (ওটিপি পাঠানো হবে)",
+  "add_operating_account_page_submit_button_text": "অপারেটিং অ্যাকাউন্ট যোগ করতে \nটিপে ধরে রাখুন",
+
   "account_opening_page_title": "অ্যাকাউন্ট খুলুন"
 }

@@ -11,6 +11,15 @@ final class AddOperatingAccountInitial extends AddOperatingAccountState {}
 
 final class AddOperatingAccountProcessing extends AddOperatingAccountState {}
 
+final class AddOperatingAccountValidationErrorState
+    extends AddOperatingAccountState {
+  final Map<String, dynamic> errors;
+  const AddOperatingAccountValidationErrorState(this.errors);
+
+  @override
+  List<Object> get props => [errors];
+}
+
 final class AddOperatingAccountSuccess extends AddOperatingAccountState {
   final String message;
 

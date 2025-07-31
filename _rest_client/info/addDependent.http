@@ -27,6 +27,7 @@ Token: {{token}}
   {  
   "AccountOperators": [
      {
+       "AccountHolderId": 0,
        "AccountOperatorId": 13821,
        "AccountHolderInfoId": 184918
     }

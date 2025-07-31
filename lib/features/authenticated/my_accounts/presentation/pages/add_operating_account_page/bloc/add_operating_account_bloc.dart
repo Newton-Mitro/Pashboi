@@ -23,6 +23,21 @@ class AddOperatingAccountBloc
     AddOperatingAccountEvent event,
     Emitter<AddOperatingAccountState> emit,
   ) async {
+    final Map<String, String> errors = {};
+
+    if (event.accountHolderId == 0) {
+      errors['dependents'] = 'Please select dependent';
+    }
+
+    if (event.accountHolderInfoId == 0) {
+      errors['dependentsAccounts'] = 'Please select dependent account';
+    }
+
+    if (errors.isNotEmpty) {
+      emit(AddOperatingAccountValidationErrorState(errors));
+      return;
+    }
+
     emit(AddOperatingAccountProcessing());
 
     try {
@@ -45,6 +60,7 @@ class AddOperatingAccountBloc
               mobileNumber: user.regMobile,
               operatorId: user.userId,
               accountHolderId: event.accountHolderId,
+              accountHolderInfoId: event.accountHolderInfoId,
             ),
           );
 

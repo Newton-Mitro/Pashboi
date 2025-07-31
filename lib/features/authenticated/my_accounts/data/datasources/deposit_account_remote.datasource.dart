@@ -185,8 +185,9 @@ class DepositAccountRemoteDataSourceImpl
         data: {
           "AccountOperators": [
             {
+              "AccountHolderId": props.accountHolderId,
               "AccountOperatorId": props.operatorId,
-              "AccountHolderInfoId": props.accountHolderId,
+              "AccountHolderInfoId": props.accountHolderInfoId,
             },
           ],
           "UserName": props.email,
