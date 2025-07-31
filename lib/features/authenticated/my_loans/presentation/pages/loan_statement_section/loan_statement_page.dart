@@ -381,7 +381,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                         child: pw.Align(
                           alignment: pw.Alignment.centerRight,
                           child: pw.Text(
-                            'Credit',
+                            'Issued',
                             style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                           ),
                         ),
@@ -391,7 +391,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                         child: pw.Align(
                           alignment: pw.Alignment.centerRight,
                           child: pw.Text(
-                            'Debit',
+                            'Repayment',
                             style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                           ),
                         ),
@@ -401,7 +401,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
                         child: pw.Align(
                           alignment: pw.Alignment.centerRight,
                           child: pw.Text(
-                            'Balance',
+                            'Remaining',
                             style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                           ),
                         ),
@@ -495,7 +495,7 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
             );
 
         final file = File(
-          "$downloadsDir/account_statement_${DateTime.now().millisecondsSinceEpoch}.pdf",
+          "$downloadsDir/loan_statement_${DateTime.now().millisecondsSinceEpoch}.pdf",
         );
 
         await file.writeAsBytes(await pdf.save());
