@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
@@ -75,18 +75,41 @@ class _AccountNomineeSectionState extends State<AccountNomineeSection> {
               children: [
                 BlocBuilder<FamilyAndRelativesBloc, FamilyAndRelativesState>(
                   builder: (context, state) {
+                    final List<String> names;
+
+                    if (state is FamilyAndRelativesLoading) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (state is FamilyAndRelativesFailure) {
+                      return Text(
+                        "Failed to load family members",
+                        style: TextStyle(
+                          color: context.theme.colorScheme.error,
+                        ),
+                      );
+                    }
+
+                    if (state is FamilyAndRelativesLoaded) {
+                      names =
+                          state.familyAndFriends
+                              .map((e) => e.familyMemberName)
+                              .toList();
+                    } else {
+                      names = [];
+                    }
+
                     return AppDropdownSelect<String>(
                       label: "Nominee",
                       prefixIcon: FontAwesomeIcons.user,
                       value: nomineeName,
-                      enabled: state.familyAndFriends.isNotEmpty,
+                      enabled: names.isNotEmpty,
                       onChanged: onNomineeChanged,
                       items:
-                          state.familyAndFriends
+                          names
                               .map(
-                                (member) => DropdownMenuItem(
-                                  value: member.familyMemberName,
-                                  child: Text(member.familyMemberName),
+                                (name) => DropdownMenuItem(
+                                  value: name,
+                                  child: Text(name),
                                 ),
                               )
                               .toList(),

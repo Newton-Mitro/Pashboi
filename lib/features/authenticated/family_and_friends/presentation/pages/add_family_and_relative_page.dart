@@ -5,8 +5,8 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/add_family_and_relative_bloc/add_family_and_relative_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/relationship_bloc/relationship_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
@@ -50,16 +50,16 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
       ),
       body: MultiBlocListener(
         listeners: [
-          BlocListener<FamilyAndRelativesBloc, FamilyAndRelativesState>(
+          BlocListener<AddFamilyAndRelativeBloc, AddFamilyAndRelativeState>(
             listener: (context, state) {
-              if (state.error != null) {
+              if (state is AddFamilyAndRelativeFailure) {
                 final snackBar = SnackBar(
                   elevation: 0,
                   behavior: SnackBarBehavior.floating,
                   backgroundColor: Colors.transparent,
                   content: AwesomeSnackbarContent(
                     title: 'Oops!',
-                    message: state.error!,
+                    message: state.error,
                     contentType: ContentType.failure,
                   ),
                 );
@@ -68,14 +68,14 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                   ..hideCurrentSnackBar()
                   ..showSnackBar(snackBar);
               }
-              if (state.familyAndFriends.isNotEmpty) {
+              if (state is AddFamilyAndRelativeSuccess) {
                 final snackBar = SnackBar(
                   elevation: 0,
                   behavior: SnackBarBehavior.floating,
                   backgroundColor: Colors.transparent,
                   content: AwesomeSnackbarContent(
                     title: 'Oops!',
-                    message: "Beneficiary added successfully",
+                    message: "Family or Relative added successfully",
                     contentType: ContentType.success,
                   ),
                 );
@@ -83,6 +83,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(snackBar);
+
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
               }
             },
           ),
@@ -116,8 +120,8 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
             },
           ),
         ],
-        child: BlocBuilder<FamilyAndRelativesBloc, FamilyAndRelativesState>(
-          builder: (context, familyAndFriendsState) {
+        child: BlocBuilder<AddFamilyAndRelativeBloc, AddFamilyAndRelativeState>(
+          builder: (context, addFamilyAndRelativeState) {
             return PageContainer(
               child: Column(
                 children: [
@@ -165,9 +169,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                                 errorText:
                                     state is CollectionLedgerValidationError
                                         ? state.errors['searchText']
-                                        : familyAndFriendsState.errors != null
-                                        ? familyAndFriendsState
-                                            .errors!['searchAccountNumber']
+                                        : addFamilyAndRelativeState
+                                            is AddFamilyAndRelativeValidationErrorState
+                                        ? addFamilyAndRelativeState
+                                            .errors['searchAccountNumber']
                                         : null,
                                 onSearchPressed: () {
                                   context.read<CollectionLedgerBloc>().add(
@@ -190,9 +195,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                             ),
                             enabled: false,
                             errorText:
-                                familyAndFriendsState.errors != null
-                                    ? familyAndFriendsState
-                                        .errors!['memberName']
+                                addFamilyAndRelativeState
+                                        is AddFamilyAndRelativeValidationErrorState
+                                    ? addFamilyAndRelativeState
+                                        .errors['memberName']
                                     : null,
                             prefixIcon: Icon(
                               Icons.person,
@@ -215,9 +221,10 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                                     'add_family_and_relative_page_relationship_input_label',
                                   ),
                                   errorText:
-                                      familyAndFriendsState.errors != null
-                                          ? familyAndFriendsState
-                                              .errors!['relationTypeCode']
+                                      addFamilyAndRelativeState
+                                              is AddFamilyAndRelativeValidationErrorState
+                                          ? addFamilyAndRelativeState
+                                              .errors['relationTypeCode']
                                           : null,
                                   items:
                                       relationshipState.relationships
@@ -257,8 +264,8 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                     onSubmit: () {
                       if (!mounted) return;
 
-                      context.read<FamilyAndRelativesBloc>().add(
-                        AddFamilyAndRelative(
+                      context.read<AddFamilyAndRelativeBloc>().add(
+                        AddFamilyAndRelativeSubmitted(
                           childPersonId: childPersonId,
                           relationTypeCode: selectedRelationship,
                           searchAccountNumber: _accountSearchController.text,

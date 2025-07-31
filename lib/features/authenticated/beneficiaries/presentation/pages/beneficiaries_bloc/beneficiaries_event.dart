@@ -9,19 +9,6 @@ sealed class BeneficiariesEvent extends Equatable {
 
 class FetchBeneficiaries extends BeneficiariesEvent {}
 
-class CreateBeneficiary extends BeneficiariesEvent {
-  final String accountNumber;
-  final String beneficiaryName;
-
-  const CreateBeneficiary({
-    required this.accountNumber,
-    required this.beneficiaryName,
-  });
-
-  @override
-  List<Object> get props => [accountNumber, beneficiaryName];
-}
-
 class DeleteBeneficiary extends BeneficiariesEvent {
   final String accountNumber;
 

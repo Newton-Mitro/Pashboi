@@ -31,7 +31,10 @@ class DepositAccountModel extends DepositAccountEntity {
           json['AccHolderName'] ?? json['AccountHolderName'] ?? '',
       name: json['AccHolderName'] ?? json['AccountHolderName'] ?? '',
       accountHolderId:
-          json['AccountHolderId'] ?? json['DependentPersonId'] ?? 0,
+          json['AccountHolderId'] ??
+          json['DependentPersonId'] ??
+          json['AccountHolderInfoId'] ??
+          0,
       typeName: json['AccountTypeName'] ?? '',
       shortTypeName: json['AccountTypeShortName'] ?? '',
       mobileNumber: json['MobileNumber'] ?? '',

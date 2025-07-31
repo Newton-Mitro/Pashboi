@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
@@ -39,20 +40,24 @@ class DepositAccountRemoteDataSourceImpl
     GetMyAccountsProps props,
   ) async {
     try {
+      var requestBody = {
+        "UserName": props.email,
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "MobileNo": props.mobileNumber,
+        "AccHolderPersonId": props.accountHolderPersonId,
+        "RequestFrom": "MobileApp",
+      };
+
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
       final response = await apiService.post(
         ApiUrls.getMyAccounts,
-        data: {
-          "UserName": props.email,
-          "UID": props.userId,
-          "ByUserId": props.userId,
-          "RolePermissionId": props.rolePermissionId,
-          "PersonId": props.personId,
-          "EmployeeCode": props.employeeCode,
-          "MobileNumber": props.mobileNumber,
-          "MobileNo": props.mobileNumber,
-          "AccHolderPersonId": props.accountHolderPersonId,
-          "RequestFrom": "MobileApp",
-        },
+        data: requestBody,
       );
 
       if (response.statusCode == HttpStatus.ok) {
@@ -87,20 +92,24 @@ class DepositAccountRemoteDataSourceImpl
     GetAccountDetailsProps props,
   ) async {
     try {
+      var requestBody = {
+        "UserName": props.email,
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "MobileNo": props.mobileNumber,
+        "AccountNo": props.accountNumber,
+        "RequestFrom": "MobileApp",
+      };
+
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
       final response = await apiService.post(
         ApiUrls.getAccountDetails,
-        data: {
-          "UserName": props.email,
-          "UID": props.userId,
-          "ByUserId": props.userId,
-          "RolePermissionId": props.rolePermissionId,
-          "PersonId": props.personId,
-          "EmployeeCode": props.employeeCode,
-          "MobileNumber": props.mobileNumber,
-          "MobileNo": props.mobileNumber,
-          "AccountNo": props.accountNumber,
-          "RequestFrom": "MobileApp",
-        },
+        data: requestBody,
       );
 
       if (response.statusCode == HttpStatus.ok) {
@@ -134,23 +143,26 @@ class DepositAccountRemoteDataSourceImpl
     GetAccountStatementProps props,
   ) async {
     try {
-      // Calculate dynamic dates
+      var requestBody = {
+        "UserName": props.email,
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "MobileNo": props.mobileNumber,
+        "AccountNo": props.accountNumber,
+        "StartDate": props.fromDate,
+        "EndDate": props.toDate,
+        "RequestFrom": "MobileApp",
+      };
+
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
       final response = await apiService.post(
         ApiUrls.getAccountStatement,
-        data: {
-          "UserName": props.email,
-          "UID": props.userId,
-          "ByUserId": props.userId,
-          "RolePermissionId": props.rolePermissionId,
-          "PersonId": props.personId,
-          "EmployeeCode": props.employeeCode,
-          "MobileNumber": props.mobileNumber,
-          "MobileNo": props.mobileNumber,
-          "AccountNo": props.accountNumber,
-          "StartDate": props.fromDate,
-          "EndDate": props.toDate,
-          "RequestFrom": "MobileApp",
-        },
+        data: requestBody,
       );
 
       if (response.statusCode == HttpStatus.ok) {
@@ -180,26 +192,30 @@ class DepositAccountRemoteDataSourceImpl
   @override
   Future<String> addOperatingAccount(AddOperatingAccountProps props) async {
     try {
+      var requestBody = {
+        "AccountOperators": [
+          {
+            "AccountHolderId": props.accountHolderId,
+            "AccountOperatorId": props.operatorId,
+            "AccountHolderInfoId": props.accountHolderInfoId,
+          },
+        ],
+        "UserName": props.email,
+        "Remarks": "Add Dependent",
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "MobileNo": props.mobileNumber,
+        "RequestFrom": "MobileApp",
+      };
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
       final response = await apiService.post(
         ApiUrls.addDependent,
-        data: {
-          "AccountOperators": [
-            {
-              "AccountOperatorId": props.operatorId,
-              "AccountHolderInfoId": props.accountHolderId,
-            },
-          ],
-          "UserName": props.email,
-          "Remarks": "Add Dependent",
-          "UID": props.userId,
-          "ByUserId": props.userId,
-          "RolePermissionId": props.rolePermissionId,
-          "PersonId": props.personId,
-          "EmployeeCode": props.employeeCode,
-          "MobileNumber": props.mobileNumber,
-          "MobileNo": props.mobileNumber,
-          "RequestFrom": "MobileApp",
-        },
+        data: requestBody,
       );
 
       if (response.statusCode == HttpStatus.ok) {
@@ -227,20 +243,24 @@ class DepositAccountRemoteDataSourceImpl
     FetchDependentsProps props,
   ) async {
     try {
+      var requestBody = {
+        "UserName": props.email,
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "DependentPersonId": props.dependentPersonId,
+        "MobileNo": props.mobileNumber,
+        "RequestFrom": "MobileApp",
+      };
+
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
       final response = await apiService.post(
         ApiUrls.getDependentAccounts,
-        data: {
-          "UserName": props.email,
-          "UID": props.userId,
-          "ByUserId": props.userId,
-          "RolePermissionId": props.rolePermissionId,
-          "PersonId": props.personId,
-          "EmployeeCode": props.employeeCode,
-          "MobileNumber": props.mobileNumber,
-          "DependentPersonId": props.dependentPersonId,
-          "MobileNo": props.mobileNumber,
-          "RequestFrom": "MobileApp",
-        },
+        data: requestBody,
       );
 
       if (response.statusCode == HttpStatus.ok) {
@@ -272,20 +292,24 @@ class DepositAccountRemoteDataSourceImpl
     FetchOperatingAccountsProps props,
   ) async {
     try {
+      var requestBody = {
+        "UserName": props.email,
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "DependentPersonId": props.dependentPersonId,
+        "MobileNo": props.mobileNumber,
+        "RequestFrom": "MobileApp",
+      };
+
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
       final response = await apiService.post(
         ApiUrls.getDependentAccounts,
-        data: {
-          "UserName": props.email,
-          "UID": props.userId,
-          "ByUserId": props.userId,
-          "RolePermissionId": props.rolePermissionId,
-          "PersonId": props.personId,
-          "EmployeeCode": props.employeeCode,
-          "MobileNumber": props.mobileNumber,
-          "DependentPersonId": props.dependentPersonId,
-          "MobileNo": props.mobileNumber,
-          "RequestFrom": "MobileApp",
-        },
+        data: requestBody,
       );
 
       if (response.statusCode == HttpStatus.ok) {
@@ -315,46 +339,50 @@ class DepositAccountRemoteDataSourceImpl
   @override
   Future<String> openDepositAccount(OpenDepositAccountParams props) async {
     try {
+      var requestBody = {
+        "AccountHolders": [
+          {
+            "AccountHolderId": 29960,
+            "IsOrganization": false,
+            "MembershipNumber": "",
+            "SavingsACNumber": "T-0037417",
+          },
+        ],
+        "Nominees": [
+          {"NomineePercentage": 100, "PersonId": 52155},
+        ],
+        "AccountOperators": [
+          {"AccountHolderId": 37425, "AccountOperatorId": 37425},
+        ],
+        "Introducers": [],
+        "DMSProductCode": "20",
+        "ApplicationNo": "",
+        "BranchCode": "00",
+        "AccountFor": 1,
+        "AccountName": "RIPON  BAROI",
+        "InterestRate": 8.5,
+        "Duration": 60,
+        "InstallmentAmount": 500,
+        "TxnAccountNumber": "T-0051979",
+        "InterestPostingAccount": "",
+        "OTPRegId": props.otpRegId,
+        "OTPValue": props.otpValue,
+        "UserName": props.email,
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "MobileNo": props.mobileNumber,
+        "RequestFrom": "MobileApp",
+      };
+
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
       final response = await apiService.post(
         ApiUrls.createDepositAccount,
-        data: {
-          "AccountHolders": [
-            {
-              "AccountHolderId": 29960,
-              "IsOrganization": false,
-              "MembershipNumber": "",
-              "SavingsACNumber": "T-0037417",
-            },
-          ],
-          "Nominees": [
-            {"NomineePercentage": 100, "PersonId": 52155},
-          ],
-          "AccountOperators": [
-            {"AccountHolderId": 37425, "AccountOperatorId": 37425},
-          ],
-          "Introducers": [],
-          "DMSProductCode": "20",
-          "ApplicationNo": "",
-          "BranchCode": "00",
-          "AccountFor": 1,
-          "AccountName": "RIPON  BAROI",
-          "InterestRate": 8.5,
-          "Duration": 60,
-          "InstallmentAmount": 500,
-          "TxnAccountNumber": "T-0051979",
-          "InterestPostingAccount": "",
-          "OTPRegId": props.otpRegId,
-          "OTPValue": props.otpValue,
-          "UserName": props.email,
-          "UID": props.userId,
-          "ByUserId": props.userId,
-          "RolePermissionId": props.rolePermissionId,
-          "PersonId": props.personId,
-          "EmployeeCode": props.employeeCode,
-          "MobileNumber": props.mobileNumber,
-          "MobileNo": props.mobileNumber,
-          "RequestFrom": "MobileApp",
-        },
+        data: requestBody,
       );
 
       if (response.statusCode == HttpStatus.ok) {

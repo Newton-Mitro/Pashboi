@@ -4,34 +4,37 @@ import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class InfoMenusView extends StatefulWidget {
-  const InfoMenusView({super.key});
+class DependentsMenusView extends StatefulWidget {
+  const DependentsMenusView({super.key});
 
   @override
-  State<InfoMenusView> createState() => _InfoMenusViewState();
+  State<DependentsMenusView> createState() => _DependentsMenusViewState();
 }
 
-class _InfoMenusViewState extends State<InfoMenusView> {
+class _DependentsMenusViewState extends State<DependentsMenusView> {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> infoMenus = [
       {
-        "icon": FontAwesomeIcons.circleUser,
-        "menuName": Locales.string(context, "info_menu_profile_title"),
+        "icon": FontAwesomeIcons.children,
+        "menuName": Locales.string(context, "info_menu_dependents_title"),
         "menuDescription": Locales.string(
           context,
-          "info_menu_profile_description",
+          "info_menu_dependents_description",
         ),
-        "route": AuthRoutesName.profilePage,
+        "route": AuthRoutesName.dependentsPage,
       },
       {
-        "icon": Icons.credit_card,
-        "menuName": Locales.string(context, "info_menu_card_title"),
+        "icon": FontAwesomeIcons.children,
+        "menuName": Locales.string(
+          context,
+          "info_menu_add_operating_account_title",
+        ),
         "menuDescription": Locales.string(
           context,
-          "info_menu_card_description",
+          "info_menu_add_operating_account_description",
         ),
-        "route": AuthRoutesName.cardPage,
+        "route": AuthRoutesName.addOperatingAccountPage,
       },
     ];
 

@@ -11,8 +11,9 @@ import 'package:pashboi/features/authenticated/family_and_friends/domain/reposit
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/add_family_and_friend_usecase.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/fetch_relationships_usecase.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/domain/usecases/get_family_and_friends_usecase.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
-import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/family_and_friend_bloc/relationship_bloc/relationship_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/add_family_and_relative_bloc/add_family_and_relative_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
+import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/relationship_bloc/relationship_bloc.dart';
 
 void registerFamilyAndFriendsModule() async {
   // Register Data Sources
@@ -58,7 +59,6 @@ void registerFamilyAndFriendsModule() async {
   sl.registerFactory<FamilyAndRelativesBloc>(
     () => FamilyAndRelativesBloc(
       getFamilyAndFriendsUseCase: sl<GetFamilyAndFriendsUseCase>(),
-      addFamilyAndFriendUseCase: sl<AddFamilyAndFriendUsecase>(),
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
     ),
   );
@@ -66,6 +66,13 @@ void registerFamilyAndFriendsModule() async {
   sl.registerFactory<RelationshipBloc>(
     () => RelationshipBloc(
       fetchRelationshipsUseCase: sl<FetchRelationshipsUseCase>(),
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+    ),
+  );
+
+  sl.registerFactory<AddFamilyAndRelativeBloc>(
+    () => AddFamilyAndRelativeBloc(
+      addFamilyAndFriendUseCase: sl<AddFamilyAndFriendUsecase>(),
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
     ),
   );

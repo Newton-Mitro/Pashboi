@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/injection.dart';
@@ -21,7 +22,11 @@ class DependentsAccountsPage extends StatelessWidget {
               sl<FetchOperatingAccountsBloc>()
                 ..add(FetchOperatingAccountsEvent(dependentPersonId)),
       child: Scaffold(
-        appBar: AppBar(title: Text("Dependent's Accounts")),
+        appBar: AppBar(
+          title: Text(
+            Locales.string(context, 'dependents_accounts_page_title'),
+          ),
+        ),
         body: PageContainer(
           child: BlocBuilder<
             FetchOperatingAccountsBloc,

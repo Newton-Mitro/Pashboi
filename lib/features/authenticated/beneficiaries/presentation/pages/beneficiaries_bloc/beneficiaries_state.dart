@@ -1,32 +1,38 @@
 part of 'beneficiaries_bloc.dart';
 
-class BeneficiariesState extends Equatable {
-  final bool isLoading;
-  final List<BeneficiaryEntity> beneficiaries;
-  final String? error;
-  final Map<String, String>? errors;
-
-  const BeneficiariesState({
-    this.isLoading = false,
-    this.beneficiaries = const [],
-    this.error,
-    this.errors,
-  });
-
-  BeneficiariesState copyWith({
-    bool? isLoading,
-    List<BeneficiaryEntity>? beneficiaries,
-    String? error,
-    final Map<String, String>? errors,
-  }) {
-    return BeneficiariesState(
-      isLoading: isLoading ?? this.isLoading,
-      beneficiaries: beneficiaries ?? this.beneficiaries,
-      error: error,
-      errors: errors,
-    );
-  }
+abstract class BeneficiariesState extends Equatable {
+  const BeneficiariesState();
 
   @override
-  List<Object?> get props => [isLoading, beneficiaries, error, errors];
+  List<Object?> get props => [];
+}
+
+class BeneficiariesInitial extends BeneficiariesState {
+  const BeneficiariesInitial();
+}
+
+class BeneficiariesLoading extends BeneficiariesState {
+  const BeneficiariesLoading();
+}
+
+class BeneficiariesLoaded extends BeneficiariesState {
+  final List<BeneficiaryEntity> beneficiaries;
+
+  const BeneficiariesLoaded(this.beneficiaries);
+
+  @override
+  List<Object?> get props => [beneficiaries];
+}
+
+class BeneficiariesSuccess extends BeneficiariesState {
+  const BeneficiariesSuccess();
+}
+
+class BeneficiariesError extends BeneficiariesState {
+  final String message;
+
+  const BeneficiariesError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

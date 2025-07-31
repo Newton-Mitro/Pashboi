@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
@@ -18,7 +19,9 @@ class DependentsPage extends StatelessWidget {
     context.read<FetchDependentsBloc>().add(FetchDependentsEvent());
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Dependents')),
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'dependents_page_title')),
+      ),
       body: PageContainer(
         child: SafeArea(
           child: BlocBuilder<FetchDependentsBloc, FetchDependentsState>(

@@ -25,7 +25,7 @@ class AuthenticatedBottomSheet extends StatelessWidget {
         final Color inactiveBgColor = context.theme.colorScheme.surface;
 
         return Container(
-          width: MediaQuery.of(context).size.width * 0.97,
+          width: double.infinity,
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height * 0.4,
           ),

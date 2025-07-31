@@ -36,76 +36,81 @@ class CardPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('My Cards')),
       body: PageContainer(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: MultiBlocListener(
-            listeners: [
-              BlocListener<DebitCardBloc, DebitCardState>(
-                listener: (context, state) {
-                  if (state.successMessage != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.successMessage!)),
-                    );
-                    context.read<DebitCardBloc>().add(const DebitCardLoad());
-                  } else if (state.error != null) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.error!)));
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: MultiBlocListener(
+              listeners: [
+                BlocListener<DebitCardBloc, DebitCardState>(
+                  listener: (context, state) {
+                    if (state.successMessage != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.successMessage!)),
+                      );
+                      context.read<DebitCardBloc>().add(const DebitCardLoad());
+                    } else if (state.error != null) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.error!)));
+                    }
+                  },
+                ),
+              ],
+              child: BlocBuilder<DebitCardBloc, DebitCardState>(
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
                   }
+
+                  if (state.error != null) {
+                    return Center(child: Text(state.error!));
+                  }
+
+                  if (state.debitCard != null) {
+                    final card = state.debitCard!;
+                    final expired = _isExpired(card.expiryDate);
+
+                    return Column(
+                      children: [
+                        _buildCardView(card, context, cardHeight, cardWidth),
+                        if (expired)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: AppPrimaryButton(
+                              label: "Apply For Re-Issue",
+                              enabled: true,
+                              onPressed: () {
+                                context.read<DebitCardBloc>().add(
+                                  const DebitCardReIssue(
+                                    cardNumber: '',
+                                    cardTypeCode: '',
+                                    virtualCard: true,
+                                    nameOnCard: '',
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                      ],
+                    );
+                  }
+
+                  return Center(
+                    child: AppPrimaryButton(
+                      label: "Issue a Card",
+                      enabled: true,
+                      onPressed: () {
+                        context.read<DebitCardBloc>().add(
+                          const DebitCardIssue(
+                            cardTypeCode: '',
+                            withCard: true,
+                          ),
+                        );
+                      },
+                    ),
+                  );
                 },
               ),
-            ],
-            child: BlocBuilder<DebitCardBloc, DebitCardState>(
-              builder: (context, state) {
-                if (state.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (state.error != null) {
-                  return Center(child: Text(state.error!));
-                }
-
-                if (state.debitCard != null) {
-                  final card = state.debitCard!;
-                  final expired = _isExpired(card.expiryDate);
-
-                  return Column(
-                    children: [
-                      _buildCardView(card, context, cardHeight, cardWidth),
-                      if (expired)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: AppPrimaryButton(
-                            label: "Apply For Re-Issue",
-                            enabled: true,
-                            onPressed: () {
-                              context.read<DebitCardBloc>().add(
-                                const DebitCardReIssue(
-                                  cardNumber: '',
-                                  cardTypeCode: '',
-                                  virtualCard: true,
-                                  nameOnCard: '',
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                    ],
-                  );
-                }
-
-                return Center(
-                  child: AppPrimaryButton(
-                    label: "Issue a Card",
-                    enabled: true,
-                    onPressed: () {
-                      context.read<DebitCardBloc>().add(
-                        const DebitCardIssue(cardTypeCode: '', withCard: true),
-                      );
-                    },
-                  ),
-                );
-              },
             ),
           ),
         ),

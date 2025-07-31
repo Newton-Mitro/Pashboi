@@ -6,3 +6,16 @@ sealed class AddBeneficiaryEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class AddBeneficiarySubmit extends AddBeneficiaryEvent {
+  final String beneficiaryName;
+  final String accountNumber;
+
+  const AddBeneficiarySubmit({
+    required this.beneficiaryName,
+    required this.accountNumber,
+  });
+
+  @override
+  List<Object> get props => [beneficiaryName, accountNumber];
+}

@@ -73,13 +73,13 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
           final ledgers = state.collectionAggregate.ledgers;
           widget.setCollectionLedgers(ledgers);
 
-          final searchText = widget.searchAccountNumber;
-          final onlyDigits = searchText?.replaceAll(RegExp(r'\D'), '');
+          final searchText = widget.searchAccountNumber ?? '';
+          final onlyDigits = searchText.replaceAll(RegExp(r'\D'), '');
 
           try {
-            final matchedLedger = ledgers.firstWhere((ledger) {
-              return ledger.accountNumber.trim().contains(onlyDigits ?? '');
-            });
+            final matchedLedger = ledgers.firstWhere(
+              (ledger) => ledger.accountNumber.trim().contains(onlyDigits),
+            );
 
             widget.changeSearchAccountNumber(
               matchedLedger.accountNumber.trim(),
@@ -107,10 +107,11 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
   }
 
   Widget _buildNomineeSelectionCard(BuildContext context) {
+    final theme = context.theme;
     return Container(
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.surface,
-        border: Border.all(color: context.theme.colorScheme.primary),
+        color: theme.colorScheme.surface,
+        border: Border.all(color: theme.colorScheme.primary),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
@@ -123,44 +124,43 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
               children: [
                 BlocBuilder<BeneficiariesBloc, BeneficiariesState>(
                   builder: (context, state) {
-                    if (state.isLoading) {
+                    if (state is BeneficiariesLoading) {
                       return const Center(child: CircularProgressIndicator());
                     }
-
-                    if (state.error != null) {
-                      return Center(child: Text(state.error!));
+                    if (state is BeneficiariesError) {
+                      return Center(child: Text(state.message));
                     }
+                    if (state is BeneficiariesLoaded) {
+                      final beneficiaries = state.beneficiaries;
 
-                    final beneficiaries = state.beneficiaries;
-
-                    if (beneficiaries.isEmpty) {
-                      return SizedBox.shrink();
-                    } else {
-                      return AppDropdownSelect(
-                        value: widget.beneficiaryAccountNumber,
-
-                        items:
-                            beneficiaries
-                                .map(
-                                  (e) => DropdownMenuItem<String>(
-                                    value: e.accountNumber,
-                                    child: Text(e.name.toTitleCase()),
-                                  ),
-                                )
-                                .toList(),
-                        onChanged: (value) {
-                          widget.changeSearchAccountNumber(value);
-                          widget.changeBeneficiaryAccountNumber(value);
-
-                          _searchWithAccountNumber(value ?? '');
-                        },
-                        label: "Beneficiary",
-                      );
+                      if (beneficiaries.isEmpty) {
+                        return const SizedBox.shrink();
+                      } else {
+                        return AppDropdownSelect(
+                          value: widget.beneficiaryAccountNumber,
+                          items:
+                              beneficiaries
+                                  .map(
+                                    (e) => DropdownMenuItem<String>(
+                                      value: e.accountNumber,
+                                      child: Text(e.name.toTitleCase()),
+                                    ),
+                                  )
+                                  .toList(),
+                          onChanged: (value) {
+                            widget.changeSearchAccountNumber(value);
+                            widget.changeBeneficiaryAccountNumber(value);
+                            _searchWithAccountNumber(value ?? '');
+                          },
+                          label: "Beneficiary",
+                        );
+                      }
                     }
+                    return const SizedBox.shrink();
                   },
                 ),
                 const SizedBox(height: 10),
-                Text("or"),
+                const Text("or"),
                 const SizedBox(height: 10),
                 BlocBuilder<CollectionLedgerBloc, CollectionLedgerState>(
                   builder: (context, state) {
@@ -172,7 +172,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                       enabled: state is! CollectionLedgerLoading,
                       prefixIcon: Icon(
                         FontAwesomeIcons.piggyBank,
-                        color: context.theme.colorScheme.onSurface,
+                        color: theme.colorScheme.onSurface,
                       ),
                       onChanged: widget.onChangeSearchAccountNumber,
                       onSearchPressed: () {
@@ -190,7 +190,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                   errorText: widget.searchedAccountHolderNameError,
                   prefixIcon: Icon(
                     Icons.person,
-                    color: context.theme.colorScheme.onSurface,
+                    color: theme.colorScheme.onSurface,
                   ),
                   enabled: false,
                 ),
@@ -203,11 +203,12 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
   }
 
   Widget _buildHeader(BuildContext context, String title) {
+    final theme = context.theme;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.primary,
+        color: theme.colorScheme.primary,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(5),
           topRight: Radius.circular(5),
@@ -217,7 +218,7 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
         child: Text(
           title,
           style: TextStyle(
-            color: context.theme.colorScheme.onPrimary,
+            color: theme.colorScheme.onPrimary,
             fontSize: 15,
             fontWeight: FontWeight.bold,
           ),

@@ -6,6 +6,7 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/repositories/d
 class AddOperatingAccountProps extends BaseRequestProps {
   final int operatorId;
   final int accountHolderId;
+  final int accountHolderInfoId;
 
   const AddOperatingAccountProps({
     required this.operatorId,
@@ -16,6 +17,7 @@ class AddOperatingAccountProps extends BaseRequestProps {
     required super.personId,
     required super.employeeCode,
     required super.mobileNumber,
+    required this.accountHolderInfoId,
   });
 }
 
