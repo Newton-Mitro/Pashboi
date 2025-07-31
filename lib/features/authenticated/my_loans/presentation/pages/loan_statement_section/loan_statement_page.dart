@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -8,7 +12,10 @@ import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statment_section.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
 import 'package:pashboi/shared/widgets/buttons/app_secondary_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'package:pdf/widgets.dart' as pw;
 
 class LoanStatementPage extends StatefulWidget {
   final String loanNumber;
@@ -72,6 +79,30 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
             const SizedBox(height: 20),
             _buildStatementListSection(),
             const SizedBox(height: 50),
+            BlocBuilder<LoanStatementBloc, LoanStatementState>(
+              builder: (context, state) {
+                if (state is LoanStatementSuccess) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      await createAndSavePdf(state.transactions);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("PDF saved to Downloads folder"),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      Locales.string(
+                        context,
+                        'account_statement_page_download_pdf_button_text',
+                      ),
+                    ),
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
+            ),
           ],
         ),
       ),
@@ -237,5 +268,252 @@ class _LoanStatementPageState extends State<LoanStatementPage> {
         ],
       ),
     );
+  }
+
+  Future<void> createAndSavePdf(
+    List<LoanTransactionEntity> transactions,
+  ) async {
+    print("transaction: $transactions");
+    final pdf = pw.Document();
+    final logoBytes = await rootBundle.load(
+      'assets/images/brand/company_logo.png',
+    );
+    final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
+
+    pdf.addPage(
+      pw.MultiPage(
+        build:
+            (context) => [
+              pw.Center(
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    // 🖼️ Logo
+                    pw.Image(logoImage, width: 80, height: 80),
+
+                    pw.SizedBox(height: 10),
+
+                    // 🏢 Company Name
+                    pw.Text(
+                      'The Christian Co-operative Credit Union Ltd., Dhaka',
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.Text(
+                      'Rev. Fr. Charles J. Young Bhaban 173/1/A, East Tejturi Bazar,Tejgaon, Dhaka-1215.',
+                      style: pw.TextStyle(fontSize: 7),
+                    ),
+                    pw.Text(
+                      'Phone: 09678771270, 02-48121156, 02-48121157, Hotline (MIS): 01709815406, Hotline (ATM): 01709815400,',
+                      style: pw.TextStyle(fontSize: 7),
+                    ),
+                    pw.Text(
+                      'E-mail:info@cccul.com. © 2025 Dhaka Credit. All Rights Reserved.',
+                      style: pw.TextStyle(fontSize: 7),
+                    ),
+
+                    pw.SizedBox(height: 12),
+
+                    pw.SizedBox(height: 20),
+                    pw.Divider(),
+                    pw.SizedBox(height: 10),
+
+                    // 🧾 Title
+                    pw.Text(
+                      'Loan Statement',
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    // 👤 Account Info
+                    // pw.Text(
+                    //   widget.loanNumber.typeName,
+                    //   style: pw.TextStyle(fontSize: 9),
+                    // ),
+                    pw.Text(
+                      widget.loanNumber,
+                      style: pw.TextStyle(fontSize: 9),
+                    ),
+                    // pw.Text('Account Type: loanIssuedAmount', style: pw.TextStyle(fontSize: 7)),
+                    pw.Text(
+                      '${startDate.toIso8601String().split('T').first} to ${endDate.toIso8601String().split('T').first}',
+                      style: pw.TextStyle(fontSize: 9),
+                    ),
+                    pw.SizedBox(height: 10),
+                  ],
+                ),
+              ),
+
+              // 📊 Transaction Table
+              pw.Table(
+                border: pw.TableBorder.all(),
+                columnWidths: {
+                  0: const pw.FlexColumnWidth(2),
+                  1: const pw.FlexColumnWidth(4),
+                  2: const pw.FlexColumnWidth(2),
+                  3: const pw.FlexColumnWidth(2),
+                  4: const pw.FlexColumnWidth(2),
+                },
+                children: [
+                  // Table Headers
+                  pw.TableRow(
+                    // decoration: pw.BoxDecoration(color: PdfColors.grey300),
+                    children: [
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          'Date',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          'Description',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Align(
+                          alignment: pw.Alignment.centerRight,
+                          child: pw.Text(
+                            'Credit',
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Align(
+                          alignment: pw.Alignment.centerRight,
+                          child: pw.Text(
+                            'Debit',
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Align(
+                          alignment: pw.Alignment.centerRight,
+                          child: pw.Text(
+                            'Balance',
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // Table Rows
+                  ...List.generate(transactions.length, (i) {
+                    final txn = transactions[i];
+                    final prev = i > 0 ? transactions[i - 1] : null;
+
+                    String compare(num current, num? previous) {
+                      if (previous == null) return '';
+                      if (current > previous) return '';
+                      if (current < previous) return '';
+                      return '';
+                    }
+
+                    return pw.TableRow(
+                      children: [
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            txn.transactionDate
+                                .toIso8601String()
+                                .split('T')
+                                .first,
+                            style: pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            txn.particulars,
+                            style: pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Align(
+                            alignment: pw.Alignment.centerRight,
+                            child: pw.Text(
+                              '${txn.creditAmount.toStringAsFixed(2)}${compare(txn.creditAmount, prev?.creditAmount)}',
+                              style: pw.TextStyle(fontSize: 10),
+                            ),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Align(
+                            alignment: pw.Alignment.centerRight,
+                            child: pw.Text(
+                              '${txn.debitAmount.toStringAsFixed(2)}${compare(txn.debitAmount, prev?.debitAmount)}',
+                              style: pw.TextStyle(fontSize: 10),
+                            ),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Align(
+                            alignment: pw.Alignment.centerRight,
+                            child: pw.Text(
+                              '${txn.balanceAmount.toStringAsFixed(2)}${compare(txn.balanceAmount, prev?.balanceAmount)}',
+                              style: pw.TextStyle(fontSize: 10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ],
+              ),
+            ],
+      ),
+    );
+
+    // For Android 13+ use `Permission.manageExternalStorage`
+    final permission =
+        Platform.isAndroid &&
+                (await Permission.manageExternalStorage.status.isDenied ||
+                    await Permission.storage.status.isDenied)
+            ? await Permission.manageExternalStorage.request()
+            : await Permission.storage.request();
+
+    if (permission.isGranted) {
+      try {
+        final downloadsDir =
+            await ExternalPath.getExternalStoragePublicDirectory(
+              ExternalPath.DIRECTORY_DOWNLOAD,
+            );
+
+        final file = File(
+          "$downloadsDir/account_statement_${DateTime.now().millisecondsSinceEpoch}.pdf",
+        );
+
+        await file.writeAsBytes(await pdf.save());
+
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("✅ PDF saved to Downloads: ${file.path}"),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      } catch (e) {
+        debugPrint("⚠️ Error saving PDF: $e");
+      }
+    } else {
+      // Prompt user to go to settings
+      openAppSettings();
+      debugPrint("❌ Permission not granted, please enable manually");
+    }
   }
 }

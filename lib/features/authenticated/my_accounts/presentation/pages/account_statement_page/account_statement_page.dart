@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/widgets/account_statment_section.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
@@ -17,9 +18,8 @@ import 'package:pashboi/features/authenticated/my_accounts/domain/entities/accou
 import 'package:pashboi/core/extensions/app_context.dart';
 
 class AccountStatementPage extends StatefulWidget {
-  final String accountNumber;
-  const AccountStatementPage({super.key, required this.accountNumber});
-
+  final DepositAccountEntity accountDetails;
+  const AccountStatementPage({super.key, required this.accountDetails});
   @override
   State<AccountStatementPage> createState() => _AccountStatementPageState();
 }
@@ -31,6 +31,8 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
 
   @override
   void initState() {
+    print(widget.accountDetails.number.trim());
+
     super.initState();
     endDate = DateTime.now();
     startDate = DateTime(endDate.year, endDate.month - 3, endDate.day);
@@ -41,7 +43,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   void _fetchTransactions() {
     context.read<AccountStatementBloc>().add(
       FetchAccountStatementEvent(
-        accountNumber: widget.accountNumber,
+        accountNumber: widget.accountDetails.number,
         fromDate: "${startDate.year}/${startDate.month}/${startDate.day}",
         toDate: "${endDate.year}/${endDate.month}/${endDate.day}",
       ),
@@ -67,6 +69,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
   Future<void> createAndSavePdf(
     List<AccountTransactionEntity> transactions,
   ) async {
+    print("transaction: $transactions");
     final pdf = pw.Document();
     final logoBytes = await rootBundle.load(
       'assets/images/brand/company_logo.png',
@@ -119,34 +122,153 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
                     pw.Text(
                       'Account Statement',
                       style: pw.TextStyle(
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
                     // 👤 Account Info
-                    pw.Text('Account Name: ', style: pw.TextStyle(fontSize: 7)),
                     pw.Text(
-                      'Account Number:',
-                      style: pw.TextStyle(fontSize: 7),
+                      widget.accountDetails.typeName,
+                      style: pw.TextStyle(fontSize: 9),
                     ),
-                    pw.Text('Account Type: ', style: pw.TextStyle(fontSize: 7)),
+                    pw.Text(
+                      widget.accountDetails.number,
+                      style: pw.TextStyle(fontSize: 9),
+                    ),
+                    // pw.Text('Account Type: ', style: pw.TextStyle(fontSize: 7)),
+                    pw.Text(
+                      '${startDate.toIso8601String().split('T').first} to ${endDate.toIso8601String().split('T').first}',
+                      style: pw.TextStyle(fontSize: 9),
+                    ),
                     pw.SizedBox(height: 10),
                   ],
                 ),
               ),
 
               // 📊 Transaction Table
-              pw.TableHelper.fromTextArray(
-                headers: ['Date', 'Description', 'Credit', 'Debit'],
-                data:
-                    transactions.map((txn) {
-                      return [
-                        txn.date.toIso8601String().split('T').first,
-                        txn.particular,
-                        txn.credit.toStringAsFixed(2),
-                        txn.debit.toStringAsFixed(2),
-                      ];
-                    }).toList(),
+              pw.Table(
+                border: pw.TableBorder.all(),
+                columnWidths: {
+                  0: const pw.FlexColumnWidth(2),
+                  1: const pw.FlexColumnWidth(4),
+                  2: const pw.FlexColumnWidth(2),
+                  3: const pw.FlexColumnWidth(2),
+                  4: const pw.FlexColumnWidth(2),
+                },
+                children: [
+                  // Table Headers
+                  pw.TableRow(
+                    // decoration: pw.BoxDecoration(color: PdfColors.grey300),
+                    children: [
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          'Date',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Text(
+                          'Description',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Align(
+                          alignment: pw.Alignment.centerRight,
+                          child: pw.Text(
+                            'Credit',
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Align(
+                          alignment: pw.Alignment.centerRight,
+                          child: pw.Text(
+                            'Debit',
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(4),
+                        child: pw.Align(
+                          alignment: pw.Alignment.centerRight,
+                          child: pw.Text(
+                            'Balance',
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // Table Rows
+                  ...List.generate(transactions.length, (i) {
+                    final txn = transactions[i];
+                    final prev = i > 0 ? transactions[i - 1] : null;
+
+                    String compare(num current, num? previous) {
+                      if (previous == null) return '';
+                      if (current > previous) return '';
+                      if (current < previous) return '';
+                      return '';
+                    }
+
+                    return pw.TableRow(
+                      children: [
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            txn.date.toIso8601String().split('T').first,
+                            style: pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Text(
+                            txn.particular,
+                            style: pw.TextStyle(fontSize: 10),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Align(
+                            alignment: pw.Alignment.centerRight,
+                            child: pw.Text(
+                              '${txn.credit.toStringAsFixed(2)}${compare(txn.credit, prev?.credit)}',
+                              style: pw.TextStyle(fontSize: 10),
+                            ),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Align(
+                            alignment: pw.Alignment.centerRight,
+                            child: pw.Text(
+                              '${txn.debit.toStringAsFixed(2)}${compare(txn.debit, prev?.debit)}',
+                              style: pw.TextStyle(fontSize: 10),
+                            ),
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Align(
+                            alignment: pw.Alignment.centerRight,
+                            child: pw.Text(
+                              '${txn.balance.toStringAsFixed(2)}${compare(txn.balance, prev?.balance)}',
+                              style: pw.TextStyle(fontSize: 10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ],
               ),
             ],
       ),
@@ -204,7 +326,7 @@ class _AccountStatementPageState extends State<AccountStatementPage> {
             _buildChartSection(),
             const SizedBox(height: 20),
             _buildStatementListSection(),
-            const SizedBox(height: 50),
+            const SizedBox(height: 20),
             BlocBuilder<AccountStatementBloc, AccountStatementState>(
               builder: (context, state) {
                 if (state is AccountStatementSuccess) {
