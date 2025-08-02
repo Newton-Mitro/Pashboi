@@ -12,11 +12,12 @@ class BeneficiaryMenusView extends StatefulWidget {
 }
 
 class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.users,
+        "icon": Icon(FontAwesomeIcons.users, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "beneficiary_menu_beneficiaries_title",
@@ -28,7 +29,7 @@ class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
         "route": AuthRoutesName.beneficiariesPage,
       },
       {
-        "icon": FontAwesomeIcons.userPlus,
+        "icon": Icon(FontAwesomeIcons.userPlus, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "beneficiary_menu_add_beneficiaries_title",
@@ -40,6 +41,12 @@ class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
         "route": AuthRoutesName.addBeneficiaryPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
@@ -48,7 +55,7 @@ class _BeneficiaryMenusViewState extends State<BeneficiaryMenusView> {
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

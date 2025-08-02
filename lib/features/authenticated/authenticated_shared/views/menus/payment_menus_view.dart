@@ -11,27 +11,35 @@ class PaymentMenusView extends StatefulWidget {
 }
 
 class _PaymentMenusViewState extends State<PaymentMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.moneyCheckDollar,
+        "icon": Icon(FontAwesomeIcons.moneyCheckDollar, color: color, size: 30),
         "menuName": Locales.string(context, "payment_menu_payments_title"),
         "menuDescription": Locales.string(
           context,
           "payment_menu_payments_description",
         ),
+        // Add "route": AuthRoutesName.somePage, if you want navigation
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
         padding: const EdgeInsets.all(12),
-        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

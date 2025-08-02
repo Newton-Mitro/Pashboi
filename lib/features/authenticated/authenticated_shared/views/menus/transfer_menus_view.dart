@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/bkash_icon.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,11 +12,12 @@ class TransferMenusView extends StatefulWidget {
 }
 
 class _TransferMenusViewState extends State<TransferMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> _buildInfoMenus(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.mobileScreenButton,
+        "icon": BkashIcon(),
         "menuName": Locales.string(
           context,
           "transfer_menu_transfer_to_bkash_title",
@@ -24,9 +26,10 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_to_bkash_description",
         ),
+        // "route": AuthRoutesName.transferToBkashPage, // Add if navigation needed
       },
       {
-        "icon": FontAwesomeIcons.rightLeft,
+        "icon": Icon(FontAwesomeIcons.rightLeft, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "transfer_menu_transfer_within_dhaka_cradit_title",
@@ -35,9 +38,10 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_within_dhaka_cradit_description",
         ),
+        // "route": AuthRoutesName.transferWithinDhakaCreditPage,
       },
       {
-        "icon": FontAwesomeIcons.buildingColumns,
+        "icon": Icon(FontAwesomeIcons.buildingColumns, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "transfer_menu_bank_to_dhaka_cradit_title",
@@ -46,10 +50,10 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_bank_to_dhaka_cradit_description",
         ),
+        // "route": AuthRoutesName.bankToDhakaCreditPage,
       },
-
       {
-        "icon": FontAwesomeIcons.clipboardCheck,
+        "icon": Icon(FontAwesomeIcons.clipboardCheck, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "transfer_menu_transfer_request_status_title",
@@ -58,20 +62,33 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_request_status_description",
         ),
+        // "route": AuthRoutesName.transferRequestStatusPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = _buildInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
         padding: const EdgeInsets.all(12),
-        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
+              // Example navigation:
+              // if (menu.containsKey('route')) {
+              //   Navigator.pushNamed(context, menu['route']);
+              // } else {
+              //   debugPrint("Tapped on ${menu['menuName']}");
+              // }
               debugPrint("Tapped on ${menu['menuName']}");
             },
           );

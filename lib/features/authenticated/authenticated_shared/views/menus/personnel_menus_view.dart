@@ -11,11 +11,12 @@ class PersonnelMenusView extends StatefulWidget {
 }
 
 class _PersonnelMenusViewState extends State<PersonnelMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.helmetSafety,
+        "icon": Icon(FontAwesomeIcons.helmetSafety, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_employee_profile_title",
@@ -26,7 +27,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": FontAwesomeIcons.calendarDays,
+        "icon": Icon(FontAwesomeIcons.calendarDays, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_leave_application_title",
@@ -37,7 +38,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": FontAwesomeIcons.circleCheck,
+        "icon": Icon(FontAwesomeIcons.circleCheck, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_fallback_acceptance_title",
@@ -48,7 +49,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": FontAwesomeIcons.thumbsUp,
+        "icon": Icon(FontAwesomeIcons.thumbsUp, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_leave_approval_title",
@@ -59,7 +60,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": FontAwesomeIcons.clockRotateLeft,
+        "icon": Icon(FontAwesomeIcons.clockRotateLeft, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_leave_history_title",
@@ -70,7 +71,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": FontAwesomeIcons.clock,
+        "icon": Icon(FontAwesomeIcons.clock, color: color, size: 30),
         "menuName": Locales.string(context, "personnel_menu_attendance_title"),
         "menuDescription": Locales.string(
           context,
@@ -78,7 +79,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": FontAwesomeIcons.houseLaptop,
+        "icon": Icon(FontAwesomeIcons.houseLaptop, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_working_out_of_office_application_title",
@@ -89,7 +90,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": FontAwesomeIcons.squareCheck,
+        "icon": Icon(FontAwesomeIcons.squareCheck, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_working_out_of_office_approval_title",
@@ -99,9 +100,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           "personnel_menu_working_out_of_office_approval_description",
         ),
       },
-
       {
-        "icon": Icons.file_copy,
+        "icon": Icon(Icons.file_copy, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_working_out_of_office_history_title",
@@ -112,7 +112,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
       {
-        "icon": Icons.fingerprint,
+        "icon": Icon(Icons.fingerprint, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "personnel_menu_todays_punch_title",
@@ -123,18 +123,25 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
         padding: const EdgeInsets.all(12),
-        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
+              // You can add navigation here if needed
               debugPrint("Tapped on ${menu['menuName']}");
             },
           );

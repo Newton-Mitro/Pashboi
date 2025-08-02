@@ -12,11 +12,16 @@ class LoansMenusView extends StatefulWidget {
 }
 
 class _LoansMenusViewState extends State<LoansMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.fileInvoiceDollar,
+        "icon": Icon(
+          FontAwesomeIcons.fileInvoiceDollar,
+          color: color,
+          size: 30,
+        ),
         "menuName": Locales.string(context, "loan_menu_my_loans_title"),
         "menuDescription": Locales.string(
           context,
@@ -25,7 +30,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
         "route": AuthRoutesName.myLoansPage,
       },
       {
-        "icon": FontAwesomeIcons.fileSignature,
+        "icon": Icon(FontAwesomeIcons.fileSignature, color: color, size: 30),
         "menuName": Locales.string(context, "loan_menu_apply_for_a_loan_title"),
         "menuDescription": Locales.string(
           context,
@@ -34,6 +39,12 @@ class _LoansMenusViewState extends State<LoansMenusView> {
         "route": AuthRoutesName.myLoansPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
@@ -42,7 +53,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

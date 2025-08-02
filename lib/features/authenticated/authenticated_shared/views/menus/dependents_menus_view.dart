@@ -12,11 +12,12 @@ class DependentsMenusView extends StatefulWidget {
 }
 
 class _DependentsMenusViewState extends State<DependentsMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.children,
+        "icon": Icon(FontAwesomeIcons.children, color: color, size: 30),
         "menuName": Locales.string(context, "info_menu_dependents_title"),
         "menuDescription": Locales.string(
           context,
@@ -25,7 +26,7 @@ class _DependentsMenusViewState extends State<DependentsMenusView> {
         "route": AuthRoutesName.dependentsPage,
       },
       {
-        "icon": FontAwesomeIcons.children,
+        "icon": Icon(FontAwesomeIcons.children, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "info_menu_add_operating_account_title",
@@ -37,6 +38,11 @@ class _DependentsMenusViewState extends State<DependentsMenusView> {
         "route": AuthRoutesName.addOperatingAccountPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
 
     return SafeArea(
       child: ListView.separated(
@@ -46,7 +52,7 @@ class _DependentsMenusViewState extends State<DependentsMenusView> {
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

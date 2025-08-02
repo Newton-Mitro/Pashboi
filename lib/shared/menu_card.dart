@@ -4,13 +4,13 @@ import 'package:pashboi/core/extensions/app_context.dart';
 class MenuCard extends StatelessWidget {
   const MenuCard({
     super.key,
-    required this.iconData,
+    required this.icon,
     required this.menuName,
     required this.menuDescription,
     this.onTap,
   });
 
-  final IconData iconData;
+  final Widget icon;
   final String menuName;
   final String menuDescription;
   final VoidCallback? onTap; // use VoidCallback instead of CallbackAction?
@@ -41,15 +41,7 @@ class MenuCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: context.theme.colorScheme.primary,
                     ),
-                    child: SizedBox.expand(
-                      child: Center(
-                        child: Icon(
-                          iconData,
-                          color: context.theme.colorScheme.onPrimary,
-                          size: 30,
-                        ), // Replace with `icon` if dynamic
-                      ),
-                    ),
+                    child: SizedBox.expand(child: Center(child: icon)),
                   ),
                 ),
                 Expanded(
