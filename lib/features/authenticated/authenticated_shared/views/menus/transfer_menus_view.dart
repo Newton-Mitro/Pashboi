@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/bkash_icon.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +18,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
 
     return [
       {
-        "icon": BkashIcon(),
+        "icon": BkashIcon(color: context.theme.colorScheme.onPrimary),
         "menuName": Locales.string(
           context,
           "transfer_menu_transfer_to_bkash_title",

@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pashboi/core/constants/app_icons.dart';
-import 'package:pashboi/core/extensions/app_context.dart';
 
 class BkashIcon extends StatefulWidget {
-  const BkashIcon({super.key});
+  final Color? color;
+  final double size;
+
+  const BkashIcon({super.key, this.color, this.size = 40});
 
   @override
-  State<BkashIcon> createState() => BkashIconState();
+  State<BkashIcon> createState() => _BkashIconState();
 }
 
-class BkashIconState extends State<BkashIcon>
+class _BkashIconState extends State<BkashIcon>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
       AppIcons.pathToBkashIcon,
-      width: 40,
-      color: context.theme.colorScheme.onPrimary,
+      width: widget.size,
+      color: widget.color,
     );
   }
 }

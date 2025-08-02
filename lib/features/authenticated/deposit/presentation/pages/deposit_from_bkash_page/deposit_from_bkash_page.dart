@@ -2,6 +2,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/bkash_icon.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposi
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
+
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -47,13 +49,22 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
           borderWidth: 2,
           wasCompleted: isCompleted,
           child: Center(
-            child: Icon(
-              _buildSteps(state)[index - 1].icon,
-              color:
-                  isCompleted
-                      ? theme.onPrimary
-                      : theme.onSurface.withAlpha(220),
-            ),
+            child:
+                index - 1 == 3
+                    ? BkashIcon(
+                      color:
+                          isCompleted
+                              ? theme.onPrimary
+                              : theme.onSurface.withAlpha(220),
+                      size: 40,
+                    )
+                    : Icon(
+                      _buildSteps(state)[index - 1].icon,
+                      color:
+                          isCompleted
+                              ? theme.onPrimary
+                              : theme.onSurface.withAlpha(220),
+                    ),
           ),
         );
       },
@@ -179,7 +190,10 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
                                     iconAfter: const Icon(
                                       FontAwesomeIcons.angleRight,
                                     ),
-                                    label: "Next",
+                                    label:
+                                        depositNowStepsState.currentStep == 2
+                                            ? "bKash Payment"
+                                            : "Next",
                                     onPressed: () {
                                       if (isLastStep) {
                                         _submitDepositFromBkash();
@@ -332,6 +346,7 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
         widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
       ),
 
+      // bKash Payment Process
       StepItem(
         icon: FontAwesomeIcons.eye,
         widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
