@@ -52,7 +52,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_from_bkash_description",
         ),
-        "route": AuthRoutesName.depositNowPage,
+        "route": AuthRoutesName.depositFromBkashPage,
       },
       {
         "icon": Icon(

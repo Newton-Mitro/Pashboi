@@ -143,7 +143,9 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                                   .map(
                                     (e) => DropdownMenuItem<String>(
                                       value: e.accountNumber,
-                                      child: Text(e.name.toTitleCase()),
+                                      child: Text(
+                                        "${e.name.trim().toTitleCase()} (${e.accountNumber.trim()})",
+                                      ),
                                     ),
                                   )
                                   .toList(),
