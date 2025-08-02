@@ -147,6 +147,7 @@ class _LandingPageState extends State<LandingPage> {
                         ),
                         const SizedBox(height: 12),
                         AppPrimaryButton(
+                          horizontalPadding: 5,
                           label: Locales.string(
                             context,
                             'landing_page_create_account_button',

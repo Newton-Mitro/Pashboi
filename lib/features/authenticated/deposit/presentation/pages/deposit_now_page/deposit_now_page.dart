@@ -6,11 +6,14 @@ import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/search_ledgers_section/search_ledgers_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
+import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -132,21 +135,11 @@ class _DepositNowPageState extends State<DepositNowPage> {
             }
 
             if (state.successMessage != null) {
-              Navigator.of(context).pop();
-              final snackBar = SnackBar(
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Oops!',
-                  message: state.successMessage!,
-                  contentType: ContentType.success,
-                ),
+              Navigator.pushReplacementNamed(
+                context,
+                AuthRoutesName.depositNowSuccessPage,
+                arguments: {'message': "Deposit successful"},
               );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
             }
           },
         ),
@@ -260,8 +253,28 @@ class _DepositNowPageState extends State<DepositNowPage> {
                         color: Colors.black.withOpacity(0.4),
                         child: const Center(child: CircularProgressIndicator()),
                       );
-                    } else if (state.error != null) {
-                      return const SizedBox.shrink();
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+                BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return Container(
+                        color: Colors.black.withOpacity(0.4),
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+                BlocBuilder<CollectionLedgerBloc, CollectionLedgerState>(
+                  builder: (context, state) {
+                    if (state is CollectionLedgerLoading) {
+                      return Container(
+                        color: Colors.black.withOpacity(0.4),
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
                     }
                     return const SizedBox.shrink();
                   },
@@ -472,6 +485,11 @@ class _DepositNowPageState extends State<DepositNowPage> {
   }
 
   void _submitDepositNow(DepositNowStepsState state) {
-    context.read<DepositNowStepsBloc>().add(SubmitDepositNow());
+    Navigator.pushReplacementNamed(
+      context,
+      AuthRoutesName.depositNowSuccessPage,
+      arguments: {'message': "Deposit successful"},
+    );
+    // context.read<DepositNowStepsBloc>().add(SubmitDepositNow());
   }
 }

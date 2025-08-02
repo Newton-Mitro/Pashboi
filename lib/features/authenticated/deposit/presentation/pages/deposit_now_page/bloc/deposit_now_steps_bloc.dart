@@ -246,9 +246,13 @@ class DepositNowStepsBloc
 
       final user = authUserResult.getOrElse(() => throw Exception()).user;
 
-      final totalAmount = state.collectionLedgers
-          .where((ledger) => ledger.isSelected)
-          .fold<double>(0.0, (sum, ledger) => sum + ledger.depositAmount);
+      final selectedLedgers =
+          state.collectionLedgers.where((l) => l.isSelected).toList();
+
+      final totalAmount = selectedLedgers.fold<double>(
+        0.0,
+        (sum, ledger) => sum + ledger.depositAmount,
+      );
 
       final accountResult = await submitDepositNowUseCase.call(
         SubmitDepositNowProps(
@@ -275,7 +279,7 @@ class DepositNowStepsBloc
           otpRegId: state.stepData[4]?['OTPRegId'],
           otpValue: state.stepData[5]?['OTP'],
           transactionType: 'DepositRequest',
-          collectionLedgers: state.collectionLedgers,
+          collectionLedgers: selectedLedgers,
         ),
       );
 

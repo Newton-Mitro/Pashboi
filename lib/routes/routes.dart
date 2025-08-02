@@ -11,6 +11,7 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposi
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_success.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/add_family_and_relative_bloc/add_family_and_relative_bloc.dart';
 import 'package:pashboi/features/authenticated/loan_payment/presentation/pages/bloc/loan_payment_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
@@ -281,6 +282,14 @@ class AppRoutes {
             child: DepositNowPage(),
           ),
         );
+
+      case AuthRoutesName.depositNowSuccessPage:
+        if (args is Map<String, String>) {
+          return _materialRoute(
+            DepositNowSuccessPage(successMessage: args['message'] ?? ''),
+          );
+        }
+        break;
 
       case AuthRoutesName.depositLaterPage:
         return _materialRoute(
