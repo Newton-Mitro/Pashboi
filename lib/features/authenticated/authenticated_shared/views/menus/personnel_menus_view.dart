@@ -160,12 +160,9 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-<<<<<<< HEAD
               Navigator.pushNamed(context, menu['route']);
-=======
               // You can add navigation here if needed
-              debugPrint("Tapped on ${menu['menuName']}");
->>>>>>> 34eb9ba0297eaa7f6b2e502ce3f6d07bf481d8e2
+              // debugPrint("Tapped on ${menu['menuName']}");
             },
           );
         },
