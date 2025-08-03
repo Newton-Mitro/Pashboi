@@ -2,37 +2,31 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pashboi/core/extensions/string_casing_extension.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/bkash_icon.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
-import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/search_ledgers_section/search_ledgers_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/card_pin_verification_section/card_pin_verification_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/otp_verification_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transfer_from_section/transfer_from_section.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
-import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
 import 'package:pashboi/shared/widgets/step_item.dart';
 
-class DepositNowPage extends StatefulWidget {
-  const DepositNowPage({super.key});
+class DepositFromBkashPage extends StatefulWidget {
+  const DepositFromBkashPage({super.key});
 
   @override
-  State<DepositNowPage> createState() => _DepositNowPageState();
+  State<DepositFromBkashPage> createState() => _DepositFromBkashPageState();
 }
 
-class _DepositNowPageState extends State<DepositNowPage> {
-  Widget _buildProgressStepper(double width, DepositNowStepsState state) {
+class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
+  Widget _buildProgressStepper(double width, DepositFromBkashStepsState state) {
     final theme = context.theme.colorScheme;
 
     return ProgressStepper(
@@ -40,7 +34,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
       padding: 5,
       height: 50,
       color: theme.primary,
-      stepCount: DepositNowStepsBloc.totalSteps,
+      stepCount: DepositFromBkashStepsBloc.totalSteps,
       bluntHead: false,
       bluntTail: false,
       currentStep: state.currentStep,
@@ -55,13 +49,22 @@ class _DepositNowPageState extends State<DepositNowPage> {
           borderWidth: 2,
           wasCompleted: isCompleted,
           child: Center(
-            child: Icon(
-              _buildSteps(state)[index - 1].icon,
-              color:
-                  isCompleted
-                      ? theme.onPrimary
-                      : theme.onSurface.withAlpha(220),
-            ),
+            child:
+                index - 1 == 3
+                    ? BkashIcon(
+                      color:
+                          isCompleted
+                              ? theme.onPrimary
+                              : theme.onSurface.withAlpha(220),
+                      size: 40,
+                    )
+                    : Icon(
+                      _buildSteps(state)[index - 1].icon,
+                      color:
+                          isCompleted
+                              ? theme.onPrimary
+                              : theme.onSurface.withAlpha(220),
+                    ),
           ),
         );
       },
@@ -74,47 +77,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
 
     return MultiBlocListener(
       listeners: [
-        BlocListener<DebitCardBloc, DebitCardState>(
-          listener: (context, state) {
-            if (state.successMessage != null) {
-              context.read<DepositNowStepsBloc>().add(
-                UpdateStepData(
-                  step: 4,
-                  data: {'OTPRegId': state.successMessage},
-                ),
-              );
-              context.read<DepositNowStepsBloc>().add(DepositNowGoToNextStep());
-              context.read<OtpBloc>().add(StartOtpCountdown());
-            }
-            if (state.error != null) {
-              final snackBar = SnackBar(
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Oops!',
-                  message: state.error!,
-                  contentType: ContentType.failure,
-                ),
-              );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<DepositNowStepsBloc>().add(
-                UpdateStepData(step: 5, data: {'OTP': state.otpValues.join()}),
-              );
-            }
-          },
-        ),
-        BlocListener<DepositNowStepsBloc, DepositNowStepsState>(
+        BlocListener<DepositFromBkashStepsBloc, DepositFromBkashStepsState>(
           listener: (context, state) {
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -144,15 +107,17 @@ class _DepositNowPageState extends State<DepositNowPage> {
         ),
       ],
 
-      child: BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
+      child: BlocBuilder<DepositFromBkashStepsBloc, DepositFromBkashStepsState>(
         builder: (context, depositNowStepsState) {
           final isFirstStep =
-              depositNowStepsState.currentStep == DepositNowStepsBloc.firstStep;
+              depositNowStepsState.currentStep ==
+              DepositFromBkashStepsBloc.firstStep;
           final isLastStep =
-              depositNowStepsState.currentStep == DepositNowStepsBloc.lastStep;
+              depositNowStepsState.currentStep ==
+              DepositFromBkashStepsBloc.lastStep;
 
           return Scaffold(
-            appBar: AppBar(title: const Text('Deposit Now')),
+            appBar: AppBar(title: Text('Deposit From bKash')),
             body: Stack(
               children: [
                 PageContainer(
@@ -211,9 +176,11 @@ class _DepositNowPageState extends State<DepositNowPage> {
                                     ),
                                     label: "Previous",
                                     onPressed: () {
-                                      context.read<DepositNowStepsBloc>().add(
-                                        DepositNowGoToPreviousStep(),
-                                      );
+                                      context
+                                          .read<DepositFromBkashStepsBloc>()
+                                          .add(
+                                            DepositFromBkashGoToPreviousStep(),
+                                          );
                                     },
                                   ),
                               isLastStep
@@ -223,19 +190,18 @@ class _DepositNowPageState extends State<DepositNowPage> {
                                     iconAfter: const Icon(
                                       FontAwesomeIcons.angleRight,
                                     ),
-                                    label: "Next",
+                                    label:
+                                        depositNowStepsState.currentStep == 2
+                                            ? "bKash Payment"
+                                            : "Next",
                                     onPressed: () {
-                                      if (depositNowStepsState.currentStep ==
-                                          4) {
-                                        context.read<DepositNowStepsBloc>().add(
-                                          DepositNowValidateStep(4),
-                                        );
-                                        _verifyCardPIN(depositNowStepsState);
-                                        return;
+                                      if (isLastStep) {
+                                        _submitDepositFromBkash();
                                       }
-                                      context.read<DepositNowStepsBloc>().add(
-                                        DepositNowGoToNextStep(),
-                                      );
+
+                                      context
+                                          .read<DepositFromBkashStepsBloc>()
+                                          .add(DepositFromBkashGoToNextStep());
                                     },
                                   ),
                             ],
@@ -245,18 +211,10 @@ class _DepositNowPageState extends State<DepositNowPage> {
                     ],
                   ),
                 ),
-                BlocBuilder<DebitCardBloc, DebitCardState>(
-                  builder: (context, state) {
-                    if (state.isLoading) {
-                      return Container(
-                        color: Colors.black.withOpacity(0.4),
-                        child: const Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-                BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
+                BlocBuilder<
+                  DepositFromBkashStepsBloc,
+                  DepositFromBkashStepsState
+                >(
                   builder: (context, state) {
                     if (state.isLoading) {
                       return Container(
@@ -280,8 +238,6 @@ class _DepositNowPageState extends State<DepositNowPage> {
                 ),
               ],
             ),
-            bottomNavigationBar:
-                isLastStep ? _buildSubmitButton(width, context) : null,
           );
         },
       ),
@@ -300,64 +256,14 @@ class _DepositNowPageState extends State<DepositNowPage> {
   }
 
   void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    context.read<DepositNowStepsBloc>().add(
-      SetCollectionLedgers(ledgers: newLedgers),
+    context.read<DepositFromBkashStepsBloc>().add(
+      DepositFromBkashSetCollectionLedgers(ledgers: newLedgers),
     );
   }
 
-  void _verifyCardPIN(DepositNowStepsState depositNowStepsState) {
-    context.read<DebitCardBloc>().add(
-      DebitCardPinVerify(
-        accountNumber: depositNowStepsState.selectedAccount!.number,
-        cardNumber: depositNowStepsState.selectedCard!.cardNumber,
-        nameOnCard:
-            depositNowStepsState.selectedCard!.nameOnCard.toLowerCase().trim(),
-        cardPIN:
-            depositNowStepsState.stepData[depositNowStepsState
-                .currentStep]?['cardPin'],
-      ),
-    );
-  }
-
-  List<StepItem> _buildSteps(DepositNowStepsState state) {
+  List<StepItem> _buildSteps(DepositFromBkashStepsState state) {
     final selectedLedgers = state.collectionLedgers;
     return [
-      StepItem(
-        icon: FontAwesomeIcons.moneyBillTransfer,
-        widget: TransferFromSection(
-          accountNumber: state.selectedAccount?.number,
-          accountError:
-              state.validationErrors[state.currentStep]?['transferFromAccount'],
-          onAccountChanged: (debitCard, selectedAccount) {
-            if (debitCard != null) {
-              context.read<DepositNowStepsBloc>().add(
-                SelectDebitCard(debitCard),
-              );
-            }
-            if (selectedAccount != null) {
-              context.read<DepositNowStepsBloc>().add(
-                SelectCardAccount(selectedAccount),
-              );
-            }
-          },
-
-          selectedCardNumber: state.selectedCard?.cardNumber,
-          accountTypeName: state.selectedAccount?.typeName,
-          accountBalance:
-              state.selectedAccount != null
-                  ? state.selectedAccount!.balance
-                  : 0,
-          accountWithdrawable:
-              state.selectedAccount != null
-                  ? state.selectedAccount!.withdrawableBalance
-                  : 0,
-          accountOperatorName:
-              state.selectedCard?.nameOnCard.toTitleCase().trim(),
-          accountHolderName:
-              state.selectedCard?.nameOnCard.toTitleCase().trim(),
-          accountName: state.selectedCard?.nameOnCard.toTitleCase().trim(),
-        ),
-      ),
       StepItem(
         icon: FontAwesomeIcons.magnifyingGlassChart,
         widget: SearchLedgersSection(
@@ -373,24 +279,24 @@ class _DepositNowPageState extends State<DepositNowPage> {
                   .currentStep]?['searchedAccountHolderName'],
           setCollectionLedgers: _setCollectionLedgers,
           onChangeSearchAccountNumber: (accountNumber) {
-            context.read<DepositNowStepsBloc>().add(
-              UpdateStepData(
+            context.read<DepositFromBkashStepsBloc>().add(
+              DepositFromBkashUpdateStepData(
                 step: state.currentStep,
                 data: {'searchAccountNumber': accountNumber},
               ),
             );
           },
           changeSearchAccountNumber: (String? accountNumber) {
-            context.read<DepositNowStepsBloc>().add(
-              UpdateStepData(
+            context.read<DepositFromBkashStepsBloc>().add(
+              DepositFromBkashUpdateStepData(
                 step: state.currentStep,
                 data: {'searchAccountNumber': accountNumber},
               ),
             );
           },
           changeSearchedAccountHolderName: (String? accountHolderName) {
-            context.read<DepositNowStepsBloc>().add(
-              UpdateStepData(
+            context.read<DepositFromBkashStepsBloc>().add(
+              DepositFromBkashUpdateStepData(
                 step: state.currentStep,
                 data: {'searchedAccountHolderName': accountHolderName},
               ),
@@ -399,8 +305,8 @@ class _DepositNowPageState extends State<DepositNowPage> {
           beneficiaryAccountNumber:
               state.stepData[state.currentStep]?['beneficiaryAccountNumber'],
           changeBeneficiaryAccountNumber: (String? accountNumber) {
-            context.read<DepositNowStepsBloc>().add(
-              UpdateStepData(
+            context.read<DepositFromBkashStepsBloc>().add(
+              DepositFromBkashUpdateStepData(
                 step: state.currentStep,
                 data: {'beneficiaryAccountNumber': accountNumber},
               ),
@@ -413,18 +319,21 @@ class _DepositNowPageState extends State<DepositNowPage> {
         widget: TransactionDetailsSection(
           ledgers: selectedLedgers,
           onToggleSelect: (ledger) {
-            context.read<DepositNowStepsBloc>().add(
-              ToggleLedgerSelection(ledger),
+            context.read<DepositFromBkashStepsBloc>().add(
+              DepositFromBkashToggleLedgerSelection(ledger),
             );
           },
           onToggleSelectAll: (selectAll) {
-            context.read<DepositNowStepsBloc>().add(
-              ToggleSelectAllLedgers(selectAll),
+            context.read<DepositFromBkashStepsBloc>().add(
+              DepositFromBkashToggleSelectAllLedgers(selectAll),
             );
           },
           onAmountChanged: (ledger, newAmount) {
-            context.read<DepositNowStepsBloc>().add(
-              UpdateLedgerAmount(ledger: ledger, newAmount: newAmount),
+            context.read<DepositFromBkashStepsBloc>().add(
+              DepositFromBkashUpdateLedgerAmount(
+                ledger: ledger,
+                newAmount: newAmount,
+              ),
             );
           },
           sectionError: state.validationErrors[state.currentStep]?['ledgers'],
@@ -436,59 +345,21 @@ class _DepositNowPageState extends State<DepositNowPage> {
         icon: FontAwesomeIcons.eye,
         widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
       ),
+
+      // bKash Payment Process
       StepItem(
-        icon: FontAwesomeIcons.creditCard,
-        widget: CardPinVerificationSection(
-          cardNumber: state.selectedCard?.cardNumber,
-          cardNumberError: state.validationErrors[0]?['selectedCardNumber'],
-          cardPin: state.stepData[state.currentStep]?['cardPin'],
-          cardPinError: state.validationErrors[state.currentStep]?['cardPin'],
-          onCardPinChanged: (pin) {
-            context.read<DepositNowStepsBloc>().add(
-              UpdateStepData(step: state.currentStep, data: {'cardPin': pin}),
-            );
-          },
-        ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.key,
-        widget: OtpVerificationSection(
-          resendOTP: () {
-            _verifyCardPIN(state);
-          },
-        ),
+        icon: FontAwesomeIcons.eye,
+        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
       ),
     ];
   }
 
-  Widget _buildSubmitButton(double width, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
-        builder: (context, state) {
-          return ProgressSubmitButton(
-            width: width - 30,
-            height: 100,
-            enabled: !state.isLoading,
-            backgroundColor: context.theme.colorScheme.primary,
-            progressColor: context.theme.colorScheme.secondary,
-            foregroundColor: context.theme.colorScheme.onPrimary,
-            label: 'Hold & Press to Submit',
-            onSubmit: () {
-              _submitDepositNow(state);
-            },
-          );
-        },
-      ),
-    );
-  }
-
-  void _submitDepositNow(DepositNowStepsState state) {
+  void _submitDepositFromBkash() {
     Navigator.pushReplacementNamed(
       context,
       AuthRoutesName.depositNowSuccessPage,
       arguments: {'message': "Deposit successful"},
     );
-    // context.read<DepositNowStepsBloc>().add(SubmitDepositNow());
+    // context.read<DepositFromBkashStepsBloc>().add(SubmitDepositFromBkash());
   }
 }

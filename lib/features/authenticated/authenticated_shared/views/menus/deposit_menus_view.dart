@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/bkash_icon.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,11 +14,16 @@ class DepositMenusView extends StatefulWidget {
 }
 
 class _DepositMenusViewState extends State<DepositMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final onPrimaryColor = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.moneyBillWave,
+        "icon": Icon(
+          FontAwesomeIcons.moneyBillWave,
+          color: onPrimaryColor,
+          size: 30,
+        ),
         "menuName": Locales.string(context, "deposit_menu_deposit_now_title"),
         "menuDescription": Locales.string(
           context,
@@ -25,7 +32,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         "route": AuthRoutesName.depositNowPage,
       },
       {
-        "icon": FontAwesomeIcons.clock,
+        "icon": Icon(FontAwesomeIcons.clock, color: onPrimaryColor, size: 30),
         "menuName": Locales.string(
           context,
           "deposit_menu_deposit_latter_title",
@@ -37,7 +44,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         "route": AuthRoutesName.depositLaterPage,
       },
       {
-        "icon": FontAwesomeIcons.mobileScreenButton,
+        "icon": BkashIcon(color: context.theme.colorScheme.onPrimary),
         "menuName": Locales.string(
           context,
           "deposit_menu_deposit_from_bkash_title",
@@ -46,10 +53,14 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_from_bkash_description",
         ),
-        "route": AuthRoutesName.depositNowPage,
+        "route": AuthRoutesName.depositFromBkashPage,
       },
       {
-        "icon": FontAwesomeIcons.circleInfo,
+        "icon": Icon(
+          FontAwesomeIcons.circleInfo,
+          color: onPrimaryColor,
+          size: 30,
+        ),
         "menuName": Locales.string(
           context,
           "deposit_menu_deposit_request_status_title",
@@ -61,7 +72,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         "route": AuthRoutesName.depositNowPage,
       },
       {
-        "icon": FontAwesomeIcons.receipt,
+        "icon": Icon(FontAwesomeIcons.receipt, color: onPrimaryColor, size: 30),
         "menuName": Locales.string(context, "deposit_menu_ereceipt_title"),
         "menuDescription": Locales.string(
           context,
@@ -70,6 +81,12 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         "route": AuthRoutesName.depositNowPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
@@ -78,7 +95,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

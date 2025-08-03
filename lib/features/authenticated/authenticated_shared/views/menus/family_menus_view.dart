@@ -12,11 +12,12 @@ class FamilyMenusView extends StatefulWidget {
 }
 
 class _FamilyMenusViewState extends State<FamilyMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final onPrimaryColor = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.users,
+        "icon": Icon(FontAwesomeIcons.users, color: onPrimaryColor, size: 30),
         "menuName": Locales.string(
           context,
           "family_menu_family_&_relatives_title",
@@ -28,7 +29,11 @@ class _FamilyMenusViewState extends State<FamilyMenusView> {
         "route": AuthRoutesName.familyAndRelativesPage,
       },
       {
-        "icon": FontAwesomeIcons.userPlus,
+        "icon": Icon(
+          FontAwesomeIcons.userPlus,
+          color: onPrimaryColor,
+          size: 30,
+        ),
         "menuName": Locales.string(
           context,
           "family_menu_add_family_or_relatives_title",
@@ -40,6 +45,12 @@ class _FamilyMenusViewState extends State<FamilyMenusView> {
         "route": AuthRoutesName.addFamilyMemberPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
@@ -48,7 +59,7 @@ class _FamilyMenusViewState extends State<FamilyMenusView> {
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

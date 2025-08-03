@@ -12,11 +12,16 @@ class InfoMenusView extends StatefulWidget {
 }
 
 class _InfoMenusViewState extends State<InfoMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final onPrimaryColor = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.circleUser,
+        "icon": Icon(
+          FontAwesomeIcons.circleUser,
+          color: onPrimaryColor,
+          size: 30,
+        ),
         "menuName": Locales.string(context, "info_menu_profile_title"),
         "menuDescription": Locales.string(
           context,
@@ -25,7 +30,7 @@ class _InfoMenusViewState extends State<InfoMenusView> {
         "route": AuthRoutesName.profilePage,
       },
       {
-        "icon": Icons.credit_card,
+        "icon": Icon(Icons.credit_card, color: onPrimaryColor, size: 30),
         "menuName": Locales.string(context, "info_menu_card_title"),
         "menuDescription": Locales.string(
           context,
@@ -34,21 +39,24 @@ class _InfoMenusViewState extends State<InfoMenusView> {
         "route": AuthRoutesName.cardPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
 
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
         padding: const EdgeInsets.all(12),
-        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
-            onTap: () {
-              Navigator.pushNamed(context, menu['route']);
-            },
+            onTap: () => Navigator.pushNamed(context, menu['route']),
           );
         },
       ),

@@ -12,11 +12,12 @@ class AccountsMenusView extends StatefulWidget {
 }
 
 class _AccountsMenusViewState extends State<AccountsMenusView> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> infoMenus = [
+  List<Map<String, dynamic>> getInfoMenus(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onPrimary;
+
+    return [
       {
-        "icon": FontAwesomeIcons.piggyBank,
+        "icon": Icon(FontAwesomeIcons.piggyBank, color: color, size: 30),
         "menuName": Locales.string(context, "accounts_menu_accounts_title"),
         "menuDescription": Locales.string(
           context,
@@ -25,7 +26,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
         "route": AuthRoutesName.myAccountsPage,
       },
       {
-        "icon": Icons.account_balance,
+        "icon": Icon(Icons.account_balance, color: color, size: 30),
         "menuName": Locales.string(
           context,
           "accounts_menu_open_an_account_title",
@@ -37,6 +38,12 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
         "route": AuthRoutesName.openableAccountsPage,
       },
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final infoMenus = getInfoMenus(context);
+
     return SafeArea(
       child: ListView.separated(
         itemCount: infoMenus.length,
@@ -45,7 +52,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
           return MenuCard(
-            iconData: menu['icon'],
+            icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {

@@ -9,41 +9,41 @@ import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
-part 'deposit_now_setps_event.dart';
-part 'deposit_now_steps_state.dart';
+part 'deposit_from_bkash_setps_event.dart';
+part 'deposit_from_bkash_steps_state.dart';
 
-class DepositNowStepsBloc
-    extends Bloc<DepositNowStepsEvent, DepositNowStepsState> {
+class DepositFromBkashStepsBloc
+    extends Bloc<DepositFromBkashStepsEvent, DepositFromBkashStepsState> {
   // Define step range constants
   static const int firstStep = 0;
-  static const int lastStep = 5;
+  static const int lastStep = 3;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
   final SubmitDepositNowUseCase submitDepositNowUseCase;
 
-  DepositNowStepsBloc({
+  DepositFromBkashStepsBloc({
     required this.getAuthUserUseCase,
     required this.submitDepositNowUseCase,
-  }) : super(const DepositNowStepsState(currentStep: 0)) {
-    on<DepositNowGoToNextStep>(_onGoToNextStep);
-    on<DepositNowGoToPreviousStep>(_onGoToPreviousStep);
-    on<UpdateStepData>(_onUpdateStepData);
-    on<SetCollectionLedgers>(_onSetCollectionLedgers);
-    on<ToggleLedgerSelection>(_onToggleLedgerSelection);
-    on<ToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
-    on<UpdateLedgerAmount>(_onUpdateLedgerAmount);
-    on<ResetDepositNowFlow>(_onResetFlow);
-    on<SelectCardAccount>(_onSelectCardAccount);
-    on<SelectDebitCard>(_onSelectDebitCard);
+  }) : super(const DepositFromBkashStepsState(currentStep: 0)) {
+    on<DepositFromBkashGoToNextStep>(_onGoToNextStep);
+    on<DepositFromBkashGoToPreviousStep>(_onGoToPreviousStep);
+    on<DepositFromBkashUpdateStepData>(_onUpdateStepData);
+    on<DepositFromBkashSetCollectionLedgers>(_onSetCollectionLedgers);
+    on<DepositFromBkashToggleLedgerSelection>(_onToggleLedgerSelection);
+    on<DepositFromBkashToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
+    on<DepositFromBkashUpdateLedgerAmount>(_onUpdateLedgerAmount);
+    on<DepositFromBkashResetFlow>(_onResetFlow);
+    on<DepositFromBkashSelectCardAccount>(_onSelectCardAccount);
+    on<DepositFromBkashSelectDebitCard>(_onSelectDebitCard);
     // update lps amount
-    on<UpdateLpsAmount>(_onUpdateLpsAmount);
-    on<DepositNowValidateStep>(_onValidateStep);
-    on<SubmitDepositNow>(_onSubmitDepositNow);
+    on<DepositFromBkashUpdateLpsAmount>(_onUpdateLpsAmount);
+    on<DepositFromBkashValidateStep>(_onValidateStep);
+    on<DepositFromBkashSubmit>(_onSubmitDepositNow);
   }
 
   void _onGoToNextStep(
-    DepositNowGoToNextStep event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashGoToNextStep event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     final step = state.currentStep;
     final errors = _validateDepositNowSteps(step);
@@ -66,8 +66,8 @@ class DepositNowStepsBloc
   }
 
   void _onGoToPreviousStep(
-    DepositNowGoToPreviousStep event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashGoToPreviousStep event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     if (state.currentStep > firstStep) {
       emit(state.copyWith(currentStep: state.currentStep - 1));
@@ -75,8 +75,8 @@ class DepositNowStepsBloc
   }
 
   void _onUpdateStepData(
-    UpdateStepData event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashUpdateStepData event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     final updatedStepData = Map<int, Map<String, dynamic>>.from(state.stepData);
     updatedStepData[event.step] = {
@@ -87,8 +87,8 @@ class DepositNowStepsBloc
   }
 
   void _onSetCollectionLedgers(
-    SetCollectionLedgers event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashSetCollectionLedgers event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     final selectedLedgers =
         event.ledgers
@@ -103,8 +103,8 @@ class DepositNowStepsBloc
   }
 
   void _onToggleLedgerSelection(
-    ToggleLedgerSelection event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashToggleLedgerSelection event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     late List<CollectionLedgerEntity> updatedLedgers;
 
@@ -144,8 +144,8 @@ class DepositNowStepsBloc
   }
 
   void _onToggleSelectAllLedgers(
-    ToggleSelectAllLedgers event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashToggleSelectAllLedgers event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     final updatedLedgers =
         state.collectionLedgers
@@ -156,8 +156,8 @@ class DepositNowStepsBloc
   }
 
   void _onUpdateLedgerAmount(
-    UpdateLedgerAmount event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashUpdateLedgerAmount event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     if (!event.ledger.subledger &&
         event.ledger.plType == 2 &&
@@ -178,29 +178,29 @@ class DepositNowStepsBloc
   }
 
   void _onResetFlow(
-    ResetDepositNowFlow event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashResetFlow event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
-    emit(const DepositNowStepsState(currentStep: 0));
+    emit(const DepositFromBkashStepsState(currentStep: 0));
   }
 
   void _onSelectCardAccount(
-    SelectCardAccount event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashSelectCardAccount event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     emit(state.copyWith(selectedAccount: event.selectedCardAccount));
   }
 
   void _onSelectDebitCard(
-    SelectDebitCard event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashSelectDebitCard event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     emit(state.copyWith(selectedCard: event.selectedCard));
   }
 
   void _onUpdateLpsAmount(
-    UpdateLpsAmount event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashUpdateLpsAmount event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     final updatedLedgers =
         state.collectionLedgers.map((l) {
@@ -215,8 +215,8 @@ class DepositNowStepsBloc
   }
 
   void _onValidateStep(
-    DepositNowValidateStep event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashValidateStep event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) {
     final step = event.step;
 
@@ -231,8 +231,8 @@ class DepositNowStepsBloc
   }
 
   void _onSubmitDepositNow(
-    SubmitDepositNow event,
-    Emitter<DepositNowStepsState> emit,
+    DepositFromBkashSubmit event,
+    Emitter<DepositFromBkashStepsState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
 
@@ -302,13 +302,6 @@ class DepositNowStepsBloc
 
     switch (step) {
       case 0:
-        if (state.selectedAccount == null ||
-            state.selectedAccount!.number.isEmpty) {
-          errors['transferFromAccount'] = 'Select an account to transfer from';
-        }
-        break;
-
-      case 1:
         if (data['searchAccountNumber'] == null) {
           errors['searchAccountNumber'] =
               'Please enter a search account number';
@@ -319,7 +312,7 @@ class DepositNowStepsBloc
         }
         break;
 
-      case 2:
+      case 1:
         final selectedLedgers =
             state.collectionLedgers.where((l) => l.isSelected).toList();
         if (selectedLedgers.isEmpty) {
@@ -349,40 +342,10 @@ class DepositNowStepsBloc
 
           if (amountErrors.isNotEmpty) {
             errors['amounts'] = amountErrors;
-          } else {
-            final totalDeposit = selectedLedgers.fold<double>(
-              0,
-              (sum, ledger) => sum + (ledger.depositAmount),
-            );
-
-            final totalWithdrawable =
-                state.selectedAccount != null
-                    ? state.selectedAccount!.withdrawableBalance
-                    : 0;
-
-            if (totalDeposit > totalWithdrawable) {
-              errors['ledgers'] =
-                  "You don't have enough balance to deposit this amount";
-            }
           }
         }
         break;
 
-      case 4:
-        if (data['cardPin'] == null || data['cardPin'].toString().isEmpty) {
-          errors['cardPin'] = 'Please enter a card PIN';
-        } else if (data['cardPin'].length != 4) {
-          errors['cardPin'] = 'PIN must be 4 digits';
-        }
-        break;
-
-      case 5:
-        if (data['confirmation'] != true) {
-          errors['confirmation'] = 'You must confirm to proceed';
-        }
-        break;
-
-      // No validation needed for final review/step 5
       default:
         break;
     }

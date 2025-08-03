@@ -7,10 +7,13 @@ import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dar
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_bloc/add_beneficiary_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/deposit_from_bkash_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_success.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/add_family_and_relative_bloc/add_family_and_relative_bloc.dart';
 import 'package:pashboi/features/authenticated/loan_payment/presentation/pages/bloc/loan_payment_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
@@ -284,6 +287,14 @@ class AppRoutes {
           ),
         );
 
+      case AuthRoutesName.depositNowSuccessPage:
+        if (args is Map<String, String>) {
+          return _materialRoute(
+            DepositNowSuccessPage(successMessage: args['message'] ?? ''),
+          );
+        }
+        break;
+
       case AuthRoutesName.depositLaterPage:
         return _materialRoute(
           MultiBlocProvider(
@@ -299,6 +310,19 @@ class AppRoutes {
           BlocProvider(
             create: (_) => sl<EmployeesProfileBloc>(),
             child: EmployeesProfilePage(),
+          ),
+        );
+
+      case AuthRoutesName.depositFromBkashPage:
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => sl<DepositFromBkashStepsBloc>(),
+              ),
+              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+            ],
+            child: DepositFromBkashPage(),
           ),
         );
 
