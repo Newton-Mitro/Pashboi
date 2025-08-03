@@ -271,5 +271,14 @@
   "add_operating_account_page_mobile_number_input_label": "Mobile Number (OTP will be sent)",
   "add_operating_account_page_submit_button_text": "Hold & Press to Submit",
 
-  "account_opening_page_title": "Open"
+  "account_opening_page_title": "Open",
+
+   "employee_profile_details": "Employee Profile Details",
+
+  "supervisor_name": "Supervisor Name",
+  "employee_code": "Employee Code",
+  "gender": "Gender",
+  "official_email": "Official Email",
+  "personal_email": "Personal Email",
+  "joining_date": "Joining Date"
 }

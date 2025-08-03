@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -20,6 +21,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_employee_profile_title",
         ),
+        "route": AuthRoutesName.employeeProfile,
         "menuDescription": Locales.string(
           context,
           "personnel_menu_employee_profile_description",
@@ -31,6 +33,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_leave_application_title",
         ),
+        "route": '',
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_application_description",
@@ -42,6 +45,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_fallback_acceptance_title",
         ),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_fallback_acceptance_description",
@@ -53,6 +58,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_leave_approval_title",
         ),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_approval_description",
@@ -64,6 +71,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_leave_history_title",
         ),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_history_description",
@@ -72,6 +81,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
       {
         "icon": FontAwesomeIcons.clock,
         "menuName": Locales.string(context, "personnel_menu_attendance_title"),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_attendance_description",
@@ -83,6 +94,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_working_out_of_office_application_title",
         ),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_working_out_of_office_application_description",
@@ -94,6 +107,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_working_out_of_office_approval_title",
         ),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_working_out_of_office_approval_description",
@@ -106,6 +121,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_working_out_of_office_history_title",
         ),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_working_out_of_office_history_description",
@@ -117,6 +134,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_todays_punch_title",
         ),
+        "route": '',
+
         "menuDescription": Locales.string(
           context,
           "personnel_menu_todays_punch_description",
@@ -135,7 +154,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-              debugPrint("Tapped on ${menu['menuName']}");
+              Navigator.pushNamed(context, menu['route']);
             },
           );
         },

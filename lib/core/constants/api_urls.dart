@@ -96,4 +96,7 @@ class ApiUrls {
   static const String getPageByPageSlug = 'GetPageBySlug';
 
   static const String getDevTeams = 'getDevTeams';
+
+  static const String getEmployeeDetails =
+      'professionals_v1/getEmployeeDetails';
 }

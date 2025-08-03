@@ -35,4 +35,6 @@ final class AuthRoutesName {
 
   static const String personnelPage = '/personnelPage';
   static const String changePasswordPage = '/changePasswordPage';
+
+  static const String employeeProfile = '/employeeProfile';
 }

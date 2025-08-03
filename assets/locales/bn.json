@@ -270,5 +270,14 @@
   "add_operating_account_page_mobile_number_input_label": "মোবাইল নম্বর (ওটিপি পাঠানো হবে)",
   "add_operating_account_page_submit_button_text": "অপারেটিং অ্যাকাউন্ট যোগ করতে \nটিপে ধরে রাখুন",
 
-  "account_opening_page_title": "অ্যাকাউন্ট খুলুন"
+  "account_opening_page_title": "অ্যাকাউন্ট খুলুন",
+
+  "employee_profile_details": "কর্মচারীর প্রোফাইলের বিবরণ",
+
+  "supervisor_name": "সুপারভাইজারের নাম",
+  "employee_code": "কর্মচারী কোড",
+  "gender": "লিঙ্গ",
+  "official_email": "কর্পোরেট ইমেইল",
+  "personal_email": "ব্যক্তিগত ইমেইল",
+  "joining_date": "যোগদানের তারিখ"
 }
