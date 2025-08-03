@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
-import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
@@ -33,9 +30,6 @@ class DepositFromBkashStepsBloc
     on<DepositFromBkashToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
     on<DepositFromBkashUpdateLedgerAmount>(_onUpdateLedgerAmount);
     on<DepositFromBkashResetFlow>(_onResetFlow);
-    on<DepositFromBkashSelectCardAccount>(_onSelectCardAccount);
-    on<DepositFromBkashSelectDebitCard>(_onSelectDebitCard);
-    // update lps amount
     on<DepositFromBkashUpdateLpsAmount>(_onUpdateLpsAmount);
     on<DepositFromBkashValidateStep>(_onValidateStep);
     on<DepositFromBkashSubmit>(_onSubmitDepositNow);
@@ -184,20 +178,6 @@ class DepositFromBkashStepsBloc
     emit(const DepositFromBkashStepsState(currentStep: 0));
   }
 
-  void _onSelectCardAccount(
-    DepositFromBkashSelectCardAccount event,
-    Emitter<DepositFromBkashStepsState> emit,
-  ) {
-    emit(state.copyWith(selectedAccount: event.selectedCardAccount));
-  }
-
-  void _onSelectDebitCard(
-    DepositFromBkashSelectDebitCard event,
-    Emitter<DepositFromBkashStepsState> emit,
-  ) {
-    emit(state.copyWith(selectedCard: event.selectedCard));
-  }
-
   void _onUpdateLpsAmount(
     DepositFromBkashUpdateLpsAmount event,
     Emitter<DepositFromBkashStepsState> emit,
@@ -262,18 +242,14 @@ class DepositFromBkashStepsBloc
           personId: user.personId,
           employeeCode: user.employeeCode,
           mobileNumber: user.regMobile,
-          accountNumber: state.selectedAccount!.number,
-          accountHolderName:
-              state.selectedCard!.nameOnCard.toLowerCase().trim(),
-          accountId: state.selectedAccount!.id,
-          accountType: state.selectedAccount!.typeName,
-          cardNumber: state.selectedCard!.cardNumber,
+          accountNumber: "",
+          accountHolderName: "",
+          accountId: 0,
+          accountType: "",
+          cardNumber: "",
           depositDate: DateTime.now().toIso8601String(),
-          ledgerId: state.selectedAccount!.ledgerId,
-          cardPin:
-              md5
-                  .convert(utf8.encode(state.stepData[4]?['cardPin'].trim()))
-                  .toString(),
+          ledgerId: 0,
+          cardPin: "",
           totalDepositAmount: totalAmount,
           transactionMethod: '12',
           otpRegId: state.stepData[4]?['OTPRegId'],

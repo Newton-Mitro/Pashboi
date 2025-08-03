@@ -20,6 +20,12 @@ class TransactionChargePreviewSection extends StatefulWidget {
 class _TransactionChargePreviewSectionState
     extends State<TransactionChargePreviewSection> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorScheme = context.theme.colorScheme;
 
