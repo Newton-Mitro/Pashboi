@@ -19,7 +19,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
 
     return [
       {
-        "icon": BkashIcon(color: context.theme.colorScheme.onPrimary),
+        "icon": BkashIcon(),
         "menuName": Locales.string(
           context,
           "transfer_menu_transfer_to_bkash_title",

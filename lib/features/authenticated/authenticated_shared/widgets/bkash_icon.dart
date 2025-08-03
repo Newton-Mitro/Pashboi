@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pashboi/core/constants/app_icons.dart';
 
 class BkashIcon extends StatefulWidget {
-  final Color? color;
   final double size;
 
-  const BkashIcon({super.key, this.color, this.size = 40});
+  const BkashIcon({super.key, this.size = 40});
 
   @override
   State<BkashIcon> createState() => _BkashIconState();
@@ -15,10 +14,6 @@ class _BkashIconState extends State<BkashIcon>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      AppIcons.pathToBkashIcon,
-      width: widget.size,
-      color: widget.color,
-    );
+    return Image.asset(AppIcons.pathToBkashIcon, width: widget.size);
   }
 }

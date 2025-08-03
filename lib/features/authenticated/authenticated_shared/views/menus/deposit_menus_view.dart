@@ -44,7 +44,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         "route": AuthRoutesName.depositLaterPage,
       },
       {
-        "icon": BkashIcon(color: context.theme.colorScheme.onPrimary),
+        "icon": BkashIcon(),
         "menuName": Locales.string(
           context,
           "deposit_menu_deposit_from_bkash_title",

@@ -51,13 +51,7 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
           child: Center(
             child:
                 index - 1 == 3
-                    ? BkashIcon(
-                      color:
-                          isCompleted
-                              ? theme.onPrimary
-                              : theme.onSurface.withAlpha(220),
-                      size: 40,
-                    )
+                    ? BkashIcon()
                     : Icon(
                       _buildSteps(state)[index - 1].icon,
                       color:
