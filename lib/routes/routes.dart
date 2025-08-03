@@ -27,9 +27,19 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/op
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
+import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bank_to_dc_transfer_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/internal_transfer_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/transfer_to_bkash_page.dart';
+import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/bloc/withdrawl_qr_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/withdrawl_qr_page.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
@@ -327,6 +337,66 @@ class AppRoutes {
           );
         }
         break;
+
+      case AuthRoutesName.internalTransferPage:
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => sl<InternalTransferStepsBloc>(),
+              ),
+              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+            ],
+            child: InternalTransferPage(),
+          ),
+        );
+
+      case AuthRoutesName.transferToBkashPage:
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => sl<TransferToBkashStepsBloc>()),
+              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+            ],
+            child: TransferToBkashPage(),
+          ),
+        );
+
+      case AuthRoutesName.bankToDcTransferPage:
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => sl<BankToDcTransferStepsBloc>(),
+              ),
+              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+            ],
+            child: BankToDcTransferPage(),
+          ),
+        );
+
+      case AuthRoutesName.withdrawlQrPage:
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => sl<WithdrawlQrStepsBloc>()),
+              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+            ],
+            child: WithdrawlQrPage(),
+          ),
+        );
+
+      case AuthRoutesName.paymentPage:
+        return _materialRoute(
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => sl<PaymentStepsBloc>()),
+              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+            ],
+            child: PaymentPage(),
+          ),
+        );
+
       default:
         return _materialRoute(const AuthenticatedHome());
     }

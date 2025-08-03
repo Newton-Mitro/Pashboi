@@ -495,7 +495,7 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
       child: BlocBuilder<AccountOpeningStepsBloc, AccountOpeningStepsState>(
         builder: (context, state) {
           return ProgressSubmitButton(
-            width: width - 30,
+            width: width - 10,
             height: 100,
             enabled: !state.isLoading,
             backgroundColor: context.theme.colorScheme.primary,

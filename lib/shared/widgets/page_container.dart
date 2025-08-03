@@ -10,13 +10,19 @@ class PageContainer extends StatelessWidget {
 
   String _getBackgroundImage(ThemeSelectorState state) {
     if (state is DarkAbyssTheme) {
-      return AppImages.darkBlueAbyssthemeBackground;
+      return AppImages.darkAbyssThemeBackground;
     } else if (state is OliverPetalTheme) {
       return AppImages.oliverPetalThemeBackground;
+    } else if (state is OliverPetalDarkTheme) {
+      return AppImages.oliverPetalDarkThemeBackground;
     } else if (state is EleganceTheme) {
       return AppImages.eleganceThemeBackground;
+    } else if (state is EleganceDarkTheme) {
+      return AppImages.eleganceDarkThemeBackground;
+    } else if (state is BlueOceanTheme) {
+      return AppImages.blueOceanThemeBackground;
     } else if (state is BlueOceanDarkTheme) {
-      return AppImages.darkBlueOceanThemeBackground;
+      return AppImages.blueOceanDarkThemeBackground;
     } else {
       return AppImages.blueOceanThemeBackground;
     }

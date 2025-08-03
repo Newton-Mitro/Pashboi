@@ -6,11 +6,11 @@ import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/search_ledgers_section/search_ledgers_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
+import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -22,15 +22,15 @@ import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/shared/widgets/progress_submit_button/progress_submit_button.dart';
 import 'package:pashboi/shared/widgets/step_item.dart';
 
-class DepositLaterPage extends StatefulWidget {
-  const DepositLaterPage({super.key});
+class PaymentPage extends StatefulWidget {
+  const PaymentPage({super.key});
 
   @override
-  State<DepositLaterPage> createState() => _DepositLaterPageState();
+  State<PaymentPage> createState() => _PaymentPageState();
 }
 
-class _DepositLaterPageState extends State<DepositLaterPage> {
-  Widget _buildProgressStepper(double width, DepositLaterStepsState state) {
+class _PaymentPageState extends State<PaymentPage> {
+  Widget _buildProgressStepper(double width, PaymentStepsState state) {
     final theme = context.theme.colorScheme;
 
     return ProgressStepper(
@@ -38,7 +38,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
       padding: 5,
       height: 50,
       color: theme.primary,
-      stepCount: DepositLaterStepsBloc.totalSteps,
+      stepCount: PaymentStepsBloc.totalSteps,
       bluntHead: false,
       bluntTail: false,
       currentStep: state.currentStep,
@@ -75,15 +75,13 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
         BlocListener<DebitCardBloc, DebitCardState>(
           listener: (context, state) {
             if (state.successMessage != null) {
-              context.read<DepositLaterStepsBloc>().add(
-                DepositLaterUpdateStepData(
+              context.read<PaymentStepsBloc>().add(
+                PaymentUpdateStepData(
                   step: 4,
                   data: {'OTPRegId': state.successMessage},
                 ),
               );
-              context.read<DepositLaterStepsBloc>().add(
-                DepositLaterGoToNextStep(),
-              );
+              context.read<PaymentStepsBloc>().add(PaymentGoToNextStep());
               context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
@@ -108,8 +106,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
           listener: (context, state) {
             if (state.otpValues.length == 6 &&
                 state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<DepositLaterStepsBloc>().add(
-                DepositLaterUpdateStepData(
+              context.read<PaymentStepsBloc>().add(
+                PaymentUpdateStepData(
                   step: 5,
                   data: {'OTP': state.otpValues.join()},
                 ),
@@ -117,7 +115,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
             }
           },
         ),
-        BlocListener<DepositLaterStepsBloc, DepositLaterStepsState>(
+        BlocListener<PaymentStepsBloc, PaymentStepsState>(
           listener: (context, state) {
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -157,17 +155,15 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
         ),
       ],
 
-      child: BlocBuilder<DepositLaterStepsBloc, DepositLaterStepsState>(
+      child: BlocBuilder<PaymentStepsBloc, PaymentStepsState>(
         builder: (context, depositLaterStepsState) {
           final isFirstStep =
-              depositLaterStepsState.currentStep ==
-              DepositLaterStepsBloc.firstStep;
+              depositLaterStepsState.currentStep == PaymentStepsBloc.firstStep;
           final isLastStep =
-              depositLaterStepsState.currentStep ==
-              DepositLaterStepsBloc.lastStep;
+              depositLaterStepsState.currentStep == PaymentStepsBloc.lastStep;
 
           return Scaffold(
-            appBar: AppBar(title: const Text('Deposit Later')),
+            appBar: AppBar(title: const Text('Payment')),
             body: Stack(
               children: [
                 PageContainer(
@@ -226,8 +222,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
                                     ),
                                     label: "Previous",
                                     onPressed: () {
-                                      context.read<DepositLaterStepsBloc>().add(
-                                        DepositLaterGoToPreviousStep(),
+                                      context.read<PaymentStepsBloc>().add(
+                                        PaymentGoToPreviousStep(),
                                       );
                                     },
                                   ),
@@ -242,14 +238,14 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
                                     onPressed: () {
                                       if (depositLaterStepsState.currentStep ==
                                           4) {
-                                        context
-                                            .read<DepositLaterStepsBloc>()
-                                            .add(DepositLaterValidateStep(4));
+                                        context.read<PaymentStepsBloc>().add(
+                                          PaymentValidateStep(4),
+                                        );
                                         _verifyCardPIN(depositLaterStepsState);
                                         return;
                                       }
-                                      context.read<DepositLaterStepsBloc>().add(
-                                        DepositLaterGoToNextStep(),
+                                      context.read<PaymentStepsBloc>().add(
+                                        PaymentGoToNextStep(),
                                       );
                                     },
                                   ),
@@ -299,13 +295,13 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
         newLedgers.where((ledger) => ledger.subledger != true).toList();
 
     if (updatedLedgers.isNotEmpty) {
-      context.read<DepositLaterStepsBloc>().add(
-        DepositLaterSetCollectionLedgers(ledgers: updatedLedgers),
+      context.read<PaymentStepsBloc>().add(
+        PaymentSetCollectionLedgers(ledgers: updatedLedgers),
       );
     }
   }
 
-  void _verifyCardPIN(DepositLaterStepsState depositLaterStepsState) {
+  void _verifyCardPIN(PaymentStepsState depositLaterStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
         accountNumber: depositLaterStepsState.selectedAccount!.number,
@@ -321,7 +317,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
     );
   }
 
-  List<StepItem> _buildSteps(DepositLaterStepsState state) {
+  List<StepItem> _buildSteps(PaymentStepsState state) {
     final selectedLedgers = state.collectionLedgers;
     return [
       StepItem(
@@ -332,13 +328,13 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
               state.validationErrors[state.currentStep]?['transferFromAccount'],
           onAccountChanged: (debitCard, selectedAccount) {
             if (debitCard != null) {
-              context.read<DepositLaterStepsBloc>().add(
-                DepositLaterSelectDebitCard(debitCard),
+              context.read<PaymentStepsBloc>().add(
+                PaymentSelectDebitCard(debitCard),
               );
             }
             if (selectedAccount != null) {
-              context.read<DepositLaterStepsBloc>().add(
-                DepositLaterSelectCardAccount(selectedAccount),
+              context.read<PaymentStepsBloc>().add(
+                PaymentSelectCardAccount(selectedAccount),
               );
             }
           },
@@ -375,24 +371,24 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
                   .currentStep]?['searchedAccountHolderName'],
           setCollectionLedgers: _setCollectionLedgers,
           onChangeSearchAccountNumber: (accountNumber) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterUpdateStepData(
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
                 step: state.currentStep,
                 data: {'searchAccountNumber': accountNumber},
               ),
             );
           },
           changeSearchAccountNumber: (String? accountNumber) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterUpdateStepData(
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
                 step: state.currentStep,
                 data: {'searchAccountNumber': accountNumber},
               ),
             );
           },
           changeSearchedAccountHolderName: (String? accountHolderName) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterUpdateStepData(
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
                 step: state.currentStep,
                 data: {'searchedAccountHolderName': accountHolderName},
               ),
@@ -401,8 +397,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
           beneficiaryAccountNumber:
               state.stepData[state.currentStep]?['beneficiaryAccountNumber'],
           changeBeneficiaryAccountNumber: (String? accountNumber) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterUpdateStepData(
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
                 step: state.currentStep,
                 data: {'beneficiaryAccountNumber': accountNumber},
               ),
@@ -415,21 +411,18 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
         widget: TransactionDetailsSection(
           ledgers: selectedLedgers,
           onToggleSelect: (ledger) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepoistLaterToggleLedgerSelection(ledger),
+            context.read<PaymentStepsBloc>().add(
+              PaymentToggleLedgerSelection(ledger),
             );
           },
           onToggleSelectAll: (selectAll) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterToggleSelectAllLedgers(selectAll),
+            context.read<PaymentStepsBloc>().add(
+              PaymentToggleSelectAllLedgers(selectAll),
             );
           },
           onAmountChanged: (ledger, newAmount) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterUpdateLedgerAmount(
-                ledger: ledger,
-                newAmount: newAmount,
-              ),
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateLedgerAmount(ledger: ledger, newAmount: newAmount),
             );
           },
           sectionError: state.validationErrors[state.currentStep]?['ledgers'],
@@ -449,8 +442,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
           cardPin: state.stepData[state.currentStep]?['cardPin'],
           cardPinError: state.validationErrors[state.currentStep]?['cardPin'],
           onCardPinChanged: (pin) {
-            context.read<DepositLaterStepsBloc>().add(
-              DepositLaterUpdateStepData(
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
                 step: state.currentStep,
                 data: {'cardPin': pin},
               ),
@@ -472,7 +465,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
   Widget _buildSubmitButton(double width, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: BlocBuilder<DepositLaterStepsBloc, DepositLaterStepsState>(
+      child: BlocBuilder<PaymentStepsBloc, PaymentStepsState>(
         builder: (context, state) {
           return ProgressSubmitButton(
             width: width - 10,
@@ -483,7 +476,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
             foregroundColor: context.theme.colorScheme.onPrimary,
             label: 'Hold & Press to Submit',
             onSubmit: () {
-              _submitDepositLater(state);
+              _submitPayment(state);
             },
           );
         },
@@ -491,7 +484,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
     );
   }
 
-  void _submitDepositLater(DepositLaterStepsState state) {
-    context.read<DepositLaterStepsBloc>().add(DepositLaterSubmit());
+  void _submitPayment(PaymentStepsState state) {
+    context.read<PaymentStepsBloc>().add(PaymentSubmit());
   }
 }

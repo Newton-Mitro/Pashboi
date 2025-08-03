@@ -71,15 +71,15 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         ),
         "route": AuthRoutesName.depositNowPage,
       },
-      {
-        "icon": Icon(FontAwesomeIcons.receipt, color: onPrimaryColor, size: 30),
-        "menuName": Locales.string(context, "deposit_menu_ereceipt_title"),
-        "menuDescription": Locales.string(
-          context,
-          "deposit_menu_ereceipt_description",
-        ),
-        "route": AuthRoutesName.depositNowPage,
-      },
+      // {
+      //   "icon": Icon(FontAwesomeIcons.receipt, color: onPrimaryColor, size: 30),
+      //   "menuName": Locales.string(context, "deposit_menu_ereceipt_title"),
+      //   "menuDescription": Locales.string(
+      //     context,
+      //     "deposit_menu_ereceipt_description",
+      //   ),
+      //   "route": AuthRoutesName.depositNowPage,
+      // },
     ];
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -25,7 +26,7 @@ class _WithdrawMenusViewState extends State<WithdrawMenusView> {
           context,
           "withdraw_menu_withdraw_through_atm_description",
         ),
-        // "route": AuthRoutesName.withdrawThroughAtmPage, // Add route if navigation needed
+        "route": AuthRoutesName.withdrawlQrPage,
       },
     ];
   }
@@ -46,8 +47,7 @@ class _WithdrawMenusViewState extends State<WithdrawMenusView> {
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
             onTap: () {
-              // Handle tap here, e.g. navigation or debug print
-              debugPrint("Tapped on ${menu['menuName']}");
+              Navigator.pushNamed(context, menu['route']);
             },
           );
         },
