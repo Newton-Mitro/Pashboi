@@ -1,4 +1,4 @@
-import 'package:pashboi/features/authenticated/personnel/domain/entities/employee_details_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/domain/entities/employee_details_entity.dart';
 
 class EmployeeDetailsModel extends EmployeeDetailsEntity {
   EmployeeDetailsModel({

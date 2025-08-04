@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/domain/entities/employee_details_entity.dart';
-import 'package:pashboi/features/authenticated/personnel/domain/usecase/employee_details_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/domain/entities/employee_details_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/domain/usecase/employee_details_usecase.dart';
 
 part 'employees_profile_event.dart';
 part 'employees_profile_state.dart';

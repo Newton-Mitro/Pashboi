@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/utils/my_date_utils.dart';
-import 'package:pashboi/features/authenticated/personnel/presentation/employee/profile/bloc/employees_profile_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/bloc/employees_profile_bloc.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -122,7 +123,7 @@ class _EmployeesProfilePageState extends State<EmployeesProfilePage> {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        person.fullName,
+                        person.fullName.trim().toTitleCase(),
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -140,6 +141,7 @@ class _EmployeesProfilePageState extends State<EmployeesProfilePage> {
                       const SizedBox(height: 5),
                       Text(
                         person.departmentName,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
                           color: context.theme.colorScheme.onSurface,
@@ -174,7 +176,7 @@ class _EmployeesProfilePageState extends State<EmployeesProfilePage> {
                           buildInfoRow(
                             FontAwesomeIcons.userTie,
                             Locales.string(context, 'supervisor_name'),
-                            person.supervisorName,
+                            person.supervisorName.trim().toTitleCase(),
                           ),
                           const SizedBox(height: 10),
                           buildInfoRow(

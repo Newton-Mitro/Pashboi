@@ -1,8 +1,8 @@
 import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/domain/entities/employee_details_entity.dart';
-import 'package:pashboi/features/authenticated/personnel/domain/repositories/employee_details_repository.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/domain/entities/employee_details_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/domain/repositories/employee_details_repository.dart';
 
 class EmployeeDetailsProps extends BaseRequestProps {
   const EmployeeDetailsProps({

@@ -4,8 +4,8 @@ import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/utils/json_util.dart';
-import 'package:pashboi/features/authenticated/personnel/data/models/employee_details_model.dart';
-import 'package:pashboi/features/authenticated/personnel/domain/usecase/employee_details_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/data/models/employee_details_model.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/domain/usecase/employee_details_usecase.dart';
 
 abstract class EmployeeDetailsRemoteDataSource {
   Future<EmployeeDetailsModel> fetchEmployeeDetailsDataSource(

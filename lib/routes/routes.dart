@@ -27,9 +27,9 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/op
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
-import 'package:pashboi/features/authenticated/personnel/presentation/employee/profile/bloc/employees_profile_bloc.dart';
-import 'package:pashboi/features/authenticated/personnel/presentation/employee/profile/page/employees_profile_page.dart';
-import 'package:pashboi/features/authenticated/personnel/presentation/leave/leave_application_page.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/bloc/employees_profile_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/employees_profile_page.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/leave_application_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
