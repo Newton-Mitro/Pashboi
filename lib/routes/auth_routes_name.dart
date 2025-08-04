@@ -38,4 +38,6 @@ final class AuthRoutesName {
   static const String changePasswordPage = '/changePasswordPage';
 
   static const String employeeProfile = '/employeeProfile';
+
+  static const String leaveApplication = '/leaveApplication';
 }

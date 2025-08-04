@@ -34,7 +34,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_leave_application_title",
         ),
-        "route": '',
+        "route": AuthRoutesName.leaveApplication,
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_application_description",
@@ -47,7 +47,6 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           "personnel_menu_fallback_acceptance_title",
         ),
         "route": '',
-
         "menuDescription": Locales.string(
           context,
           "personnel_menu_fallback_acceptance_description",
@@ -59,8 +58,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_leave_approval_title",
         ),
-        "route": '',
 
+        "route": '',
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_approval_description",
@@ -72,8 +71,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_leave_history_title",
         ),
-        "route": '',
 
+        "route": '',
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_history_description",
@@ -82,8 +81,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
       {
         "icon": Icon(FontAwesomeIcons.clock, color: color, size: 30),
         "menuName": Locales.string(context, "personnel_menu_attendance_title"),
-        "route": '',
 
+        "route": '',
         "menuDescription": Locales.string(
           context,
           "personnel_menu_attendance_description",

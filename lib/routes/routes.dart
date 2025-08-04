@@ -29,6 +29,7 @@ import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/presentation/employee/profile/bloc/employees_profile_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/presentation/employee/profile/page/employees_profile_page.dart';
+import 'package:pashboi/features/authenticated/personnel/presentation/leave/leave_application_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
@@ -312,6 +313,9 @@ class AppRoutes {
             child: EmployeesProfilePage(),
           ),
         );
+
+      case AuthRoutesName.leaveApplication:
+        return _materialRoute(LeaveApplicationPage());
 
       case AuthRoutesName.depositFromBkashPage:
         return _materialRoute(
