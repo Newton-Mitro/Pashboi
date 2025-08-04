@@ -8,7 +8,6 @@ import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_later_usecase.dart';
-import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 part 'deposit_later_setps_event.dart';
 part 'deposit_later_steps_state.dart';

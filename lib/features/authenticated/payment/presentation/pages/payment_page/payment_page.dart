@@ -8,13 +8,9 @@ import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/deb
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/pay_to_section.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/payment_amount_section/payment_amount_section.dart';
-import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_to_account_section/transfer_to_account_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
-import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
-import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_to_mobile_section/transfer_to_mobile_section.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';

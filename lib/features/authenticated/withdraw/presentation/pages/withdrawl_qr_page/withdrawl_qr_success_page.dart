@@ -26,7 +26,7 @@ class WithdrawQrSuccessPage extends StatelessWidget {
             // 📷 QR Code image section
             Container(
               decoration: BoxDecoration(
-                color: colorScheme.surfaceVariant,
+                color: colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: colorScheme.outlineVariant, width: 1),
               ),

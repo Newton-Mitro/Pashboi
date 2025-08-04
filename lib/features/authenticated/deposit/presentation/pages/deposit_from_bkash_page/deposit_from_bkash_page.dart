@@ -8,7 +8,6 @@ import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
-import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_to_account_section/transfer_to_account_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/bkash_payment_section/bkash_payment_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/transaction__charge_preview_section.dart';
