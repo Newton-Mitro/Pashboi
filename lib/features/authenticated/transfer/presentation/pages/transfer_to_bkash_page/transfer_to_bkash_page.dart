@@ -5,11 +5,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/search_ledgers_section/search_ledgers_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_preview_section/transfer_preview_section.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_to_mobile_section/transfer_to_mobile_section.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -298,17 +297,6 @@ class _TransferToBkashPageState extends State<TransferToBkashPage> {
     context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
   }
 
-  void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    final updatedLedgers =
-        newLedgers.where((ledger) => ledger.subledger != true).toList();
-
-    if (updatedLedgers.isNotEmpty) {
-      context.read<TransferToBkashStepsBloc>().add(
-        TransferToBkashSetCollectionLedgers(ledgers: updatedLedgers),
-      );
-    }
-  }
-
   void _verifyCardPIN(TransferToBkashStepsState depositLaterStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
@@ -326,7 +314,6 @@ class _TransferToBkashPageState extends State<TransferToBkashPage> {
   }
 
   List<StepItem> _buildSteps(TransferToBkashStepsState state) {
-    final selectedLedgers = state.collectionLedgers;
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
@@ -365,85 +352,49 @@ class _TransferToBkashPageState extends State<TransferToBkashPage> {
         ),
       ),
       StepItem(
-        icon: FontAwesomeIcons.magnifyingGlassChart,
-        widget: SearchLedgersSection(
-          sectionTitle: "Deposit For",
-          searchAccountNumber:
-              state.stepData[state.currentStep]?['searchAccountNumber'],
-          searchAccountNumberError:
-              state.validationErrors[state.currentStep]?['searchAccountNumber'],
-          searchedAccountHolderName:
-              state.stepData[state.currentStep]?['searchedAccountHolderName'],
-          searchedAccountHolderNameError:
-              state.validationErrors[state
-                  .currentStep]?['searchedAccountHolderName'],
-          setCollectionLedgers: _setCollectionLedgers,
-          onChangeSearchAccountNumber: (accountNumber) {
+        icon: FontAwesomeIcons.mobileScreenButton,
+        widget: TransferToMobileSection(
+          transferToMobile:
+              state.stepData[state.currentStep]?['transferToMobile'],
+          transferToMobileError:
+              state.validationErrors[state.currentStep]?['transferToMobile'],
+          onTransferToMobileChanged: (value) {
             context.read<TransferToBkashStepsBloc>().add(
               TransferToBkashUpdateStepData(
                 step: state.currentStep,
-                data: {'searchAccountNumber': accountNumber},
-              ),
-            );
-          },
-          changeSearchAccountNumber: (String? accountNumber) {
-            context.read<TransferToBkashStepsBloc>().add(
-              TransferToBkashUpdateStepData(
-                step: state.currentStep,
-                data: {'searchAccountNumber': accountNumber},
-              ),
-            );
-          },
-          changeSearchedAccountHolderName: (String? accountHolderName) {
-            context.read<TransferToBkashStepsBloc>().add(
-              TransferToBkashUpdateStepData(
-                step: state.currentStep,
-                data: {'searchedAccountHolderName': accountHolderName},
-              ),
-            );
-          },
-          beneficiaryAccountNumber:
-              state.stepData[state.currentStep]?['beneficiaryAccountNumber'],
-          changeBeneficiaryAccountNumber: (String? accountNumber) {
-            context.read<TransferToBkashStepsBloc>().add(
-              TransferToBkashUpdateStepData(
-                step: state.currentStep,
-                data: {'beneficiaryAccountNumber': accountNumber},
+                data: {'transferToMobile': value},
               ),
             );
           },
         ),
       ),
       StepItem(
-        icon: FontAwesomeIcons.piggyBank,
-        widget: TransactionDetailsSection(
-          ledgers: selectedLedgers,
-          onToggleSelect: (ledger) {
+        icon: FontAwesomeIcons.coins,
+        widget: TransferAmountSection(
+          transferAmount:
+              state.stepData[state.currentStep]?['transferAmount'].toString() ??
+              '',
+          transferAmountError:
+              state.validationErrors[state.currentStep]?['transferAmount'],
+          onTransferAmountChanged: (amount) {
             context.read<TransferToBkashStepsBloc>().add(
-              TransferToBkashToggleLedgerSelection(ledger),
-            );
-          },
-          onToggleSelectAll: (selectAll) {
-            context.read<TransferToBkashStepsBloc>().add(
-              TransferToBkashToggleSelectAllLedgers(selectAll),
-            );
-          },
-          onAmountChanged: (ledger, newAmount) {
-            context.read<TransferToBkashStepsBloc>().add(
-              TransferToBkashUpdateLedgerAmount(
-                ledger: ledger,
-                newAmount: newAmount,
+              TransferToBkashUpdateStepData(
+                step: state.currentStep,
+                data: {'transferAmount': amount},
               ),
             );
           },
-          sectionError: state.validationErrors[state.currentStep]?['ledgers'],
-          amountErrors: state.validationErrors[state.currentStep]?['amounts'],
         ),
       ),
 
       StepItem(
         icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
+        widget: TransferPreviewSection(
+          senderName: state.selectedCard?.nameOnCard.toTitleCase().trim() ?? '',
+          senderAccount: state.selectedAccount?.number ?? '',
+          bkashNumber: state.stepData[1]?['transferToMobile'] ?? '',
+          transferAmount: state.stepData[2]?['transferAmount'] ?? '',
+        ),
       ),
       StepItem(
         icon: FontAwesomeIcons.creditCard,

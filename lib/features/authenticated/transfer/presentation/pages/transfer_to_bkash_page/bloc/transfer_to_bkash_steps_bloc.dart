@@ -28,15 +28,9 @@ class TransferToBkashStepsBloc
     on<TransferToBkashGoToNextStep>(_onGoToNextStep);
     on<TransferToBkashGoToPreviousStep>(_onGoToPreviousStep);
     on<TransferToBkashUpdateStepData>(_onUpdateStepData);
-    on<TransferToBkashSetCollectionLedgers>(_onSetCollectionLedgers);
-    on<TransferToBkashToggleLedgerSelection>(_onToggleLedgerSelection);
-    on<TransferToBkashToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
-    on<TransferToBkashUpdateLedgerAmount>(_onUpdateLedgerAmount);
     on<TransferToBkashFlowReset>(_onResetFlow);
     on<TransferToBkashSelectCardAccount>(_onSelectCardAccount);
     on<TransferToBkashSelectDebitCard>(_onSelectDebitCard);
-    // update lps amount
-    on<TransferToBkashUpdateLpsAmount>(_onUpdateLpsAmount);
     on<TransferToBkashValidateStep>(_onValidateStep);
     on<TransferToBkashSubmit>(_onSubmitDepositNow);
   }
@@ -86,97 +80,6 @@ class TransferToBkashStepsBloc
     emit(state.copyWith(stepData: updatedStepData));
   }
 
-  void _onSetCollectionLedgers(
-    TransferToBkashSetCollectionLedgers event,
-    Emitter<TransferToBkashStepsState> emit,
-  ) {
-    final selectedLedgers =
-        event.ledgers
-            .map(
-              (ledger) => ledger.copyWith(
-                depositAmount: ledger.amount,
-                isSelected: false,
-              ),
-            )
-            .toList();
-    emit(state.copyWith(collectionLedgers: selectedLedgers));
-  }
-
-  void _onToggleLedgerSelection(
-    TransferToBkashToggleLedgerSelection event,
-    Emitter<TransferToBkashStepsState> emit,
-  ) {
-    late List<CollectionLedgerEntity> updatedLedgers;
-
-    if (event.ledger.subledger) {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountNumber == event.ledger.accountNumber) {
-              return l.copyWith(isSelected: !(event.ledger.isSelected));
-            }
-            return l;
-          }).toList();
-    } else if (event.ledger.plType == 2 || event.ledger.plType == 1) {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountNumber == event.ledger.accountNumber &&
-                !event.ledger.isSelected) {
-              return l.copyWith(isSelected: true);
-            } else if (l.accountNumber == event.ledger.accountNumber &&
-                event.ledger.ledgerId == l.ledgerId) {
-              return l.copyWith(isSelected: false);
-            }
-            return l;
-          }).toList();
-    } else {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountId == event.ledger.accountId &&
-                l.accountNumber == event.ledger.accountNumber &&
-                l.ledgerId == event.ledger.ledgerId) {
-              return l.copyWith(isSelected: !(l.isSelected));
-            }
-            return l;
-          }).toList();
-    }
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
-
-  void _onToggleSelectAllLedgers(
-    TransferToBkashToggleSelectAllLedgers event,
-    Emitter<TransferToBkashStepsState> emit,
-  ) {
-    final updatedLedgers =
-        state.collectionLedgers
-            .map((l) => l.copyWith(isSelected: event.selectAll))
-            .toList();
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
-
-  void _onUpdateLedgerAmount(
-    TransferToBkashUpdateLedgerAmount event,
-    Emitter<TransferToBkashStepsState> emit,
-  ) {
-    if (!event.ledger.subledger &&
-        event.ledger.plType == 2 &&
-        event.ledger.lps) {
-      return;
-    }
-    final updatedLedgers =
-        state.collectionLedgers.map((l) {
-          if (l.accountId == event.ledger.accountId &&
-              l.accountNumber == event.ledger.accountNumber &&
-              l.ledgerId == event.ledger.ledgerId) {
-            return l.copyWith(depositAmount: event.newAmount);
-          }
-          return l;
-        }).toList();
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
-
   void _onResetFlow(
     TransferToBkashFlowReset event,
     Emitter<TransferToBkashStepsState> emit,
@@ -196,22 +99,6 @@ class TransferToBkashStepsBloc
     Emitter<TransferToBkashStepsState> emit,
   ) {
     emit(state.copyWith(selectedCard: event.selectedCard));
-  }
-
-  void _onUpdateLpsAmount(
-    TransferToBkashUpdateLpsAmount event,
-    Emitter<TransferToBkashStepsState> emit,
-  ) {
-    final updatedLedgers =
-        state.collectionLedgers.map((l) {
-          if (l.collectionType.trim() == 'LoanLpsAmount' &&
-              l.accountNumber == event.loanNumber) {
-            return l.copyWith(depositAmount: event.newAmount);
-          }
-          return l;
-        }).toList();
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
   }
 
   void _onValidateStep(
@@ -246,10 +133,6 @@ class TransferToBkashStepsBloc
 
       final user = authUserResult.getOrElse(() => throw Exception()).user;
 
-      final totalAmount = state.collectionLedgers
-          .where((ledger) => ledger.isSelected)
-          .fold<double>(0.0, (sum, ledger) => sum + ledger.depositAmount);
-
       final accountResult = await submitDepositNowUseCase.call(
         SubmitDepositNowProps(
           email: user.loginEmail,
@@ -270,12 +153,12 @@ class TransferToBkashStepsBloc
               md5
                   .convert(utf8.encode(state.stepData[4]?['cardPin'].trim()))
                   .toString(),
-          totalDepositAmount: totalAmount,
+          totalDepositAmount: 0,
           transactionMethod: '12',
           otpRegId: state.stepData[4]?['OTPRegId'],
           otpValue: state.stepData[5]?['OTP'],
           transactionType: 'DepositRequest',
-          collectionLedgers: state.collectionLedgers,
+          collectionLedgers: [],
         ),
       );
 
@@ -305,63 +188,17 @@ class TransferToBkashStepsBloc
         break;
 
       case 1:
-        if (data['searchAccountNumber'] == null) {
-          errors['searchAccountNumber'] =
-              'Please enter a search account number';
+        if (data['transferToMobile'] == null) {
+          errors['transferToMobile'] = 'Please enter transfer to mobile';
         }
-        if (data['searchedAccountHolderName'] == null) {
-          errors['searchedAccountHolderName'] =
-              'Search account holder name is required';
-        }
+
         break;
 
       case 2:
-        final selectedLedgers =
-            state.collectionLedgers.where((l) => l.isSelected).toList();
-        if (selectedLedgers.isEmpty) {
-          errors['ledgers'] = 'Please select at least one ledger to deposit';
-        } else {
-          // Map ledgerId to error message for invalid deposit amounts
-          final Map<String, String> amountErrors = {};
-
-          for (final ledger in selectedLedgers) {
-            if (ledger.depositAmount <= 0) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount must be greater than zero';
-            } else if (!ledger.subledger &&
-                ledger.depositAmount < ledger.amount) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount cannot be less than the ${ledger.amount}';
-            } else if (ledger.multiplier &&
-                ledger.depositAmount % ledger.amount != 0) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount must be a multiple of ${ledger.amount}';
-            } else if (ledger.plType == 2 &&
-                ledger.depositAmount > ledger.loanBalance) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount cannot be greater than the ${ledger.loanBalance}';
-            }
-          }
-
-          if (amountErrors.isNotEmpty) {
-            errors['amounts'] = amountErrors;
-          } else {
-            final totalDeposit = selectedLedgers.fold<double>(
-              0,
-              (sum, ledger) => sum + (ledger.depositAmount),
-            );
-
-            final totalWithdrawable =
-                state.selectedAccount != null
-                    ? state.selectedAccount!.withdrawableBalance
-                    : 0;
-
-            if (totalDeposit > totalWithdrawable) {
-              errors['ledgers'] =
-                  "You don't have enough balance to deposit this amount";
-            }
-          }
+        if (data['transferAmount'] == null) {
+          errors['transferAmount'] = 'Please enter transfer amount';
         }
+
         break;
 
       case 4:

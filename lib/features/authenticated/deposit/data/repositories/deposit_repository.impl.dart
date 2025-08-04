@@ -4,6 +4,8 @@ import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/features/authenticated/deposit/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/repositories/deposit_repository.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_from_bkash_usecase.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_later_usecase.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 
 class DepositRepositoryImpl implements DepositRepository {
@@ -19,6 +21,30 @@ class DepositRepositoryImpl implements DepositRepository {
   ResultFuture<String> submitDepositNow(SubmitDepositNowProps props) async {
     try {
       final result = await depositRemoteDataSource.submitDepositNow(props);
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> submitDepositLater(SubmitDepositLaterProps props) async {
+    try {
+      final result = await depositRemoteDataSource.submitDepositLater(props);
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> submitDepositFromBkash(
+    SubmitDepositFromBkashProps props,
+  ) async {
+    try {
+      final result = await depositRemoteDataSource.submitDepositFromBkash(
+        props,
+      );
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));

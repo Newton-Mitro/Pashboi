@@ -6,7 +6,8 @@ import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/search_ledgers_section/search_ledgers_section.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/sections/bank_transfer_info_section/bank_transfer_info_section.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_to_account_section/transfer_to_account_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
@@ -167,7 +168,7 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
               BankToDcTransferStepsBloc.lastStep;
 
           return Scaffold(
-            appBar: AppBar(title: const Text('Bank To Dhaka Credit Transfer')),
+            appBar: AppBar(title: const Text('Bank To DC Transfer Request')),
             body: Stack(
               children: [
                 PageContainer(
@@ -330,90 +331,18 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
-        widget: TransferFromSection(
-          accountNumber: state.selectedAccount?.number,
-          accountError:
-              state.validationErrors[state.currentStep]?['transferFromAccount'],
-          onAccountChanged: (debitCard, selectedAccount) {
-            if (debitCard != null) {
-              context.read<BankToDcTransferStepsBloc>().add(
-                BankToDcTransferSelectDebitCard(debitCard),
-              );
-            }
-            if (selectedAccount != null) {
-              context.read<BankToDcTransferStepsBloc>().add(
-                BankToDcTransferSelectCardAccount(selectedAccount),
-              );
-            }
-          },
+        widget: BankTransferInfoSection(
+          searchedAccountHolderName: '',
+          sectionTitle: 'Proof of Bank Transfer',
+          setCollectionLedgers:
+              (List<CollectionLedgerEntity> collectionLedgers) {},
+          changeSearchAccountNumber: (String? accountNumber) {},
+          onChangeSearchAccountNumber: (String? accountNumber) {},
+          changeBeneficiaryAccountNumber: (String? beneficiaryAccountNumber) {},
+          changeSearchedAccountHolderName: (String? accountHolderName) {},
+        ),
+      ),
 
-          selectedCardNumber: state.selectedCard?.cardNumber,
-          accountTypeName: state.selectedAccount?.typeName,
-          accountBalance:
-              state.selectedAccount != null
-                  ? state.selectedAccount!.balance
-                  : 0,
-          accountWithdrawable:
-              state.selectedAccount != null
-                  ? state.selectedAccount!.withdrawableBalance
-                  : 0,
-          accountOperatorName:
-              state.selectedCard?.nameOnCard.toTitleCase().trim(),
-          accountHolderName:
-              state.selectedCard?.nameOnCard.toTitleCase().trim(),
-          accountName: state.selectedCard?.nameOnCard.toTitleCase().trim(),
-        ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.magnifyingGlassChart,
-        widget: SearchLedgersSection(
-          sectionTitle: "Deposit For",
-          searchAccountNumber:
-              state.stepData[state.currentStep]?['searchAccountNumber'],
-          searchAccountNumberError:
-              state.validationErrors[state.currentStep]?['searchAccountNumber'],
-          searchedAccountHolderName:
-              state.stepData[state.currentStep]?['searchedAccountHolderName'],
-          searchedAccountHolderNameError:
-              state.validationErrors[state
-                  .currentStep]?['searchedAccountHolderName'],
-          setCollectionLedgers: _setCollectionLedgers,
-          onChangeSearchAccountNumber: (accountNumber) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferUpdateStepData(
-                step: state.currentStep,
-                data: {'searchAccountNumber': accountNumber},
-              ),
-            );
-          },
-          changeSearchAccountNumber: (String? accountNumber) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferUpdateStepData(
-                step: state.currentStep,
-                data: {'searchAccountNumber': accountNumber},
-              ),
-            );
-          },
-          changeSearchedAccountHolderName: (String? accountHolderName) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferUpdateStepData(
-                step: state.currentStep,
-                data: {'searchedAccountHolderName': accountHolderName},
-              ),
-            );
-          },
-          beneficiaryAccountNumber:
-              state.stepData[state.currentStep]?['beneficiaryAccountNumber'],
-          changeBeneficiaryAccountNumber: (String? accountNumber) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferUpdateStepData(
-                step: state.currentStep,
-                data: {'beneficiaryAccountNumber': accountNumber},
-              ),
-            );
-          },
-        ),
-      ),
       StepItem(
         icon: FontAwesomeIcons.piggyBank,
         widget: TransactionDetailsSection(

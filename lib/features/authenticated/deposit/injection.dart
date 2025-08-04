@@ -5,6 +5,8 @@ import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart
 import 'package:pashboi/features/authenticated/deposit/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/deposit/data/repositories/deposit_repository.impl.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/repositories/deposit_repository.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_from_bkash_usecase.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_later_usecase.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
@@ -29,6 +31,14 @@ void registerDepositModule() async {
   sl.registerLazySingleton<SubmitDepositNowUseCase>(
     () => SubmitDepositNowUseCase(depositRepository: sl<DepositRepository>()),
   );
+  sl.registerLazySingleton<SubmitDepositLaterUseCase>(
+    () => SubmitDepositLaterUseCase(depositRepository: sl<DepositRepository>()),
+  );
+  sl.registerLazySingleton<SubmitDepositFromBkashUseCase>(
+    () => SubmitDepositFromBkashUseCase(
+      depositRepository: sl<DepositRepository>(),
+    ),
+  );
 
   // Register Bloc
   sl.registerFactory<DepositNowStepsBloc>(
@@ -40,13 +50,13 @@ void registerDepositModule() async {
   sl.registerFactory<DepositLaterStepsBloc>(
     () => DepositLaterStepsBloc(
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
-      submitDepositNowUseCase: sl<SubmitDepositNowUseCase>(),
+      submitDepositLaterUseCase: sl<SubmitDepositLaterUseCase>(),
     ),
   );
   sl.registerFactory<DepositFromBkashStepsBloc>(
     () => DepositFromBkashStepsBloc(
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
-      submitDepositNowUseCase: sl<SubmitDepositNowUseCase>(),
+      submitDepositFromBkashUseCase: sl<SubmitDepositFromBkashUseCase>(),
     ),
   );
   sl.registerFactory<OtpBloc>(() => OtpBloc());

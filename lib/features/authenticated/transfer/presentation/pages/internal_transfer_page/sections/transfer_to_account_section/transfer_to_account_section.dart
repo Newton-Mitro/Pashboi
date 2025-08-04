@@ -10,7 +10,7 @@ import 'package:pashboi/shared/widgets/app_search_input.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SearchLedgersSection extends StatefulWidget {
+class TransferToAccountSection extends StatefulWidget {
   final String? sectionTitle;
   final String? searchAccountNumber;
   final String? searchAccountNumberError;
@@ -26,7 +26,7 @@ class SearchLedgersSection extends StatefulWidget {
   final void Function(String? accountHolderName)
   changeSearchedAccountHolderName;
 
-  const SearchLedgersSection({
+  const TransferToAccountSection({
     super.key,
     required this.searchAccountNumber,
     required this.searchedAccountHolderName,
@@ -42,10 +42,11 @@ class SearchLedgersSection extends StatefulWidget {
   });
 
   @override
-  State<SearchLedgersSection> createState() => _SearchLedgersSectionState();
+  State<TransferToAccountSection> createState() =>
+      _TransferToAccountSectionState();
 }
 
-class _SearchLedgersSectionState extends State<SearchLedgersSection> {
+class _TransferToAccountSectionState extends State<TransferToAccountSection> {
   void _searchWithAccountNumber(String searchText) {
     if (searchText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -131,7 +132,15 @@ class _SearchLedgersSectionState extends State<SearchLedgersSection> {
                       return Center(child: Text(state.message));
                     }
                     if (state is BeneficiariesLoaded) {
-                      final beneficiaries = state.beneficiaries;
+                      var beneficiaries =
+                          state.beneficiaries
+                              .where(
+                                (element) =>
+                                    element.accountNumber !=
+                                        widget.beneficiaryAccountNumber &&
+                                    element.accountNumber.contains('T'),
+                              )
+                              .toList();
 
                       if (beneficiaries.isEmpty) {
                         return const SizedBox.shrink();
