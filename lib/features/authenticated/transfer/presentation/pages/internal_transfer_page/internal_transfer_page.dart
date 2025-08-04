@@ -418,6 +418,7 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
       StepItem(
         icon: FontAwesomeIcons.coins,
         widget: TransferAmountSection(
+          sectionTitle: "Transfer Amount",
           transferAmount:
               state.stepData[state.currentStep]?['transferAmount'].toString() ??
               '',

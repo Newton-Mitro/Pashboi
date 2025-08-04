@@ -10,6 +10,7 @@ import 'package:pashboi/features/authenticated/transfer/presentation/pages/inter
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/bloc/withdrawl_qr_steps_bloc.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -361,85 +362,13 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
         ),
       ),
       StepItem(
-        icon: FontAwesomeIcons.magnifyingGlassChart,
-        widget: TransferToAccountSection(
-          sectionTitle: "Deposit For",
-          searchAccountNumber:
-              state.stepData[state.currentStep]?['searchAccountNumber'],
-          searchAccountNumberError:
-              state.validationErrors[state.currentStep]?['searchAccountNumber'],
-          searchedAccountHolderName:
-              state.stepData[state.currentStep]?['searchedAccountHolderName'],
-          searchedAccountHolderNameError:
-              state.validationErrors[state
-                  .currentStep]?['searchedAccountHolderName'],
-          setCollectionLedgers: _setCollectionLedgers,
-          onChangeSearchAccountNumber: (accountNumber) {
-            context.read<WithdrawlQrStepsBloc>().add(
-              WithdrawlQrUpdateStepData(
-                step: state.currentStep,
-                data: {'searchAccountNumber': accountNumber},
-              ),
-            );
-          },
-          changeSearchAccountNumber: (String? accountNumber) {
-            context.read<WithdrawlQrStepsBloc>().add(
-              WithdrawlQrUpdateStepData(
-                step: state.currentStep,
-                data: {'searchAccountNumber': accountNumber},
-              ),
-            );
-          },
-          changeSearchedAccountHolderName: (String? accountHolderName) {
-            context.read<WithdrawlQrStepsBloc>().add(
-              WithdrawlQrUpdateStepData(
-                step: state.currentStep,
-                data: {'searchedAccountHolderName': accountHolderName},
-              ),
-            );
-          },
-          beneficiaryAccountNumber:
-              state.stepData[state.currentStep]?['beneficiaryAccountNumber'],
-          changeBeneficiaryAccountNumber: (String? accountNumber) {
-            context.read<WithdrawlQrStepsBloc>().add(
-              WithdrawlQrUpdateStepData(
-                step: state.currentStep,
-                data: {'beneficiaryAccountNumber': accountNumber},
-              ),
-            );
-          },
+        icon: FontAwesomeIcons.coins,
+        widget: TransferAmountSection(
+          sectionTitle: 'Withdrawal Amount',
+          transferAmount: "",
+          transferAmountError: "",
+          onTransferAmountChanged: (value) {},
         ),
-      ),
-      StepItem(
-        icon: FontAwesomeIcons.piggyBank,
-        widget: TransactionDetailsSection(
-          ledgers: selectedLedgers,
-          onToggleSelect: (ledger) {
-            context.read<WithdrawlQrStepsBloc>().add(
-              WithdrawlQrToggleLedgerSelection(ledger),
-            );
-          },
-          onToggleSelectAll: (selectAll) {
-            context.read<WithdrawlQrStepsBloc>().add(
-              WithdrawlQrToggleSelectAllLedgers(selectAll),
-            );
-          },
-          onAmountChanged: (ledger, newAmount) {
-            context.read<WithdrawlQrStepsBloc>().add(
-              WithdrawlQrUpdateLedgerAmount(
-                ledger: ledger,
-                newAmount: newAmount,
-              ),
-            );
-          },
-          sectionError: state.validationErrors[state.currentStep]?['ledgers'],
-          amountErrors: state.validationErrors[state.currentStep]?['amounts'],
-        ),
-      ),
-
-      StepItem(
-        icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
       ),
       StepItem(
         icon: FontAwesomeIcons.creditCard,

@@ -5,25 +5,23 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
-class TransferAmountSection extends StatefulWidget {
-  final String sectionTitle;
-  final String? transferAmount;
-  final String? transferAmountError;
-  final void Function(String) onTransferAmountChanged;
+class PaymentAmountSection extends StatefulWidget {
+  final String? paymentAmount;
+  final String? paymentAmountError;
+  final void Function(String) onPaymentAmountChanged;
 
-  const TransferAmountSection({
+  const PaymentAmountSection({
     super.key,
-    required this.sectionTitle,
-    required this.transferAmount,
-    required this.transferAmountError,
-    required this.onTransferAmountChanged,
+    required this.paymentAmount,
+    required this.paymentAmountError,
+    required this.onPaymentAmountChanged,
   });
 
   @override
-  State<TransferAmountSection> createState() => _TransferAmountSectionState();
+  State<PaymentAmountSection> createState() => _PaymentAmountSectionState();
 }
 
-class _TransferAmountSectionState extends State<TransferAmountSection> {
+class _PaymentAmountSectionState extends State<PaymentAmountSection> {
   @override
   void initState() {
     context.read<DebitCardBloc>().add(DebitCardLoad());
@@ -61,7 +59,7 @@ class _TransferAmountSectionState extends State<TransferAmountSection> {
                 ),
                 child: Center(
                   child: Text(
-                    widget.sectionTitle,
+                    "Payment Amount",
                     style: TextStyle(
                       color: colorScheme.onPrimary,
                       fontSize: 15,
@@ -79,16 +77,29 @@ class _TransferAmountSectionState extends State<TransferAmountSection> {
                     const SizedBox(height: 5),
 
                     AppTextInput(
-                      initialValue: widget.transferAmount,
+                      initialValue: widget.paymentAmount,
                       keyboardType: TextInputType.number,
                       enabled: true,
                       label: "Amount",
-                      errorText: widget.transferAmountError,
+                      errorText: widget.paymentAmountError,
                       prefixIcon: Icon(
                         FontAwesomeIcons.coins,
                         color: colorScheme.onSurface,
                       ),
-                      onChanged: widget.onTransferAmountChanged,
+                      onChanged: widget.onPaymentAmountChanged,
+                    ),
+                    const SizedBox(height: 16),
+
+                    AppTextInput(
+                      initialValue: widget.paymentAmount,
+                      enabled: true,
+                      label: "Reference",
+                      errorText: widget.paymentAmountError,
+                      prefixIcon: Icon(
+                        FontAwesomeIcons.tags,
+                        color: colorScheme.onSurface,
+                      ),
+                      onChanged: widget.onPaymentAmountChanged,
                     ),
                   ],
                 ),
