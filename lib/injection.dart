@@ -8,6 +8,7 @@ import 'package:pashboi/features/authenticated/my_accounts/injection.dart';
 import 'package:pashboi/features/authenticated/my_loans/injection.dart';
 import 'package:pashboi/features/authenticated/personnel/employee/injection.dart';
 import 'package:pashboi/features/authenticated/payment/injection.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/injection.dart';
 import 'package:pashboi/features/authenticated/profile/injection.dart';
 import 'package:pashboi/features/authenticated/sureties/injection.dart';
 import 'package:pashboi/features/authenticated/transfer/injection.dart';
@@ -47,11 +48,11 @@ Future<void> setupDependencies() async {
   registerLoanModule();
   registerPageModule();
   registerDevelopmentCreditModule();
-
   registerLoanPaymentModule();
   registerEmployeeDetailsModule();
   registerDepositModule();
   registerTransferModule();
   registerWithdrawlModule();
   registerPaymentModule();
+  registerLeaveTypeModule();
 }

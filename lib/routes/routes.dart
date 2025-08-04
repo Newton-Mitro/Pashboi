@@ -27,14 +27,12 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/op
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
-<<<<<<< HEAD
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/bloc/employees_profile_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/employees_profile_page.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/leave_application_page.dart';
-=======
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
->>>>>>> a47a3d0419f35b7b4b60e4751a222a77172b2776
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leave_application_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
@@ -328,8 +326,14 @@ class AppRoutes {
         );
 
       case AuthRoutesName.leaveApplication:
-        return _materialRoute(LeaveApplicationPage());
+        return _materialRoute(
+          BlocProvider(
+            create: (_) => sl<LeaveTypeBloc>(),
+            child: LeaveApplicationPage(),
+          ),
+        );
 
+      ///
       case AuthRoutesName.depositFromBkashPage:
         return _materialRoute(
           MultiBlocProvider(

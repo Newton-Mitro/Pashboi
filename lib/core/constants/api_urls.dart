@@ -99,4 +99,6 @@ class ApiUrls {
 
   static const String getEmployeeDetails =
       'professionals_v1/getEmployeeDetails';
+
+  static const String getLeaveType = 'professionals_v1/getLeaveTypes';
 }
