@@ -252,7 +252,7 @@ class _AddFamilyAndRelativesPageState extends State<AddFamilyAndRelativesPage> {
                     ),
                   ),
                   ProgressSubmitButton(
-                    width: MediaQuery.of(context).size.width - 30,
+                    width: MediaQuery.of(context).size.width - 10,
                     height: 100,
                     backgroundColor: theme.colorScheme.primary,
                     progressColor: theme.colorScheme.secondary,

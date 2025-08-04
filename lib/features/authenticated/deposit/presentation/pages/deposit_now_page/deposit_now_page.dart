@@ -8,8 +8,8 @@ import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/deb
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/search_ledgers_section/search_ledgers_section.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_details_section/transaction_details_section.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/search_ledgers_section/search_ledgers_section.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
@@ -467,7 +467,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
       child: BlocBuilder<DepositNowStepsBloc, DepositNowStepsState>(
         builder: (context, state) {
           return ProgressSubmitButton(
-            width: width - 30,
+            width: width - 10,
             height: 100,
             enabled: !state.isLoading,
             backgroundColor: context.theme.colorScheme.primary,

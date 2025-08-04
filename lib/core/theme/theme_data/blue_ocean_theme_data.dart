@@ -72,6 +72,7 @@ ThemeData get blueOceanThemeData => ThemeData(
     labelColor: _blueOceanColors.selected,
     unselectedLabelColor: _blueOceanColors.unSelected,
   ),
+
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: _blueOceanColors.primary,
     selectedItemColor: _blueOceanColors.selected,

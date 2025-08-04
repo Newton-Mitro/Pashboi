@@ -5,16 +5,12 @@ class DepositFromBkashStepsState extends Equatable {
   final Map<int, Map<String, dynamic>> validationErrors;
   final Map<int, Map<String, dynamic>> stepData;
   final List<CollectionLedgerEntity> collectionLedgers;
-  final DepositAccountEntity? selectedAccount;
-  final DebitCardEntity? selectedCard;
   final bool isLoading;
   final String? error;
   final String? successMessage;
 
   const DepositFromBkashStepsState({
     required this.currentStep,
-    this.selectedAccount,
-    this.selectedCard,
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
@@ -31,8 +27,6 @@ class DepositFromBkashStepsState extends Equatable {
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
-    DepositAccountEntity? selectedAccount,
-    DebitCardEntity? selectedCard,
     bool? isLoading,
     String? error,
     String? successMessage,
@@ -42,8 +36,6 @@ class DepositFromBkashStepsState extends Equatable {
       validationErrors: validationErrors ?? this.validationErrors,
       stepData: stepData ?? this.stepData,
       collectionLedgers: collectionLedgers ?? this.collectionLedgers,
-      selectedAccount: selectedAccount ?? this.selectedAccount,
-      selectedCard: selectedCard ?? this.selectedCard,
       isLoading: isLoading ?? this.isLoading,
       error: error,
       successMessage: successMessage,
@@ -56,8 +48,6 @@ class DepositFromBkashStepsState extends Equatable {
     validationErrors,
     stepData,
     collectionLedgers,
-    selectedAccount,
-    selectedCard,
     isLoading,
     error,
     successMessage,

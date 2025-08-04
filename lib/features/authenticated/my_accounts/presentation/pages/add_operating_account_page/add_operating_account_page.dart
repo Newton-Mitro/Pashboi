@@ -264,7 +264,7 @@ class _AddOperatingAccountPageState extends State<AddOperatingAccountPage> {
                           ),
                         ),
                         ProgressSubmitButton(
-                          width: width - 30,
+                          width: width - 10,
                           height: 100,
                           backgroundColor: context.theme.colorScheme.primary,
                           progressColor: context.theme.colorScheme.secondary,

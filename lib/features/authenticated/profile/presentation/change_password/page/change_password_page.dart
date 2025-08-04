@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/bloc/change_password_bloc.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/network_error_dialog.dart';
@@ -80,7 +81,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'Success',
-                message: state.message,
+                message: "Password changed successfully, Please login again.",
                 contentType: ContentType.success,
               ),
             );
@@ -88,6 +89,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(snackBar);
+
+            Navigator.of(context).pop();
+            context.read<AuthBloc>().add(LogoutRequested());
           }
         },
         child: BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
@@ -215,7 +219,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ),
 
                   ProgressSubmitButton(
-                    width: width - 30,
+                    width: width - 10,
                     height: 100,
                     enabled: state is ChangePasswordLoading ? false : true,
                     backgroundColor: context.theme.colorScheme.primary,
@@ -227,7 +231,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     ),
                     onSubmit: _submit,
                   ),
-                  const SizedBox(height: 16),
                 ],
               ),
             );

@@ -40,4 +40,19 @@ final class AuthRoutesName {
   static const String employeeProfile = '/employeeProfile';
 
   static const String leaveApplication = '/leaveApplication';
+  static const String transferToBkashPage = '/transferToBkashPage';
+  static const String transferToBkashSuccessPage =
+      '/transferToBkashSuccessPage';
+  static const String internalTransferPage = '/internalTransferPage';
+  static const String internalTransferSuccessPage =
+      '/internalTransferSuccessPage';
+  static const String bankToDcTransferPage = '/bankToDcTransferPage';
+  static const String bankToDcTransferSuccessPage =
+      '/bankToDcTransferSuccessPage';
+
+  static const String withdrawlQrPage = '/withdrawlQrPage';
+  static const String withdrawlQrSuccessPage = '/withdrawlQrSuccessPage';
+
+  static const String paymentPage = '/paymentPage';
+  static const String paymentSuccessPage = '/paymentSuccessPage';
 }

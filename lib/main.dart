@@ -26,6 +26,7 @@ import 'package:pashboi/shared/widgets/theme_selector/bloc/theme_selector_bloc.d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Locales.init(['en', 'bn']);
   Bloc.observer = AppBlocObserver();
   await dotenv.load(fileName: ".env");

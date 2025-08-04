@@ -96,23 +96,37 @@ class AppDropdownSelect<T> extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                      child: RadioListTile(
-                        value: item.value,
-                        groupValue: value,
-                        onChanged: (selectedValue) {
-                          Navigator.of(context).pop();
-                          onChanged(selectedValue);
-                        },
-                        title: DefaultTextStyle(
-                          style: TextStyle(
-                            color:
-                                value == item.value
-                                    ? context.theme.colorScheme.onPrimary
-                                    : context.theme.colorScheme.onSurface,
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          radioTheme: RadioThemeData(
+                            fillColor: WidgetStateProperty.resolveWith<Color>((
+                              states,
+                            ) {
+                              if (states.contains(WidgetState.selected)) {
+                                return context.theme.colorScheme.onPrimary;
+                              }
+                              return context.theme.colorScheme.onSurface;
+                            }),
                           ),
-                          child: item.child,
                         ),
-                        selected: value == item.value,
+                        child: RadioListTile(
+                          value: item.value,
+                          groupValue: value,
+                          onChanged: (selectedValue) {
+                            Navigator.of(context).pop();
+                            onChanged(selectedValue);
+                          },
+                          title: DefaultTextStyle(
+                            style: TextStyle(
+                              color:
+                                  value == item.value
+                                      ? context.theme.colorScheme.onPrimary
+                                      : context.theme.colorScheme.onSurface,
+                            ),
+                            child: item.child,
+                          ),
+                          selected: value == item.value,
+                        ),
                       ),
                     );
                   },

@@ -7,12 +7,12 @@ import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/search_ledgers_section/search_ledgers_section.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_details_section/transaction_details_section.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/search_ledgers_section/search_ledgers_section.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/bkash_payment_section/bkash_payment_section.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/transaction__charge_preview_section.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
-
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
@@ -51,13 +51,7 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
           child: Center(
             child:
                 index - 1 == 3
-                    ? BkashIcon(
-                      color:
-                          isCompleted
-                              ? theme.onPrimary
-                              : theme.onSurface.withAlpha(220),
-                      size: 40,
-                    )
+                    ? BkashIcon()
                     : Icon(
                       _buildSteps(state)[index - 1].icon,
                       color:
@@ -124,16 +118,17 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 15,
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          top: 15,
+                          bottom: 15,
                         ),
                         child: _buildProgressStepper(
                           width,
                           depositNowStepsState,
                         ),
                       ),
-                      const SizedBox(height: 10),
                       Expanded(
                         child: SingleChildScrollView(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -157,57 +152,65 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
                           ),
                         ),
                       ),
-                      SafeArea(
-                        maintainBottomViewPadding: true,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 15,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              isFirstStep
-                                  ? const SizedBox(width: 100)
-                                  : AppPrimaryButton(
-                                    horizontalPadding: 10,
-                                    iconBefore: const Icon(
-                                      FontAwesomeIcons.angleLeft,
-                                    ),
-                                    label: "Previous",
-                                    onPressed: () {
-                                      context
-                                          .read<DepositFromBkashStepsBloc>()
-                                          .add(
-                                            DepositFromBkashGoToPreviousStep(),
-                                          );
-                                    },
-                                  ),
-                              isLastStep
-                                  ? const SizedBox(width: 100)
-                                  : AppPrimaryButton(
-                                    horizontalPadding: 10,
-                                    iconAfter: const Icon(
-                                      FontAwesomeIcons.angleRight,
-                                    ),
-                                    label:
-                                        depositNowStepsState.currentStep == 2
-                                            ? "bKash Payment"
-                                            : "Next",
-                                    onPressed: () {
-                                      if (isLastStep) {
-                                        _submitDepositFromBkash();
-                                      }
+                      !isLastStep
+                          ? SafeArea(
+                            maintainBottomViewPadding: true,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 15,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  isFirstStep
+                                      ? const SizedBox(width: 100)
+                                      : isLastStep
+                                      ? const SizedBox(width: 100)
+                                      : AppPrimaryButton(
+                                        horizontalPadding: 10,
+                                        iconBefore: const Icon(
+                                          FontAwesomeIcons.angleLeft,
+                                        ),
+                                        label: "Previous",
+                                        onPressed: () {
+                                          context
+                                              .read<DepositFromBkashStepsBloc>()
+                                              .add(
+                                                DepositFromBkashGoToPreviousStep(),
+                                              );
+                                        },
+                                      ),
+                                  isLastStep
+                                      ? const SizedBox(width: 100)
+                                      : AppPrimaryButton(
+                                        horizontalPadding: 10,
+                                        iconAfter: const Icon(
+                                          FontAwesomeIcons.angleRight,
+                                        ),
+                                        label:
+                                            depositNowStepsState.currentStep ==
+                                                    2
+                                                ? "bKash Payment"
+                                                : "Next",
+                                        onPressed: () {
+                                          if (isLastStep) {
+                                            _submitDepositFromBkash();
+                                          }
 
-                                      context
-                                          .read<DepositFromBkashStepsBloc>()
-                                          .add(DepositFromBkashGoToNextStep());
-                                    },
-                                  ),
-                            ],
-                          ),
-                        ),
-                      ),
+                                          context
+                                              .read<DepositFromBkashStepsBloc>()
+                                              .add(
+                                                DepositFromBkashGoToNextStep(),
+                                              );
+                                        },
+                                      ),
+                                ],
+                              ),
+                            ),
+                          )
+                          : const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -343,13 +346,18 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
 
       StepItem(
         icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
+        widget: TransactionChargePreviewSection(
+          collectionLedgers: selectedLedgers,
+        ),
       ),
 
       // bKash Payment Process
       StepItem(
         icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
+        widget: BkashPaymentSection(
+          paymentUrl:
+              'https://sandbox.payment.bkash.com/?paymentId=TR00119Bf058r1754196625454&hash=RijXRH*yOh_FtvRtLbLsOh0.Mun!LF_RiQgupFweqIaHWOQe3aoi.zPyO3LIdNdYbLL_ry7FW-B9*GsNF5f94Z4EuPP9d)x8XD5e1754196625454&mode=0011&apiVersion=v1.2.0-beta/',
+        ),
       ),
     ];
   }

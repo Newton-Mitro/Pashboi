@@ -87,24 +87,6 @@ class DepositFromBkashUpdateLpsAmount extends DepositFromBkashStepsEvent {
   List<Object> get props => [loanNumber, newAmount];
 }
 
-class DepositFromBkashSelectCardAccount extends DepositFromBkashStepsEvent {
-  final DepositAccountEntity selectedCardAccount;
-
-  const DepositFromBkashSelectCardAccount(this.selectedCardAccount);
-
-  @override
-  List<Object> get props => [selectedCardAccount];
-}
-
-class DepositFromBkashSelectDebitCard extends DepositFromBkashStepsEvent {
-  final DebitCardEntity selectedCard;
-
-  const DepositFromBkashSelectDebitCard(this.selectedCard);
-
-  @override
-  List<Object> get props => [selectedCard];
-}
-
 class DepositFromBkashResetFlow extends DepositFromBkashStepsEvent {}
 
 class DepositFromBkashSubmit extends DepositFromBkashStepsEvent {}

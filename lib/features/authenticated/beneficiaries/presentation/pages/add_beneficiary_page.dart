@@ -218,7 +218,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                     ),
                   ),
                   ProgressSubmitButton(
-                    width: width - 30,
+                    width: width - 10,
                     height: 100,
                     backgroundColor: theme.colorScheme.primary,
                     progressColor: theme.colorScheme.secondary,
