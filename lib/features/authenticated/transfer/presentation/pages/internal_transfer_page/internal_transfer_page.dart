@@ -6,11 +6,11 @@ import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/search_ledgers_section/search_ledgers_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_to_account_section/transfer_to_account_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -366,8 +366,8 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
       ),
       StepItem(
         icon: FontAwesomeIcons.magnifyingGlassChart,
-        widget: SearchLedgersSection(
-          sectionTitle: "Deposit For",
+        widget: TransferToAccountSection(
+          sectionTitle: "Transfer To Account",
           searchAccountNumber:
               state.stepData[state.currentStep]?['searchAccountNumber'],
           searchAccountNumberError:
@@ -415,35 +415,23 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
         ),
       ),
       StepItem(
-        icon: FontAwesomeIcons.piggyBank,
-        widget: TransactionDetailsSection(
-          ledgers: selectedLedgers,
-          onToggleSelect: (ledger) {
+        icon: FontAwesomeIcons.coins,
+        widget: TransferAmountSection(
+          sectionTitle: "Transfer Amount",
+          transferAmount:
+              state.stepData[state.currentStep]?['transferAmount'].toString() ??
+              '',
+          transferAmountError:
+              state.validationErrors[state.currentStep]?['transferAmount'],
+          onTransferAmountChanged: (amount) {
             context.read<InternalTransferStepsBloc>().add(
-              InternalTransferToggleLedgerSelection(ledger),
-            );
-          },
-          onToggleSelectAll: (selectAll) {
-            context.read<InternalTransferStepsBloc>().add(
-              InternalTransferToggleSelectAllLedgers(selectAll),
-            );
-          },
-          onAmountChanged: (ledger, newAmount) {
-            context.read<InternalTransferStepsBloc>().add(
-              InternalTransferUpdateLedgerAmount(
-                ledger: ledger,
-                newAmount: newAmount,
+              InternalTransferUpdateStepData(
+                step: state.currentStep,
+                data: {'transferAmount': amount},
               ),
             );
           },
-          sectionError: state.validationErrors[state.currentStep]?['ledgers'],
-          amountErrors: state.validationErrors[state.currentStep]?['amounts'],
         ),
-      ),
-
-      StepItem(
-        icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
       ),
       StepItem(
         icon: FontAwesomeIcons.creditCard,
@@ -461,6 +449,10 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
             );
           },
         ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.eye,
+        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
       ),
       StepItem(
         icon: FontAwesomeIcons.key,

@@ -7,7 +7,7 @@ import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_later_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 part 'deposit_later_setps_event.dart';
 part 'deposit_later_steps_state.dart';
@@ -19,11 +19,11 @@ class DepositLaterStepsBloc
   static const int lastStep = 5;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
-  final SubmitDepositNowUseCase submitDepositNowUseCase;
+  final SubmitDepositLaterUseCase submitDepositLaterUseCase;
 
   DepositLaterStepsBloc({
     required this.getAuthUserUseCase,
-    required this.submitDepositNowUseCase,
+    required this.submitDepositLaterUseCase,
   }) : super(const DepositLaterStepsState(currentStep: 0)) {
     on<DepositLaterGoToNextStep>(_onGoToNextStep);
     on<DepositLaterGoToPreviousStep>(_onGoToPreviousStep);
@@ -250,8 +250,8 @@ class DepositLaterStepsBloc
           .where((ledger) => ledger.isSelected)
           .fold<double>(0.0, (sum, ledger) => sum + ledger.depositAmount);
 
-      final accountResult = await submitDepositNowUseCase.call(
-        SubmitDepositNowProps(
+      final accountResult = await submitDepositLaterUseCase.call(
+        SubmitDepositLaterProps(
           email: user.loginEmail,
           userId: user.userId,
           rolePermissionId: user.roleId,

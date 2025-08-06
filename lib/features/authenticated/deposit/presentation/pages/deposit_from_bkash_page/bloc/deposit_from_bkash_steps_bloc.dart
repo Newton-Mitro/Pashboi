@@ -2,10 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
-import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_from_bkash_usecase.dart';
 part 'deposit_from_bkash_setps_event.dart';
 part 'deposit_from_bkash_steps_state.dart';
 
@@ -16,11 +14,11 @@ class DepositFromBkashStepsBloc
   static const int lastStep = 3;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
-  final SubmitDepositNowUseCase submitDepositNowUseCase;
+  final SubmitDepositFromBkashUseCase submitDepositFromBkashUseCase;
 
   DepositFromBkashStepsBloc({
     required this.getAuthUserUseCase,
-    required this.submitDepositNowUseCase,
+    required this.submitDepositFromBkashUseCase,
   }) : super(const DepositFromBkashStepsState(currentStep: 0)) {
     on<DepositFromBkashGoToNextStep>(_onGoToNextStep);
     on<DepositFromBkashGoToPreviousStep>(_onGoToPreviousStep);
@@ -234,8 +232,8 @@ class DepositFromBkashStepsBloc
         (sum, ledger) => sum + ledger.depositAmount,
       );
 
-      final accountResult = await submitDepositNowUseCase.call(
-        SubmitDepositNowProps(
+      final accountResult = await submitDepositFromBkashUseCase.call(
+        SubmitDepositFromBkashProps(
           email: user.loginEmail,
           userId: user.userId,
           rolePermissionId: user.roleId,

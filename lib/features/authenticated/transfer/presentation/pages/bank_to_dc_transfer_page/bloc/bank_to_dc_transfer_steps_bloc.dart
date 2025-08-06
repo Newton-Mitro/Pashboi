@@ -16,7 +16,7 @@ class BankToDcTransferStepsBloc
     extends Bloc<BankToDcTransferStepsEvent, BankToDcTransferStepsState> {
   // Define step range constants
   static const int firstStep = 0;
-  static const int lastStep = 5;
+  static const int lastStep = 4;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
   final SubmitDepositNowUseCase submitDepositNowUseCase;
@@ -298,10 +298,10 @@ class BankToDcTransferStepsBloc
 
     switch (step) {
       case 0:
-        if (state.selectedAccount == null ||
-            state.selectedAccount!.number.isEmpty) {
-          errors['transferFromAccount'] = 'Select an account to transfer from';
-        }
+        // if (state.selectedAccount == null ||
+        //     state.selectedAccount!.number.isEmpty) {
+        //   errors['transferFromAccount'] = 'Select an account to transfer from';
+        // }
         break;
 
       case 1:

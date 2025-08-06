@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/bkash_icon.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/deposit_for_section/deposit_for_section.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/search_ledgers_section/search_ledgers_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/bkash_payment_section/bkash_payment_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/transaction__charge_preview_section.dart';
@@ -269,7 +269,7 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
     return [
       StepItem(
         icon: FontAwesomeIcons.magnifyingGlassChart,
-        widget: SearchLedgersSection(
+        widget: DepositForSection(
           sectionTitle: "Deposit For",
           searchAccountNumber:
               state.stepData[state.currentStep]?['searchAccountNumber'],

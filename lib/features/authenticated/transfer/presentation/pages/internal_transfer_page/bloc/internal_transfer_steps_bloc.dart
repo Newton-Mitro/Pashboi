@@ -316,52 +316,10 @@ class InternalTransferStepsBloc
         break;
 
       case 2:
-        final selectedLedgers =
-            state.collectionLedgers.where((l) => l.isSelected).toList();
-        if (selectedLedgers.isEmpty) {
-          errors['ledgers'] = 'Please select at least one ledger to deposit';
-        } else {
-          // Map ledgerId to error message for invalid deposit amounts
-          final Map<String, String> amountErrors = {};
-
-          for (final ledger in selectedLedgers) {
-            if (ledger.depositAmount <= 0) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount must be greater than zero';
-            } else if (!ledger.subledger &&
-                ledger.depositAmount < ledger.amount) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount cannot be less than the ${ledger.amount}';
-            } else if (ledger.multiplier &&
-                ledger.depositAmount % ledger.amount != 0) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount must be a multiple of ${ledger.amount}';
-            } else if (ledger.plType == 2 &&
-                ledger.depositAmount > ledger.loanBalance) {
-              amountErrors[ledger.ledgerId.toString()] =
-                  'Deposit amount cannot be greater than the ${ledger.loanBalance}';
-            }
-          }
-
-          if (amountErrors.isNotEmpty) {
-            errors['amounts'] = amountErrors;
-          } else {
-            final totalDeposit = selectedLedgers.fold<double>(
-              0,
-              (sum, ledger) => sum + (ledger.depositAmount),
-            );
-
-            final totalWithdrawable =
-                state.selectedAccount != null
-                    ? state.selectedAccount!.withdrawableBalance
-                    : 0;
-
-            if (totalDeposit > totalWithdrawable) {
-              errors['ledgers'] =
-                  "You don't have enough balance to deposit this amount";
-            }
-          }
+        if (data['transferAmount'] == null) {
+          errors['transferAmount'] = 'Please enter transfer amount';
         }
+
         break;
 
       case 4:
