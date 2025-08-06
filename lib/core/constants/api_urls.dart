@@ -52,7 +52,7 @@ class ApiUrls {
   static const String getCollectionAccounts =
       'deposits_V1/getCollectionAccount';
   static const String submitDepositNow = 'deposits_V1/submitDepositNow';
-  static const String submitDepositLater = 'deposits_V1/submitDepositLater';
+  static const String submitDepositLater = 'deposits_V2/submitDepositLater';
   static const String getDepositRequests =
       'deposits_V1/getDepositLaterRequests';
   static const String getEReceipts = 'deposits_V1/getEReceipts';

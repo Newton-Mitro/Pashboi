@@ -11,6 +11,7 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposi
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/deposit_from_bkash_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_success.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_success.dart';
@@ -313,6 +314,14 @@ class AppRoutes {
             child: DepositLaterPage(),
           ),
         );
+
+      case AuthRoutesName.depositLaterSuccessPage:
+        if (args is Map<String, String>) {
+          return _materialRoute(
+            DepositLaterSuccessPage(successMessage: args['message'] ?? ''),
+          );
+        }
+        break;
 
       case AuthRoutesName.depositFromBkashPage:
         return _materialRoute(

@@ -16,7 +16,7 @@ class DepositLaterStepsBloc
     extends Bloc<DepositLaterStepsEvent, DepositLaterStepsState> {
   // Define step range constants
   static const int firstStep = 0;
-  static const int lastStep = 5;
+  static const int lastStep = 6;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
   final SubmitDepositLaterUseCase submitDepositLaterUseCase;
@@ -268,14 +268,16 @@ class DepositLaterStepsBloc
           ledgerId: state.selectedAccount!.ledgerId,
           cardPin:
               md5
-                  .convert(utf8.encode(state.stepData[4]?['cardPin'].trim()))
+                  .convert(utf8.encode(state.stepData[5]?['cardPin'].trim()))
                   .toString(),
           totalDepositAmount: totalAmount,
-          transactionMethod: '12',
-          otpRegId: state.stepData[4]?['OTPRegId'],
-          otpValue: state.stepData[5]?['OTP'],
-          transactionType: 'DepositRequest',
+          otpRegId: state.stepData[5]?['OTPRegId'],
+          otpValue: state.stepData[6]?['OTP'],
           collectionLedgers: state.collectionLedgers,
+          repeatMonths: state.stepData[3]?['numberOfMonth'],
+          dayOfMonth: int.parse(
+            state.stepData[3]?['monthlyDepositDate'] ?? '0',
+          ),
         ),
       );
 
@@ -345,26 +347,11 @@ class DepositLaterStepsBloc
 
           if (amountErrors.isNotEmpty) {
             errors['amounts'] = amountErrors;
-          } else {
-            final totalDeposit = selectedLedgers.fold<double>(
-              0,
-              (sum, ledger) => sum + (ledger.depositAmount),
-            );
-
-            final totalWithdrawable =
-                state.selectedAccount != null
-                    ? state.selectedAccount!.withdrawableBalance
-                    : 0;
-
-            if (totalDeposit > totalWithdrawable) {
-              errors['ledgers'] =
-                  "You don't have enough balance to deposit this amount";
-            }
           }
         }
         break;
 
-      case 4:
+      case 5:
         if (data['cardPin'] == null || data['cardPin'].toString().isEmpty) {
           errors['cardPin'] = 'Please enter a card PIN';
         } else if (data['cardPin'].length != 4) {
@@ -372,7 +359,7 @@ class DepositLaterStepsBloc
         }
         break;
 
-      case 5:
+      case 6:
         if (data['confirmation'] != true) {
           errors['confirmation'] = 'You must confirm to proceed';
         }
