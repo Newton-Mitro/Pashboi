@@ -34,7 +34,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_leave_application_title",
         ),
-        "route": AuthRoutesName.leaveApplication,
+        "route": AuthRoutesName.leaveInformation,
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_application_description",

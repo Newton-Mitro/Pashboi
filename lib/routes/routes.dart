@@ -32,7 +32,8 @@ import 'package:pashboi/features/authenticated/personnel/employee/presentation/p
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_bloc.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leave_application_page.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leave_information_page.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/widget/leaveApplicationPage.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
@@ -322,6 +323,14 @@ class AppRoutes {
           BlocProvider(
             create: (_) => sl<EmployeesProfileBloc>(),
             child: EmployeesProfilePage(),
+          ),
+        );
+
+      case AuthRoutesName.leaveInformation:
+        return _materialRoute(
+          BlocProvider(
+            create: (_) => sl<LeaveTypeBloc>(),
+            child: LeaveInformationPage(),
           ),
         );
 

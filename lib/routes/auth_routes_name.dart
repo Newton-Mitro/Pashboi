@@ -39,7 +39,7 @@ final class AuthRoutesName {
 
   static const String employeeProfile = '/employeeProfile';
 
-  static const String leaveApplication = '/leaveApplication';
+  static const String leaveInformation = '/leaveInformation';
   static const String transferToBkashPage = '/transferToBkashPage';
   static const String transferToBkashSuccessPage =
       '/transferToBkashSuccessPage';
@@ -55,4 +55,6 @@ final class AuthRoutesName {
 
   static const String paymentPage = '/paymentPage';
   static const String paymentSuccessPage = '/paymentSuccessPage';
+
+  static const String leaveApplication = '/leaveApplication';
 }
