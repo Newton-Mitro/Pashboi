@@ -232,7 +232,7 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
             TextFormField(
               controller: _descriptionController,
               maxLines: null,
-              minLines: 4,
+              minLines: 2,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 labelText: 'Reason for Leave',
