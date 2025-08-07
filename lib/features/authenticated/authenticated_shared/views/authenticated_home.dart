@@ -57,7 +57,6 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AuthUserCheck());
     context.read<DebitCardBloc>().add(DebitCardLoad());
   }
 

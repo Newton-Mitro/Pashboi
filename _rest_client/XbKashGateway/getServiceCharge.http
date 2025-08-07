@@ -22,14 +22,17 @@ Accept: application/json
 Token: {{token}}
 
 {
-  "UserName": "newton.mitro@cccul.com",
-  "UID": "21",
-  "ByUserId": 21,
-  "RolePermissionId": "6,1,1210",
-  "PersonId": "63786",
-  "EmployeeCode": "EmployeeCode",
-  "MobileNumber": "+880-1704687376",
-  "MobileNo": "+880-1704687376",
+  "UserName": "{{UserName}}",
+  "AccountNo": "Not found.",
+  "Gender": "M",
+  "MobileNo": "{{MobileNumber}}",
+  "MobileNumber": "{{MobileNumber}}",
+  "RolePermissionId": "6,1,1209,1210",
+  "ByUserId": "{{ByUserId}}",
+  "UID": "{{ByUserId}}",
+  "EmployeeCode": "{{EmployeeCode}}",
+  "PersonId": "{{PersonId}}",
+  "RequestFrom":"{{RequestFrom}}",
  
   "TotalAmount": 10
 }

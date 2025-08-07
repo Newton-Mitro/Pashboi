@@ -435,6 +435,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
           sectionTitle: 'Make Schedule',
           monthlyDepositDate:
               state.stepData[state.currentStep]?['monthlyDepositDate'],
+          monthlyDepositDateError:
+              state.validationErrors[state.currentStep]?['monthlyDepositDate'],
           onMonthlyDepositDateChange: (String? value) {
             context.read<DepositLaterStepsBloc>().add(
               DepositLaterUpdateStepData(
@@ -444,6 +446,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
             );
           },
           numberOfMonth: state.stepData[state.currentStep]?['numberOfMonth'],
+          numberOfMonthError:
+              state.validationErrors[state.currentStep]?['numberOfMonth'],
           onNumberOfMonthsChange: (String? value) {
             context.read<DepositLaterStepsBloc>().add(
               DepositLaterUpdateStepData(

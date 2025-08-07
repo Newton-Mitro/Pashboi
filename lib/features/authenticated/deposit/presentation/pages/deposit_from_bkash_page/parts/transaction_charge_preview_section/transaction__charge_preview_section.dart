@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/bloc/bkash_service_charge_bloc.dart';
 
 class TransactionChargePreviewSection extends StatefulWidget {
   final List<CollectionLedgerEntity> collectionLedgers;
+  final double serviceCharge;
+  final void Function(double serviceCharge) onServiceChargeChange;
 
   const TransactionChargePreviewSection({
     super.key,
     required this.collectionLedgers,
+    required this.serviceCharge,
+    required this.onServiceChargeChange,
   });
 
   @override
@@ -21,7 +27,12 @@ class _TransactionChargePreviewSectionState
     extends State<TransactionChargePreviewSection> {
   @override
   void initState() {
-    // TODO: call service charge api
+    final totalAmount = widget.collectionLedgers
+        .where((ledger) => ledger.isSelected)
+        .fold<double>(0, (sum, ledger) => sum + ledger.depositAmount);
+    context.read<BkashServiceChargeBloc>().add(
+      FetchBkashServiceChargeEvent(totalAmount: totalAmount),
+    );
     super.initState();
   }
 
@@ -32,6 +43,9 @@ class _TransactionChargePreviewSectionState
     final totalAmount = widget.collectionLedgers
         .where((ledger) => ledger.isSelected)
         .fold<double>(0, (sum, ledger) => sum + ledger.depositAmount);
+    final serviceCharge = widget.serviceCharge;
+
+    final totalAmountWithServiceCharge = totalAmount + serviceCharge;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.65,
@@ -52,7 +66,7 @@ class _TransactionChargePreviewSectionState
           // Scrollable content
           Padding(
             padding: const EdgeInsets.only(
-              bottom: 70,
+              bottom: 90,
             ), // Leave space for fixed bar
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +121,7 @@ class _TransactionChargePreviewSectionState
             left: 0,
             right: 0,
             child: Container(
-              height: 70,
+              height: 90,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 border: Border(
@@ -153,7 +167,7 @@ class _TransactionChargePreviewSectionState
                         ),
                       ),
                       Text(
-                        TakaFormatter.format(0),
+                        TakaFormatter.format(serviceCharge),
                         style: TextStyle(
                           color: colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
@@ -174,7 +188,7 @@ class _TransactionChargePreviewSectionState
                         ),
                       ),
                       Text(
-                        TakaFormatter.format(0),
+                        TakaFormatter.format(totalAmountWithServiceCharge),
                         style: TextStyle(
                           color: colorScheme.onSurface,
                           fontWeight: FontWeight.bold,

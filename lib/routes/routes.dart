@@ -9,6 +9,7 @@ import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.d
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_bloc/add_beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/deposit_from_bkash_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/bloc/bkash_service_charge_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_success.dart';
@@ -331,6 +332,7 @@ class AppRoutes {
                 create: (context) => sl<DepositFromBkashStepsBloc>(),
               ),
               BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+              BlocProvider(create: (context) => sl<BkashServiceChargeBloc>()),
             ],
             child: DepositFromBkashPage(),
           ),
