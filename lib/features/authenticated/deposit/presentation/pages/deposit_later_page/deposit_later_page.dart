@@ -9,8 +9,10 @@ import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/deb
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/sections/deposit_later_preview/deposit_later_preview_section.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/sections/schedule_section/schedule_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -77,7 +79,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
             if (state.successMessage != null) {
               context.read<DepositLaterStepsBloc>().add(
                 DepositLaterUpdateStepData(
-                  step: 4,
+                  step: 5,
                   data: {'OTPRegId': state.successMessage},
                 ),
               );
@@ -110,7 +112,7 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
                 state.otpValues.every((digit) => digit.isNotEmpty)) {
               context.read<DepositLaterStepsBloc>().add(
                 DepositLaterUpdateStepData(
-                  step: 5,
+                  step: 6,
                   data: {'OTP': state.otpValues.join()},
                 ),
               );
@@ -137,21 +139,11 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
             }
 
             if (state.successMessage != null) {
-              Navigator.of(context).pop();
-              final snackBar = SnackBar(
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Oops!',
-                  message: state.successMessage!,
-                  contentType: ContentType.success,
-                ),
+              Navigator.pushReplacementNamed(
+                context,
+                AuthRoutesName.depositLaterSuccessPage,
+                arguments: {'message': "Deposit scheduled successful"},
               );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
             }
           },
         ),
@@ -241,10 +233,10 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
                                     label: "Next",
                                     onPressed: () {
                                       if (depositLaterStepsState.currentStep ==
-                                          4) {
+                                          5) {
                                         context
                                             .read<DepositLaterStepsBloc>()
-                                            .add(DepositLaterValidateStep(4));
+                                            .add(DepositLaterValidateStep(5));
                                         _verifyCardPIN(depositLaterStepsState);
                                         return;
                                       }
@@ -438,8 +430,38 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
       ),
 
       StepItem(
+        icon: FontAwesomeIcons.calendarDays,
+        widget: ScheduleSection(
+          sectionTitle: 'Make Schedule',
+          monthlyDepositDate:
+              state.stepData[state.currentStep]?['monthlyDepositDate'],
+          onMonthlyDepositDateChange: (String? value) {
+            context.read<DepositLaterStepsBloc>().add(
+              DepositLaterUpdateStepData(
+                step: state.currentStep,
+                data: {'monthlyDepositDate': value},
+              ),
+            );
+          },
+          numberOfMonth: state.stepData[state.currentStep]?['numberOfMonth'],
+          onNumberOfMonthsChange: (String? value) {
+            context.read<DepositLaterStepsBloc>().add(
+              DepositLaterUpdateStepData(
+                step: state.currentStep,
+                data: {'numberOfMonth': value},
+              ),
+            );
+          },
+        ),
+      ),
+
+      StepItem(
         icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
+        widget: DepositLaterPreviewSection(
+          collectionLedgers: selectedLedgers,
+          depositDate: state.stepData[3]?['monthlyDepositDate'],
+          numberOfMonths: state.stepData[3]?['numberOfMonth'],
+        ),
       ),
       StepItem(
         icon: FontAwesomeIcons.creditCard,

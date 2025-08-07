@@ -3,17 +3,17 @@ import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 
-class DepositFromBkashSuccessPage extends StatelessWidget {
+class DepositLaterSuccessPage extends StatelessWidget {
   final String successMessage;
 
-  const DepositFromBkashSuccessPage({super.key, required this.successMessage});
+  const DepositLaterSuccessPage({super.key, required this.successMessage});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = context.theme.colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Deposit From Bkash Success")),
+      appBar: AppBar(title: const Text("Deposit Later Success")),
       body: PageContainer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

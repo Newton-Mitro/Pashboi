@@ -24,6 +24,7 @@ final class AuthRoutesName {
   static const String depositNowPage = '/depositNowPage';
   static const String depositNowSuccessPage = '/depositNowSuccessPage';
   static const String depositLaterPage = '/depositLaterPage';
+  static const String depositLaterSuccessPage = '/depositLaterSuccessPage';
   static const String depositFromBkashPage = '/depositFromBkashPage';
   static const String depositRequestStatus = '/depositRequestStatus';
   static const String eReceiptsPage = '/eReceiptsPage';

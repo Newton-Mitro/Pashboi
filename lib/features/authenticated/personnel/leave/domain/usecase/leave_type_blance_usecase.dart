@@ -1,7 +1,7 @@
 import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/data/model/get_leave_type_blance_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/data/model/get_leave_type_blance_dto.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_type_balance_repository.dart';
 
 class LeaveTypeBalanceProps extends BaseRequestProps {
