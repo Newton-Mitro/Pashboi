@@ -10,6 +10,9 @@ import 'package:pashboi/features/my_app/presentation/bloc/my_app_bloc.dart';
 
 void registerAppStatusModule() async {
   // Register Data Sources
+  // sl.registerLazySingleton<AppStatusRemoteDataSource>(
+  //   () => AppStatusRemoteDataSourceImpl(apiService: sl<ApiService>()),
+  // );
   sl.registerLazySingleton<AppStatusRemoteDataSource>(
     () => AppStatusMockDataSourceImpl(apiService: sl<ApiService>()),
   );

@@ -1,42 +1,35 @@
 import 'package:pashboi/features/authenticated/deposit/data/models/transaction_model.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/entities/voucher_entity.dart';
 
-class VoucherModel extends VoucherEntity {
-  VoucherModel({
+class DepositRequestModel extends DepositRequestEntity {
+  DepositRequestModel({
     super.id,
-    required super.type,
-    required super.status,
-    required super.date,
-    required super.reference,
-    required super.narration,
     required super.transactions,
+    required super.requestdBy,
+    required super.requestDate,
+    required super.depositDate,
+    required super.transactionType,
+    required super.transactionMethod,
+    required super.status,
   });
 
-  factory VoucherModel.fromJson(Map<String, dynamic> json) {
-    return VoucherModel(
-      id: json['id'],
-      type: json['type'],
-      status: json['status'],
-      date: DateTime.parse(json['date']),
-      reference: json['reference'] ?? '',
-      narration: json['narration'] ?? '',
+  factory DepositRequestModel.fromJson(Map<String, dynamic> json) {
+    return DepositRequestModel(
+      id: json['Id'] ?? 0,
+      status: json['Status'] ?? '',
+      requestDate: DateTime.parse(
+        json['RequestDate'] ?? DateTime.now().toString(),
+      ),
+      depositDate: DateTime.parse(
+        json['DepositDate'] ?? DateTime.now().toString(),
+      ),
+      requestdBy: json['AccHolder'] ?? '',
+      transactionMethod: json['TransactionMethod'] ?? '',
+      transactionType: json['TransactionType'] ?? '',
       transactions:
-          (json['transactions'] as List<dynamic>)
+          (json['Details'] as List<dynamic>)
               .map((t) => TransactionModel.fromJson(t))
               .toList(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'type': type,
-      'status': status,
-      'date': date.toIso8601String(),
-      'reference': reference,
-      'narration': narration,
-      'transactions':
-          transactions.map((e) => (e as TransactionModel).toJson()).toList(),
-    };
   }
 }

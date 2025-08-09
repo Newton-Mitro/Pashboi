@@ -3,35 +3,21 @@ import 'package:pashboi/features/authenticated/deposit/domain/entities/transacti
 class TransactionModel extends TransactionEntity {
   TransactionModel({
     super.id,
-    required super.voucherId,
-    required super.accountId,
-    required super.debit,
-    required super.credit,
-    required super.balance,
-    required super.memo,
+    required super.requestId,
+    required super.amount,
+    required super.accountNumber,
+    required super.accountHolder,
+    required super.perticulars,
   });
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      id: json['id'],
-      voucherId: json['voucher_id'],
-      accountId: json['account_id'],
-      debit: (json['debit'] as num).toDouble(),
-      credit: (json['credit'] as num).toDouble(),
-      balance: (json['balance'] as num).toDouble(),
-      memo: json['memo'] ?? '',
+      id: json['id'] ?? 0,
+      accountNumber: json['TransferToAcc'] ?? '',
+      perticulars: json['Particulars'] ?? '',
+      accountHolder: json['AccHolder'] ?? '',
+      amount: (json['Amount'] as num).toDouble(),
+      requestId: json['TransferRequestId'] ?? '',
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'voucher_id': voucherId,
-      'account_id': accountId,
-      'debit': debit,
-      'credit': credit,
-      'balance': balance,
-      'memo': memo,
-    };
   }
 }

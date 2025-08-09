@@ -68,7 +68,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_request_status_description",
         ),
-        "route": AuthRoutesName.depositNowPage,
+        "route": AuthRoutesName.depositRequestStatusPage,
       },
       // {
       //   "icon": Icon(FontAwesomeIcons.receipt, color: onPrimaryColor, size: 30),

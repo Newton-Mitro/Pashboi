@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/transaction__charge_preview_section.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 
 class DepositLaterPreviewSection extends StatelessWidget {
   final List<CollectionLedgerEntity> collectionLedgers;

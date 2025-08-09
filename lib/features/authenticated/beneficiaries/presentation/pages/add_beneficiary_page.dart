@@ -107,7 +107,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
                   contentType: ContentType.success,
                 );
 
-                // Navigator.pop(context);
+                Navigator.pop(context);
               }
             },
           ),
