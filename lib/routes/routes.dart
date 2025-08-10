@@ -46,6 +46,7 @@ import 'package:pashboi/features/authenticated/transfer/presentation/pages/trans
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/transfer_to_bkash_page.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/bloc/withdrawl_qr_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/withdrawl_qr_page.dart';
+import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/withdrawl_qr_success_page.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
@@ -111,7 +112,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case PublicRoutesName.otpVerificationPage:
         if (args is Map<String, String>) {
@@ -123,7 +123,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case PublicRoutesName.savingPolicyDetailsPage:
         if (args is Map<String, DepositPolicyEntity?>) {
@@ -131,7 +130,6 @@ class AppRoutes {
             DepositPolicyDetailsPage(depositPolicy: args['depositPolicy']!),
           );
         }
-        break;
 
       case PublicRoutesName.loanPoliciesDetailsPage:
         if (args is Map<String, LoanPolicyEntity?>) {
@@ -139,13 +137,11 @@ class AppRoutes {
             LoanPolicyDetailsPage(loanPolicy: args['loanPolicy']!),
           );
         }
-        break;
 
       case PublicRoutesName.noticesDetailsPage:
         if (args is Map<String, NoticeEntity?>) {
           return _materialRoute(NoticeDetailsPage(notice: args['notice']!));
         }
-        break;
 
       case PublicRoutesName.serviceDetailsPage:
         if (args is Map<String, ServicePolicyEntity?>) {
@@ -153,20 +149,18 @@ class AppRoutes {
             ServicePolicyDetailsPage(service: args['service']!),
           );
         }
-        break;
 
       case PublicRoutesName.projectDetailsPage:
         if (args is Map<String, ProjectEntity?>) {
           return _materialRoute(ProjectDetailsPage(project: args['projects']!));
         }
-        break;
+
       case PublicRoutesName.developmentTeamsDetailsPage:
         if (args is Map<String, DevelopmentCreditsEntity?>) {
           return _materialRoute(
             DevelopmentCreditDetails(credit: args['developmentTeams']!),
           );
         }
-        break;
 
       // Authenticated Routes
       case AuthRoutesName.profilePage:
@@ -219,7 +213,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case AuthRoutesName.addOperatingAccountPage:
         return _materialRoute(
@@ -238,7 +231,6 @@ class AppRoutes {
             AccountDetailsPage(accountNumber: args['accountNumber'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.accountStatement:
         if (args is Map<String, dynamic> &&
@@ -252,7 +244,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case AuthRoutesName.openableAccountsPage:
         return _materialRoute(
@@ -288,7 +279,6 @@ class AppRoutes {
             LoanDetailsPage(loanNumber: args['loanNumber'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.depositNowPage:
         return _materialRoute(
@@ -307,7 +297,6 @@ class AppRoutes {
             DepositNowSuccessPage(successMessage: args['message'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.depositLaterPage:
         return _materialRoute(
@@ -326,7 +315,6 @@ class AppRoutes {
             DepositLaterSuccessPage(successMessage: args['message'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.depositFromBkashPage:
         return _materialRoute(
@@ -362,7 +350,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case AuthRoutesName.loanStatement:
         if (args is Map<String, String>) {
@@ -373,7 +360,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case AuthRoutesName.internalTransferPage:
         return _materialRoute(
@@ -422,6 +408,13 @@ class AppRoutes {
             child: WithdrawlQrPage(),
           ),
         );
+
+      case AuthRoutesName.withdrawlQrSuccessPage:
+        if (args is Map && args['message'] != null) {
+          return _materialRoute(
+            WithdrawQrSuccessPage(successMessage: args['message'] ?? ''),
+          );
+        }
 
       case AuthRoutesName.paymentPage:
         return _materialRoute(

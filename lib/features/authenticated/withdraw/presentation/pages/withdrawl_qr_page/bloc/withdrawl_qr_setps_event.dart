@@ -103,4 +103,11 @@ class WithdrawlQrSelectDebitCard extends WithdrawlQrStepsEvent {
 
 class WithdrawlQrFlowReset extends WithdrawlQrStepsEvent {}
 
-class WithdrawlQrSubmit extends WithdrawlQrStepsEvent {}
+class WithdrawlQrSubmit extends WithdrawlQrStepsEvent {
+  final double withdrawAmount;
+
+  const WithdrawlQrSubmit(this.withdrawAmount);
+
+  @override
+  List<Object> get props => [withdrawAmount];
+}

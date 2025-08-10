@@ -33,6 +33,5 @@ Token: {{token}}
   "EmployeeCode": "{{EmployeeCode}}",
   "PersonId": "{{PersonId}}",
   "RequestFrom":"{{RequestFrom}}",
- 
   "TotalAmount": 10
 }
