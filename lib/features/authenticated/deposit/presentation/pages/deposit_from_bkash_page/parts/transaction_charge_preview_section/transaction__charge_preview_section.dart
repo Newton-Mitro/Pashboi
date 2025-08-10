@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/row_info.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/bloc/bkash_service_charge_bloc.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 
 class TransactionChargePreviewSection extends StatefulWidget {
   final List<CollectionLedgerEntity> collectionLedgers;
@@ -202,29 +202,6 @@ class _TransactionChargePreviewSectionState
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class SectionTitle extends StatelessWidget {
-  final String title;
-  const SectionTitle(this.title, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: context.theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            decoration: TextDecoration.underline,
-          ),
-        ),
       ),
     );
   }

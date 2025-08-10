@@ -107,4 +107,15 @@ class InternalTransferSelectDebitCard extends InternalTransferStepsEvent {
 
 class InternalTransferFlowReset extends InternalTransferStepsEvent {}
 
-class InternalTransferSubmit extends InternalTransferStepsEvent {}
+class InternalTransferSubmit extends InternalTransferStepsEvent {
+  final String toAccountNumber;
+  final double transferAmount;
+
+  const InternalTransferSubmit({
+    required this.toAccountNumber,
+    required this.transferAmount,
+  });
+
+  @override
+  List<Object> get props => [toAccountNumber, transferAmount];
+}

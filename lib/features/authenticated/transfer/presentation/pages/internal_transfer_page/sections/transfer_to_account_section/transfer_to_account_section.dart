@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
@@ -16,8 +15,6 @@ class TransferToAccountSection extends StatefulWidget {
   final String? searchAccountNumberError;
   final String? searchedAccountHolderNameError;
   final String? beneficiaryAccountNumber;
-  final void Function(List<CollectionLedgerEntity> collectionLedgers)
-  setCollectionLedgers;
   final String? searchedAccountHolderName;
   final void Function(String? accountNumber) changeSearchAccountNumber;
   final void Function(String? accountNumber) onChangeSearchAccountNumber;
@@ -34,7 +31,6 @@ class TransferToAccountSection extends StatefulWidget {
     required this.searchedAccountHolderNameError,
     required this.beneficiaryAccountNumber,
     required this.sectionTitle,
-    required this.setCollectionLedgers,
     required this.changeSearchAccountNumber,
     required this.onChangeSearchAccountNumber,
     required this.changeBeneficiaryAccountNumber,
@@ -72,7 +68,6 @@ class _TransferToAccountSectionState extends State<TransferToAccountSection> {
         }
         if (state is CollectionLedgerLoaded) {
           final ledgers = state.collectionAggregate.ledgers;
-          widget.setCollectionLedgers(ledgers);
 
           final searchText = widget.searchAccountNumber ?? '';
           final onlyDigits = searchText.replaceAll(RegExp(r'\D'), '');

@@ -5,12 +5,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_preview_section/transfer_preview_section.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_to_account_section/transfer_to_account_section.dart';
-import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -136,22 +136,12 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
                 ..showSnackBar(snackBar);
             }
 
-            if (state.successMessage != null) {
-              Navigator.of(context).pop();
-              final snackBar = SnackBar(
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Oops!',
-                  message: state.successMessage!,
-                  contentType: ContentType.success,
-                ),
+            if (state.successMessage?.isNotEmpty ?? false) {
+              Navigator.pushReplacementNamed(
+                context,
+                AuthRoutesName.transferToBkashSuccessPage,
+                arguments: {'message': state.successMessage!},
               );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
             }
           },
         ),
@@ -298,17 +288,6 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
     context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
   }
 
-  void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    final updatedLedgers =
-        newLedgers.where((ledger) => ledger.subledger != true).toList();
-
-    if (updatedLedgers.isNotEmpty) {
-      context.read<InternalTransferStepsBloc>().add(
-        InternalTransferSetCollectionLedgers(ledgers: updatedLedgers),
-      );
-    }
-  }
-
   void _verifyCardPIN(InternalTransferStepsState depositLaterStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
@@ -326,7 +305,6 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
   }
 
   List<StepItem> _buildSteps(InternalTransferStepsState state) {
-    final selectedLedgers = state.collectionLedgers;
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
@@ -377,7 +355,6 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
           searchedAccountHolderNameError:
               state.validationErrors[state
                   .currentStep]?['searchedAccountHolderName'],
-          setCollectionLedgers: _setCollectionLedgers,
           onChangeSearchAccountNumber: (accountNumber) {
             context.read<InternalTransferStepsBloc>().add(
               InternalTransferUpdateStepData(
@@ -434,6 +411,17 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
         ),
       ),
       StepItem(
+        icon: FontAwesomeIcons.eye,
+        widget: TransferPreviewSection(
+          transferAmount: double.parse(
+            state.stepData[2]?['transferAmount'] ?? '0',
+          ),
+          receiverName: state.stepData[1]?['searchedAccountHolderName'] ?? '',
+          receiverAccountNumber:
+              state.stepData[1]?['searchAccountNumber'] ?? '',
+        ),
+      ),
+      StepItem(
         icon: FontAwesomeIcons.creditCard,
         widget: CardPinVerificationSection(
           cardNumber: state.selectedCard?.cardNumber,
@@ -450,10 +438,7 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
           },
         ),
       ),
-      StepItem(
-        icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
-      ),
+
       StepItem(
         icon: FontAwesomeIcons.key,
         widget: OtpVerificationSection(
@@ -488,6 +473,13 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
   }
 
   void _submitInternalTransfer(InternalTransferStepsState state) {
-    context.read<InternalTransferStepsBloc>().add(InternalTransferSubmit());
+    context.read<InternalTransferStepsBloc>().add(
+      InternalTransferSubmit(
+        toAccountNumber: state.stepData[1]?['searchAccountNumber'] ?? '',
+        transferAmount: double.parse(
+          state.stepData[2]?['transferAmount'] ?? '0',
+        ),
+      ),
+    );
   }
 }

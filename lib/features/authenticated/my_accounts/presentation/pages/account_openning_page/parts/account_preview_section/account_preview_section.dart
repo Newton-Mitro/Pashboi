@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/sections/deposit_later_preview/deposit_later_preview_section.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/nominee_entity.dart';
 
 class AccountPreviewSection extends StatelessWidget {
@@ -126,29 +127,6 @@ class AccountPreviewSection extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class SectionTitle extends StatelessWidget {
-  final String title;
-  const SectionTitle(this.title, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: context.theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
     );
   }
 }
