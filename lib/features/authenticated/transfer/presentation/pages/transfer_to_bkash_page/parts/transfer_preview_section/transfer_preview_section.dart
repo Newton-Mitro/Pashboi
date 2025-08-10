@@ -84,7 +84,7 @@ class TransferPreviewSection extends StatelessWidget {
                         _labelValueGroup(
                           context,
                           label: "Receiver bKash Number",
-                          primary: bkashNumber,
+                          primary: "+880-$bkashNumber",
                         ),
                         Divider(
                           height: 32,

@@ -200,7 +200,7 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
                               isFirstStep
                                   ? const SizedBox(width: 100)
                                   : AppPrimaryButton(
-                                    horizontalPadding: 10,
+                                    horizontalPadding: 5,
                                     iconBefore: const Icon(
                                       FontAwesomeIcons.angleLeft,
                                     ),
@@ -214,16 +214,14 @@ class _DepositFromBkashPageState extends State<DepositFromBkashPage> {
                                     },
                                   ),
                               AppPrimaryButton(
-                                horizontalPadding: 10,
+                                horizontalPadding: 5,
                                 iconAfter: const Icon(
                                   FontAwesomeIcons.angleRight,
                                 ),
                                 label:
-                                    depositNowStepsState.currentStep == 2
-                                        ? "bKash Payment"
-                                        : "Next",
+                                    isLastStep ? "Proceed with bKash" : "Next",
                                 onPressed: () {
-                                  if (depositNowStepsState.currentStep == 2) {
+                                  if (isLastStep) {
                                     _submitDepositFromBkash();
                                   } else {
                                     context

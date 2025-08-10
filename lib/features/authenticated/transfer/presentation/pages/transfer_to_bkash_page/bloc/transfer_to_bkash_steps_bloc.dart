@@ -28,11 +28,10 @@ class TransferToBkashStepsBloc
     on<TransferToBkashGoToNextStep>(_onGoToNextStep);
     on<TransferToBkashGoToPreviousStep>(_onGoToPreviousStep);
     on<TransferToBkashUpdateStepData>(_onUpdateStepData);
-    on<TransferToBkashFlowReset>(_onResetFlow);
     on<TransferToBkashSelectCardAccount>(_onSelectCardAccount);
     on<TransferToBkashSelectDebitCard>(_onSelectDebitCard);
     on<TransferToBkashValidateStep>(_onValidateStep);
-    on<TransferToBkashSubmit>(_onSubmitDepositNow);
+    on<TransferToBkashSubmit>(_onSubmitTransferToBkash);
   }
 
   void _onGoToNextStep(
@@ -80,13 +79,6 @@ class TransferToBkashStepsBloc
     emit(state.copyWith(stepData: updatedStepData));
   }
 
-  void _onResetFlow(
-    TransferToBkashFlowReset event,
-    Emitter<TransferToBkashStepsState> emit,
-  ) {
-    emit(const TransferToBkashStepsState(currentStep: 0));
-  }
-
   void _onSelectCardAccount(
     TransferToBkashSelectCardAccount event,
     Emitter<TransferToBkashStepsState> emit,
@@ -117,7 +109,7 @@ class TransferToBkashStepsBloc
     emit(state.copyWith(validationErrors: updatedValidationErrors));
   }
 
-  void _onSubmitDepositNow(
+  void _onSubmitTransferToBkash(
     TransferToBkashSubmit event,
     Emitter<TransferToBkashStepsState> emit,
   ) async {

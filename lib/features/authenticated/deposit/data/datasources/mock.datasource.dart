@@ -26,6 +26,7 @@ class MockDepositRemoteDataSource implements DepositRemoteDataSource {
     await Future.delayed(const Duration(milliseconds: 300));
     return [
       DepositRequestEntity(
+        id: 1,
         depositDate: DateTime.now().add(const Duration(days: 35)),
         status: "Pending",
         requestdBy: 'John Doe',
@@ -35,6 +36,7 @@ class MockDepositRemoteDataSource implements DepositRemoteDataSource {
         transactions: [],
       ),
       DepositRequestEntity(
+        id: 2,
         depositDate: DateTime.now().add(const Duration(days: 62)),
         status: "Pending",
         requestdBy: 'John Doe',
