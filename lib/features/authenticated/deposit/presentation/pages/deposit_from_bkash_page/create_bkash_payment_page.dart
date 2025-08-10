@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class BkashPaymentSection extends StatefulWidget {
+class CreateBkashPaymentPage extends StatefulWidget {
   final String? paymentUrl;
-  const BkashPaymentSection({super.key, required this.paymentUrl});
+  const CreateBkashPaymentPage({super.key, required this.paymentUrl});
 
   @override
-  State<BkashPaymentSection> createState() => _BkashPaymentSectionState();
+  State<CreateBkashPaymentPage> createState() => _CreateBkashPaymentPageState();
 }
 
-class _BkashPaymentSectionState extends State<BkashPaymentSection> {
+class _CreateBkashPaymentPageState extends State<CreateBkashPaymentPage> {
   late final WebViewController _controller;
   bool get isValidUrl =>
       widget.paymentUrl != null && widget.paymentUrl!.isNotEmpty;
@@ -48,10 +48,12 @@ class _BkashPaymentSectionState extends State<BkashPaymentSection> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 1,
-      width: MediaQuery.of(context).size.width,
-      child: WebViewWidget(controller: _controller),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Create Bkash Payment"),
+        automaticallyImplyLeading: false,
+      ),
+      body: WebViewWidget(controller: _controller),
     );
   }
 }

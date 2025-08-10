@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/entities/bkash_payment_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_from_bkash_usecase.dart';
 part 'deposit_from_bkash_setps_event.dart';
 part 'deposit_from_bkash_steps_state.dart';
@@ -11,7 +12,7 @@ class DepositFromBkashStepsBloc
     extends Bloc<DepositFromBkashStepsEvent, DepositFromBkashStepsState> {
   // Define step range constants
   static const int firstStep = 0;
-  static const int lastStep = 3;
+  static const int lastStep = 2;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
   final SubmitDepositFromBkashUseCase submitDepositFromBkashUseCase;
@@ -240,19 +241,9 @@ class DepositFromBkashStepsBloc
           personId: user.personId,
           employeeCode: user.employeeCode,
           mobileNumber: user.regMobile,
-          accountNumber: "",
-          accountHolderName: "",
-          accountId: 0,
-          accountType: "",
-          cardNumber: "",
-          depositDate: DateTime.now().toIso8601String(),
-          ledgerId: 0,
-          cardPin: "",
           totalDepositAmount: totalAmount,
-          transactionMethod: '12',
-          otpRegId: state.stepData[4]?['OTPRegId'],
-          otpValue: state.stepData[5]?['OTP'],
-          transactionType: 'DepositRequest',
+          transactionMethod: '11',
+          transactionType: 'bKashDepositRequest',
           collectionLedgers: selectedLedgers,
         ),
       );
@@ -261,7 +252,7 @@ class DepositFromBkashStepsBloc
         (failure) =>
             emit(state.copyWith(error: failure.message, isLoading: false)),
         (message) =>
-            emit(state.copyWith(successMessage: message, isLoading: false)),
+            emit(state.copyWith(bkashPaymentEntity: message, isLoading: false)),
       );
     } catch (_) {
       emit(

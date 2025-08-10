@@ -33,60 +33,6 @@ class InternalTransferUpdateStepData extends InternalTransferStepsEvent {
   List<Object> get props => [step, data];
 }
 
-class InternalTransferSetCollectionLedgers extends InternalTransferStepsEvent {
-  final List<CollectionLedgerEntity> ledgers;
-
-  const InternalTransferSetCollectionLedgers({required this.ledgers});
-
-  @override
-  List<Object> get props => [ledgers];
-}
-
-class InternalTransferToggleLedgerSelection extends InternalTransferStepsEvent {
-  final CollectionLedgerEntity ledger;
-
-  const InternalTransferToggleLedgerSelection(this.ledger);
-
-  @override
-  List<Object> get props => [ledger];
-}
-
-class InternalTransferToggleSelectAllLedgers
-    extends InternalTransferStepsEvent {
-  final bool selectAll;
-
-  const InternalTransferToggleSelectAllLedgers(this.selectAll);
-
-  @override
-  List<Object> get props => [selectAll];
-}
-
-class InternalTransferUpdateLedgerAmount extends InternalTransferStepsEvent {
-  final CollectionLedgerEntity ledger;
-  final double newAmount;
-
-  const InternalTransferUpdateLedgerAmount({
-    required this.ledger,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [ledger, newAmount];
-}
-
-class InternalTransferUpdateLpsAmount extends InternalTransferStepsEvent {
-  final String loanNumber;
-  final double newAmount;
-
-  const InternalTransferUpdateLpsAmount({
-    required this.loanNumber,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [loanNumber, newAmount];
-}
-
 class InternalTransferSelectCardAccount extends InternalTransferStepsEvent {
   final DepositAccountEntity selectedCardAccount;
 
@@ -104,8 +50,6 @@ class InternalTransferSelectDebitCard extends InternalTransferStepsEvent {
   @override
   List<Object> get props => [selectedCard];
 }
-
-class InternalTransferFlowReset extends InternalTransferStepsEvent {}
 
 class InternalTransferSubmit extends InternalTransferStepsEvent {
   final String toAccountNumber;

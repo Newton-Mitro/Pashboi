@@ -28,7 +28,6 @@ class WithdrawlQrStepsBloc
     on<WithdrawlQrGoToPreviousStep>(_onGoToPreviousStep);
     on<WithdrawlQrUpdateStepData>(_onUpdateStepData);
 
-    on<WithdrawlQrFlowReset>(_onResetFlow);
     on<WithdrawlQrSelectCardAccount>(_onSelectCardAccount);
     on<WithdrawlQrSelectDebitCard>(_onSelectDebitCard);
     // update lps amount
@@ -80,13 +79,6 @@ class WithdrawlQrStepsBloc
       ...event.data,
     };
     emit(state.copyWith(stepData: updatedStepData));
-  }
-
-  void _onResetFlow(
-    WithdrawlQrFlowReset event,
-    Emitter<WithdrawlQrStepsState> emit,
-  ) {
-    emit(const WithdrawlQrStepsState(currentStep: 0));
   }
 
   void _onSelectCardAccount(

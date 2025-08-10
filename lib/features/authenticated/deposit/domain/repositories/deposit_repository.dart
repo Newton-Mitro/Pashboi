@@ -1,4 +1,5 @@
 import 'package:pashboi/core/types/typedef.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/entities/bkash_payment_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/entities/voucher_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/fetch_bkash_service_charge_usecase.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/fetch_scheduled_deposits_usecase.dart';
@@ -12,7 +13,7 @@ abstract class DepositRepository {
     FetchScheduledDepositsProps props,
   );
   ResultFuture<String> submitDepositLater(SubmitDepositLaterProps props);
-  ResultFuture<String> submitDepositFromBkash(
+  ResultFuture<BkashPaymentEntity> submitDepositFromBkash(
     SubmitDepositFromBkashProps props,
   );
   ResultFuture<double> fetchBkashServiceCharge(

@@ -28,7 +28,6 @@ class InternalTransferStepsBloc
     on<InternalTransferGoToNextStep>(_onGoToNextStep);
     on<InternalTransferGoToPreviousStep>(_onGoToPreviousStep);
     on<InternalTransferUpdateStepData>(_onUpdateStepData);
-    on<InternalTransferFlowReset>(_onResetFlow);
     on<InternalTransferSelectCardAccount>(_onSelectCardAccount);
     on<InternalTransferSelectDebitCard>(_onSelectDebitCard);
     // update lps amount
@@ -79,13 +78,6 @@ class InternalTransferStepsBloc
       ...event.data,
     };
     emit(state.copyWith(stepData: updatedStepData));
-  }
-
-  void _onResetFlow(
-    InternalTransferFlowReset event,
-    Emitter<InternalTransferStepsState> emit,
-  ) {
-    emit(const InternalTransferStepsState(currentStep: 0));
   }
 
   void _onSelectCardAccount(

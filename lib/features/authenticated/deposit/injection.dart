@@ -2,6 +2,7 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
+import 'package:pashboi/features/authenticated/deposit/data/datasources/mock.datasource.dart';
 import 'package:pashboi/features/authenticated/deposit/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/deposit/data/repositories/deposit_repository.impl.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/repositories/deposit_repository.dart';
@@ -19,8 +20,12 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/schedu
 
 void registerDepositModule() async {
   // Register Data Sources
+  // sl.registerLazySingleton<DepositRemoteDataSource>(
+  //   () => DepositRemoteDataSourceImpl(apiService: sl<ApiService>()),
+  // );
+
   sl.registerLazySingleton<DepositRemoteDataSource>(
-    () => DepositRemoteDataSourceImpl(apiService: sl<ApiService>()),
+    () => MockDepositRemoteDataSource(),
   );
 
   // Register Repository
