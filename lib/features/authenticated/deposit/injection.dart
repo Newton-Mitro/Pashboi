@@ -20,13 +20,13 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/schedu
 
 void registerDepositModule() async {
   // Register Data Sources
-  // sl.registerLazySingleton<DepositRemoteDataSource>(
-  //   () => DepositRemoteDataSourceImpl(apiService: sl<ApiService>()),
-  // );
-
   sl.registerLazySingleton<DepositRemoteDataSource>(
-    () => MockDepositRemoteDataSource(),
+    () => DepositRemoteDataSourceImpl(apiService: sl<ApiService>()),
   );
+
+  // sl.registerLazySingleton<DepositRemoteDataSource>(
+  //   () => MockDepositRemoteDataSource(),
+  // );
 
   // Register Repository
   sl.registerLazySingleton<DepositRepository>(

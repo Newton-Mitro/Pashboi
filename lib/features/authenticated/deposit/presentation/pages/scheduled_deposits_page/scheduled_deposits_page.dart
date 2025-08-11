@@ -103,6 +103,14 @@ class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
+                              "Method: ${info.transactionMethod}",
+                              style: TextStyle(
+                                color: context.theme.colorScheme.onSurface,
+                                fontSize: 13,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
                               "Scheduled Date: ${MyDateUtils.formatDate(info.depositDate)}",
                               style: TextStyle(
                                 fontSize: 12,

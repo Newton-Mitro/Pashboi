@@ -70,6 +70,20 @@ class ScheduleDepositInfoPage extends StatelessWidget {
                             ),
                           ),
                           Text(
+                            "Method: To ${depositRequest!.transactionMethod}",
+                            style: TextStyle(
+                              color: colorScheme.onSurface,
+                              fontSize: 13,
+                            ),
+                          ),
+                          Text(
+                            "Type: ${depositRequest!.transactionType}",
+                            style: TextStyle(
+                              color: colorScheme.onSurface,
+                              fontSize: 13,
+                            ),
+                          ),
+                          Text(
                             "Status: ${depositRequest!.status}",
                             style: TextStyle(
                               color: colorScheme.onSurface,

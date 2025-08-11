@@ -7,6 +7,8 @@ import 'package:pashboi/features/authenticated/transfer/data/datasources/remote.
 import 'package:pashboi/features/authenticated/transfer/data/repositories/transfer_repository.impl.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/repositories/transfer_repository.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_fund_transfer_usecase.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_bank_to_dc_usecase.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_to_bkash_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
@@ -30,6 +32,16 @@ void registerTransferModule() async {
     () =>
         SubmitFundTransferUseCase(transferRepository: sl<TransferRepository>()),
   );
+  sl.registerLazySingleton<SubmitTransferToBkashUseCase>(
+    () => SubmitTransferToBkashUseCase(
+      transferRepository: sl<TransferRepository>(),
+    ),
+  );
+  sl.registerLazySingleton<SubmitTransferBankToDcUseCase>(
+    () => SubmitTransferBankToDcUseCase(
+      transferRepository: sl<TransferRepository>(),
+    ),
+  );
 
   // Register Bloc
   sl.registerFactory<BankToDcTransferStepsBloc>(
@@ -47,7 +59,7 @@ void registerTransferModule() async {
   sl.registerFactory<TransferToBkashStepsBloc>(
     () => TransferToBkashStepsBloc(
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
-      submitDepositNowUseCase: sl<SubmitDepositNowUseCase>(),
+      submitTransferToBkashUseCase: sl<SubmitTransferToBkashUseCase>(),
     ),
   );
 }

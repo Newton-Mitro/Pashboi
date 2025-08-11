@@ -6,9 +6,8 @@ import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_to_bkash_usecase.dart';
 part 'transfer_to_bkash_setps_event.dart';
 part 'transfer_to_bkash_steps_state.dart';
 
@@ -19,11 +18,11 @@ class TransferToBkashStepsBloc
   static const int lastStep = 5;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
-  final SubmitDepositNowUseCase submitDepositNowUseCase;
+  final SubmitTransferToBkashUseCase submitTransferToBkashUseCase;
 
   TransferToBkashStepsBloc({
     required this.getAuthUserUseCase,
-    required this.submitDepositNowUseCase,
+    required this.submitTransferToBkashUseCase,
   }) : super(const TransferToBkashStepsState(currentStep: 0)) {
     on<TransferToBkashGoToNextStep>(_onGoToNextStep);
     on<TransferToBkashGoToPreviousStep>(_onGoToPreviousStep);
@@ -125,8 +124,8 @@ class TransferToBkashStepsBloc
 
       final user = authUserResult.getOrElse(() => throw Exception()).user;
 
-      final accountResult = await submitDepositNowUseCase.call(
-        SubmitDepositNowProps(
+      final accountResult = await submitTransferToBkashUseCase.call(
+        SubmitTransferToBkashProps(
           email: user.loginEmail,
           userId: user.userId,
           rolePermissionId: user.roleId,
@@ -134,23 +133,17 @@ class TransferToBkashStepsBloc
           employeeCode: user.employeeCode,
           mobileNumber: user.regMobile,
           accountNumber: state.selectedAccount!.number,
-          accountHolderName:
-              state.selectedCard!.nameOnCard.toLowerCase().trim(),
-          accountId: state.selectedAccount!.id,
           accountType: state.selectedAccount!.typeName,
           cardNumber: state.selectedCard!.cardNumber,
-          depositDate: DateTime.now().toIso8601String(),
-          ledgerId: state.selectedAccount!.ledgerId,
           cardPin:
               md5
                   .convert(utf8.encode(state.stepData[4]?['cardPin'].trim()))
                   .toString(),
-          totalDepositAmount: 0,
-          transactionMethod: '12',
           otpRegId: state.stepData[4]?['OTPRegId'],
           otpValue: state.stepData[5]?['OTP'],
-          transactionType: 'DepositRequest',
-          collectionLedgers: [],
+          amount: double.tryParse(state.stepData[2]?['transferAmount']) ?? 0.0,
+          toBkashNumber: "+880-${state.stepData[1]?['transferToMobile']}",
+          nameOnCard: state.selectedCard!.nameOnCard,
         ),
       );
 

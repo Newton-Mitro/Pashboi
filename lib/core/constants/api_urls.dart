@@ -65,6 +65,8 @@ class ApiUrls {
 
   // Transfer
   static const String submitFundTransfer = 'transfers_v2/submitFundTransfer';
+  static const String createBkashPayment =
+      'Withdrawal_bKash_V1/CreatebKashWithdrawal';
   static const String verifyRecepient = 'transfers_v2/verifyRecepient_v2';
   static const String bKashWithdrawal =
       'Withdrawal_bKash_V1/CreatebKashWithdrawal';

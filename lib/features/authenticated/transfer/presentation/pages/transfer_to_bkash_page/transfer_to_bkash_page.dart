@@ -105,8 +105,7 @@ class _TransferToBkashPageState extends State<TransferToBkashPage> {
         ),
         BlocListener<OtpBloc, OtpState>(
           listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
+            if (state.otpValues.length == 6) {
               context.read<TransferToBkashStepsBloc>().add(
                 TransferToBkashUpdateStepData(
                   step: 5,

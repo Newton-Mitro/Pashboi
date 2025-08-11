@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter_locales/flutter_locales.dart';
@@ -19,6 +20,9 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
   late CountDownController _countDownController;
   bool _hasStartedCountdown = false;
 
+  /// Tracks if focus change was triggered programmatically (not user tap)
+  bool _isProgrammaticFocusChange = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,13 +37,22 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
     for (int i = 0; i < _focusNodes.length; i++) {
       _focusNodes[i].addListener(() {
         if (_focusNodes[i].hasFocus) {
-          _otpControllers[i].clear();
+          if (_isProgrammaticFocusChange && i > 0) {
+            _otpControllers[i - 1].clear();
+            context.read<OtpBloc>().add(
+              OtpDigitChanged(index: i - 1, value: ''),
+            );
+          }
+          // Reset flag regardless of focus origin
+          _isProgrammaticFocusChange = false;
         }
       });
     }
+
+    // Clear OTP fields at the start
     context.read<OtpBloc>().add(ClearOtpFields());
 
-    // ✅ Start countdown immediately if state is already waiting
+    // Start countdown immediately if state is waiting
     if (otpState.isWaiting && !_hasStartedCountdown) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _countDownController.start();
@@ -150,6 +163,9 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
                                   textAlign: TextAlign.center,
                                   keyboardType: TextInputType.number,
                                   maxLength: 1,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
                                   decoration: InputDecoration(
                                     filled: true,
                                     counterText: '',
@@ -176,6 +192,15 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
                                     ),
                                   ),
                                   onChanged: (value) {
+                                    if (value.length > 1) {
+                                      // Take only first digit if pasted/multiple chars
+                                      _otpControllers[index].text = value[0];
+                                      _otpControllers[index].selection =
+                                          const TextSelection.collapsed(
+                                            offset: 1,
+                                          );
+                                    }
+
                                     if (value.isNotEmpty) {
                                       context.read<OtpBloc>().add(
                                         OtpDigitChanged(
@@ -184,14 +209,22 @@ class _OtpVerificationSectionState extends State<OtpVerificationSection> {
                                         ),
                                       );
                                       if (index < _otpControllers.length - 1) {
+                                        // Mark programmatic focus change
+                                        _isProgrammaticFocusChange = true;
                                         FocusScope.of(
                                           context,
                                         ).requestFocus(_focusNodes[index + 1]);
+                                      } else {
+                                        _focusNodes[index].unfocus();
                                       }
-                                    } else if (value.isEmpty && index > 0) {
-                                      FocusScope.of(
-                                        context,
-                                      ).requestFocus(_focusNodes[index - 1]);
+                                    } else {
+                                      // If user deletes digit, move focus back to previous box
+                                      if (index > 0) {
+                                        _isProgrammaticFocusChange = true;
+                                        FocusScope.of(
+                                          context,
+                                        ).requestFocus(_focusNodes[index - 1]);
+                                      }
                                     }
                                   },
                                 ),
