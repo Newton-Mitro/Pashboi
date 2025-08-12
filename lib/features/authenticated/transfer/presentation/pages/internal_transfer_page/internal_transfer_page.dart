@@ -7,7 +7,6 @@ import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_preview_section/transfer_preview_section.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/transfer_to_account_section/transfer_to_account_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
@@ -84,7 +83,6 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
               context.read<InternalTransferStepsBloc>().add(
                 InternalTransferGoToNextStep(),
               );
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -101,19 +99,6 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<InternalTransferStepsBloc>().add(
-                InternalTransferUpdateStepData(
-                  step: 5,
-                  data: {'OTP': state.otpValues.join()},
-                ),
-              );
             }
           },
         ),
@@ -445,6 +430,15 @@ class _InternalTransferPageState extends State<InternalTransferPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<InternalTransferStepsBloc>().add(
+              InternalTransferUpdateStepData(
+                step: state.currentStep,
+                data: {'OTP': otp},
+              ),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];

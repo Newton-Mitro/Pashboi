@@ -21,7 +21,7 @@ class PublicAppIconCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: context.theme.colorScheme.surface,
-      elevation: 3,
+      elevation: 2,
       shadowColor: context.theme.colorScheme.shadow,
       child: InkWell(
         onTap: onTap,
@@ -62,7 +62,7 @@ class PublicAppIconCard extends StatelessWidget {
 
                 // Optional Right Icon
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Icon(
                     rightIcon,
                     size: 15,

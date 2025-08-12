@@ -9,6 +9,7 @@ class AppDialog extends StatelessWidget {
     required this.icon,
     required this.onPositiveButtonTap,
     required this.positiveButtonLabel,
+    required this.negativeButtonLabel,
   });
 
   final String title;
@@ -16,6 +17,7 @@ class AppDialog extends StatelessWidget {
   final Icon icon;
   final Function onPositiveButtonTap;
   final String positiveButtonLabel;
+  final String negativeButtonLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class AppDialog extends StatelessWidget {
                   },
                 ),
                 AppPrimaryButton(
-                  label: "Cancel",
+                  label: negativeButtonLabel,
                   horizontalPadding: 10,
                   onPressed: () {
                     Navigator.of(context).pop();

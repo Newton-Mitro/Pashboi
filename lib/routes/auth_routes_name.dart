@@ -45,12 +45,18 @@ final class AuthRoutesName {
   static const String transferToBkashPage = '/transferToBkashPage';
   static const String transferToBkashSuccessPage =
       '/transferToBkashSuccessPage';
+
   static const String internalTransferPage = '/internalTransferPage';
   static const String internalTransferSuccessPage =
       '/internalTransferSuccessPage';
+
   static const String bankToDcTransferPage = '/bankToDcTransferPage';
   static const String bankToDcTransferSuccessPage =
       '/bankToDcTransferSuccessPage';
+
+  static const String bankToDcTransferStatusPage =
+      '/bankToDcTransferStatusPage';
+  static const String bankToDcTransferInfoPage = '/bankToDcTransferInfoPage';
 
   static const String withdrawlQrPage = '/withdrawlQrPage';
   static const String withdrawlQrSuccessPage = '/withdrawlQrSuccessPage';

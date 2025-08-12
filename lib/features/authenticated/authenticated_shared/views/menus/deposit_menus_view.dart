@@ -31,18 +31,6 @@ class _DepositMenusViewState extends State<DepositMenusView> {
         "route": AuthRoutesName.depositNowPage,
       },
       {
-        "icon": Icon(FontAwesomeIcons.clock, color: onPrimaryColor, size: 30),
-        "menuName": Locales.string(
-          context,
-          "deposit_menu_deposit_latter_title",
-        ),
-        "menuDescription": Locales.string(
-          context,
-          "deposit_menu_deposit_latter_description",
-        ),
-        "route": AuthRoutesName.depositLaterPage,
-      },
-      {
         "icon": BkashIcon(),
         "menuName": Locales.string(
           context,
@@ -53,6 +41,18 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           "deposit_menu_deposit_from_bkash_description",
         ),
         "route": AuthRoutesName.depositFromBkashPage,
+      },
+      {
+        "icon": Icon(FontAwesomeIcons.clock, color: onPrimaryColor, size: 30),
+        "menuName": Locales.string(
+          context,
+          "deposit_menu_deposit_latter_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "deposit_menu_deposit_latter_description",
+        ),
+        "route": AuthRoutesName.depositLaterPage,
       },
       {
         "icon": Icon(

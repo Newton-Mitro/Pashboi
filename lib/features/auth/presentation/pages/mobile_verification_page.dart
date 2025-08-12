@@ -99,9 +99,10 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Align(
                       alignment: Alignment.center,

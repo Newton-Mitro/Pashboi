@@ -9,7 +9,6 @@ import 'package:pashboi/features/authenticated/collection_ledgers/domain/entitie
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/pay_to_section.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/payment_amount_section/payment_amount_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -82,7 +81,6 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
               );
               context.read<PaymentStepsBloc>().add(PaymentGoToNextStep());
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -99,19 +97,6 @@ class _PaymentPageState extends State<PaymentPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<PaymentStepsBloc>().add(
-                PaymentUpdateStepData(
-                  step: 5,
-                  data: {'OTP': state.otpValues.join()},
-                ),
-              );
             }
           },
         ),
@@ -404,6 +389,15 @@ class _PaymentPageState extends State<PaymentPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
+                step: state.currentStep,
+                data: {'OTP': otp},
+              ),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];

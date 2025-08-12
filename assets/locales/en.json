@@ -18,6 +18,11 @@
   "under_maintenance_page_message": "We are currently upgrading our system to serve you better.\n\nPlease check back shortly!",
   "under_maintenance_page_button": "Exit",
 
+  "logout_page_title": "Logout",
+  "logout_page_message": "Are you sure you want to logout?",
+  "logout_page_yes_button": "Logout",
+  "logout_page_no_button": "Cancel",
+
   "landing_page_welcome_text": "Welcome to Pashboi",
   "landing_page_already_have_account_text": "Already have an account? ",
   "landing_page_login_instruction": "If you are a member of Dhaka Credit \nand already have a user account, \nthen login.",
@@ -119,8 +124,8 @@
   "deposit_menu_deposit_latter_description": "Schedule a deposit for a later time or choose a future deposit option",
   "deposit_menu_deposit_from_bkash_title": "Deposit from bKash",
   "deposit_menu_deposit_from_bkash_description": "Easily deposit funds to your account directly through your bKash wallet",
-  "deposit_menu_deposit_request_status_title": "Deposit Request Status",
-  "deposit_menu_deposit_request_status_description": "Track the status of your deposit requests and view related updates",
+  "deposit_menu_deposit_request_status_title": "Deposit Later Status",
+  "deposit_menu_deposit_request_status_description": "Track the status of your deposit later requests and view related updates",
   "deposit_menu_ereceipt_title": "eReceipt",
   "deposit_menu_ereceipt_description": "Access and download electronic receipts for your transactions",
 
@@ -128,10 +133,10 @@
   "transfer_menu_transfer_to_bkash_description": "Send money directly from your account to a bKash wallet quickly and securely",
   "transfer_menu_transfer_within_dhaka_cradit_title": "Transfer Within Dhaka Credit",
   "transfer_menu_transfer_within_dhaka_cradit_description": "Transfer funds between your own accounts or to other members within Dhaka Credit",
-  "transfer_menu_bank_to_dhaka_cradit_title": "Bank to Dhaka Credit",
+  "transfer_menu_bank_to_dhaka_cradit_title": "Bank to DC Transfer",
   "transfer_menu_bank_to_dhaka_cradit_description": "Transfer money from an external bank account to your Dhaka Credit account",
-  "transfer_menu_transfer_request_status_title": "Transfer Request Status",
-  "transfer_menu_transfer_request_status_description": "Check the status and history of your recent transfer requests",
+  "transfer_menu_transfer_request_status_title": "Bank to DC Transfer Status",
+  "transfer_menu_transfer_request_status_description": "Check the status and history of your recent bank to Dhaka Credit transfer requests",
 
   "withdraw_menu_withdraw_through_atm_title": "Withdraw through ATM",
   "withdraw_menu_withdraw_through_atm_description": "Initiate or manage cash withdrawals from your account using an ATM",
@@ -270,6 +275,26 @@
   "add_operating_account_page_dependents_accounts_input_label": "Dependent's Accounts",
   "add_operating_account_page_mobile_number_input_label": "Mobile Number (OTP will be sent)",
   "add_operating_account_page_submit_button_text": "Hold & Press to Submit",
+
+  "bank_to_dc_deposits_page_title": "Bank to DC Deposit Status",
+
+  "bank_to_dc_deposit_info_page_title": "Bank to DC Deposit Info",
+  "bank_to_dc_deposit_info_page_request_id_label": "Request ID",
+  "bank_to_dc_deposit_info_page_type_label": "Type",
+  "bank_to_dc_deposit_info_page_schedule_date_label": "Schedule Date",
+  "bank_to_dc_deposit_info_page_schedule_info_section_title": "Request Information",
+  "bank_to_dc_deposit_info_page_accounts_to_deposit_section_title": "Accounts To Deposit",
+  "bank_to_dc_deposit_info_page_total_deposit_amount_label": "Total Deposit Amount",
+
+  "schedule_deposits_page_title": "Deposit Later Status",
+
+  "schedule_deposit_info_page_title": "Deposit Later Info",
+  "schedule_deposit_info_page_request_id_label": "Request ID",
+  "schedule_deposit_info_page_type_label": "Type",
+  "schedule_deposit_info_page_schedule_date_label": "Schedule Date",
+  "schedule_deposit_info_page_schedule_info_section_title": "Schedule Information",
+  "schedule_deposit_info_page_accounts_to_deposit_section_title": "Accounts To Deposit",
+  "schedule_deposit_info_page_total_deposit_amount_label": "Total Deposit Amount",
 
   "account_opening_page_title": "Open"
 }

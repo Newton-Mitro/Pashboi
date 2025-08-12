@@ -6,10 +6,10 @@ import 'package:pashboi/core/utils/taka_formatter.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/entities/voucher_entity.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class ScheduleDepositInfoPage extends StatelessWidget {
+class BankToDcDepositInfoPage extends StatelessWidget {
   final DepositRequestEntity? depositRequest;
 
-  const ScheduleDepositInfoPage({super.key, required this.depositRequest});
+  const BankToDcDepositInfoPage({super.key, required this.depositRequest});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ScheduleDepositInfoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          Locales.string(context, "schedule_deposit_info_page_title"),
+          Locales.string(context, "bank_to_dc_deposit_info_page_title"),
         ),
       ),
       body: PageContainer(
@@ -42,7 +42,7 @@ class ScheduleDepositInfoPage extends StatelessWidget {
                     SectionTitle(
                       Locales.string(
                         context,
-                        "schedule_deposit_info_page_schedule_info_section_title",
+                        "bank_to_dc_deposit_info_page_schedule_info_section_title",
                       ),
                     ),
                     Container(
@@ -67,21 +67,21 @@ class ScheduleDepositInfoPage extends StatelessWidget {
                         spacing: 5,
                         children: [
                           Text(
-                            "${Locales.string(context, "schedule_deposit_info_page_request_id_label")}: ${depositRequest!.id}",
+                            "${Locales.string(context, "bank_to_dc_deposit_info_page_request_id_label")}: ${depositRequest!.id}",
                             style: TextStyle(
                               color: colorScheme.onSurface,
                               fontSize: 13,
                             ),
                           ),
                           Text(
-                            "${Locales.string(context, "schedule_deposit_info_page_type_label")}: ${depositRequest!.transactionMethod == "Savings Account" ? "Schedule Deposit" : depositRequest!.transactionMethod}",
+                            "${Locales.string(context, "bank_to_dc_deposit_info_page_type_label")}: ${MyDateUtils.formatDate(depositRequest!.depositDate)}",
                             style: TextStyle(
                               color: colorScheme.onSurface,
                               fontSize: 13,
                             ),
                           ),
                           Text(
-                            "${Locales.string(context, "schedule_deposit_info_page_schedule_date_label")}: ${MyDateUtils.formatDate(depositRequest!.depositDate)}",
+                            "${Locales.string(context, "bank_to_dc_deposit_info_page_schedule_date_label")}: ${depositRequest!.transactionMethod == "Savings Account" ? "Schedule Deposit" : depositRequest!.transactionMethod}",
                             style: TextStyle(
                               color: colorScheme.onSurface,
                               fontSize: 13,
@@ -120,7 +120,7 @@ class ScheduleDepositInfoPage extends StatelessWidget {
                   SectionTitle(
                     Locales.string(
                       context,
-                      "schedule_deposit_info_page_accounts_to_deposit_section_title",
+                      "bank_to_dc_deposit_info_page_accounts_to_deposit_section_title",
                     ),
                   ),
                   Expanded(
@@ -212,7 +212,7 @@ class ScheduleDepositInfoPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${Locales.string(context, "schedule_deposit_info_page_total_deposit_amount_label")}:",
+                      "${Locales.string(context, "bank_to_dc_deposit_info_page_total_deposit_amount_label")}:",
                       style: TextStyle(
                         color: colorScheme.onSurface,
                         fontWeight: FontWeight.w600,

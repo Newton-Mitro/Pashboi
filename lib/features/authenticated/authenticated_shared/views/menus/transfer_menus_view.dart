@@ -63,7 +63,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_request_status_description",
         ),
-        // "route": AuthRoutesName.transferRequestStatusPage,
+        "route": AuthRoutesName.bankToDcTransferStatusPage,
       },
     ];
   }

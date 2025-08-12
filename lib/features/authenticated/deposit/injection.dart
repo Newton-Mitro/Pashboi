@@ -2,7 +2,6 @@ import 'package:pashboi/core/injection.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/deposit/data/datasources/mock.datasource.dart';
 import 'package:pashboi/features/authenticated/deposit/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/deposit/data/repositories/deposit_repository.impl.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/repositories/deposit_repository.dart';
@@ -15,7 +14,6 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposi
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/bloc/bkash_service_charge_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/scheduled_deposits_page/bloc/scheduled_deposits_bloc.dart';
 
 void registerDepositModule() async {
@@ -91,5 +89,4 @@ void registerDepositModule() async {
       fetchScheduledDepositsUseCase: sl<FetchScheduledDepositsUseCase>(),
     ),
   );
-  sl.registerFactory<OtpBloc>(() => OtpBloc());
 }

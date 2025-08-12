@@ -9,14 +9,14 @@ import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/widgets/app_icon_card.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class ScheduledDepositsPage extends StatefulWidget {
-  const ScheduledDepositsPage({super.key});
+class BankToDcDepositsPage extends StatefulWidget {
+  const BankToDcDepositsPage({super.key});
 
   @override
-  State<ScheduledDepositsPage> createState() => _ScheduledDepositsPageState();
+  State<BankToDcDepositsPage> createState() => _BankToDcDepositsPageState();
 }
 
-class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
+class _BankToDcDepositsPageState extends State<BankToDcDepositsPage> {
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,7 @@ class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Locales.string(context, "schedule_deposits_page_title")),
+        title: Text(Locales.string(context, "bank_to_dc_deposits_page_title")),
       ),
       body: PageContainer(
         child: SafeArea(
@@ -53,7 +53,7 @@ class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
               if (state is ScheduledDepositsLoaded) {
                 final depositRequests =
                     state.depositRequests
-                        .where((request) => request.transactionMethod != 'Bank')
+                        .where((request) => request.transactionMethod == 'Bank')
                         .toList();
 
                 if (depositRequests.isEmpty) {
@@ -100,7 +100,7 @@ class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${Locales.string(context, "schedule_deposit_info_page_request_id_label")}: ${info.id}",
+                              "${Locales.string(context, "bank_to_dc_deposit_info_page_request_id_label")}: ${info.id}",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              "${Locales.string(context, "schedule_deposit_info_page_type_label")}: ${info.transactionMethod == "Savings Account" ? "Schedule Deposit" : info.transactionMethod}",
+                              "${Locales.string(context, "bank_to_dc_deposit_info_page_type_label")}: ${info.transactionMethod == "Savings Account" ? "Schedule Deposit" : info.transactionMethod}",
                               style: TextStyle(
                                 color: context.theme.colorScheme.onSurface,
                                 fontSize: 13,
@@ -117,7 +117,7 @@ class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              "${Locales.string(context, "schedule_deposit_info_page_schedule_date_label")}: ${MyDateUtils.formatDate(info.depositDate)}",
+                              "${Locales.string(context, "bank_to_dc_deposit_info_page_schedule_date_label")}: ${MyDateUtils.formatDate(info.depositDate)}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: context.theme.colorScheme.onSurface,
@@ -158,7 +158,7 @@ class _ScheduledDepositsPageState extends State<ScheduledDepositsPage> {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            AuthRoutesName.depositRequestInfoPage,
+                            AuthRoutesName.bankToDcTransferInfoPage,
                             arguments: {'depositRequest': info},
                           );
                         },

@@ -11,7 +11,6 @@ import 'package:pashboi/features/authenticated/collection_ledgers/presentation/b
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -84,7 +83,6 @@ class _DepositNowPageState extends State<DepositNowPage> {
                 ),
               );
               context.read<DepositNowStepsBloc>().add(DepositNowGoToNextStep());
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -104,16 +102,7 @@ class _DepositNowPageState extends State<DepositNowPage> {
             }
           },
         ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<DepositNowStepsBloc>().add(
-                UpdateStepData(step: 5, data: {'OTP': state.otpValues.join()}),
-              );
-            }
-          },
-        ),
+
         BlocListener<DepositNowStepsBloc, DepositNowStepsState>(
           listener: (context, state) {
             if (state.error != null) {
@@ -456,6 +445,12 @@ class _DepositNowPageState extends State<DepositNowPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<DepositNowStepsBloc>().add(
+              UpdateStepData(step: state.currentStep, data: {'OTP': otp}),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];
@@ -484,11 +479,6 @@ class _DepositNowPageState extends State<DepositNowPage> {
   }
 
   void _submitDepositNow(DepositNowStepsState state) {
-    Navigator.pushReplacementNamed(
-      context,
-      AuthRoutesName.depositNowSuccessPage,
-      arguments: {'message': "Deposit successful"},
-    );
-    // context.read<DepositNowStepsBloc>().add(SubmitDepositNow());
+    context.read<DepositNowStepsBloc>().add(SubmitDepositNow());
   }
 }

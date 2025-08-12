@@ -185,6 +185,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               spacing: 10,
               children: [
                 Column(

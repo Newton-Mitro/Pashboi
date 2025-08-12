@@ -38,8 +38,8 @@ class DepositPoliciesPage extends StatelessWidget {
                   final product = products[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                      vertical: 10,
+                      horizontal: 10.0,
+                      vertical: 5,
                     ), // Adjust spacing here
                     child: PublicAppIconCard(
                       leftIcon: FontAwesomeIcons.piggyBank,
@@ -47,7 +47,7 @@ class DepositPoliciesPage extends StatelessWidget {
                       boarderColor: context.theme.colorScheme.primary,
                       cardBody: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
+                          horizontal: 16,
                           vertical: 16,
                         ),
                         child: Column(

@@ -18,6 +18,11 @@
   "under_maintenance_page_message": "আপনাকে আরও ভালোভাবে সেবা দিতে আমরা আমাদের সিস্টেম আপগ্রেড করছি।\n\nদয়া করে কিছুক্ষণ পর আবার চেষ্টা করুন!",
   "under_maintenance_page_button": "প্রস্থান",
 
+  "logout_page_title": "লগআউট",
+  "logout_page_message": "আপনি কি লগআউট করতে চান?",
+  "logout_page_yes_button": "লগআউট",
+  "logout_page_no_button": "বাতিল",
+
   "landing_page_welcome_text": "পাশবই-এ স্বাগতম",
   "landing_page_already_have_account_text": "ইতিমধ্যে অ্যাকাউন্ট রয়েছে?",
   "landing_page_login_instruction": "আপনি যদি ঢাকা ক্রেডিট-এর সদস্য হন \nএবং ইতোমধ্যে একটি ইউজার অ্যাকাউন্ট থাকে, \nতাহলে লগইন করুন।",
@@ -118,19 +123,17 @@
   "deposit_menu_deposit_latter_description": "পরবর্তী সময়ে জমা করার জন্য নির্ধারণ করুন অথবা ভবিষ্যতের জমার জন্য বিকল্প নির্বাচন করুন",
   "deposit_menu_deposit_from_bkash_title": "বিকাশ থেকে জমা",
   "deposit_menu_deposit_from_bkash_description": "আপনার বিকাশ ওয়ালেট থেকে সরাসরি আপনার অ্যাকাউন্টে সহজে অর্থ জমা করুন",
-  "deposit_menu_deposit_request_status_title": "জমার অনুরোধের অবস্থা",
-  "deposit_menu_deposit_request_status_description": "আপনার জমার অনুরোধের অবস্থা ট্র্যাক করুন ও সংশ্লিষ্ট আপডেট দেখুন",
-  "deposit_menu_ereceipt_title": "ই-রসিদ",
-  "deposit_menu_ereceipt_description": "আপনার লেনদেনের জন্য ইলেকট্রনিক রসিদ ডাউনলোড ও অ্যাক্সেস করুন",
+  "deposit_menu_deposit_request_status_title": "পরে জমা দেওয়ার অবস্থা",
+  "deposit_menu_deposit_request_status_description": "আপনার পরে জমা দেওয়ার অবস্থা ট্র্যাক করুন ও সংশ্লিষ্ট আপডেট দেখুন",
 
   "transfer_menu_transfer_to_bkash_title": "বিকাশে হস্তান্তর",
   "transfer_menu_transfer_to_bkash_description": "আপনার অ্যাকাউন্ট থেকে বিকাশ ওয়ালেটে সরাসরি দ্রুত ও নিরাপদে অর্থ পাঠান",
   "transfer_menu_transfer_within_dhaka_cradit_title": "ঢাকা ক্রেডিটে অভ্যন্তরীণ হস্তান্তর",
   "transfer_menu_transfer_within_dhaka_cradit_description": "আপনার নিজস্ব অথবা অন্য সদস্যদের মাঝে অর্থ স্থানান্তর করুন",
-  "transfer_menu_bank_to_dhaka_cradit_title": "ব্যাংক থেকে ঢাকা ক্রেডিট",
+  "transfer_menu_bank_to_dhaka_cradit_title": "ব্যাংক থেকে ডি.সি. হস্তান্তর",
   "transfer_menu_bank_to_dhaka_cradit_description": "বহিরাগত ব্যাংক অ্যাকাউন্ট থেকে আপনার ঢাকা ক্রেডিট অ্যাকাউন্টে অর্থ স্থানান্তর করুন",
-  "transfer_menu_transfer_request_status_title": "হস্তান্তরের অনুরোধের অবস্থা",
-  "transfer_menu_transfer_request_status_description": "সম্প্রতি করা হস্তান্তরের অনুরোধের অবস্থা ও ইতিহাস দেখুন",
+  "transfer_menu_transfer_request_status_title": "ব্যাংক থেকে ডি.সি. হস্তান্তর অবস্থা",
+  "transfer_menu_transfer_request_status_description": "সম্প্রতি করা ব্যাংক থেকে ডি.সি. হস্তান্তর অবস্থা ট্র্যাক ও ইতিহাস দেখুন",
 
   "withdraw_menu_withdraw_through_atm_title": "এটিএমের মাধ্যমে উত্তোলন",
   "withdraw_menu_withdraw_through_atm_description": "আপনার অ্যাকাউন্ট থেকে এটিএম ব্যবহার করে নগদ উত্তোলন শুরু করুন অথবা পরিচালনা করুন",
@@ -269,6 +272,26 @@
   "add_operating_account_page_dependents_accounts_input_label": "নির্ভরশীলদের অ্যাকাউন্ট",
   "add_operating_account_page_mobile_number_input_label": "মোবাইল নম্বর (ওটিপি পাঠানো হবে)",
   "add_operating_account_page_submit_button_text": "অপারেটিং অ্যাকাউন্ট যোগ করতে \nটিপে ধরে রাখুন",
+
+  "bank_to_dc_deposits_page_title": "ব্যাংক থেকে ডি.সি. হস্তান্তর অবস্থা",
+
+  "bank_to_dc_deposit_info_page_title": "ব্যাংক থেকে ডি.সি. হস্তান্তর অবস্থা তথ্য",
+  "bank_to_dc_deposit_info_page_request_id_label": "অনুরোধ আইডি",
+  "bank_to_dc_deposit_info_page_type_label": "প্রকার",
+  "bank_to_dc_deposit_info_page_schedule_date_label": "জমাদানের তারিখ",
+  "bank_to_dc_deposit_info_page_schedule_info_section_title": "অনুরোধ তথ্য",
+  "bank_to_dc_deposit_info_page_accounts_to_deposit_section_title": "জমাদানের অ্যাকাউন্ট",
+  "bank_to_dc_deposit_info_page_total_deposit_amount_label": "মোট জমা পরিমাণ",
+
+  "schedule_deposits_page_title": "পরে জমা দেওয়ার অবস্থা",
+
+  "schedule_deposit_info_page_title": "পরে জমা দেওয়ার অবস্থা তথ্য",
+  "schedule_deposit_info_page_request_id_label": "অনুরোধ আইডি",
+  "schedule_deposit_info_page_type_label": "প্রকার",
+  "schedule_deposit_info_page_schedule_date_label": "জমাদানের তারিখ",
+  "schedule_deposit_info_page_schedule_info_section_title": "জমাদানের তথ্য",
+  "schedule_deposit_info_page_accounts_to_deposit_section_title": "জমাদানের অ্যাকাউন্ট",
+  "schedule_deposit_info_page_total_deposit_amount_label": "মোট জমা পরিমাণ",
 
   "account_opening_page_title": "অ্যাকাউন্ট খুলুন"
 }

@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/family_and_relatives_bloc/family_and_relatives_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/bloc/account_opening_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_openning_page/parts/account_holder_section/account_holder_section.dart';
@@ -92,7 +91,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               context.read<AccountOpeningStepsBloc>().add(
                 AccountOpeningGoToNextStep(),
               );
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -109,19 +107,6 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<AccountOpeningStepsBloc>().add(
-                AccountOpeningUpdateStepData(
-                  step: 5,
-                  data: {'OTP': state.otpValues.join()},
-                ),
-              );
             }
           },
         ),
@@ -484,6 +469,15 @@ class _AccountOpeningPageState extends State<AccountOpeningPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<AccountOpeningStepsBloc>().add(
+              AccountOpeningUpdateStepData(
+                step: state.currentStep,
+                data: {'OTP': otp},
+              ),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];

@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/bloc/withdrawl_qr_steps_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
@@ -82,7 +81,6 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
               context.read<WithdrawlQrStepsBloc>().add(
                 WithdrawlQrGoToNextStep(),
               );
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -99,19 +97,6 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<WithdrawlQrStepsBloc>().add(
-                WithdrawlQrUpdateStepData(
-                  step: 3,
-                  data: {'OTP': state.otpValues.join()},
-                ),
-              );
             }
           },
         ),
@@ -376,6 +361,15 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<WithdrawlQrStepsBloc>().add(
+              WithdrawlQrUpdateStepData(
+                step: state.currentStep,
+                data: {'OTP': otp},
+              ),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];
