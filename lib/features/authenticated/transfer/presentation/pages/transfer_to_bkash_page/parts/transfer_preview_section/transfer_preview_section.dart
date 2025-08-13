@@ -73,7 +73,7 @@ class TransferPreviewSection extends StatelessWidget {
                       children: [
                         _labelValueGroup(
                           context,
-                          label: "Sender",
+                          label: "Sender Account",
                           primary: senderName,
                           secondary: senderAccount,
                         ),
@@ -83,8 +83,8 @@ class TransferPreviewSection extends StatelessWidget {
                         ),
                         _labelValueGroup(
                           context,
-                          label: "Receiver bKash Number",
-                          primary: bkashNumber,
+                          label: "bKash Wallet",
+                          primary: "+880-$bkashNumber",
                         ),
                         Divider(
                           height: 32,

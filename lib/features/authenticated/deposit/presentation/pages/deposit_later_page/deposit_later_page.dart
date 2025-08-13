@@ -11,7 +11,6 @@ import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposi
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/sections/deposit_later_preview/deposit_later_preview_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/sections/schedule_section/schedule_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -86,7 +85,6 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
               context.read<DepositLaterStepsBloc>().add(
                 DepositLaterGoToNextStep(),
               );
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -103,19 +101,6 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<DepositLaterStepsBloc>().add(
-                DepositLaterUpdateStepData(
-                  step: 6,
-                  data: {'OTP': state.otpValues.join()},
-                ),
-              );
             }
           },
         ),
@@ -435,6 +420,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
           sectionTitle: 'Make Schedule',
           monthlyDepositDate:
               state.stepData[state.currentStep]?['monthlyDepositDate'],
+          monthlyDepositDateError:
+              state.validationErrors[state.currentStep]?['monthlyDepositDate'],
           onMonthlyDepositDateChange: (String? value) {
             context.read<DepositLaterStepsBloc>().add(
               DepositLaterUpdateStepData(
@@ -444,6 +431,8 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
             );
           },
           numberOfMonth: state.stepData[state.currentStep]?['numberOfMonth'],
+          numberOfMonthError:
+              state.validationErrors[state.currentStep]?['numberOfMonth'],
           onNumberOfMonthsChange: (String? value) {
             context.read<DepositLaterStepsBloc>().add(
               DepositLaterUpdateStepData(
@@ -486,6 +475,15 @@ class _DepositLaterPageState extends State<DepositLaterPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<DepositLaterStepsBloc>().add(
+              DepositLaterUpdateStepData(
+                step: state.currentStep,
+                data: {'OTP': otp},
+              ),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];

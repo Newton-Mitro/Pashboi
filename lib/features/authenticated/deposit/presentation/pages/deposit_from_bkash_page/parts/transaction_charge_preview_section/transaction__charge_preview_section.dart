@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/core/utils/taka_formatter.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/row_info.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/bloc/bkash_service_charge_bloc.dart';
 
 class TransactionChargePreviewSection extends StatefulWidget {
   final List<CollectionLedgerEntity> collectionLedgers;
+  final double serviceCharge;
+  final void Function(double serviceCharge) onServiceChargeChange;
 
   const TransactionChargePreviewSection({
     super.key,
     required this.collectionLedgers,
+    required this.serviceCharge,
+    required this.onServiceChargeChange,
   });
 
   @override
@@ -21,7 +27,12 @@ class _TransactionChargePreviewSectionState
     extends State<TransactionChargePreviewSection> {
   @override
   void initState() {
-    // TODO: call service charge api
+    final totalAmount = widget.collectionLedgers
+        .where((ledger) => ledger.isSelected)
+        .fold<double>(0, (sum, ledger) => sum + ledger.depositAmount);
+    context.read<BkashServiceChargeBloc>().add(
+      FetchBkashServiceChargeEvent(totalAmount: totalAmount),
+    );
     super.initState();
   }
 
@@ -32,6 +43,9 @@ class _TransactionChargePreviewSectionState
     final totalAmount = widget.collectionLedgers
         .where((ledger) => ledger.isSelected)
         .fold<double>(0, (sum, ledger) => sum + ledger.depositAmount);
+    final serviceCharge = widget.serviceCharge;
+
+    final totalAmountWithServiceCharge = totalAmount + serviceCharge;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.65,
@@ -52,7 +66,7 @@ class _TransactionChargePreviewSectionState
           // Scrollable content
           Padding(
             padding: const EdgeInsets.only(
-              bottom: 70,
+              bottom: 90,
             ), // Leave space for fixed bar
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +121,7 @@ class _TransactionChargePreviewSectionState
             left: 0,
             right: 0,
             child: Container(
-              height: 70,
+              height: 90,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 border: Border(
@@ -153,7 +167,7 @@ class _TransactionChargePreviewSectionState
                         ),
                       ),
                       Text(
-                        TakaFormatter.format(0),
+                        TakaFormatter.format(serviceCharge),
                         style: TextStyle(
                           color: colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
@@ -174,7 +188,7 @@ class _TransactionChargePreviewSectionState
                         ),
                       ),
                       Text(
-                        TakaFormatter.format(0),
+                        TakaFormatter.format(totalAmountWithServiceCharge),
                         style: TextStyle(
                           color: colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
@@ -184,106 +198,6 @@ class _TransactionChargePreviewSectionState
                     ],
                   ),
                 ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SectionTitle extends StatelessWidget {
-  final String title;
-  const SectionTitle(this.title, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: context.theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class InfoRow extends StatelessWidget {
-  final CollectionLedgerEntity collectionLedgerEntity;
-
-  const InfoRow({super.key, required this.collectionLedgerEntity});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: context.theme.colorScheme.primary,
-            width: 1,
-          ),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          // Left side: Account Info
-          Expanded(
-            flex: 8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  collectionLedgerEntity.ledgerName,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    color: context.theme.colorScheme.onSurface,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  "${collectionLedgerEntity.accountNumber.trim()} ${collectionLedgerEntity.plType == 1 ? " - ${collectionLedgerEntity.accountFor.trim()}" : ''}",
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: context.theme.colorScheme.onSurface.withAlpha(180),
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (collectionLedgerEntity.plType == 1)
-                  Text(
-                    collectionLedgerEntity.accountName.trim().toTitleCase(),
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: context.theme.colorScheme.onSurface.withAlpha(180),
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-              ],
-            ),
-          ),
-
-          // Right side: Amount
-          Expanded(
-            flex: 4,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                TakaFormatter.format(collectionLedgerEntity.depositAmount),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  color: context.theme.colorScheme.onSurface,
-                ),
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

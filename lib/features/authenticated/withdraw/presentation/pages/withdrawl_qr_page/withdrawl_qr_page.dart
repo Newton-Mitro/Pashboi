@@ -5,10 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_amount_section/transfer_amount_section.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/bloc/withdrawl_qr_steps_bloc.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -75,14 +74,13 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
             if (state.successMessage != null) {
               context.read<WithdrawlQrStepsBloc>().add(
                 WithdrawlQrUpdateStepData(
-                  step: 4,
+                  step: 2,
                   data: {'OTPRegId': state.successMessage},
                 ),
               );
               context.read<WithdrawlQrStepsBloc>().add(
                 WithdrawlQrGoToNextStep(),
               );
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -99,19 +97,6 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<WithdrawlQrStepsBloc>().add(
-                WithdrawlQrUpdateStepData(
-                  step: 5,
-                  data: {'OTP': state.otpValues.join()},
-                ),
-              );
             }
           },
         ),
@@ -134,22 +119,12 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
                 ..showSnackBar(snackBar);
             }
 
-            if (state.successMessage != null) {
-              Navigator.of(context).pop();
-              final snackBar = SnackBar(
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Oops!',
-                  message: state.successMessage!,
-                  contentType: ContentType.success,
-                ),
+            if (state.successMessage?.isNotEmpty ?? false) {
+              Navigator.pushReplacementNamed(
+                context,
+                AuthRoutesName.withdrawlQrSuccessPage,
+                arguments: {'message': state.successMessage!},
               );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
             }
           },
         ),
@@ -239,10 +214,10 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
                                     label: "Next",
                                     onPressed: () {
                                       if (depositLaterStepsState.currentStep ==
-                                          4) {
+                                          2) {
                                         context
                                             .read<WithdrawlQrStepsBloc>()
-                                            .add(WithdrawlQrValidateStep(4));
+                                            .add(WithdrawlQrValidateStep(2));
                                         _verifyCardPIN(depositLaterStepsState);
                                         return;
                                       }
@@ -292,17 +267,6 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
     context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
   }
 
-  void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    final updatedLedgers =
-        newLedgers.where((ledger) => ledger.subledger != true).toList();
-
-    if (updatedLedgers.isNotEmpty) {
-      context.read<WithdrawlQrStepsBloc>().add(
-        WithdrawlQrSetCollectionLedgers(ledgers: updatedLedgers),
-      );
-    }
-  }
-
   void _verifyCardPIN(WithdrawlQrStepsState depositLaterStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
@@ -320,7 +284,6 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
   }
 
   List<StepItem> _buildSteps(WithdrawlQrStepsState state) {
-    final selectedLedgers = state.collectionLedgers;
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
@@ -362,9 +325,17 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
         icon: FontAwesomeIcons.coins,
         widget: TransferAmountSection(
           sectionTitle: 'Withdrawal Amount',
-          transferAmount: "",
-          transferAmountError: "",
-          onTransferAmountChanged: (value) {},
+          transferAmount: state.stepData[state.currentStep]?['withdrawAmount'],
+          transferAmountError:
+              state.validationErrors[state.currentStep]?['withdrawAmount'],
+          onTransferAmountChanged: (value) {
+            context.read<WithdrawlQrStepsBloc>().add(
+              WithdrawlQrUpdateStepData(
+                step: state.currentStep,
+                data: {'withdrawAmount': value},
+              ),
+            );
+          },
         ),
       ),
       StepItem(
@@ -390,6 +361,15 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<WithdrawlQrStepsBloc>().add(
+              WithdrawlQrUpdateStepData(
+                step: state.currentStep,
+                data: {'OTP': otp},
+              ),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];
@@ -418,6 +398,10 @@ class _WithdrawlQrPageState extends State<WithdrawlQrPage> {
   }
 
   void _submitWithdrawlQr(WithdrawlQrStepsState state) {
-    context.read<WithdrawlQrStepsBloc>().add(WithdrawlQrSubmit());
+    context.read<WithdrawlQrStepsBloc>().add(
+      WithdrawlQrSubmit(
+        double.parse(state.stepData[1]?['withdrawAmount'] ?? '0'),
+      ),
+    );
   }
 }

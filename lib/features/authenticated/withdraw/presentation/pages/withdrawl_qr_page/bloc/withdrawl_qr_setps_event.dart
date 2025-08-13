@@ -30,59 +30,6 @@ class WithdrawlQrUpdateStepData extends WithdrawlQrStepsEvent {
   List<Object> get props => [step, data];
 }
 
-class WithdrawlQrSetCollectionLedgers extends WithdrawlQrStepsEvent {
-  final List<CollectionLedgerEntity> ledgers;
-
-  const WithdrawlQrSetCollectionLedgers({required this.ledgers});
-
-  @override
-  List<Object> get props => [ledgers];
-}
-
-class WithdrawlQrToggleLedgerSelection extends WithdrawlQrStepsEvent {
-  final CollectionLedgerEntity ledger;
-
-  const WithdrawlQrToggleLedgerSelection(this.ledger);
-
-  @override
-  List<Object> get props => [ledger];
-}
-
-class WithdrawlQrToggleSelectAllLedgers extends WithdrawlQrStepsEvent {
-  final bool selectAll;
-
-  const WithdrawlQrToggleSelectAllLedgers(this.selectAll);
-
-  @override
-  List<Object> get props => [selectAll];
-}
-
-class WithdrawlQrUpdateLedgerAmount extends WithdrawlQrStepsEvent {
-  final CollectionLedgerEntity ledger;
-  final double newAmount;
-
-  const WithdrawlQrUpdateLedgerAmount({
-    required this.ledger,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [ledger, newAmount];
-}
-
-class WithdrawlQrUpdateLpsAmount extends WithdrawlQrStepsEvent {
-  final String loanNumber;
-  final double newAmount;
-
-  const WithdrawlQrUpdateLpsAmount({
-    required this.loanNumber,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [loanNumber, newAmount];
-}
-
 class WithdrawlQrSelectCardAccount extends WithdrawlQrStepsEvent {
   final DepositAccountEntity selectedCardAccount;
 
@@ -101,6 +48,11 @@ class WithdrawlQrSelectDebitCard extends WithdrawlQrStepsEvent {
   List<Object> get props => [selectedCard];
 }
 
-class WithdrawlQrFlowReset extends WithdrawlQrStepsEvent {}
+class WithdrawlQrSubmit extends WithdrawlQrStepsEvent {
+  final double withdrawAmount;
 
-class WithdrawlQrSubmit extends WithdrawlQrStepsEvent {}
+  const WithdrawlQrSubmit(this.withdrawAmount);
+
+  @override
+  List<Object> get props => [withdrawAmount];
+}

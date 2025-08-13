@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/shared/widgets/app_text_input.dart';
+import 'package:pashboi/shared/widgets/prefixed_mobile_number_input.dart';
 
 class TransferToMobileSection extends StatefulWidget {
   final String? transferToMobile;
@@ -23,6 +22,8 @@ class TransferToMobileSection extends StatefulWidget {
 }
 
 class _TransferToMobileSectionState extends State<TransferToMobileSection> {
+  final String _prefix = '+880-';
+
   @override
   void initState() {
     context.read<DebitCardBloc>().add(DebitCardLoad());
@@ -76,17 +77,19 @@ class _TransferToMobileSectionState extends State<TransferToMobileSection> {
                 child: Column(
                   children: [
                     const SizedBox(height: 5),
-
-                    AppTextInput(
-                      initialValue: widget.transferToMobile,
-                      enabled: true,
-                      label: "bKash Number",
-                      errorText: widget.transferToMobileError,
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.mobileScreen,
-                        color: colorScheme.onSurface,
-                      ),
-                      onChanged: widget.onTransferToMobileChanged,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: PrefixedMobileNumberInput(
+                            initialValue: widget.transferToMobile,
+                            label: "bKash Number",
+                            prefixIcon: const Icon(Icons.phone),
+                            prefix: _prefix,
+                            onChanged: widget.onTransferToMobileChanged,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

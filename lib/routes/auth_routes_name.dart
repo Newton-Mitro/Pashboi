@@ -23,11 +23,15 @@ final class AuthRoutesName {
 
   static const String depositNowPage = '/depositNowPage';
   static const String depositNowSuccessPage = '/depositNowSuccessPage';
+
   static const String depositLaterPage = '/depositLaterPage';
   static const String depositLaterSuccessPage = '/depositLaterSuccessPage';
+
   static const String depositFromBkashPage = '/depositFromBkashPage';
-  static const String depositRequestStatus = '/depositRequestStatus';
-  static const String eReceiptsPage = '/eReceiptsPage';
+  static const String createBkashPaymentPage = '/createBkashPaymentPage';
+
+  static const String depositRequestStatusPage = '/depositRequestStatusPage';
+  static const String depositRequestInfoPage = '/depositRequestInfoPage';
 
   static const String familyAndRelativesPage = '/familyAndRelativesPage';
   static const String addFamilyMemberPage = '/addFamilyMemberPage';
@@ -44,12 +48,18 @@ final class AuthRoutesName {
   static const String transferToBkashPage = '/transferToBkashPage';
   static const String transferToBkashSuccessPage =
       '/transferToBkashSuccessPage';
+
   static const String internalTransferPage = '/internalTransferPage';
   static const String internalTransferSuccessPage =
       '/internalTransferSuccessPage';
+
   static const String bankToDcTransferPage = '/bankToDcTransferPage';
   static const String bankToDcTransferSuccessPage =
       '/bankToDcTransferSuccessPage';
+
+  static const String bankToDcTransferStatusPage =
+      '/bankToDcTransferStatusPage';
+  static const String bankToDcTransferInfoPage = '/bankToDcTransferInfoPage';
 
   static const String withdrawlQrPage = '/withdrawlQrPage';
   static const String withdrawlQrSuccessPage = '/withdrawlQrSuccessPage';

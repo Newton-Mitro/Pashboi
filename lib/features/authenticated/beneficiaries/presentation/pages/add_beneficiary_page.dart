@@ -27,6 +27,7 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
   String _accountNumber = '';
 
   void _submit() {
+    if (!mounted) return;
     context.read<AddBeneficiaryBloc>().add(
       AddBeneficiarySubmit(
         accountNumber: _accountNumber,
@@ -35,13 +36,14 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _accountSearchController.text = '';
-  }
+  void _showSnackBar({
+    required String title,
+    required String message,
+    required ContentType contentType,
+  }) {
+    // 🔐 THIS CHECK IS MANDATORY INSIDE THE FUNCTION TOO
+    if (!mounted) return;
 
-  void _showSnackBar(String title, String message, ContentType type) {
     final snackBar = SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,
@@ -49,13 +51,30 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
       content: AwesomeSnackbarContent(
         title: title,
         message: message,
-        contentType: type,
+        contentType: contentType,
       ),
     );
 
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
+    // Still may crash if context is stale — wrap in post-frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackBar);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _accountSearchController.text = '';
+  }
+
+  @override
+  void dispose() {
+    _accountSearchController.dispose();
+    _accountHolderController.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,72 +82,76 @@ class _AddBeneficiaryPageState extends State<AddBeneficiaryPage> {
     final width = MediaQuery.of(context).size.width;
     final theme = context.theme;
 
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<AddBeneficiaryBloc, AddBeneficiaryState>(
-          listener: (context, state) {
-            if (state is AddBeneficiaryFailure) {
-              _showSnackBar('Oops!', state.error, ContentType.failure);
-            }
-            if (state is AddBeneficiarySuccess) {
-              _showSnackBar(
-                'Success',
-                'Beneficiary added successfully',
-                ContentType.success,
-              );
-              if (Navigator.canPop(context)) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(Locales.string(context, 'add_beneficiary_page_title')),
+      ),
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<AddBeneficiaryBloc, AddBeneficiaryState>(
+            listener: (context, state) {
+              if (!mounted) return;
+
+              if (state is AddBeneficiaryFailure) {
+                _showSnackBar(
+                  title: "Oops",
+                  message: state.error,
+                  contentType: ContentType.failure,
+                );
+              }
+
+              if (state is AddBeneficiarySuccess) {
+                _showSnackBar(
+                  title: "Success",
+                  message: "Beneficiary added successfully",
+                  contentType: ContentType.success,
+                );
+
                 Navigator.pop(context);
               }
-            }
-            if (state is AddBeneficiaryValidationError) {
-              // Handle validation errors if you want to show a snack or something here
-              // Currently errors will show inline in fields below
-            }
-          },
-        ),
-        BlocListener<CollectionLedgerBloc, CollectionLedgerState>(
-          listener: (context, state) {
-            if (state is CollectionLedgerLoaded) {
-              final person = state.collectionAggregate.accountHolderInfo;
-              final rawInput = _accountSearchController.text.trim();
+            },
+          ),
+          BlocListener<CollectionLedgerBloc, CollectionLedgerState>(
+            listener: (context, state) {
+              if (state is CollectionLedgerLoaded) {
+                final person = state.collectionAggregate.accountHolderInfo;
+                final rawInput = _accountSearchController.text.trim();
+                final searchText = rawInput.replaceAll(RegExp(r'\D'), '');
 
-              // Clean search text to digits only
-              final searchText = rawInput.replaceAll(RegExp(r'\D'), '');
+                final matchedAccounts =
+                    state.collectionAggregate.ledgers
+                        .where(
+                          (ledger) => ledger.accountNumber
+                              .toLowerCase()
+                              .contains(searchText),
+                        )
+                        .toList();
 
-              final matchedAccounts =
-                  state.collectionAggregate.ledgers
-                      .where(
-                        (ledger) => ledger.accountNumber.toLowerCase().contains(
-                          searchText,
-                        ),
-                      )
-                      .toList();
-
-              if (matchedAccounts.isNotEmpty) {
-                final matchedAccount = matchedAccounts.first;
-                _accountSearchController.text = matchedAccount.accountNumber;
-                setState(() {
-                  _accountNumber = matchedAccount.accountNumber;
-                });
-                _accountHolderController.text = person.name;
-              } else {
-                _accountSearchController.text = rawInput;
-                _accountHolderController.clear();
-                _accountNumber = '';
+                if (matchedAccounts.isNotEmpty) {
+                  final matchedAccount = matchedAccounts.first;
+                  _accountSearchController.text = matchedAccount.accountNumber;
+                  setState(() {
+                    _accountNumber = matchedAccount.accountNumber;
+                  });
+                  _accountHolderController.text = person.name;
+                } else {
+                  _accountSearchController.text = rawInput;
+                  _accountHolderController.clear();
+                  _accountNumber = '';
+                }
               }
-            }
 
-            if (state is CollectionLedgerError) {
-              _showSnackBar('Oops!', state.message, ContentType.failure);
-            }
-          },
-        ),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(Locales.string(context, 'add_beneficiary_page_title')),
-        ),
-        body: BlocBuilder<AddBeneficiaryBloc, AddBeneficiaryState>(
+              if (state is CollectionLedgerError) {
+                _showSnackBar(
+                  title: "Oops",
+                  message: state.message,
+                  contentType: ContentType.failure,
+                );
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<AddBeneficiaryBloc, AddBeneficiaryState>(
           builder: (context, addBeneficiaryState) {
             final validationErrors =
                 addBeneficiaryState is AddBeneficiaryValidationError

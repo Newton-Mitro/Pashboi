@@ -351,6 +351,16 @@ class DepositLaterStepsBloc
         }
         break;
 
+      case 3:
+        if (data['monthlyDepositDate'] == null) {
+          errors['monthlyDepositDate'] = 'Please select a monthly deposit date';
+        }
+        if (data['numberOfMonth'] == null) {
+          errors['numberOfMonth'] =
+              'Please select a number of months to deposit';
+        }
+        break;
+
       case 5:
         if (data['cardPin'] == null || data['cardPin'].toString().isEmpty) {
           errors['cardPin'] = 'Please enter a card PIN';

@@ -58,11 +58,15 @@ class ApiUrls {
   static const String getEReceipts = 'deposits_V1/getEReceipts';
   static const String getVoucherDetails = 'deposits_V1/getVoucherDetails';
   static const String getBankAccounts = 'deposits_V1/getDcBankAccounts';
+  static const String bkashServiceCharge =
+      'Deposit_Bkash_V1/GetbKashPaymentServiceCharge';
   static const String bkashCreatePayment =
       'Deposit_bKash_V1/CreatebKashPayment';
 
   // Transfer
   static const String submitFundTransfer = 'transfers_v2/submitFundTransfer';
+  static const String createBkashPayment =
+      'Withdrawal_bKash_V1/CreatebKashWithdrawal';
   static const String verifyRecepient = 'transfers_v2/verifyRecepient_v2';
   static const String bKashWithdrawal =
       'Withdrawal_bKash_V1/CreatebKashWithdrawal';

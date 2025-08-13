@@ -30,59 +30,6 @@ class TransferToBkashUpdateStepData extends TransferToBkashStepsEvent {
   List<Object> get props => [step, data];
 }
 
-class TransferToBkashSetCollectionLedgers extends TransferToBkashStepsEvent {
-  final List<CollectionLedgerEntity> ledgers;
-
-  const TransferToBkashSetCollectionLedgers({required this.ledgers});
-
-  @override
-  List<Object> get props => [ledgers];
-}
-
-class TransferToBkashToggleLedgerSelection extends TransferToBkashStepsEvent {
-  final CollectionLedgerEntity ledger;
-
-  const TransferToBkashToggleLedgerSelection(this.ledger);
-
-  @override
-  List<Object> get props => [ledger];
-}
-
-class TransferToBkashToggleSelectAllLedgers extends TransferToBkashStepsEvent {
-  final bool selectAll;
-
-  const TransferToBkashToggleSelectAllLedgers(this.selectAll);
-
-  @override
-  List<Object> get props => [selectAll];
-}
-
-class TransferToBkashUpdateLedgerAmount extends TransferToBkashStepsEvent {
-  final CollectionLedgerEntity ledger;
-  final double newAmount;
-
-  const TransferToBkashUpdateLedgerAmount({
-    required this.ledger,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [ledger, newAmount];
-}
-
-class TransferToBkashUpdateLpsAmount extends TransferToBkashStepsEvent {
-  final String loanNumber;
-  final double newAmount;
-
-  const TransferToBkashUpdateLpsAmount({
-    required this.loanNumber,
-    required this.newAmount,
-  });
-
-  @override
-  List<Object> get props => [loanNumber, newAmount];
-}
-
 class TransferToBkashSelectCardAccount extends TransferToBkashStepsEvent {
   final DepositAccountEntity selectedCardAccount;
 
@@ -100,7 +47,5 @@ class TransferToBkashSelectDebitCard extends TransferToBkashStepsEvent {
   @override
   List<Object> get props => [selectedCard];
 }
-
-class TransferToBkashFlowReset extends TransferToBkashStepsEvent {}
 
 class TransferToBkashSubmit extends TransferToBkashStepsEvent {}

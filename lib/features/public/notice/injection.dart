@@ -10,8 +10,6 @@ import 'package:pashboi/features/public/notice/presentation/bloc/notice_bloc.dar
 import 'package:shared_preferences/shared_preferences.dart';
 
 void registerNoticeModule() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-
   sl.registerLazySingleton<NoticeRemoteDataSource>(
     () =>
         NoticeRemoteDataSourceImpl(productApiService: sl<ProductApiService>()),
@@ -36,6 +34,4 @@ void registerNoticeModule() async {
   sl.registerFactory<NoticeBloc>(
     () => NoticeBloc(noticeUseCase: sl<NoticeUseCase>()),
   );
-
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

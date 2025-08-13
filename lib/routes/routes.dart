@@ -7,14 +7,20 @@ import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dar
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_bloc/add_beneficiary_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/domain/entities/voucher_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/create_bkash_payment_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/deposit_from_bkash_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/parts/transaction_charge_preview_section/bloc/bkash_service_charge_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/bloc/deposit_later_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_later_page/deposit_later_success.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/bloc/deposit_now_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_page.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/deposit_now_success.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/scheduled_deposits_page/bloc/scheduled_deposits_bloc.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/scheduled_deposits_page/schedule_deposit_info_page.dart';
+import 'package:pashboi/features/authenticated/deposit/presentation/pages/scheduled_deposits_page/scheduled_deposits_page.dart';
 import 'package:pashboi/features/authenticated/family_and_friends/presentation/pages/bloc/add_family_and_relative_bloc/add_family_and_relative_bloc.dart';
 import 'package:pashboi/features/authenticated/loan_payment/presentation/pages/bloc/loan_payment_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
@@ -38,14 +44,18 @@ import 'package:pashboi/features/authenticated/personnel/leave/presentation/widg
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_deposits_page/bank_to_dc_deposit_info_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_deposits_page/bank_to_dc_deposits_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bank_to_dc_transfer_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/internal_transfer_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/internal_transfer_success_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/transfer_to_bkash_page.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/bloc/withdrawl_qr_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/withdrawl_qr_page.dart';
+import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/withdrawl_qr_success_page.dart';
 import 'package:pashboi/features/landing/presentation/pages/landing_page.dart';
 import 'package:pashboi/features/public/deposit_policies/domain/enities/deposit_policy_entity.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policy_details_page.dart';
@@ -111,7 +121,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case PublicRoutesName.otpVerificationPage:
         if (args is Map<String, String>) {
@@ -123,7 +132,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case PublicRoutesName.savingPolicyDetailsPage:
         if (args is Map<String, DepositPolicyEntity?>) {
@@ -131,7 +139,6 @@ class AppRoutes {
             DepositPolicyDetailsPage(depositPolicy: args['depositPolicy']!),
           );
         }
-        break;
 
       case PublicRoutesName.loanPoliciesDetailsPage:
         if (args is Map<String, LoanPolicyEntity?>) {
@@ -139,13 +146,11 @@ class AppRoutes {
             LoanPolicyDetailsPage(loanPolicy: args['loanPolicy']!),
           );
         }
-        break;
 
       case PublicRoutesName.noticesDetailsPage:
         if (args is Map<String, NoticeEntity?>) {
           return _materialRoute(NoticeDetailsPage(notice: args['notice']!));
         }
-        break;
 
       case PublicRoutesName.serviceDetailsPage:
         if (args is Map<String, ServicePolicyEntity?>) {
@@ -153,20 +158,18 @@ class AppRoutes {
             ServicePolicyDetailsPage(service: args['service']!),
           );
         }
-        break;
 
       case PublicRoutesName.projectDetailsPage:
         if (args is Map<String, ProjectEntity?>) {
           return _materialRoute(ProjectDetailsPage(project: args['projects']!));
         }
-        break;
+
       case PublicRoutesName.developmentTeamsDetailsPage:
         if (args is Map<String, DevelopmentCreditsEntity?>) {
           return _materialRoute(
             DevelopmentCreditDetails(credit: args['developmentTeams']!),
           );
         }
-        break;
 
       // Authenticated Routes
       case AuthRoutesName.profilePage:
@@ -219,7 +222,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case AuthRoutesName.addOperatingAccountPage:
         return _materialRoute(
@@ -238,7 +240,6 @@ class AppRoutes {
             AccountDetailsPage(accountNumber: args['accountNumber'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.accountStatement:
         if (args is Map<String, dynamic> &&
@@ -252,7 +253,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case AuthRoutesName.openableAccountsPage:
         return _materialRoute(
@@ -288,7 +288,6 @@ class AppRoutes {
             LoanDetailsPage(loanNumber: args['loanNumber'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.depositNowPage:
         return _materialRoute(
@@ -307,7 +306,6 @@ class AppRoutes {
             DepositNowSuccessPage(successMessage: args['message'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.depositLaterPage:
         return _materialRoute(
@@ -350,7 +348,6 @@ class AppRoutes {
             DepositLaterSuccessPage(successMessage: args['message'] ?? ''),
           );
         }
-        break;
 
       case AuthRoutesName.depositFromBkashPage:
         return _materialRoute(
@@ -360,10 +357,44 @@ class AppRoutes {
                 create: (context) => sl<DepositFromBkashStepsBloc>(),
               ),
               BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+              BlocProvider(create: (context) => sl<BkashServiceChargeBloc>()),
             ],
             child: DepositFromBkashPage(),
           ),
         );
+
+      case AuthRoutesName.createBkashPaymentPage:
+        if (args is Map<String, String>) {
+          return _materialRoute(
+            BlocProvider(
+              create: (context) => sl<ScheduledDepositsBloc>(),
+              child: CreateBkashPaymentPage(
+                paymentUrl: args['paymentUrl'] ?? '',
+              ),
+            ),
+          );
+        }
+
+      case AuthRoutesName.depositRequestStatusPage:
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => sl<ScheduledDepositsBloc>(),
+            child: ScheduledDepositsPage(),
+          ),
+        );
+
+      case AuthRoutesName.depositRequestInfoPage:
+        if (args is Map<String, dynamic> &&
+            args['depositRequest'] is DepositRequestEntity) {
+          return _materialRoute(
+            BlocProvider(
+              create: (context) => sl<ScheduledDepositsBloc>(),
+              child: ScheduleDepositInfoPage(
+                depositRequest: args['depositRequest'] as DepositRequestEntity,
+              ),
+            ),
+          );
+        }
 
       case AuthRoutesName.loanStatement:
         if (args is Map<String, String>) {
@@ -374,7 +405,6 @@ class AppRoutes {
             ),
           );
         }
-        break;
 
       case AuthRoutesName.internalTransferPage:
         return _materialRoute(
@@ -388,6 +418,13 @@ class AppRoutes {
             child: InternalTransferPage(),
           ),
         );
+
+      case AuthRoutesName.transferToBkashSuccessPage:
+        if (args is Map && args['message'] != null) {
+          return _materialRoute(
+            InternalTransferSuccessPage(successMessage: args['message'] ?? ''),
+          );
+        }
 
       case AuthRoutesName.transferToBkashPage:
         return _materialRoute(
@@ -413,6 +450,27 @@ class AppRoutes {
           ),
         );
 
+      case AuthRoutesName.bankToDcTransferStatusPage:
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => sl<ScheduledDepositsBloc>(),
+            child: BankToDcDepositsPage(),
+          ),
+        );
+
+      case AuthRoutesName.bankToDcTransferInfoPage:
+        if (args is Map<String, dynamic> &&
+            args['depositRequest'] is DepositRequestEntity) {
+          return _materialRoute(
+            BlocProvider(
+              create: (context) => sl<ScheduledDepositsBloc>(),
+              child: BankToDcDepositInfoPage(
+                depositRequest: args['depositRequest'] as DepositRequestEntity,
+              ),
+            ),
+          );
+        }
+
       case AuthRoutesName.withdrawlQrPage:
         return _materialRoute(
           MultiBlocProvider(
@@ -423,6 +481,13 @@ class AppRoutes {
             child: WithdrawlQrPage(),
           ),
         );
+
+      case AuthRoutesName.withdrawlQrSuccessPage:
+        if (args is Map && args['message'] != null) {
+          return _materialRoute(
+            WithdrawQrSuccessPage(successMessage: args['message'] ?? ''),
+          );
+        }
 
       case AuthRoutesName.paymentPage:
         return _materialRoute(

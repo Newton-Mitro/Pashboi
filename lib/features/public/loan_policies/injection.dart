@@ -10,8 +10,6 @@ import 'package:pashboi/features/public/loan_policies/presentation/bloc/loan_pol
 import 'package:shared_preferences/shared_preferences.dart';
 
 void registerLoanPolicyModule() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-
   // Register Data Sources
   sl.registerLazySingleton<LoanPolicyRemoteDataSource>(
     () => LoanPolicyRemoteDataSourceImpl(
@@ -43,5 +41,4 @@ void registerLoanPolicyModule() async {
   sl.registerFactory<LoanPolicyBloc>(
     () => LoanPolicyBloc(fetchLoanPolicyUseCase: sl<FetchLoanPolicyUseCase>()),
   );
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }

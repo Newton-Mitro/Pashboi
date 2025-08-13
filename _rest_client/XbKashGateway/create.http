@@ -47,3 +47,22 @@ Token: {{token}}
     }
   ]
 }
+
+
+### Response 
+# { 
+#   "statusCode": "0000", 
+#   "statusMessage": "Successful", 
+#   "paymentID": "TR0011ON1565154754797", 
+#   "bkashURL": "https://bkash.com/redirect/tokenized/?paymentID=TR0011O N1565154754797*********", 
+#   "callbackURL": "yourURL.com", 
+#   "successCallbackURL": "yourURL.com?paymentID=TR0011ON1565154754797&status=success", 
+#   "failureCallbackURL": "yourURL.com?paymentID=TR0011ON1565154754797&status=failure", 
+#   "cancelledCallbackURL": "yourURL.com?paymentID=TR0011ON1565154754797&status=cancel", 
+#   "amount": "500", 
+#   "intent": "sale", 
+#   "currency": "BDT", 
+#   "paymentCreateTime": "2019-08-07T11:12:34:978 GMT+0600", 
+#   "transactionStatus": "Initiated", 
+#   "merchantInvoiceNumber": "Inv0124" 
+# }

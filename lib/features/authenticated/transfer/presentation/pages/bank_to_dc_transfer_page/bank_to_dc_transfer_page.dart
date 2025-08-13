@@ -8,7 +8,6 @@ import 'package:pashboi/features/authenticated/collection_ledgers/domain/entitie
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/sections/bank_transfer_info_section/bank_transfer_info_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
-import 'package:pashboi/features/authenticated/authenticated_shared/widgets/otp_verification_section/bloc/otp_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
@@ -82,7 +81,6 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
               context.read<BankToDcTransferStepsBloc>().add(
                 BankToDcTransferGoToNextStep(),
               );
-              context.read<OtpBloc>().add(StartOtpCountdown());
             }
             if (state.error != null) {
               final snackBar = SnackBar(
@@ -99,19 +97,6 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
-            }
-          },
-        ),
-        BlocListener<OtpBloc, OtpState>(
-          listener: (context, state) {
-            if (state.otpValues.length == 6 &&
-                state.otpValues.every((digit) => digit.isNotEmpty)) {
-              context.read<BankToDcTransferStepsBloc>().add(
-                BankToDcTransferUpdateStepData(
-                  step: 5,
-                  data: {'OTP': state.otpValues.join()},
-                ),
-              );
             }
           },
         ),
@@ -296,17 +281,6 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
     context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
   }
 
-  void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    final updatedLedgers =
-        newLedgers.where((ledger) => ledger.subledger != true).toList();
-
-    if (updatedLedgers.isNotEmpty) {
-      context.read<BankToDcTransferStepsBloc>().add(
-        BankToDcTransferSetCollectionLedgers(ledgers: updatedLedgers),
-      );
-    }
-  }
-
   void _verifyCardPIN(BankToDcTransferStepsState depositLaterStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
@@ -394,6 +368,15 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
           resendOTP: () {
             _verifyCardPIN(state);
           },
+          onOtpChanged: (String otp) {
+            context.read<BankToDcTransferStepsBloc>().add(
+              BankToDcTransferUpdateStepData(
+                step: state.currentStep,
+                data: {'OTP': otp},
+              ),
+            );
+          },
+          otp: state.stepData[state.currentStep]?['OTP'] ?? '',
         ),
       ),
     ];

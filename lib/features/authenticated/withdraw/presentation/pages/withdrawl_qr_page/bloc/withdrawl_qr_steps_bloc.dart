@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
@@ -7,8 +6,8 @@ import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
+import 'package:pashboi/features/authenticated/withdraw/domain/usecases/generate_withdrawl_qr_usecase.dart';
 part 'withdrawl_qr_setps_event.dart';
 part 'withdrawl_qr_steps_state.dart';
 
@@ -19,26 +18,22 @@ class WithdrawlQrStepsBloc
   static const int lastStep = 3;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
-  final SubmitDepositNowUseCase submitDepositNowUseCase;
+  final GenerateWithdrawlQrUseCase generateWithdrawlQrUseCase;
 
   WithdrawlQrStepsBloc({
     required this.getAuthUserUseCase,
-    required this.submitDepositNowUseCase,
+    required this.generateWithdrawlQrUseCase,
   }) : super(const WithdrawlQrStepsState(currentStep: 0)) {
     on<WithdrawlQrGoToNextStep>(_onGoToNextStep);
     on<WithdrawlQrGoToPreviousStep>(_onGoToPreviousStep);
     on<WithdrawlQrUpdateStepData>(_onUpdateStepData);
-    on<WithdrawlQrSetCollectionLedgers>(_onSetCollectionLedgers);
-    on<WithdrawlQrToggleLedgerSelection>(_onToggleLedgerSelection);
-    on<WithdrawlQrToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
-    on<WithdrawlQrUpdateLedgerAmount>(_onUpdateLedgerAmount);
-    on<WithdrawlQrFlowReset>(_onResetFlow);
+
     on<WithdrawlQrSelectCardAccount>(_onSelectCardAccount);
     on<WithdrawlQrSelectDebitCard>(_onSelectDebitCard);
     // update lps amount
-    on<WithdrawlQrUpdateLpsAmount>(_onUpdateLpsAmount);
+
     on<WithdrawlQrValidateStep>(_onValidateStep);
-    on<WithdrawlQrSubmit>(_onSubmitDepositNow);
+    on<WithdrawlQrSubmit>(_onSubmitWithdrawlQr);
   }
 
   void _onGoToNextStep(
@@ -86,104 +81,6 @@ class WithdrawlQrStepsBloc
     emit(state.copyWith(stepData: updatedStepData));
   }
 
-  void _onSetCollectionLedgers(
-    WithdrawlQrSetCollectionLedgers event,
-    Emitter<WithdrawlQrStepsState> emit,
-  ) {
-    final selectedLedgers =
-        event.ledgers
-            .map(
-              (ledger) => ledger.copyWith(
-                depositAmount: ledger.amount,
-                isSelected: false,
-              ),
-            )
-            .toList();
-    emit(state.copyWith(collectionLedgers: selectedLedgers));
-  }
-
-  void _onToggleLedgerSelection(
-    WithdrawlQrToggleLedgerSelection event,
-    Emitter<WithdrawlQrStepsState> emit,
-  ) {
-    late List<CollectionLedgerEntity> updatedLedgers;
-
-    if (event.ledger.subledger) {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountNumber == event.ledger.accountNumber) {
-              return l.copyWith(isSelected: !(event.ledger.isSelected));
-            }
-            return l;
-          }).toList();
-    } else if (event.ledger.plType == 2 || event.ledger.plType == 1) {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountNumber == event.ledger.accountNumber &&
-                !event.ledger.isSelected) {
-              return l.copyWith(isSelected: true);
-            } else if (l.accountNumber == event.ledger.accountNumber &&
-                event.ledger.ledgerId == l.ledgerId) {
-              return l.copyWith(isSelected: false);
-            }
-            return l;
-          }).toList();
-    } else {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountId == event.ledger.accountId &&
-                l.accountNumber == event.ledger.accountNumber &&
-                l.ledgerId == event.ledger.ledgerId) {
-              return l.copyWith(isSelected: !(l.isSelected));
-            }
-            return l;
-          }).toList();
-    }
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
-
-  void _onToggleSelectAllLedgers(
-    WithdrawlQrToggleSelectAllLedgers event,
-    Emitter<WithdrawlQrStepsState> emit,
-  ) {
-    final updatedLedgers =
-        state.collectionLedgers
-            .map((l) => l.copyWith(isSelected: event.selectAll))
-            .toList();
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
-
-  void _onUpdateLedgerAmount(
-    WithdrawlQrUpdateLedgerAmount event,
-    Emitter<WithdrawlQrStepsState> emit,
-  ) {
-    if (!event.ledger.subledger &&
-        event.ledger.plType == 2 &&
-        event.ledger.lps) {
-      return;
-    }
-    final updatedLedgers =
-        state.collectionLedgers.map((l) {
-          if (l.accountId == event.ledger.accountId &&
-              l.accountNumber == event.ledger.accountNumber &&
-              l.ledgerId == event.ledger.ledgerId) {
-            return l.copyWith(depositAmount: event.newAmount);
-          }
-          return l;
-        }).toList();
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
-
-  void _onResetFlow(
-    WithdrawlQrFlowReset event,
-    Emitter<WithdrawlQrStepsState> emit,
-  ) {
-    emit(const WithdrawlQrStepsState(currentStep: 0));
-  }
-
   void _onSelectCardAccount(
     WithdrawlQrSelectCardAccount event,
     Emitter<WithdrawlQrStepsState> emit,
@@ -196,22 +93,6 @@ class WithdrawlQrStepsBloc
     Emitter<WithdrawlQrStepsState> emit,
   ) {
     emit(state.copyWith(selectedCard: event.selectedCard));
-  }
-
-  void _onUpdateLpsAmount(
-    WithdrawlQrUpdateLpsAmount event,
-    Emitter<WithdrawlQrStepsState> emit,
-  ) {
-    final updatedLedgers =
-        state.collectionLedgers.map((l) {
-          if (l.collectionType.trim() == 'LoanLpsAmount' &&
-              l.accountNumber == event.loanNumber) {
-            return l.copyWith(depositAmount: event.newAmount);
-          }
-          return l;
-        }).toList();
-
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
   }
 
   void _onValidateStep(
@@ -230,7 +111,7 @@ class WithdrawlQrStepsBloc
     emit(state.copyWith(validationErrors: updatedValidationErrors));
   }
 
-  void _onSubmitDepositNow(
+  void _onSubmitWithdrawlQr(
     WithdrawlQrSubmit event,
     Emitter<WithdrawlQrStepsState> emit,
   ) async {
@@ -246,12 +127,8 @@ class WithdrawlQrStepsBloc
 
       final user = authUserResult.getOrElse(() => throw Exception()).user;
 
-      final totalAmount = state.collectionLedgers
-          .where((ledger) => ledger.isSelected)
-          .fold<double>(0.0, (sum, ledger) => sum + ledger.depositAmount);
-
-      final accountResult = await submitDepositNowUseCase.call(
-        SubmitDepositNowProps(
+      final accountResult = await generateWithdrawlQrUseCase.call(
+        GenerateWithdrawlQrProps(
           email: user.loginEmail,
           userId: user.userId,
           rolePermissionId: user.roleId,
@@ -259,23 +136,15 @@ class WithdrawlQrStepsBloc
           employeeCode: user.employeeCode,
           mobileNumber: user.regMobile,
           accountNumber: state.selectedAccount!.number,
-          accountHolderName:
-              state.selectedCard!.nameOnCard.toLowerCase().trim(),
-          accountId: state.selectedAccount!.id,
-          accountType: state.selectedAccount!.typeName,
           cardNumber: state.selectedCard!.cardNumber,
-          depositDate: DateTime.now().toIso8601String(),
-          ledgerId: state.selectedAccount!.ledgerId,
           cardPin:
               md5
-                  .convert(utf8.encode(state.stepData[4]?['cardPin'].trim()))
+                  .convert(utf8.encode(state.stepData[2]?['cardPin']?.trim()))
                   .toString(),
-          totalDepositAmount: totalAmount,
-          transactionMethod: '12',
-          otpRegId: state.stepData[4]?['OTPRegId'],
-          otpValue: state.stepData[5]?['OTP'],
-          transactionType: 'DepositRequest',
-          collectionLedgers: state.collectionLedgers,
+          otpRegId: state.stepData[2]?['OTPRegId'],
+          otpValue: state.stepData[3]?['OTP'],
+          amount: event.withdrawAmount,
+          nameOnCard: state.selectedCard!.nameOnCard.toLowerCase().trim(),
         ),
       );
 
@@ -286,9 +155,7 @@ class WithdrawlQrStepsBloc
             emit(state.copyWith(successMessage: message, isLoading: false)),
       );
     } catch (_) {
-      emit(
-        state.copyWith(error: 'Failed to submit deposit now', isLoading: false),
-      );
+      emit(state.copyWith(error: 'Failed to generate QR', isLoading: false));
     }
   }
 
@@ -305,12 +172,26 @@ class WithdrawlQrStepsBloc
         break;
 
       case 1:
+        final withdrawAmount = int.tryParse(
+          data['withdrawAmount']?.toString() ?? '',
+        );
+        final totalWithdrawable =
+            state.selectedAccount != null
+                ? state.selectedAccount!.withdrawableBalance
+                : 0;
+
+        if (withdrawAmount == null) {
+          errors['withdrawAmount'] = 'Enter withdraw amount';
+        } else if (withdrawAmount < 500) {
+          errors['withdrawAmount'] = 'Minimum withdraw amount is 500';
+        } else if (withdrawAmount % 500 != 0) {
+          errors['withdrawAmount'] = 'Amount must be a multiple of 500';
+        } else if (withdrawAmount > totalWithdrawable) {
+          errors['withdrawAmount'] = 'Amount exceeds withdrawable balance';
+        }
         break;
 
       case 2:
-        break;
-
-      case 4:
         if (data['cardPin'] == null || data['cardPin'].toString().isEmpty) {
           errors['cardPin'] = 'Please enter a card PIN';
         } else if (data['cardPin'].length != 4) {
@@ -318,7 +199,7 @@ class WithdrawlQrStepsBloc
         }
         break;
 
-      case 5:
+      case 3:
         if (data['confirmation'] != true) {
           errors['confirmation'] = 'You must confirm to proceed';
         }

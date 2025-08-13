@@ -7,7 +7,7 @@ class DepositFromBkashStepsState extends Equatable {
   final List<CollectionLedgerEntity> collectionLedgers;
   final bool isLoading;
   final String? error;
-  final String? successMessage;
+  final BkashPaymentEntity? bkashPaymentEntity;
 
   const DepositFromBkashStepsState({
     required this.currentStep,
@@ -16,7 +16,7 @@ class DepositFromBkashStepsState extends Equatable {
     List<CollectionLedgerEntity>? collectionLedgers,
     bool? isLoading,
     this.error,
-    this.successMessage,
+    this.bkashPaymentEntity,
   }) : validationErrors = validationErrors ?? const {},
        stepData = stepData ?? const {},
        isLoading = isLoading ?? false,
@@ -29,7 +29,7 @@ class DepositFromBkashStepsState extends Equatable {
     List<CollectionLedgerEntity>? collectionLedgers,
     bool? isLoading,
     String? error,
-    String? successMessage,
+    BkashPaymentEntity? bkashPaymentEntity,
   }) {
     return DepositFromBkashStepsState(
       currentStep: currentStep ?? this.currentStep,
@@ -38,7 +38,7 @@ class DepositFromBkashStepsState extends Equatable {
       collectionLedgers: collectionLedgers ?? this.collectionLedgers,
       isLoading: isLoading ?? this.isLoading,
       error: error,
-      successMessage: successMessage,
+      bkashPaymentEntity: bkashPaymentEntity,
     );
   }
 
@@ -50,6 +50,6 @@ class DepositFromBkashStepsState extends Equatable {
     collectionLedgers,
     isLoading,
     error,
-    successMessage,
+    bkashPaymentEntity,
   ];
 }

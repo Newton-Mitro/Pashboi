@@ -57,7 +57,6 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AuthUserCheck());
     context.read<DebitCardBloc>().add(DebitCardLoad());
   }
 
@@ -177,14 +176,24 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                     context: context,
                     builder:
                         (_) => AppDialog(
-                          title: 'Logout',
-                          content: 'Are you sure you want to logout?',
+                          title: Locales.string(context, 'logout_page_title'),
+                          content: Locales.string(
+                            context,
+                            'logout_page_message',
+                          ),
                           icon: const Icon(Icons.logout, size: 40),
                           onPositiveButtonTap: () {
                             Navigator.of(context).pop(); // Close the dialog
                             context.read<AuthBloc>().add(LogoutRequested());
                           },
-                          positiveButtonLabel: 'Logout',
+                          negativeButtonLabel: Locales.string(
+                            context,
+                            'logout_page_no_button',
+                          ),
+                          positiveButtonLabel: Locales.string(
+                            context,
+                            'logout_page_yes_button',
+                          ),
                         ),
                   );
                 }
@@ -239,9 +248,14 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                     context: context,
                                     builder:
                                         (_) => AppDialog(
-                                          title: 'Logout',
-                                          content:
-                                              'Are you sure you want to logout?',
+                                          title: Locales.string(
+                                            context,
+                                            'logout_page_title',
+                                          ),
+                                          content: Locales.string(
+                                            context,
+                                            'logout_page_message',
+                                          ),
                                           icon: const Icon(
                                             Icons.logout,
                                             size: 40,
@@ -250,7 +264,14 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                               () => context
                                                   .read<AuthBloc>()
                                                   .add(LogoutRequested()),
-                                          positiveButtonLabel: 'Logout',
+                                          positiveButtonLabel: Locales.string(
+                                            context,
+                                            'logout_page_yes_button',
+                                          ),
+                                          negativeButtonLabel: Locales.string(
+                                            context,
+                                            'logout_page_no_button',
+                                          ),
                                         ),
                                   );
                                 }

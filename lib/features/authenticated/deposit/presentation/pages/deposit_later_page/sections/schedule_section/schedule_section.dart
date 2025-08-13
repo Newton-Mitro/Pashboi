@@ -6,16 +6,20 @@ import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 class ScheduleSection extends StatefulWidget {
   final String sectionTitle;
   final String? monthlyDepositDate;
+  final String? monthlyDepositDateError;
   final void Function(String? value) onMonthlyDepositDateChange;
   final String? numberOfMonth;
+  final String? numberOfMonthError;
   final void Function(String? value) onNumberOfMonthsChange;
 
   const ScheduleSection({
     super.key,
     required this.sectionTitle,
     required this.monthlyDepositDate,
+    required this.monthlyDepositDateError,
     required this.onMonthlyDepositDateChange,
     required this.numberOfMonth,
+    required this.numberOfMonthError,
     required this.onNumberOfMonthsChange,
   });
 
@@ -62,6 +66,7 @@ class _ScheduleSectionState extends State<ScheduleSection> {
             label: "Monthly Deposit Date",
             value: widget.monthlyDepositDate,
             prefixIcon: FontAwesomeIcons.calendarDay,
+            errorText: widget.monthlyDepositDateError,
             items:
                 depositDates
                     .map(
@@ -80,6 +85,7 @@ class _ScheduleSectionState extends State<ScheduleSection> {
           AppDropdownSelect(
             label: "Number of Months",
             value: widget.numberOfMonth,
+            errorText: widget.numberOfMonthError,
             prefixIcon: FontAwesomeIcons.arrowDown19,
             items:
                 months

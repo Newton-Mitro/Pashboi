@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:pashboi/features/public/contact_us/presentation/contact_us_page.dart';
 import 'package:pashboi/features/public/deposit_policies/presentation/pages/deposit_policies_page.dart';
 import 'package:pashboi/features/public/loan_policies/presentation/pages/loan_policies_page.dart';
@@ -47,7 +46,6 @@ class _PublicHomeScreenState extends State<PublicHomeScreen>
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AuthUserCheck());
 
     _fabAnimationController = AnimationController(
       vsync: this,

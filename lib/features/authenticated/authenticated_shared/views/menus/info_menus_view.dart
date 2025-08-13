@@ -38,6 +38,19 @@ class _InfoMenusViewState extends State<InfoMenusView> {
         ),
         "route": AuthRoutesName.cardPage,
       },
+      {
+        "icon": Icon(
+          FontAwesomeIcons.handshake,
+          color: onPrimaryColor,
+          size: 30,
+        ),
+        "menuName": "AGM Counter",
+        "menuDescription": Locales.string(
+          context,
+          "info_menu_card_description",
+        ),
+        "route": AuthRoutesName.cardPage,
+      },
     ];
   }
 
