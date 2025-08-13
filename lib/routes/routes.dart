@@ -47,12 +47,14 @@ import 'package:pashboi/features/authenticated/profile/presentation/profile_page
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_deposits_page/bank_to_dc_deposit_info_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_deposits_page/bank_to_dc_deposits_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bank_to_dc_transfer_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bank_to_dc_transfer_success_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/internal_transfer_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/internal_transfer_success_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/transfer_to_bkash_page.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/transfer_to_bkash_success_page.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/bloc/withdrawl_qr_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/withdrawl_qr_page.dart';
 import 'package:pashboi/features/authenticated/withdraw/presentation/pages/withdrawl_qr_page/withdrawl_qr_success_page.dart';
@@ -422,7 +424,7 @@ class AppRoutes {
       case AuthRoutesName.transferToBkashSuccessPage:
         if (args is Map && args['message'] != null) {
           return _materialRoute(
-            InternalTransferSuccessPage(successMessage: args['message'] ?? ''),
+            TransferToBkashSuccessPage(successMessage: args['message'] ?? ''),
           );
         }
 
@@ -449,6 +451,13 @@ class AppRoutes {
             child: BankToDcTransferPage(),
           ),
         );
+
+      case AuthRoutesName.bankToDcTransferSuccessPage:
+        if (args is Map && args['message'] != null) {
+          return _materialRoute(
+            BankToDcTransferSuccessPage(successMessage: args['message'] ?? ''),
+          );
+        }
 
       case AuthRoutesName.bankToDcTransferStatusPage:
         return _materialRoute(

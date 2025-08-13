@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
+import 'package:pashboi/core/utils/json_util.dart';
+import 'package:pashboi/features/authenticated/transfer/data/models/dc_bank_model.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/entities/dc_bank_entity.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/usecases/fetch_dc_accounts_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_fund_transfer_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_bank_to_dc_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_to_bkash_usecase.dart';
@@ -11,6 +16,9 @@ abstract class TransferRemoteDataSource {
   Future<String> submitFundTransfer(SubmitFundTransferProps props);
   Future<String> submitTransferBankToDc(SubmitTransferBankToDcProps props);
   Future<String> submitTransferToBkash(SubmitTransferToBkashProps props);
+  Future<List<DcBankEntity>> fetchDcBankAccounts(
+    FetchDcBankAccountsProps props,
+  );
 }
 
 class TransferRemoteDataSourceImpl implements TransferRemoteDataSource {
@@ -153,7 +161,7 @@ class TransferRemoteDataSourceImpl implements TransferRemoteDataSource {
   Future<String> submitTransferToBkash(SubmitTransferToBkashProps props) async {
     try {
       final response = await apiService.post(
-        ApiUrls.createBkashPayment,
+        ApiUrls.bKashWithdrawal,
         data: {
           "TransactionType": "bKashWithdrawalRequest",
           "TransactionMethod": "17",
@@ -188,6 +196,8 @@ class TransferRemoteDataSourceImpl implements TransferRemoteDataSource {
         },
       );
 
+      // return "Transaction Initiated Successfully";
+
       if (response.statusCode == HttpStatus.ok) {
         final dataString = response.data?['Data'];
         final errorMessage = response.data?['Message'];
@@ -197,6 +207,57 @@ class TransferRemoteDataSourceImpl implements TransferRemoteDataSource {
             throw ServerException(message: errorMessage);
           } else {
             return dataString;
+          }
+        }
+        throw ServerException(message: "Server Error");
+      } else {
+        throw ServerException(message: "Server Error");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<DcBankEntity>> fetchDcBankAccounts(
+    FetchDcBankAccountsProps props,
+  ) async {
+    try {
+      var requestBody = {
+        "UserName": props.email,
+        "UID": props.userId,
+        "ByUserId": props.userId,
+        "RolePermissionId": props.rolePermissionId,
+        "PersonId": props.personId,
+        "EmployeeCode": props.employeeCode,
+        "MobileNumber": props.mobileNumber,
+        "MobileNo": props.mobileNumber,
+        "RequestFrom": "MobileApp",
+      };
+
+      var jsonEncodedRequestBody = jsonEncode(requestBody);
+
+      final response = await apiService.post(
+        ApiUrls.getBankAccounts,
+        data: requestBody,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        final errorMessage = response.data?['Message'];
+        final statusMessage = response.data?['Status'];
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
+            throw ServerException(message: errorMessage);
+          } else {
+            final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+            final depositAccounts =
+                jsonResponse.map((json) {
+                  return DcBankModel.fromJson(json);
+                }).toList();
+
+            return depositAccounts;
           }
         }
         throw ServerException(message: "Server Error");
