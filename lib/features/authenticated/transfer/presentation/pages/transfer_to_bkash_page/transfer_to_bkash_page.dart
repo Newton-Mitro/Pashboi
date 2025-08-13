@@ -9,6 +9,7 @@ import 'package:pashboi/features/authenticated/transfer/presentation/pages/trans
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_preview_section/transfer_preview_section.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/parts/transfer_to_mobile_section/transfer_to_mobile_section.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
+import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 import 'package:pashboi/core/extensions/app_context.dart';
@@ -121,21 +122,11 @@ class _TransferToBkashPageState extends State<TransferToBkashPage> {
             }
 
             if (state.successMessage != null) {
-              Navigator.of(context).pop();
-              final snackBar = SnackBar(
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Oops!',
-                  message: state.successMessage!,
-                  contentType: ContentType.success,
-                ),
+              Navigator.pushReplacementNamed(
+                context,
+                AuthRoutesName.transferToBkashSuccessPage,
+                arguments: {'message': state.successMessage},
               );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
             }
           },
         ),

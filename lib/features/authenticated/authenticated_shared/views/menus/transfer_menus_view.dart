@@ -18,18 +18,6 @@ class _TransferMenusViewState extends State<TransferMenusView> {
 
     return [
       {
-        "icon": BkashIcon(),
-        "menuName": Locales.string(
-          context,
-          "transfer_menu_transfer_to_bkash_title",
-        ),
-        "menuDescription": Locales.string(
-          context,
-          "transfer_menu_transfer_to_bkash_description",
-        ),
-        "route": AuthRoutesName.transferToBkashPage,
-      },
-      {
         "icon": Icon(FontAwesomeIcons.rightLeft, color: color, size: 30),
         "menuName": Locales.string(
           context,
@@ -40,6 +28,18 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           "transfer_menu_transfer_within_dhaka_cradit_description",
         ),
         "route": AuthRoutesName.internalTransferPage,
+      },
+      {
+        "icon": BkashIcon(),
+        "menuName": Locales.string(
+          context,
+          "transfer_menu_transfer_to_bkash_title",
+        ),
+        "menuDescription": Locales.string(
+          context,
+          "transfer_menu_transfer_to_bkash_description",
+        ),
+        "route": AuthRoutesName.transferToBkashPage,
       },
       {
         "icon": Icon(FontAwesomeIcons.buildingColumns, color: color, size: 30),

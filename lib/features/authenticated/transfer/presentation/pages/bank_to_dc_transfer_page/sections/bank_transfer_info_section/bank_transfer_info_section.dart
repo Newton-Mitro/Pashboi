@@ -92,10 +92,7 @@ class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildHeader(context, widget.sectionTitle ?? "Bank Transfer Info"),
-          SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: _buildFormBody(context),
-          ),
+          _buildFormBody(context),
         ],
       ),
     );
@@ -113,104 +110,111 @@ class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
 
     return Container(
       width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.55,
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         border: Border.all(color: theme.colorScheme.primary),
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(6)),
       ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Bank dropdown
-          AppDropdownSelect(
-            label: "Select Bank",
-            value: selectedBankId,
-            prefixIcon: FontAwesomeIcons.buildingColumns,
-            items:
-                bankList
-                    .map(
-                      (bank) => DropdownMenuItem(
-                        value: bank['id'],
-                        child: Text(bank['name']!),
-                      ),
-                    )
-                    .toList(),
-            onChanged: (val) => setState(() => selectedBankId = val),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Bank Account Number
-          AppTextInput(
-            label: "Bank Account Number",
-            prefixIcon: const Icon(Icons.account_balance),
-            onChanged: (val) => bankAccountNumber = val,
-          ),
-
-          const SizedBox(height: 16),
-
-          // Routing Number
-          AppTextInput(
-            label: "Routing Number",
-            keyboardType: TextInputType.number,
-            prefixIcon: const Icon(Icons.route),
-            onChanged: (val) => routingNumber = val,
-          ),
-
-          const SizedBox(height: 16),
-
-          // Transaction ID
-          AppTextInput(
-            label: "Transaction ID",
-            prefixIcon: const Icon(Icons.confirmation_number),
-            onChanged: (val) => transactionId = val,
-          ),
-
-          const SizedBox(height: 16),
-
-          // Amount
-          AppTextInput(
-            label: "Amount",
-            prefixIcon: const Icon(Icons.attach_money),
-            keyboardType: TextInputType.number,
-            onChanged: (val) => transferAmount = double.tryParse(val),
-          ),
-
-          const SizedBox(height: 16),
-
-          Text("Attach Bank Transfer Receipt"),
-          const SizedBox(height: 5),
-
-          // Receipt Image Picker
-          GestureDetector(
-            onTap: _pickImage,
-            child: DottedBorder(
-              key: const ValueKey("dotted_border_key"),
-              options: RectDottedBorderOptions(
-                color: theme.colorScheme.primary,
-                dashPattern: [8, 4],
+      child: Scrollbar(
+        thumbVisibility: true, // Always show the scrollbar
+        radius: const Radius.circular(8), // Rounded edges for modern look
+        thickness: 6, // Customize thickness
+        trackVisibility: true,
+        interactive: true, // Makes the scrollbar draggable
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Bank dropdown
+              AppDropdownSelect(
+                label: "Select Bank",
+                value: selectedBankId,
+                prefixIcon: FontAwesomeIcons.buildingColumns,
+                items:
+                    bankList
+                        .map(
+                          (bank) => DropdownMenuItem(
+                            value: bank['id'],
+                            child: Text(bank['name']!),
+                          ),
+                        )
+                        .toList(),
+                onChanged: (val) => setState(() => selectedBankId = val),
               ),
-              child: Container(
-                height: 120,
-                width: double.infinity,
-                alignment: Alignment.center,
-                child:
-                    selectedImage != null
-                        ? Image.file(selectedImage!)
-                        : const Text("Tap to upload receipt image"),
+              const SizedBox(height: 16),
+
+              // Bank Account Number
+              AppTextInput(
+                enabled: false,
+                label: "Bank Account Number",
+                prefixIcon: const Icon(Icons.account_balance),
+                onChanged: (val) => bankAccountNumber = val,
               ),
-            ),
-          ),
+              const SizedBox(height: 16),
 
-          const SizedBox(height: 16),
+              // Routing Number
+              AppTextInput(
+                enabled: false,
+                label: "Routing Number",
+                keyboardType: TextInputType.number,
+                prefixIcon: const Icon(Icons.route),
+                onChanged: (val) => routingNumber = val,
+              ),
+              const SizedBox(height: 16),
 
-          // Remarks
-          AppTextInput(
-            label: "Remarks",
-            prefixIcon: const Icon(Icons.edit_note),
-            onChanged: (val) => remarks = val,
+              // Transaction ID
+              AppTextInput(
+                label: "Transaction ID",
+                prefixIcon: const Icon(Icons.confirmation_number),
+                onChanged: (val) => transactionId = val,
+              ),
+              const SizedBox(height: 16),
+
+              // Amount
+              AppTextInput(
+                label: "Amount",
+                prefixIcon: const Icon(Icons.attach_money),
+                keyboardType: TextInputType.number,
+                onChanged: (val) => transferAmount = double.tryParse(val),
+              ),
+              const SizedBox(height: 16),
+
+              Text("Attach Bank Transfer Receipt"),
+              const SizedBox(height: 5),
+
+              // Receipt Image Picker
+              GestureDetector(
+                onTap: _pickImage,
+                child: DottedBorder(
+                  key: const ValueKey("dotted_border_key"),
+                  options: RectDottedBorderOptions(
+                    color: theme.colorScheme.primary,
+                    dashPattern: [8, 4],
+                  ),
+                  child: Container(
+                    height: 120,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child:
+                        selectedImage != null
+                            ? Image.file(selectedImage!)
+                            : const Text("Tap to upload receipt image"),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Remarks
+              AppTextInput(
+                label: "Remarks",
+                prefixIcon: const Icon(Icons.edit_note),
+                onChanged: (val) => remarks = val,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
