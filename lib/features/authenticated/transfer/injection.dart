@@ -6,10 +6,12 @@ import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_de
 import 'package:pashboi/features/authenticated/transfer/data/datasources/remote.datasource.dart';
 import 'package:pashboi/features/authenticated/transfer/data/repositories/transfer_repository.impl.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/repositories/transfer_repository.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/usecases/fetch_dc_accounts_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_fund_transfer_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_bank_to_dc_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_to_bkash_usecase.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/sections/bank_transfer_info_section/bloc/dc_bank_account_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
 
@@ -42,6 +44,11 @@ void registerTransferModule() async {
       transferRepository: sl<TransferRepository>(),
     ),
   );
+  sl.registerLazySingleton<FetchDcBankAccountsUseCase>(
+    () => FetchDcBankAccountsUseCase(
+      transferRepository: sl<TransferRepository>(),
+    ),
+  );
 
   // Register Bloc
   sl.registerFactory<BankToDcTransferStepsBloc>(
@@ -60,6 +67,12 @@ void registerTransferModule() async {
     () => TransferToBkashStepsBloc(
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
       submitTransferToBkashUseCase: sl<SubmitTransferToBkashUseCase>(),
+    ),
+  );
+  sl.registerFactory<DcBankAccountBloc>(
+    () => DcBankAccountBloc(
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+      fetchDcBankAccountsUseCase: sl<FetchDcBankAccountsUseCase>(),
     ),
   );
 }

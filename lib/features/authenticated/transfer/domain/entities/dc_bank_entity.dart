@@ -13,4 +13,15 @@ class DcBankEntity extends Entity<String> {
     required this.bankRoutingNo,
     required this.bankBranch,
   });
+
+  /// Returns an empty/default DcBankEntity
+  factory DcBankEntity.empty() {
+    return DcBankEntity(
+      id: '',
+      bankName: '',
+      bankAccNumber: '',
+      bankRoutingNo: '',
+      bankBranch: '',
+    );
+  }
 }

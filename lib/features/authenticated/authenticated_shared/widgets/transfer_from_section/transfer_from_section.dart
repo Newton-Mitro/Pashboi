@@ -9,6 +9,7 @@ import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 
 class TransferFromSection extends StatefulWidget {
+  final String? sectionTitle;
   final String? accountNumber;
   final String? accountError;
   final void Function(
@@ -27,6 +28,7 @@ class TransferFromSection extends StatefulWidget {
 
   const TransferFromSection({
     super.key,
+    this.sectionTitle,
     required this.accountNumber,
     required this.accountError,
     required this.onAccountChanged,
@@ -91,7 +93,7 @@ class _TransferFromSectionState extends State<TransferFromSection> {
                     ),
                     child: Center(
                       child: Text(
-                        "Money Will Be Transferred From",
+                        widget.sectionTitle ?? "Money Will Be Transferred From",
                         style: TextStyle(
                           color: colorScheme.onPrimary,
                           fontSize: 15,

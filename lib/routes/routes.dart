@@ -51,6 +51,7 @@ import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bank_to_dc_transfer_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bank_to_dc_transfer_success_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
+import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/sections/bank_transfer_info_section/bloc/dc_bank_account_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/internal_transfer_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
@@ -462,6 +463,7 @@ class AppRoutes {
                 create: (context) => sl<BankToDcTransferStepsBloc>(),
               ),
               BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
+              BlocProvider(create: (context) => sl<DcBankAccountBloc>()),
             ],
             child: BankToDcTransferPage(),
           ),

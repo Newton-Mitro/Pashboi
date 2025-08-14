@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transfer_from_section/transfer_from_section.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
+import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
+import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/entities/dc_bank_entity.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/sections/bank_transfer_info_section/bank_transfer_info_section.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transaction_details_section/transaction_details_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
@@ -28,6 +35,13 @@ class BankToDcTransferPage extends StatefulWidget {
 }
 
 class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
+  @override
+  void initState() {
+    // context.read<DebitCardBloc>().add(DebitCardLoad());
+    context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
+    super.initState();
+  }
+
   Widget _buildProgressStepper(double width, BankToDcTransferStepsState state) {
     final theme = context.theme.colorScheme;
 
@@ -266,10 +280,40 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
+  void _setCollectionLedgers(
+    DepositAccountEntity savingAccount,
+    double amount,
+  ) {
+    context.read<BankToDcTransferStepsBloc>().add(
+      BankToDcTransferSetCollectionLedgers(
+        ledger: CollectionLedgerEntity(
+          id: 0,
+          accountNumber: savingAccount.number,
+          accountName: savingAccount.name,
+          ledgerName: savingAccount.typeName,
+          accountTypeCode: savingAccount.typeCode,
+          moduleCode: '0',
+          amount: amount,
+          depositAmount: amount,
+          accountId: savingAccount.id,
+          defaultAccount: false,
+          subledger: false,
+          multiplier: false,
+          editable: true,
+          lps: false,
+          ledgerId: savingAccount.ledgerId,
+          plType: 1,
+          loanBalance: 0,
+          intrestRate: 0,
+          lastPaidDate: DateTime.now(),
+          refundBased: false,
+          collectionType: 'dms_balance',
+          accountFor: 'Individual',
+          isRefundBased: false,
+          isSelected: true,
+        ),
+      ),
+    );
   }
 
   void _verifyCardPIN(BankToDcTransferStepsState depositLaterStepsState) {
@@ -292,16 +336,91 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
     final selectedLedgers = state.collectionLedgers;
     return [
       StepItem(
-        icon: FontAwesomeIcons.moneyBillTransfer,
+        icon: FontAwesomeIcons.receipt,
+        widget: TransferFromSection(
+          sectionTitle: "Card and Account",
+          accountNumber: state.selectedAccount?.number,
+          accountError:
+              state.validationErrors[state.currentStep]?['transferFromAccount'],
+          onAccountChanged: (debitCard, selectedAccount) {
+            if (debitCard != null) {
+              context.read<BankToDcTransferStepsBloc>().add(
+                BankToDcTransferSelectDebitCard(debitCard),
+              );
+            }
+            if (selectedAccount != null) {
+              context.read<BankToDcTransferStepsBloc>().add(
+                BankToDcTransferSelectCardAccount(selectedAccount),
+              );
+            }
+          },
+
+          selectedCardNumber: state.selectedCard?.cardNumber,
+          accountTypeName: state.selectedAccount?.typeName,
+          accountBalance:
+              state.selectedAccount != null
+                  ? state.selectedAccount!.balance
+                  : 0,
+          accountWithdrawable:
+              state.selectedAccount != null
+                  ? state.selectedAccount!.withdrawableBalance
+                  : 0,
+          accountOperatorName:
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
+          accountHolderName:
+              state.selectedCard?.nameOnCard.toTitleCase().trim(),
+          accountName: state.selectedCard?.nameOnCard.toTitleCase().trim(),
+        ),
+      ),
+      StepItem(
+        icon: FontAwesomeIcons.buildingColumns,
         widget: BankTransferInfoSection(
-          searchedAccountHolderName: '',
           sectionTitle: 'Proof of Bank Transfer',
-          setCollectionLedgers:
-              (List<CollectionLedgerEntity> collectionLedgers) {},
-          changeSearchAccountNumber: (String? accountNumber) {},
-          onChangeSearchAccountNumber: (String? accountNumber) {},
-          changeBeneficiaryAccountNumber: (String? beneficiaryAccountNumber) {},
-          changeSearchedAccountHolderName: (String? accountHolderName) {},
+          selectedBankAccount: state.selectedBankAccount,
+          onBankAccountChange: (DcBankEntity bankAccount) {
+            context.read<BankToDcTransferStepsBloc>().add(
+              BankToDcTransferSelectBankAccount(bankAccount),
+            );
+          },
+          transactionId:
+              state.stepData[state.currentStep]?['transactionId'] ?? '',
+          onTransactionIdChange: (String tnxId) {
+            context.read<BankToDcTransferStepsBloc>().add(
+              BankToDcTransferUpdateStepData(
+                step: state.currentStep,
+                data: {'transactionId': tnxId},
+              ),
+            );
+          },
+          amount: state.stepData[state.currentStep]?['amount'] ?? '',
+          onAmountChange: (String amount) {
+            if (amount.isEmpty) {
+              return;
+            }
+            context.read<BankToDcTransferStepsBloc>().add(
+              BankToDcTransferUpdateStepData(
+                step: state.currentStep,
+                data: {'amount': amount},
+              ),
+            );
+            if (state.selectedAccount != null && amount.isNotEmpty) {
+              _setCollectionLedgers(
+                state.selectedAccount!,
+                double.parse(amount),
+              );
+            }
+          },
+          remarks: state.stepData[state.currentStep]?['remarks'] ?? '',
+          onRemarksChange: (String remarks) {
+            context.read<BankToDcTransferStepsBloc>().add(
+              BankToDcTransferUpdateStepData(
+                step: state.currentStep,
+                data: {'remarks': remarks},
+              ),
+            );
+          },
+          receiptFile: null,
+          onReceiptFileChange: (File? receiptFile) {},
         ),
       ),
 
