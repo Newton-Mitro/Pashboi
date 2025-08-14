@@ -38,6 +38,7 @@ import 'package:pashboi/features/authenticated/personnel/employee/presentation/p
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/employees_profile_page.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_balance_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leave_information_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/widget/leaveApplicationPage.dart';
@@ -327,10 +328,29 @@ class AppRoutes {
           ),
         );
 
+      // case AuthRoutesName.leaveInformation:
+      //   return _materialRoute(
+      //     BlocProvider(
+      //       create: (_) => sl<LeaveTypeBloc>(),
+      //       child: LeaveInformationPage(),
+      //     ),
+      //   );
+
       case AuthRoutesName.leaveInformation:
         return _materialRoute(
-          BlocProvider(
-            create: (_) => sl<LeaveTypeBloc>(),
+          // BlocProvider(
+          //   create: (_) => sl<LeaveTypeBloc>(),
+          //   child: LeaveApplicationPage(),
+          // ),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<LeaveTypeBloc>(
+                create: (context) => sl<LeaveTypeBloc>(),
+              ),
+              BlocProvider<LeaveTypeBalanceBloc>(
+                create: (context) => sl<LeaveTypeBalanceBloc>(),
+              ),
+            ],
             child: LeaveInformationPage(),
           ),
         );

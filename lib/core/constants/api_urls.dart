@@ -105,4 +105,7 @@ class ApiUrls {
       'professionals_v1/getEmployeeDetails';
 
   static const String getLeaveType = 'professionals_v1/getLeaveTypes';
+
+  static const String leaveTypeBalance =
+      'professionals_v1/getLeaveTypeBalances';
 }

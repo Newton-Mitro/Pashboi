@@ -3,6 +3,6 @@ import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_
 
 class LeaveTypeBalanceDto {
   final LeaveInfoModel leaveInfo;
-  final LeaveSummeryModel leaveSummary;
+  final List<LeaveSummeryModel> leaveSummary;
   LeaveTypeBalanceDto({required this.leaveInfo, required this.leaveSummary});
 }

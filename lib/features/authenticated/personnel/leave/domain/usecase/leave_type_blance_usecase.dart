@@ -18,10 +18,11 @@ class LeaveTypeBalanceProps extends BaseRequestProps {
   });
 }
 
-class NameUseCase extends UseCase<LeaveTypeBalanceDto, LeaveTypeBalanceProps> {
+class LeaveTypeBalanceUseCase
+    extends UseCase<LeaveTypeBalanceDto, LeaveTypeBalanceProps> {
   final LeaveTypeBalanceRepository leaveTypeBalanceRepository;
 
-  NameUseCase({required this.leaveTypeBalanceRepository});
+  LeaveTypeBalanceUseCase({required this.leaveTypeBalanceRepository});
 
   @override
   ResultFuture<LeaveTypeBalanceDto> call(LeaveTypeBalanceProps props) async {

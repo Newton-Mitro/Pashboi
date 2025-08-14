@@ -3,26 +3,26 @@ import 'package:pashboi/core/entities/entity.dart';
 class LeaveSummeryEntity extends Entity<String> {
   final String leaveTypeCode;
   final String leaveType;
-  final String employeeId;
-  final String totalLeaveDays;
-  final String balance;
-  final String totalLeaveApplied;
+  final int employeeId;
+  final double totalLeaveDays;
+  final double balance;
+  final double totalLeaveApplied;
   final String lastApplicationDate;
-  final String maxBalance;
-  final String minimumNoticeDay;
-  final String maxLeaveAtATime;
-  final String documentsRequiredDays;
-  final String maximumHourLeave;
-  final String applyBeforeDays;
-  final String isFallbackRequired;
-  final String maximumFallbackDays;
-  final String isEditable;
-  final String isRejoinDateRequired;
-  final String enableFutureDateApplication;
-  final String enablePastDateApplication;
-  final String withTime;
-  final String enablePresentDateApplication;
-  final String requireToDate;
+  final int maxBalance;
+  final int minimumNoticeDay;
+  final int maxLeaveAtATime;
+  final int documentsRequiredDays;
+  final double maximumHourLeave;
+  final int applyBeforeDays;
+  final bool isFallbackRequired;
+  final int maximumFallbackDays;
+  final bool isEditable;
+  final bool isRejoinDateRequired;
+  final bool enableFutureDateApplication;
+  final bool enablePastDateApplication;
+  final bool withTime;
+  final bool enablePresentDateApplication;
+  final bool requireToDate;
   LeaveSummeryEntity({
     required String id,
     required this.leaveTypeCode,
