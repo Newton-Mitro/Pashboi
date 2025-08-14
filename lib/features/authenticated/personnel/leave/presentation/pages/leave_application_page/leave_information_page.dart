@@ -280,6 +280,11 @@ class _LeaveInformationPageState extends State<LeaveInformationPage> {
                                                   context,
                                                   AuthRoutesName
                                                       .leaveApplication,
+                                                  arguments: {
+                                                    'selectedLeaveTypeId':
+                                                        selectedLeaveType,
+                                                    'leaveTypes': leaveTypes,
+                                                  },
                                                 );
                                               },
                                             ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_bloc.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
@@ -12,7 +10,14 @@ import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class LeaveApplicationPage extends StatefulWidget {
-  const LeaveApplicationPage({super.key});
+  final String selectedLeaveTypeId;
+  final List<LeaveTypeEntity> leaveTypes;
+
+  const LeaveApplicationPage({
+    super.key,
+    required this.selectedLeaveTypeId,
+    required this.leaveTypes,
+  });
 
   @override
   State<LeaveApplicationPage> createState() => _LeaveApplicationPageState();
@@ -41,7 +46,10 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
     endDate = today.add(const Duration(days: 1));
     rejoinDate = endDate.add(const Duration(days: 1));
     _updateTotalDays();
-    context.read<LeaveTypeBloc>().add(FetchLeaveTypeEvent());
+    selectedLeaveType =
+        widget.selectedLeaveTypeId.isNotEmpty
+            ? widget.selectedLeaveTypeId
+            : null;
   }
 
   void _handleDateChange(DateTime date, {required String field}) {
@@ -91,34 +99,13 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
       body: PageContainer(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(12),
-          child: BlocBuilder<LeaveTypeBloc, LeaveTypeState>(
-            builder: (context, state) {
-              if (state is LeaveTypeLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (state is LeaveTypeError) {
-                return Center(
-                  child: Text(
-                    state.message,
-                    style: TextStyle(color: context.theme.colorScheme.error),
-                  ),
-                );
-              }
-
-              if (state is LeaveTypeSuccess) {
-                return _buildForm(state.leaveTypeEntity);
-              }
-
-              return const SizedBox.shrink();
-            },
-          ),
+          child: _buildForm(),
         ),
       ),
     );
   }
 
-  Widget _buildForm(List<LeaveTypeEntity> leaveTypes) {
+  Widget _buildForm() {
     return Card(
       color: context.theme.colorScheme.surface,
       elevation: 3,
@@ -142,9 +129,9 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
             AppDropdownSelect(
               label: "Leave Type",
               value: selectedLeaveType,
-              enabled: leaveTypes.isNotEmpty,
+              enabled: widget.leaveTypes.isNotEmpty,
               items:
-                  leaveTypes
+                  widget.leaveTypes
                       .map(
                         (type) => DropdownMenuItem(
                           value: type.id,

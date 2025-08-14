@@ -38,6 +38,7 @@ import 'package:pashboi/features/authenticated/personnel/employee/presentation/p
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/employees_profile_page.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_balance_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leave_information_page.dart';
@@ -52,7 +53,6 @@ import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/bloc/bank_to_dc_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/bloc/internal_transfer_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/internal_transfer_page.dart';
-import 'package:pashboi/features/authenticated/transfer/presentation/pages/internal_transfer_page/sections/internal_transfer_success_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/bloc/transfer_to_bkash_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/transfer_to_bkash_page.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/transfer_to_bkash_page/transfer_to_bkash_success_page.dart';
@@ -328,20 +328,8 @@ class AppRoutes {
           ),
         );
 
-      // case AuthRoutesName.leaveInformation:
-      //   return _materialRoute(
-      //     BlocProvider(
-      //       create: (_) => sl<LeaveTypeBloc>(),
-      //       child: LeaveInformationPage(),
-      //     ),
-      //   );
-
       case AuthRoutesName.leaveInformation:
         return _materialRoute(
-          // BlocProvider(
-          //   create: (_) => sl<LeaveTypeBloc>(),
-          //   child: LeaveApplicationPage(),
-          // ),
           MultiBlocProvider(
             providers: [
               BlocProvider<LeaveTypeBloc>(
@@ -356,12 +344,19 @@ class AppRoutes {
         );
 
       case AuthRoutesName.leaveApplication:
-        return _materialRoute(
-          BlocProvider(
-            create: (_) => sl<LeaveTypeBloc>(),
-            child: LeaveApplicationPage(),
-          ),
-        );
+        if (args is Map<String, dynamic> &&
+            args['leaveTypes'] is List<LeaveTypeEntity>) {
+          return _materialRoute(
+            BlocProvider(
+              create: (_) => sl<LeaveTypeBloc>(),
+              child: LeaveApplicationPage(
+                selectedLeaveTypeId:
+                    args['selectedLeaveTypeId'] as String? ?? '',
+                leaveTypes: args['leaveTypes'] as List<LeaveTypeEntity>,
+              ),
+            ),
+          );
+        }
 
       ///
       case AuthRoutesName.depositLaterSuccessPage:
