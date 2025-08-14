@@ -5,10 +5,7 @@ import 'package:pashboi/features/authenticated/transfer/domain/entities/dc_bank_
 import 'package:pashboi/features/authenticated/transfer/domain/repositories/transfer_repository.dart';
 
 class FetchDcBankAccountsProps extends BaseRequestProps {
-  final String otherField;
-
   const FetchDcBankAccountsProps({
-    required this.otherField,
     required super.email,
     required super.userId,
     required super.rolePermissionId,

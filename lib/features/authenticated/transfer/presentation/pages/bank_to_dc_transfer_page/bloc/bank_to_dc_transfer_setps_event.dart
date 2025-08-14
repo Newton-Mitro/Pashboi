@@ -34,12 +34,12 @@ class BankToDcTransferUpdateStepData extends BankToDcTransferStepsEvent {
 }
 
 class BankToDcTransferSetCollectionLedgers extends BankToDcTransferStepsEvent {
-  final List<CollectionLedgerEntity> ledgers;
+  final CollectionLedgerEntity ledger;
 
-  const BankToDcTransferSetCollectionLedgers({required this.ledgers});
+  const BankToDcTransferSetCollectionLedgers({required this.ledger});
 
   @override
-  List<Object> get props => [ledgers];
+  List<Object> get props => [ledger];
 }
 
 class BankToDcTransferToggleLedgerSelection extends BankToDcTransferStepsEvent {
@@ -105,6 +105,13 @@ class BankToDcTransferSelectDebitCard extends BankToDcTransferStepsEvent {
   List<Object> get props => [selectedCard];
 }
 
-class BankToDcTransferFlowReset extends BankToDcTransferStepsEvent {}
+class BankToDcTransferSelectBankAccount extends BankToDcTransferStepsEvent {
+  final DcBankEntity selectedBankAccount;
+
+  const BankToDcTransferSelectBankAccount(this.selectedBankAccount);
+
+  @override
+  List<Object> get props => [selectedBankAccount];
+}
 
 class BankToDcTransferSubmit extends BankToDcTransferStepsEvent {}

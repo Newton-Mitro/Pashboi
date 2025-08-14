@@ -9,6 +9,7 @@ import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/entities/dc_bank_entity.dart';
 part 'bank_to_dc_transfer_setps_event.dart';
 part 'bank_to_dc_transfer_steps_state.dart';
 
@@ -16,7 +17,7 @@ class BankToDcTransferStepsBloc
     extends Bloc<BankToDcTransferStepsEvent, BankToDcTransferStepsState> {
   // Define step range constants
   static const int firstStep = 0;
-  static const int lastStep = 4;
+  static const int lastStep = 5;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
   final SubmitDepositNowUseCase submitDepositNowUseCase;
@@ -24,7 +25,20 @@ class BankToDcTransferStepsBloc
   BankToDcTransferStepsBloc({
     required this.getAuthUserUseCase,
     required this.submitDepositNowUseCase,
-  }) : super(const BankToDcTransferStepsState(currentStep: 0)) {
+  }) : super(
+         BankToDcTransferStepsState(
+           currentStep: 0,
+           selectedAccount: null,
+           selectedBankAccount: DcBankEntity.empty(),
+           selectedCard: null,
+           validationErrors: {},
+           stepData: {},
+           collectionLedgers: [],
+           isLoading: false,
+           error: null,
+           successMessage: null,
+         ),
+       ) {
     on<BankToDcTransferGoToNextStep>(_onGoToNextStep);
     on<BankToDcTransferGoToPreviousStep>(_onGoToPreviousStep);
     on<BankToDcTransferUpdateStepData>(_onUpdateStepData);
@@ -32,7 +46,7 @@ class BankToDcTransferStepsBloc
     on<BankToDcTransferToggleLedgerSelection>(_onToggleLedgerSelection);
     on<BankToDcTransferToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
     on<BankToDcTransferUpdateLedgerAmount>(_onUpdateLedgerAmount);
-    on<BankToDcTransferFlowReset>(_onResetFlow);
+    on<BankToDcTransferSelectBankAccount>(_onSelectBankAccount);
     on<BankToDcTransferSelectCardAccount>(_onSelectCardAccount);
     on<BankToDcTransferSelectDebitCard>(_onSelectDebitCard);
     // update lps amount
@@ -84,22 +98,6 @@ class BankToDcTransferStepsBloc
       ...event.data,
     };
     emit(state.copyWith(stepData: updatedStepData));
-  }
-
-  void _onSetCollectionLedgers(
-    BankToDcTransferSetCollectionLedgers event,
-    Emitter<BankToDcTransferStepsState> emit,
-  ) {
-    final selectedLedgers =
-        event.ledgers
-            .map(
-              (ledger) => ledger.copyWith(
-                depositAmount: ledger.amount,
-                isSelected: false,
-              ),
-            )
-            .toList();
-    emit(state.copyWith(collectionLedgers: selectedLedgers));
   }
 
   void _onToggleLedgerSelection(
@@ -177,11 +175,11 @@ class BankToDcTransferStepsBloc
     emit(state.copyWith(collectionLedgers: updatedLedgers));
   }
 
-  void _onResetFlow(
-    BankToDcTransferFlowReset event,
+  void _onSelectBankAccount(
+    BankToDcTransferSelectBankAccount event,
     Emitter<BankToDcTransferStepsState> emit,
   ) {
-    emit(const BankToDcTransferStepsState(currentStep: 0));
+    emit(state.copyWith(selectedBankAccount: event.selectedBankAccount));
   }
 
   void _onSelectCardAccount(
@@ -292,27 +290,35 @@ class BankToDcTransferStepsBloc
     }
   }
 
+  void _onSetCollectionLedgers(
+    BankToDcTransferSetCollectionLedgers event,
+    Emitter<BankToDcTransferStepsState> emit,
+  ) {
+    final selectedLedgers = [event.ledger];
+    emit(state.copyWith(collectionLedgers: selectedLedgers));
+  }
+
   Map<String, dynamic> _validateDepositNowSteps(int step) {
     final data = state.stepData[step] ?? {};
     final errors = <String, dynamic>{};
 
     switch (step) {
       case 0:
-        // if (state.selectedAccount == null ||
-        //     state.selectedAccount!.number.isEmpty) {
-        //   errors['transferFromAccount'] = 'Select an account to transfer from';
-        // }
+        if (state.selectedAccount == null ||
+            state.selectedAccount!.number.isEmpty) {
+          errors['transferFromAccount'] = 'Select an account to transfer from';
+        }
         break;
 
       case 1:
-        if (data['searchAccountNumber'] == null) {
-          errors['searchAccountNumber'] =
-              'Please enter a search account number';
-        }
-        if (data['searchedAccountHolderName'] == null) {
-          errors['searchedAccountHolderName'] =
-              'Search account holder name is required';
-        }
+        // if (data['searchAccountNumber'] == null) {
+        //   errors['searchAccountNumber'] =
+        //       'Please enter a search account number';
+        // }
+        // if (data['searchedAccountHolderName'] == null) {
+        //   errors['searchedAccountHolderName'] =
+        //       'Search account holder name is required';
+        // }
         break;
 
       case 2:
