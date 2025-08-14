@@ -376,6 +376,8 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
         icon: FontAwesomeIcons.buildingColumns,
         widget: BankTransferInfoSection(
           sectionTitle: 'Proof of Bank Transfer',
+          bankSelectionError:
+              state.validationErrors[state.currentStep]?['bank'],
           selectedBankAccount: state.selectedBankAccount,
           onBankAccountChange: (DcBankEntity bankAccount) {
             context.read<BankToDcTransferStepsBloc>().add(
@@ -393,6 +395,7 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
             );
           },
           amount: state.stepData[state.currentStep]?['amount'] ?? '',
+          amountError: state.validationErrors[state.currentStep]?['amount'],
           onAmountChange: (String amount) {
             if (amount.isEmpty) {
               return;
@@ -419,8 +422,16 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
               ),
             );
           },
-          receiptFile: null,
-          onReceiptFileChange: (File? receiptFile) {},
+          receiptFile: state.stepData[state.currentStep]?['receiptFile'],
+          receiptError: state.validationErrors[state.currentStep]?['receipt'],
+          onReceiptFileChange: (File? receiptFile) {
+            context.read<BankToDcTransferStepsBloc>().add(
+              BankToDcTransferUpdateStepData(
+                step: state.currentStep,
+                data: {'receiptFile': receiptFile},
+              ),
+            );
+          },
         ),
       ),
 

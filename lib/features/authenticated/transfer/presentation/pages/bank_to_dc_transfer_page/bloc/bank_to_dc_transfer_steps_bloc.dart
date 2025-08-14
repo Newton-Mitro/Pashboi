@@ -311,14 +311,12 @@ class BankToDcTransferStepsBloc
         break;
 
       case 1:
-        // if (data['searchAccountNumber'] == null) {
-        //   errors['searchAccountNumber'] =
-        //       'Please enter a search account number';
-        // }
-        // if (data['searchedAccountHolderName'] == null) {
-        //   errors['searchedAccountHolderName'] =
-        //       'Search account holder name is required';
-        // }
+        if (data['amount'] == null) {
+          errors['amount'] = 'Please enter deposit amount';
+        }
+        if (state.selectedBankAccount.bankAccNumber.isEmpty) {
+          errors['bank'] = 'Please select a bank account';
+        }
         break;
 
       case 2:

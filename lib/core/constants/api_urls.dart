@@ -72,6 +72,8 @@ class ApiUrls {
       'Withdrawal_bKash_V1/CreatebKashWithdrawal';
 
   // Payment
+  static const String getPaymentServices = 'payments_v1/getPaymentServices';
+  static const String submitPayment = 'payments_v2/submitPayment';
 
   // Beneficiary
   static const String getBeneficiaries = 'beneficiaries_V1/getBeneficiaries';
