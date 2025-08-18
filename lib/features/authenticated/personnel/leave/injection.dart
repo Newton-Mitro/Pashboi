@@ -6,7 +6,7 @@ import 'package:pashboi/features/authenticated/personnel/leave/data/datasource/l
 import 'package:pashboi/features/authenticated/personnel/leave/data/repositories/leave_type_blance_repositories_impl.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_type_balance_repository.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_blance_usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/leave_type_balance_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_balance_bloc.dart';
 
 void registerLeaveTypeBalanceModule() {
   // Register Data Sources

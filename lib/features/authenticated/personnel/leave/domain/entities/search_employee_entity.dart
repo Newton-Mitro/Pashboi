@@ -1,6 +1,6 @@
 import 'package:pashboi/core/entities/entity.dart';
 
-class SearchEmployeeEntity extends Entity<int> {
+class SearchEmployeeEntity extends Entity<String> {
   final String fullName;
   final DateTime dateOfBirth;
   final int employeeId;

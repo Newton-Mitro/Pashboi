@@ -8,24 +8,24 @@ class SearchEmployee extends BaseRequestProps {
   final String searchText;
 
   const SearchEmployee({
-    required this.searchText,
     required super.email,
     required super.userId,
     required super.rolePermissionId,
     required super.personId,
     required super.employeeCode,
     required super.mobileNumber,
+    required this.searchText,
   });
 }
 
 class SearchEmployeeUseCase
     extends UseCase<List<SearchEmployeeEntity>, SearchEmployee> {
-  final SearchEmployeeRepository repositoryInterface;
+  final SearchEmployeeRepository searchEmployeeRepository;
 
-  SearchEmployeeUseCase({required this.repositoryInterface});
+  SearchEmployeeUseCase({required this.searchEmployeeRepository});
 
   @override
   ResultFuture<List<SearchEmployeeEntity>> call(SearchEmployee props) async {
-    return repositoryInterface.getSearchEmployee(props);
+    return searchEmployeeRepository.getSearchEmployee(props);
   }
 }
