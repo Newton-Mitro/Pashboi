@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/presentation/bloc/collection_ledger_bloc.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/entities/dc_bank_entity.dart';
 import 'package:pashboi/features/authenticated/transfer/presentation/pages/bank_to_dc_transfer_page/sections/bank_transfer_info_section/bloc/dc_bank_account_bloc.dart';
@@ -14,28 +15,34 @@ import 'package:pashboi/shared/widgets/app_text_input.dart';
 class BankTransferInfoSection extends StatefulWidget {
   final String? sectionTitle;
   final DcBankEntity selectedBankAccount;
+  final String? bankSelectionError;
   final void Function(DcBankEntity bankAccount) onBankAccountChange;
   final String transactionId;
   final void Function(String tnxId) onTransactionIdChange;
   final String amount;
+  final String? amountError;
   final void Function(String amount) onAmountChange;
   final String remarks;
   final void Function(String remarks) onRemarksChange;
   final File? receiptFile;
+  final String? receiptError;
   final void Function(File? receiptFile) onReceiptFileChange;
 
   const BankTransferInfoSection({
     super.key,
     required this.sectionTitle,
     required this.selectedBankAccount,
+    required this.bankSelectionError,
     required this.onBankAccountChange,
     required this.transactionId,
     required this.onTransactionIdChange,
     required this.amount,
+    required this.amountError,
     required this.onAmountChange,
     required this.remarks,
     required this.onRemarksChange,
     required this.receiptFile,
+    required this.receiptError,
     required this.onReceiptFileChange,
   });
 
@@ -45,25 +52,18 @@ class BankTransferInfoSection extends StatefulWidget {
 }
 
 class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
-  File? selectedImage;
-
   final _imagePicker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
     context.read<DcBankAccountBloc>().add(DcBankAccountLoadEvent());
-    // Initialize with widget values
-    selectedImage = widget.receiptFile;
   }
 
   void _pickImage() async {
     final result = await _imagePicker.pickImage(source: ImageSource.gallery);
     if (result != null) {
       final file = File(result.path);
-      setState(() {
-        selectedImage = file;
-      });
       widget.onReceiptFileChange(file);
     }
   }
@@ -131,15 +131,18 @@ class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppDropdownSelect(
-                      label: "Bank",
+                      label: "Bank Account",
                       value: widget.selectedBankAccount.id,
                       prefixIcon: FontAwesomeIcons.buildingColumns,
+                      errorText: widget.bankSelectionError,
                       items:
                           bankList
                               .map(
                                 (bank) => DropdownMenuItem(
                                   value: bank.id,
-                                  child: Text(bank.bankName),
+                                  child: Text(
+                                    "${bank.bankName.toTitleCase()} - (${bank.bankAccNumber})",
+                                  ),
                                 ),
                               )
                               .toList(),
@@ -155,14 +158,6 @@ class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
 
                     AppTextInput(
                       enabled: false,
-                      label: "Bank Account Number",
-                      prefixIcon: const Icon(Icons.account_balance),
-                      initialValue: widget.selectedBankAccount.bankAccNumber,
-                    ),
-                    const SizedBox(height: 16),
-
-                    AppTextInput(
-                      enabled: false,
                       label: "Routing Number",
                       keyboardType: TextInputType.number,
                       prefixIcon: const Icon(Icons.route),
@@ -170,16 +165,16 @@ class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
                     ),
                     const SizedBox(height: 16),
 
+                    // AppTextInput(
+                    //   label: "Transaction ID",
+                    //   prefixIcon: const Icon(Icons.confirmation_number),
+                    //   initialValue: widget.transactionId,
+                    //   onChanged: widget.onTransactionIdChange,
+                    // ),
+                    // const SizedBox(height: 16),
                     AppTextInput(
-                      label: "Transaction ID",
-                      prefixIcon: const Icon(Icons.confirmation_number),
-                      initialValue: widget.transactionId,
-                      onChanged: widget.onTransactionIdChange,
-                    ),
-                    const SizedBox(height: 16),
-
-                    AppTextInput(
-                      label: "Amount",
+                      label: "Deposit Amount",
+                      errorText: widget.amountError,
                       prefixIcon: const Icon(Icons.attach_money),
                       keyboardType: TextInputType.number,
                       initialValue: widget.amount.toString(),
@@ -187,17 +182,20 @@ class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
                         widget.onAmountChange(val);
                       },
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 10),
 
                     const Text("Attach Bank Transfer Receipt"),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 8),
 
                     GestureDetector(
                       onTap: _pickImage,
                       child: DottedBorder(
                         key: const ValueKey("dotted_border_key"),
                         options: RectDottedBorderOptions(
-                          color: theme.colorScheme.primary,
+                          color:
+                              widget.receiptError != null
+                                  ? theme.colorScheme.error
+                                  : theme.colorScheme.primary,
                           dashPattern: [8, 4],
                         ),
                         child: Container(
@@ -205,20 +203,20 @@ class _BankTransferInfoSectionState extends State<BankTransferInfoSection> {
                           width: double.infinity,
                           alignment: Alignment.center,
                           child:
-                              selectedImage != null
-                                  ? Image.file(selectedImage!)
+                              widget.receiptFile != null
+                                  ? Image.file(widget.receiptFile!)
                                   : const Text("Tap to upload receipt image"),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    // const SizedBox(height: 16),
 
-                    AppTextInput(
-                      label: "Remarks",
-                      prefixIcon: const Icon(Icons.edit_note),
-                      initialValue: widget.remarks,
-                      onChanged: widget.onRemarksChange,
-                    ),
+                    // AppTextInput(
+                    //   label: "Remarks",
+                    //   prefixIcon: const Icon(Icons.edit_note),
+                    //   initialValue: widget.remarks,
+                    //   onChanged: widget.onRemarksChange,
+                    // ),
                   ],
                 ),
               ),
