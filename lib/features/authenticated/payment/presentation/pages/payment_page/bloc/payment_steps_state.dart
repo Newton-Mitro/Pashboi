@@ -4,9 +4,10 @@ class PaymentStepsState extends Equatable {
   final int currentStep;
   final Map<int, Map<String, dynamic>> validationErrors;
   final Map<int, Map<String, dynamic>> stepData;
-  final List<CollectionLedgerEntity> collectionLedgers;
   final DepositAccountEntity? selectedAccount;
   final DebitCardEntity? selectedCard;
+  final ServiceEntity? selectedService;
+  final NotifyPersonEntity? selectedNotifyPerson;
   final bool isLoading;
   final String? error;
   final String? successMessage;
@@ -15,6 +16,8 @@ class PaymentStepsState extends Equatable {
     required this.currentStep,
     this.selectedAccount,
     this.selectedCard,
+    this.selectedService,
+    this.selectedNotifyPerson,
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
@@ -23,8 +26,7 @@ class PaymentStepsState extends Equatable {
     this.successMessage,
   }) : validationErrors = validationErrors ?? const {},
        stepData = stepData ?? const {},
-       isLoading = isLoading ?? false,
-       collectionLedgers = collectionLedgers ?? const [];
+       isLoading = isLoading ?? false;
 
   PaymentStepsState copyWith({
     int? currentStep,
@@ -33,6 +35,8 @@ class PaymentStepsState extends Equatable {
     List<CollectionLedgerEntity>? collectionLedgers,
     DepositAccountEntity? selectedAccount,
     DebitCardEntity? selectedCard,
+    ServiceEntity? selectedService,
+    NotifyPersonEntity? selectedNotifyPerson,
     bool? isLoading,
     String? error,
     String? successMessage,
@@ -41,9 +45,10 @@ class PaymentStepsState extends Equatable {
       currentStep: currentStep ?? this.currentStep,
       validationErrors: validationErrors ?? this.validationErrors,
       stepData: stepData ?? this.stepData,
-      collectionLedgers: collectionLedgers ?? this.collectionLedgers,
       selectedAccount: selectedAccount ?? this.selectedAccount,
       selectedCard: selectedCard ?? this.selectedCard,
+      selectedService: selectedService ?? this.selectedService,
+      selectedNotifyPerson: selectedNotifyPerson ?? this.selectedNotifyPerson,
       isLoading: isLoading ?? this.isLoading,
       error: error,
       successMessage: successMessage,
@@ -55,9 +60,10 @@ class PaymentStepsState extends Equatable {
     currentStep,
     validationErrors,
     stepData,
-    collectionLedgers,
     selectedAccount,
     selectedCard,
+    selectedService,
+    selectedNotifyPerson,
     isLoading,
     error,
     successMessage,

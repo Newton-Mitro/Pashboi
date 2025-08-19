@@ -95,14 +95,10 @@
 
   "info_menu_profile_title": "প্রোফাইল",
   "info_menu_profile_description": "আপনার ব্যক্তিগত তথ্য ও পরিবর্তন করুন",
-  "info_menu_surety_status_title": "জামানতের অবস্থা",
-  "info_menu_surety_status_description": "আপনার জামানত ও সংশ্লিষ্ট দায়িত্বসমূহের বর্তমান অবস্থা দেখুন ও ট্র্যাক করুন।",
-  "info_menu_dependents_title": "নির্ভরশীল",
-  "info_menu_dependents_description": "আপনার নির্ভরশীলদের তথ্য ও অ্যাকাউন্ট সমূহ",
-  "info_menu_add_operating_account_title": "অ্যাকাউন্ট যুক্ত করুন",
-  "info_menu_add_operating_account_description": "আপনার নির্ভরশীলদের অ্যাকাউন্ট যুক্ত করুন",
   "info_menu_card_title": "কার্ডসমূহ",
   "info_menu_card_description": "এখান থেকে আপনার কার্ডসমূহ দেখুন, ম্যানেজ করুন ও অনুরোধ করুন",
+  "info_menu_agm_counter_title": "এ.জি.এম কাউন্টার",
+  "info_menu_agm_counter_description": "এখান থেকে আপনার এ.জি.এম কাউন্টার দেখুন ও পরিচালনা করুন",
 
   "accounts_menu_accounts_title": "অ্যাকাউন্টসমূহ",
   "accounts_menu_accounts_description": "আপনার অ্যাকাউন্ট, ব্যালেন্স ও লেনদেন এখান থেকে দেখুন ও পরিচালনা করুন",

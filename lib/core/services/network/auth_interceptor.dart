@@ -1,4 +1,6 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:pashboi/features/auth/data/data_sources/auth_local_datasource.dart';
 import 'package:pashboi/features/my_app/presentation/pages/my_app.dart';
 
@@ -44,6 +46,25 @@ class AuthInterceptor extends Interceptor {
           (route) => false,
         );
       });
+
+      final context = navigatorKey.currentContext;
+      if (context != null) {
+        final snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Oops!',
+            message:
+                'Authorization has been denied for this request. You have been logged out.',
+            contentType: ContentType.failure,
+          ),
+        );
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
+      }
     }
 
     return handler.next(response);

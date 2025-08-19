@@ -25,24 +25,26 @@ void main() {
         'IsNewMenu': true,
         'RolePermissionModelList': [
           {
-            'menuId': 1,
+            'MenuId': 1,
             'parentMenuId': 0,
-            'menuName': 'Dashboard',
-            'sort': 1,
-            'chkStatus': true,
-            'mfsIcon': 'icon.png',
-            'rolePermissionIds': 'role123',
-            'isNewMenu': true,
+            'MenuName': 'Dashboard',
+            'ControllerName': 'Dashboard',
+            'Sort': 1,
+            'ChkStatus': true,
+            'MfsIcon': 'icon.png',
+            'RolePermissionIds': 'role123',
+            'IsNewMenu': true,
           },
           {
-            'menuId': 2,
+            'MenuId': 2,
             'parentMenuId': 1,
-            'menuName': 'Settings',
-            'sort': 2,
-            'chkStatus': false,
-            'mfsIcon': 'settings.png',
-            'rolePermissionIds': 'role124',
-            'isNewMenu': false,
+            'MenuName': 'Settings',
+            'ControllerName': 'Settings',
+            'Sort': 2,
+            'ChkStatus': false,
+            'MfsIcon': 'settings.png',
+            'RolePermissionIds': 'role124',
+            'IsNewMenu': false,
           },
         ],
       },
@@ -120,8 +122,8 @@ void main() {
       expect(userJson['EmployeeCode'], 'EMP123');
       expect(userJson['IsNewMenu'], true);
       expect(userJson['RolePermissionModelList'], isA<List>());
-      expect(userJson['RolePermissionModelList'][0]['menuName'], 'Dashboard');
-      expect(userJson['RolePermissionModelList'][1]['menuName'], 'Settings');
+      expect(userJson['RolePermissionModelList'][0]['MenuName'], 'Dashboard');
+      expect(userJson['RolePermissionModelList'][1]['MenuName'], 'Settings');
     });
   });
 }

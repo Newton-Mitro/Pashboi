@@ -109,7 +109,7 @@ class _BankToDcDepositsPageState extends State<BankToDcDepositsPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              "${Locales.string(context, "bank_to_dc_deposit_info_page_type_label")}: ${info.transactionMethod == "Savings Account" ? "Schedule Deposit" : info.transactionMethod}",
+                              "${Locales.string(context, "bank_to_dc_deposit_info_page_type_label")}: ${info.transactionMethod == "Savings Account" ? "Schedule Deposit" : "From ${info.transactionMethod} To D.C Account"}",
                               style: TextStyle(
                                 color: context.theme.colorScheme.onSurface,
                                 fontSize: 13,

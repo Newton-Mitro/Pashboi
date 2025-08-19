@@ -7,7 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/transfer_from_section/transfer_from_section.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
-import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
@@ -413,17 +412,9 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
               );
             }
           },
-          remarks: state.stepData[state.currentStep]?['remarks'] ?? '',
-          onRemarksChange: (String remarks) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferUpdateStepData(
-                step: state.currentStep,
-                data: {'remarks': remarks},
-              ),
-            );
-          },
           receiptFile: state.stepData[state.currentStep]?['receiptFile'],
-          receiptError: state.validationErrors[state.currentStep]?['receipt'],
+          receiptError:
+              state.validationErrors[state.currentStep]?['receiptFile'],
           onReceiptFileChange: (File? receiptFile) {
             context.read<BankToDcTransferStepsBloc>().add(
               BankToDcTransferUpdateStepData(
@@ -440,22 +431,22 @@ class _BankToDcTransferPageState extends State<BankToDcTransferPage> {
         widget: TransactionDetailsSection(
           ledgers: selectedLedgers,
           onToggleSelect: (ledger) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferToggleLedgerSelection(ledger),
-            );
+            // context.read<BankToDcTransferStepsBloc>().add(
+            //   BankToDcTransferToggleLedgerSelection(ledger),
+            // );
           },
           onToggleSelectAll: (selectAll) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferToggleSelectAllLedgers(selectAll),
-            );
+            // context.read<BankToDcTransferStepsBloc>().add(
+            //   BankToDcTransferToggleSelectAllLedgers(selectAll),
+            // );
           },
           onAmountChanged: (ledger, newAmount) {
-            context.read<BankToDcTransferStepsBloc>().add(
-              BankToDcTransferUpdateLedgerAmount(
-                ledger: ledger,
-                newAmount: newAmount,
-              ),
-            );
+            // context.read<BankToDcTransferStepsBloc>().add(
+            //   BankToDcTransferUpdateLedgerAmount(
+            //     ledger: ledger,
+            //     newAmount: newAmount,
+            //   ),
+            // );
           },
           sectionError: state.validationErrors[state.currentStep]?['ledgers'],
           amountErrors: state.validationErrors[state.currentStep]?['amounts'],

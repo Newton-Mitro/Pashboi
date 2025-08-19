@@ -42,50 +42,50 @@ class BankToDcTransferSetCollectionLedgers extends BankToDcTransferStepsEvent {
   List<Object> get props => [ledger];
 }
 
-class BankToDcTransferToggleLedgerSelection extends BankToDcTransferStepsEvent {
-  final CollectionLedgerEntity ledger;
+// class BankToDcTransferToggleLedgerSelection extends BankToDcTransferStepsEvent {
+//   final CollectionLedgerEntity ledger;
 
-  const BankToDcTransferToggleLedgerSelection(this.ledger);
+//   const BankToDcTransferToggleLedgerSelection(this.ledger);
 
-  @override
-  List<Object> get props => [ledger];
-}
+//   @override
+//   List<Object> get props => [ledger];
+// }
 
-class BankToDcTransferToggleSelectAllLedgers
-    extends BankToDcTransferStepsEvent {
-  final bool selectAll;
+// class BankToDcTransferToggleSelectAllLedgers
+//     extends BankToDcTransferStepsEvent {
+//   final bool selectAll;
 
-  const BankToDcTransferToggleSelectAllLedgers(this.selectAll);
+//   const BankToDcTransferToggleSelectAllLedgers(this.selectAll);
 
-  @override
-  List<Object> get props => [selectAll];
-}
+//   @override
+//   List<Object> get props => [selectAll];
+// }
 
-class BankToDcTransferUpdateLedgerAmount extends BankToDcTransferStepsEvent {
-  final CollectionLedgerEntity ledger;
-  final double newAmount;
+// class BankToDcTransferUpdateLedgerAmount extends BankToDcTransferStepsEvent {
+//   final CollectionLedgerEntity ledger;
+//   final double newAmount;
 
-  const BankToDcTransferUpdateLedgerAmount({
-    required this.ledger,
-    required this.newAmount,
-  });
+//   const BankToDcTransferUpdateLedgerAmount({
+//     required this.ledger,
+//     required this.newAmount,
+//   });
 
-  @override
-  List<Object> get props => [ledger, newAmount];
-}
+//   @override
+//   List<Object> get props => [ledger, newAmount];
+// }
 
-class BankToDcTransferUpdateLpsAmount extends BankToDcTransferStepsEvent {
-  final String loanNumber;
-  final double newAmount;
+// class BankToDcTransferUpdateLpsAmount extends BankToDcTransferStepsEvent {
+//   final String loanNumber;
+//   final double newAmount;
 
-  const BankToDcTransferUpdateLpsAmount({
-    required this.loanNumber,
-    required this.newAmount,
-  });
+//   const BankToDcTransferUpdateLpsAmount({
+//     required this.loanNumber,
+//     required this.newAmount,
+//   });
 
-  @override
-  List<Object> get props => [loanNumber, newAmount];
-}
+//   @override
+//   List<Object> get props => [loanNumber, newAmount];
+// }
 
 class BankToDcTransferSelectCardAccount extends BankToDcTransferStepsEvent {
   final DepositAccountEntity selectedCardAccount;

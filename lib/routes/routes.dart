@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/injection.dart';
@@ -524,7 +525,6 @@ class AppRoutes {
           MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => sl<PaymentStepsBloc>()),
-              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
             ],
             child: PaymentPage(),
           ),

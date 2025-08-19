@@ -74,14 +74,14 @@ class BankToDcDepositInfoPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "${Locales.string(context, "bank_to_dc_deposit_info_page_type_label")}: ${MyDateUtils.formatDate(depositRequest!.depositDate)}",
+                            "${Locales.string(context, "bank_to_dc_deposit_info_page_type_label")}: ${depositRequest!.transactionMethod == "Savings Account" ? "Schedule Deposit" : "From ${depositRequest!.transactionMethod} To D.C Account"}",
                             style: TextStyle(
                               color: colorScheme.onSurface,
                               fontSize: 13,
                             ),
                           ),
                           Text(
-                            "${Locales.string(context, "bank_to_dc_deposit_info_page_schedule_date_label")}: ${depositRequest!.transactionMethod == "Savings Account" ? "Schedule Deposit" : depositRequest!.transactionMethod}",
+                            "${Locales.string(context, "bank_to_dc_deposit_info_page_schedule_date_label")}: ${MyDateUtils.formatDate(depositRequest!.depositDate)}",
                             style: TextStyle(
                               color: colorScheme.onSurface,
                               fontSize: 13,

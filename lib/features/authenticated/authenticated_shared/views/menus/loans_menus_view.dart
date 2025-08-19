@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoansMenusView extends StatefulWidget {
-  const LoansMenusView({super.key});
+  final UserEntity authUser;
+
+  const LoansMenusView({super.key, required this.authUser});
 
   @override
   State<LoansMenusView> createState() => _LoansMenusViewState();
@@ -23,6 +26,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
           size: 30,
         ),
         "menuName": Locales.string(context, "loan_menu_my_loans_title"),
+        "controllerName": "MyLoans", // added controllerName
         "menuDescription": Locales.string(
           context,
           "loan_menu_my_loans_description",
@@ -32,6 +36,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
       {
         "icon": Icon(FontAwesomeIcons.fileSignature, color: color, size: 30),
         "menuName": Locales.string(context, "loan_menu_apply_for_a_loan_title"),
+        "controllerName": "ApplyLoan", // added controllerName
         "menuDescription": Locales.string(
           context,
           "loan_menu_apply_for_a_loan_description",
@@ -44,6 +49,14 @@ class _LoansMenusViewState extends State<LoansMenusView> {
   @override
   Widget build(BuildContext context) {
     final infoMenus = getInfoMenus(context);
+    final rolePermissions = widget.authUser.rolePermissions;
+
+    // Extract all allowed controller names
+    final allowedControllers =
+        rolePermissions
+            .map((p) => p.controllerName)
+            .whereType<String>()
+            .toSet();
 
     return SafeArea(
       child: ListView.separated(
@@ -52,13 +65,20 @@ class _LoansMenusViewState extends State<LoansMenusView> {
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
+          final controllerName = menu['controllerName'] as String?;
+          final isEnabled =
+              controllerName != null &&
+              allowedControllers.contains(controllerName);
+
           return MenuCard(
             icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
-            onTap: () {
-              Navigator.pushNamed(context, menu['route']);
-            },
+            onTap:
+                isEnabled
+                    ? () => Navigator.pushNamed(context, menu['route'])
+                    : null,
+            isEnabled: isEnabled,
           );
         },
       ),

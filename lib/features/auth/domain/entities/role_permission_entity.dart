@@ -4,6 +4,7 @@ class RolePermissionEntity extends Entity {
   final int menuId;
   final int parentMenuId;
   final String menuName;
+  final String controllerName;
   final int sort;
   final bool chkStatus;
   final String? mfsIcon;
@@ -15,6 +16,7 @@ class RolePermissionEntity extends Entity {
     required this.menuId,
     required this.parentMenuId,
     required this.menuName,
+    required this.controllerName,
     required this.sort,
     required this.chkStatus,
     this.mfsIcon,
@@ -23,13 +25,24 @@ class RolePermissionEntity extends Entity {
   });
 
   @override
-  List<Object?> get props => [id, menuId, menuName];
+  List<Object?> get props => [
+    id,
+    menuId,
+    menuName,
+    controllerName,
+    sort,
+    chkStatus,
+    mfsIcon,
+    rolePermissionIds,
+    isNewMenu,
+  ];
 
   RolePermissionEntity copyWith({
     String? id,
     int? menuId,
     int? parentMenuId,
     String? menuName,
+    String? controllerName,
     int? sort,
     bool? chkStatus,
     String? mfsIcon,
@@ -41,6 +54,7 @@ class RolePermissionEntity extends Entity {
       menuId: menuId ?? this.menuId,
       parentMenuId: parentMenuId ?? this.parentMenuId,
       menuName: menuName ?? this.menuName,
+      controllerName: controllerName ?? this.controllerName,
       sort: sort ?? this.sort,
       chkStatus: chkStatus ?? this.chkStatus,
       mfsIcon: mfsIcon ?? this.mfsIcon,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:crypto/crypto.dart';
@@ -7,9 +8,9 @@ import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/authenticated/cards/domain/entities/debit_card_entity.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
-import 'package:pashboi/features/authenticated/deposit/domain/usecases/submit_deposit_now_usecase.dart';
 import 'package:pashboi/features/authenticated/my_accounts/domain/entities/deposit_account_entity.dart';
 import 'package:pashboi/features/authenticated/transfer/domain/entities/dc_bank_entity.dart';
+import 'package:pashboi/features/authenticated/transfer/domain/usecases/submit_transfer_bank_to_dc_usecase.dart';
 part 'bank_to_dc_transfer_setps_event.dart';
 part 'bank_to_dc_transfer_steps_state.dart';
 
@@ -20,11 +21,11 @@ class BankToDcTransferStepsBloc
   static const int lastStep = 5;
   static const int totalSteps = lastStep + 1;
   final GetAuthUserUseCase getAuthUserUseCase;
-  final SubmitDepositNowUseCase submitDepositNowUseCase;
+  final SubmitTransferBankToDcUseCase submitTransferBankToDcUseCase;
 
   BankToDcTransferStepsBloc({
     required this.getAuthUserUseCase,
-    required this.submitDepositNowUseCase,
+    required this.submitTransferBankToDcUseCase,
   }) : super(
          BankToDcTransferStepsState(
            currentStep: 0,
@@ -43,14 +44,14 @@ class BankToDcTransferStepsBloc
     on<BankToDcTransferGoToPreviousStep>(_onGoToPreviousStep);
     on<BankToDcTransferUpdateStepData>(_onUpdateStepData);
     on<BankToDcTransferSetCollectionLedgers>(_onSetCollectionLedgers);
-    on<BankToDcTransferToggleLedgerSelection>(_onToggleLedgerSelection);
-    on<BankToDcTransferToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
-    on<BankToDcTransferUpdateLedgerAmount>(_onUpdateLedgerAmount);
+    // on<BankToDcTransferToggleLedgerSelection>(_onToggleLedgerSelection);
+    // on<BankToDcTransferToggleSelectAllLedgers>(_onToggleSelectAllLedgers);
+    // on<BankToDcTransferUpdateLedgerAmount>(_onUpdateLedgerAmount);
     on<BankToDcTransferSelectBankAccount>(_onSelectBankAccount);
     on<BankToDcTransferSelectCardAccount>(_onSelectCardAccount);
     on<BankToDcTransferSelectDebitCard>(_onSelectDebitCard);
     // update lps amount
-    on<BankToDcTransferUpdateLpsAmount>(_onUpdateLpsAmount);
+    // on<BankToDcTransferUpdateLpsAmount>(_onUpdateLpsAmount);
     on<BankToDcTransferValidateStep>(_onValidateStep);
     on<BankToDcTransferSubmit>(_onSubmitDepositNow);
   }
@@ -100,80 +101,80 @@ class BankToDcTransferStepsBloc
     emit(state.copyWith(stepData: updatedStepData));
   }
 
-  void _onToggleLedgerSelection(
-    BankToDcTransferToggleLedgerSelection event,
-    Emitter<BankToDcTransferStepsState> emit,
-  ) {
-    late List<CollectionLedgerEntity> updatedLedgers;
+  // void _onToggleLedgerSelection(
+  //   BankToDcTransferToggleLedgerSelection event,
+  //   Emitter<BankToDcTransferStepsState> emit,
+  // ) {
+  //   late List<CollectionLedgerEntity> updatedLedgers;
 
-    if (event.ledger.subledger) {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountNumber == event.ledger.accountNumber) {
-              return l.copyWith(isSelected: !(event.ledger.isSelected));
-            }
-            return l;
-          }).toList();
-    } else if (event.ledger.plType == 2 || event.ledger.plType == 1) {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountNumber == event.ledger.accountNumber &&
-                !event.ledger.isSelected) {
-              return l.copyWith(isSelected: true);
-            } else if (l.accountNumber == event.ledger.accountNumber &&
-                event.ledger.ledgerId == l.ledgerId) {
-              return l.copyWith(isSelected: false);
-            }
-            return l;
-          }).toList();
-    } else {
-      updatedLedgers =
-          state.collectionLedgers.map((l) {
-            if (l.accountId == event.ledger.accountId &&
-                l.accountNumber == event.ledger.accountNumber &&
-                l.ledgerId == event.ledger.ledgerId) {
-              return l.copyWith(isSelected: !(l.isSelected));
-            }
-            return l;
-          }).toList();
-    }
+  //   if (event.ledger.subledger) {
+  //     updatedLedgers =
+  //         state.collectionLedgers.map((l) {
+  //           if (l.accountNumber == event.ledger.accountNumber) {
+  //             return l.copyWith(isSelected: !(event.ledger.isSelected));
+  //           }
+  //           return l;
+  //         }).toList();
+  //   } else if (event.ledger.plType == 2 || event.ledger.plType == 1) {
+  //     updatedLedgers =
+  //         state.collectionLedgers.map((l) {
+  //           if (l.accountNumber == event.ledger.accountNumber &&
+  //               !event.ledger.isSelected) {
+  //             return l.copyWith(isSelected: true);
+  //           } else if (l.accountNumber == event.ledger.accountNumber &&
+  //               event.ledger.ledgerId == l.ledgerId) {
+  //             return l.copyWith(isSelected: false);
+  //           }
+  //           return l;
+  //         }).toList();
+  //   } else {
+  //     updatedLedgers =
+  //         state.collectionLedgers.map((l) {
+  //           if (l.accountId == event.ledger.accountId &&
+  //               l.accountNumber == event.ledger.accountNumber &&
+  //               l.ledgerId == event.ledger.ledgerId) {
+  //             return l.copyWith(isSelected: !(l.isSelected));
+  //           }
+  //           return l;
+  //         }).toList();
+  //   }
 
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
+  //   emit(state.copyWith(collectionLedgers: updatedLedgers));
+  // }
 
-  void _onToggleSelectAllLedgers(
-    BankToDcTransferToggleSelectAllLedgers event,
-    Emitter<BankToDcTransferStepsState> emit,
-  ) {
-    final updatedLedgers =
-        state.collectionLedgers
-            .map((l) => l.copyWith(isSelected: event.selectAll))
-            .toList();
+  // void _onToggleSelectAllLedgers(
+  //   BankToDcTransferToggleSelectAllLedgers event,
+  //   Emitter<BankToDcTransferStepsState> emit,
+  // ) {
+  //   final updatedLedgers =
+  //       state.collectionLedgers
+  //           .map((l) => l.copyWith(isSelected: event.selectAll))
+  //           .toList();
 
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
+  //   emit(state.copyWith(collectionLedgers: updatedLedgers));
+  // }
 
-  void _onUpdateLedgerAmount(
-    BankToDcTransferUpdateLedgerAmount event,
-    Emitter<BankToDcTransferStepsState> emit,
-  ) {
-    if (!event.ledger.subledger &&
-        event.ledger.plType == 2 &&
-        event.ledger.lps) {
-      return;
-    }
-    final updatedLedgers =
-        state.collectionLedgers.map((l) {
-          if (l.accountId == event.ledger.accountId &&
-              l.accountNumber == event.ledger.accountNumber &&
-              l.ledgerId == event.ledger.ledgerId) {
-            return l.copyWith(depositAmount: event.newAmount);
-          }
-          return l;
-        }).toList();
+  // void _onUpdateLedgerAmount(
+  //   BankToDcTransferUpdateLedgerAmount event,
+  //   Emitter<BankToDcTransferStepsState> emit,
+  // ) {
+  //   if (!event.ledger.subledger &&
+  //       event.ledger.plType == 2 &&
+  //       event.ledger.lps) {
+  //     return;
+  //   }
+  //   final updatedLedgers =
+  //       state.collectionLedgers.map((l) {
+  //         if (l.accountId == event.ledger.accountId &&
+  //             l.accountNumber == event.ledger.accountNumber &&
+  //             l.ledgerId == event.ledger.ledgerId) {
+  //           return l.copyWith(depositAmount: event.newAmount);
+  //         }
+  //         return l;
+  //       }).toList();
 
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
+  //   emit(state.copyWith(collectionLedgers: updatedLedgers));
+  // }
 
   void _onSelectBankAccount(
     BankToDcTransferSelectBankAccount event,
@@ -196,21 +197,21 @@ class BankToDcTransferStepsBloc
     emit(state.copyWith(selectedCard: event.selectedCard));
   }
 
-  void _onUpdateLpsAmount(
-    BankToDcTransferUpdateLpsAmount event,
-    Emitter<BankToDcTransferStepsState> emit,
-  ) {
-    final updatedLedgers =
-        state.collectionLedgers.map((l) {
-          if (l.collectionType.trim() == 'LoanLpsAmount' &&
-              l.accountNumber == event.loanNumber) {
-            return l.copyWith(depositAmount: event.newAmount);
-          }
-          return l;
-        }).toList();
+  // void _onUpdateLpsAmount(
+  //   BankToDcTransferUpdateLpsAmount event,
+  //   Emitter<BankToDcTransferStepsState> emit,
+  // ) {
+  //   final updatedLedgers =
+  //       state.collectionLedgers.map((l) {
+  //         if (l.collectionType.trim() == 'LoanLpsAmount' &&
+  //             l.accountNumber == event.loanNumber) {
+  //           return l.copyWith(depositAmount: event.newAmount);
+  //         }
+  //         return l;
+  //       }).toList();
 
-    emit(state.copyWith(collectionLedgers: updatedLedgers));
-  }
+  //   emit(state.copyWith(collectionLedgers: updatedLedgers));
+  // }
 
   void _onValidateStep(
     BankToDcTransferValidateStep event,
@@ -226,6 +227,13 @@ class BankToDcTransferStepsBloc
     updatedValidationErrors[step] = errors;
 
     emit(state.copyWith(validationErrors: updatedValidationErrors));
+  }
+
+  Future<String> fileToBase64(File file) async {
+    // Read file as bytes
+    final bytes = await file.readAsBytes();
+    // Encode bytes to base64 string
+    return base64Encode(bytes);
   }
 
   void _onSubmitDepositNow(
@@ -244,12 +252,17 @@ class BankToDcTransferStepsBloc
 
       final user = authUserResult.getOrElse(() => throw Exception()).user;
 
-      final totalAmount = state.collectionLedgers
-          .where((ledger) => ledger.isSelected)
-          .fold<double>(0.0, (sum, ledger) => sum + ledger.depositAmount);
+      final file = state.stepData[1]?['receiptFile'];
 
-      final accountResult = await submitDepositNowUseCase.call(
-        SubmitDepositNowProps(
+      String? base64String;
+      if (file != null && file is File) {
+        base64String = await fileToBase64(file);
+      } else {
+        base64String = '';
+      }
+
+      final accountResult = await submitTransferBankToDcUseCase.call(
+        SubmitTransferBankToDcProps(
           email: user.loginEmail,
           userId: user.userId,
           rolePermissionId: user.roleId,
@@ -260,7 +273,6 @@ class BankToDcTransferStepsBloc
           accountHolderName:
               state.selectedCard!.nameOnCard.toLowerCase().trim(),
           accountId: state.selectedAccount!.id,
-          accountType: state.selectedAccount!.typeName,
           cardNumber: state.selectedCard!.cardNumber,
           depositDate: DateTime.now().toIso8601String(),
           ledgerId: state.selectedAccount!.ledgerId,
@@ -268,12 +280,18 @@ class BankToDcTransferStepsBloc
               md5
                   .convert(utf8.encode(state.stepData[4]?['cardPin'].trim()))
                   .toString(),
-          totalDepositAmount: totalAmount,
-          transactionMethod: '12',
+          totalDepositAmount:
+              state.stepData[1]?['amount'] != null
+                  ? double.parse(state.stepData[1]?['amount'])
+                  : 0.0,
           otpRegId: state.stepData[4]?['OTPRegId'],
           otpValue: state.stepData[5]?['OTP'],
-          transactionType: 'DepositRequest',
           collectionLedgers: state.collectionLedgers,
+          bankRoutingNumber: state.selectedBankAccount.bankRoutingNo,
+          transactionReceipt: base64String,
+          transactionNumber: '',
+          toBankAccountNumber: state.selectedBankAccount.bankAccNumber,
+          nameOnCard: state.selectedCard!.nameOnCard,
         ),
       );
 
@@ -316,6 +334,9 @@ class BankToDcTransferStepsBloc
         }
         if (state.selectedBankAccount.bankAccNumber.isEmpty) {
           errors['bank'] = 'Please select a bank account';
+        }
+        if (data['receiptFile'] == null) {
+          errors['receiptFile'] = 'Please attach a transaction receipt';
         }
         break;
 

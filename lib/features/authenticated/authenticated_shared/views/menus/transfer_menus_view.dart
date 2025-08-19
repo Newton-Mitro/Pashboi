@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/bkash_icon.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/shared/menu_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TransferMenusView extends StatefulWidget {
-  const TransferMenusView({super.key});
+  final UserEntity authUser;
+
+  const TransferMenusView({super.key, required this.authUser});
 
   @override
   State<TransferMenusView> createState() => _TransferMenusViewState();
@@ -23,6 +26,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_within_dhaka_cradit_title",
         ),
+        "controllerName": "InternalTransfer",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_transfer_within_dhaka_cradit_description",
@@ -35,6 +39,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_to_bkash_title",
         ),
+        "controllerName": "TransferToBkash",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_transfer_to_bkash_description",
@@ -47,6 +52,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_bank_to_dhaka_cradit_title",
         ),
+        "controllerName": "BankToDc",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_bank_to_dhaka_cradit_description",
@@ -59,6 +65,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_request_status_title",
         ),
+        "controllerName": "TransferStatus",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_transfer_request_status_description",
@@ -71,6 +78,14 @@ class _TransferMenusViewState extends State<TransferMenusView> {
   @override
   Widget build(BuildContext context) {
     final infoMenus = _buildInfoMenus(context);
+    final rolePermissions = widget.authUser.rolePermissions;
+
+    // Extract all allowed controller names
+    final allowedControllers =
+        rolePermissions
+            .map((p) => p.controllerName)
+            .whereType<String>()
+            .toSet();
 
     return SafeArea(
       child: ListView.separated(
@@ -79,13 +94,16 @@ class _TransferMenusViewState extends State<TransferMenusView> {
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final menu = infoMenus[index];
+          final controllerName = menu['controllerName'] as String?;
+          final isEnabled =
+              controllerName != null &&
+              allowedControllers.contains(controllerName);
           return MenuCard(
             icon: menu['icon'],
             menuName: menu['menuName'],
             menuDescription: menu['menuDescription'],
-            onTap: () {
-              Navigator.pushNamed(context, menu['route']);
-            },
+            onTap: () => Navigator.pushNamed(context, menu['route']),
+            isEnabled: isEnabled,
           );
         },
       ),
