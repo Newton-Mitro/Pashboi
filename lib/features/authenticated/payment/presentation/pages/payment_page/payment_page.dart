@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/string_casing_extension.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/beneficiaries_bloc/beneficiaries_bloc.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/collection_ledgers/domain/entities/collection_ledger_entity.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/pay_to_section.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/payment_amount_section/payment_amount_section.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_now_page/parts/transaction_preview_section/transaction_preview_section.dart';
@@ -275,17 +274,6 @@ class _PaymentPageState extends State<PaymentPage> {
     context.read<BeneficiariesBloc>().add(FetchBeneficiaries());
   }
 
-  void _setCollectionLedgers(List<CollectionLedgerEntity> newLedgers) {
-    final updatedLedgers =
-        newLedgers.where((ledger) => ledger.subledger != true).toList();
-
-    if (updatedLedgers.isNotEmpty) {
-      context.read<PaymentStepsBloc>().add(
-        PaymentSetCollectionLedgers(ledgers: updatedLedgers),
-      );
-    }
-  }
-
   void _verifyCardPIN(PaymentStepsState depositLaterStepsState) {
     context.read<DebitCardBloc>().add(
       DebitCardPinVerify(
@@ -303,7 +291,6 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   List<StepItem> _buildSteps(PaymentStepsState state) {
-    final selectedLedgers = state.collectionLedgers;
     return [
       StepItem(
         icon: FontAwesomeIcons.moneyBillTransfer,
@@ -364,7 +351,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
       StepItem(
         icon: FontAwesomeIcons.eye,
-        widget: TransactionPreviewSection(collectionLedgers: selectedLedgers),
+        widget: TransactionPreviewSection(collectionLedgers: []),
       ),
       StepItem(
         icon: FontAwesomeIcons.creditCard,

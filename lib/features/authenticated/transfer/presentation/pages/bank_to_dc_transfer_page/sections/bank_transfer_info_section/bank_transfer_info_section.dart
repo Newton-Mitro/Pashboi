@@ -22,8 +22,6 @@ class BankTransferInfoSection extends StatefulWidget {
   final String amount;
   final String? amountError;
   final void Function(String amount) onAmountChange;
-  final String remarks;
-  final void Function(String remarks) onRemarksChange;
   final File? receiptFile;
   final String? receiptError;
   final void Function(File? receiptFile) onReceiptFileChange;
@@ -39,8 +37,6 @@ class BankTransferInfoSection extends StatefulWidget {
     required this.amount,
     required this.amountError,
     required this.onAmountChange,
-    required this.remarks,
-    required this.onRemarksChange,
     required this.receiptFile,
     required this.receiptError,
     required this.onReceiptFileChange,

@@ -4,7 +4,6 @@ class PaymentStepsState extends Equatable {
   final int currentStep;
   final Map<int, Map<String, dynamic>> validationErrors;
   final Map<int, Map<String, dynamic>> stepData;
-  final List<CollectionLedgerEntity> collectionLedgers;
   final DepositAccountEntity? selectedAccount;
   final DebitCardEntity? selectedCard;
   final bool isLoading;
@@ -23,8 +22,7 @@ class PaymentStepsState extends Equatable {
     this.successMessage,
   }) : validationErrors = validationErrors ?? const {},
        stepData = stepData ?? const {},
-       isLoading = isLoading ?? false,
-       collectionLedgers = collectionLedgers ?? const [];
+       isLoading = isLoading ?? false;
 
   PaymentStepsState copyWith({
     int? currentStep,
@@ -41,7 +39,6 @@ class PaymentStepsState extends Equatable {
       currentStep: currentStep ?? this.currentStep,
       validationErrors: validationErrors ?? this.validationErrors,
       stepData: stepData ?? this.stepData,
-      collectionLedgers: collectionLedgers ?? this.collectionLedgers,
       selectedAccount: selectedAccount ?? this.selectedAccount,
       selectedCard: selectedCard ?? this.selectedCard,
       isLoading: isLoading ?? this.isLoading,
@@ -55,7 +52,6 @@ class PaymentStepsState extends Equatable {
     currentStep,
     validationErrors,
     stepData,
-    collectionLedgers,
     selectedAccount,
     selectedCard,
     isLoading,

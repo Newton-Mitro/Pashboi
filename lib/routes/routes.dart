@@ -475,7 +475,6 @@ class AppRoutes {
           MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => sl<PaymentStepsBloc>()),
-              BlocProvider(create: (context) => sl<LoanPaymentBloc>()),
             ],
             child: PaymentPage(),
           ),
