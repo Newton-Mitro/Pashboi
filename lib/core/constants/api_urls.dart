@@ -112,4 +112,7 @@ class ApiUrls {
       'professionals_v1/getLeaveTypeBalances';
 
   static const String getSearchEmployee = 'professionals_v1/searchEmployee';
+
+  static const String submitLeaveApplication =
+      'professionals_v1/submitLeaveApplication';
 }

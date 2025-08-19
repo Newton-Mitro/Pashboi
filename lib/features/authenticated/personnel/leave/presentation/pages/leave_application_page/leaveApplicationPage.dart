@@ -51,9 +51,14 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
   @override
   void initState() {
     super.initState();
+    selectedLeaveType =
+        widget.selectedLeaveTypeId.isNotEmpty
+            ? widget.selectedLeaveTypeId
+            : null;
     final today = DateTime.now();
     startDate = today;
-    endDate = today.add(const Duration(days: 1));
+    endDate =
+        selectedLeaveType == '02' ? today : today.add(const Duration(days: 1));
     rejoinDate = endDate.add(const Duration(days: 1));
     _updateTotalDays();
     selectedLeaveType =
