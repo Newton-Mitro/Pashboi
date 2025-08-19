@@ -39,20 +39,6 @@ class AuthenticatedHome extends StatefulWidget {
 
 class _AuthenticatedHomeState extends State<AuthenticatedHome> {
   int _previousPage = 0;
-  final List<Widget> menuViews = [
-    InfoMenusView(),
-    AccountsMenusView(),
-    LoansMenusView(),
-    DepositMenusView(),
-    TransferMenusView(),
-    WithdrawMenusView(),
-    PaymentMenusView(),
-    FamilyMenusView(),
-    BeneficiaryMenusView(),
-    GivenSuretiesPage(),
-    DependentsMenusView(),
-    PersonnelMenusView(),
-  ];
 
   @override
   void initState() {
@@ -83,7 +69,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
       },
       {
         "icon": FontAwesomeIcons.piggyBank,
-        "activeIcon": FontAwesomeIcons.piggyBank, // No strong alt available
+        "activeIcon": FontAwesomeIcons.piggyBank,
         "label": Locales.string(context, 'auth_bottom_nav_menu_deposit'),
         "index": 3,
       },
@@ -135,12 +121,6 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
         "label": Locales.string(context, 'auth_bottom_nav_menu_personnel'),
         "index": 11,
       },
-      // {
-      //   "icon": FontAwesomeIcons.helmetSafety,
-      //   "activeIcon": FontAwesomeIcons.shieldHalved,
-      //   "label": "AGM Counter",
-      //   "index": 11,
-      // },
     ];
 
     return MultiBlocProvider(
@@ -183,7 +163,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                           ),
                           icon: const Icon(Icons.logout, size: 40),
                           onPositiveButtonTap: () {
-                            Navigator.of(context).pop(); // Close the dialog
+                            Navigator.of(context).pop();
                             context.read<AuthBloc>().add(LogoutRequested());
                           },
                           negativeButtonLabel: Locales.string(
@@ -200,16 +180,29 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
               },
               child: BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, authState) {
-                  var user =
-                      authState is Authenticated
-                          ? authState.authUser.user
-                          : null;
+                  if (authState is! Authenticated) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final user = authState.authUser.user;
+
+                  /// Build menu views only after user is available
+                  final List<Widget> menuViews = [
+                    InfoMenusView(authUser: user),
+                    AccountsMenusView(authUser: user),
+                    LoansMenusView(authUser: user),
+                    DepositMenusView(authUser: user),
+                    TransferMenusView(authUser: user),
+                    WithdrawMenusView(authUser: user),
+                    PaymentMenusView(authUser: user),
+                    FamilyMenusView(authUser: user),
+                    BeneficiaryMenusView(authUser: user),
+                    GivenSuretiesPage(),
+                    DependentsMenusView(authUser: user),
+                    PersonnelMenusView(authUser: user),
+                  ];
 
                   return Scaffold(
-                    // drawer: AuthenticatedHomeDrawer(
-                    //   menuItems: menuItems,
-                    //   user: user,
-                    // ),
                     appBar: AppBar(
                       title: Text(menuItems[selectedPage]['label']),
                       automaticallyImplyLeading: false,
@@ -242,7 +235,6 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                     context,
                                     AuthRoutesName.changePasswordPage,
                                   );
-                                  debugPrint('Change password tapped');
                                 } else if (value == 2) {
                                   await showDialog(
                                     context: context,
@@ -291,7 +283,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                                     .colorScheme
                                                     .onSurface,
                                           ),
-                                          SizedBox(width: 8),
+                                          const SizedBox(width: 8),
                                           Text(
                                             Locales.string(
                                               context,
@@ -314,7 +306,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                                     .colorScheme
                                                     .onSurface,
                                           ),
-                                          SizedBox(width: 8),
+                                          const SizedBox(width: 8),
                                           Text(
                                             Locales.string(
                                               context,
@@ -348,7 +340,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                                     .colorScheme
                                                     .onSurface,
                                           ),
-                                          SizedBox(width: 8),
+                                          const SizedBox(width: 8),
                                           Text(
                                             Locales.string(
                                               context,
@@ -373,8 +365,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                                     ),
                                     image: DecorationImage(
                                       image:
-                                          user != null &&
-                                                  user.userPicture != null
+                                          user.userPicture != null
                                               ? Base64ImageWidget(
                                                 base64String: user.userPicture!,
                                               ).imageProvider
@@ -437,7 +428,6 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                         4,
                         (i) => RNavItem(
                           icon: menuItems[i]['icon'],
-                          // activeIcon: menuItems[i]['activeIcon'],
                           label: menuItems[i]['label'],
                         ),
                       ),

@@ -6,6 +6,8 @@ class PaymentStepsState extends Equatable {
   final Map<int, Map<String, dynamic>> stepData;
   final DepositAccountEntity? selectedAccount;
   final DebitCardEntity? selectedCard;
+  final ServiceEntity? selectedService;
+  final NotifyPersonEntity? selectedNotifyPerson;
   final bool isLoading;
   final String? error;
   final String? successMessage;
@@ -14,6 +16,8 @@ class PaymentStepsState extends Equatable {
     required this.currentStep,
     this.selectedAccount,
     this.selectedCard,
+    this.selectedService,
+    this.selectedNotifyPerson,
     Map<int, Map<String, dynamic>>? validationErrors,
     Map<int, Map<String, dynamic>>? stepData,
     List<CollectionLedgerEntity>? collectionLedgers,
@@ -31,6 +35,8 @@ class PaymentStepsState extends Equatable {
     List<CollectionLedgerEntity>? collectionLedgers,
     DepositAccountEntity? selectedAccount,
     DebitCardEntity? selectedCard,
+    ServiceEntity? selectedService,
+    NotifyPersonEntity? selectedNotifyPerson,
     bool? isLoading,
     String? error,
     String? successMessage,
@@ -41,6 +47,8 @@ class PaymentStepsState extends Equatable {
       stepData: stepData ?? this.stepData,
       selectedAccount: selectedAccount ?? this.selectedAccount,
       selectedCard: selectedCard ?? this.selectedCard,
+      selectedService: selectedService ?? this.selectedService,
+      selectedNotifyPerson: selectedNotifyPerson ?? this.selectedNotifyPerson,
       isLoading: isLoading ?? this.isLoading,
       error: error,
       successMessage: successMessage,
@@ -54,6 +62,8 @@ class PaymentStepsState extends Equatable {
     stepData,
     selectedAccount,
     selectedCard,
+    selectedService,
+    selectedNotifyPerson,
     isLoading,
     error,
     successMessage,

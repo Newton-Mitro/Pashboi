@@ -37,6 +37,7 @@ void main() {
           menuId: 1,
           parentMenuId: 0,
           menuName: 'Dashboard',
+          controllerName: 'Dashboard',
           sort: 1,
           chkStatus: true,
           mfsIcon: null,
