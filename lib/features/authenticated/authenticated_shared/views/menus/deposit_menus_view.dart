@@ -27,7 +27,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           size: 30,
         ),
         "menuName": Locales.string(context, "deposit_menu_deposit_now_title"),
-        "controllerName": "DepositNow",
+        "controllerName": "Deposit Now",
         "menuDescription": Locales.string(
           context,
           "deposit_menu_deposit_now_description",
@@ -40,7 +40,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_from_bkash_title",
         ),
-        "controllerName": "DepositBkash",
+        "controllerName": "Deposit From bKash",
         "menuDescription": Locales.string(
           context,
           "deposit_menu_deposit_from_bkash_description",
@@ -53,7 +53,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_latter_title",
         ),
-        "controllerName": "DepositLater",
+        "controllerName": "Deposit Later",
         "menuDescription": Locales.string(
           context,
           "deposit_menu_deposit_latter_description",
@@ -70,7 +70,7 @@ class _DepositMenusViewState extends State<DepositMenusView> {
           context,
           "deposit_menu_deposit_request_status_title",
         ),
-        "controllerName": "DepositStatus",
+        "controllerName": "Deposit Request Status",
         "menuDescription": Locales.string(
           context,
           "deposit_menu_deposit_request_status_description",

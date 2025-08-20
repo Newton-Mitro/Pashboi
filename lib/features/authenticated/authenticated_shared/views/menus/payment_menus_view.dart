@@ -22,7 +22,7 @@ class _PaymentMenusViewState extends State<PaymentMenusView> {
       {
         "icon": Icon(FontAwesomeIcons.moneyCheckDollar, color: color, size: 30),
         "menuName": Locales.string(context, "payment_menu_payments_title"),
-        "controllerName": "Payments", // added controllerName
+        "controllerName": "Payment", // added controllerName
         "menuDescription": Locales.string(
           context,
           "payment_menu_payments_description",

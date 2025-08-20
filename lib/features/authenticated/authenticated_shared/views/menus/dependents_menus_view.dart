@@ -21,24 +21,24 @@ class _DependentsMenusViewState extends State<DependentsMenusView> {
     return [
       {
         "icon": Icon(FontAwesomeIcons.children, color: color, size: 30),
-        "menuName": Locales.string(context, "info_menu_dependents_title"),
+        "menuName": Locales.string(context, "dependents_menu_dependents_title"),
         "controllerName": "Dependents",
         "menuDescription": Locales.string(
           context,
-          "info_menu_dependents_description",
+          "dependents_menu_dependents_description",
         ),
         "route": AuthRoutesName.dependentsPage,
       },
       {
-        "icon": Icon(FontAwesomeIcons.children, color: color, size: 30),
+        "icon": Icon(FontAwesomeIcons.childReaching, color: color, size: 30),
         "menuName": Locales.string(
           context,
-          "info_menu_add_operating_account_title",
+          "dependents_menu_add_dependents_title",
         ),
-        "controllerName": "AddOperatingAccount",
+        "controllerName": "Add Dependent",
         "menuDescription": Locales.string(
           context,
-          "info_menu_add_operating_account_description",
+          "dependents_menu_add_dependents_description",
         ),
         "route": AuthRoutesName.addOperatingAccountPage,
       },

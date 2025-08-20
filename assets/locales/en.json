@@ -100,6 +100,11 @@
   "info_menu_agm_counter_title": "A.G.M Counter",
   "info_menu_agm_counter_description": "View and manage your AGM counter from here",
 
+  "dependents_menu_dependents_title": "Dependents",
+  "dependents_menu_dependents_description": "View and manage your dependents from here",
+  "dependents_menu_add_dependents_title": "Add Dependents",
+  "dependents_menu_add_dependents_description": "Add dependents to your family from here",
+
   "openable_accounts": "Openable Accounts",
   "accounts_menu_accounts_title": "Accounts",
   "accounts_menu_accounts_description": "View and manage your  accounts, balances, and transactions from here",

@@ -26,7 +26,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
           size: 30,
         ),
         "menuName": Locales.string(context, "loan_menu_my_loans_title"),
-        "controllerName": "MyLoans", // added controllerName
+        "controllerName": "Loans",
         "menuDescription": Locales.string(
           context,
           "loan_menu_my_loans_description",
@@ -36,7 +36,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
       {
         "icon": Icon(FontAwesomeIcons.fileSignature, color: color, size: 30),
         "menuName": Locales.string(context, "loan_menu_apply_for_a_loan_title"),
-        "controllerName": "ApplyLoan", // added controllerName
+        "controllerName": "Apply for Loan", // added controllerName
         "menuDescription": Locales.string(
           context,
           "loan_menu_apply_for_a_loan_description",

@@ -100,6 +100,11 @@
   "info_menu_agm_counter_title": "এ.জি.এম কাউন্টার",
   "info_menu_agm_counter_description": "এখান থেকে আপনার এ.জি.এম কাউন্টার দেখুন ও পরিচালনা করুন",
 
+  "dependents_menu_dependents_title": "নির্ভরশীল",
+  "dependents_menu_dependents_description": "আপনার নির্ভরশীল দেখুন ও পরিচালনা করুন",
+  "dependents_menu_add_dependents_title": "নির্ভরশীলদের  একাউন্ট যোগ করুন",
+  "dependents_menu_add_dependents_description": "এখান থেকে আপনার পরিবারের নির্ভরশীলদের একাউন্ট যোগ করুন",
+
   "accounts_menu_accounts_title": "অ্যাকাউন্টসমূহ",
   "accounts_menu_accounts_description": "আপনার অ্যাকাউন্ট, ব্যালেন্স ও লেনদেন এখান থেকে দেখুন ও পরিচালনা করুন",
   "accounts_menu_open_an_account_title": "খোলা যাবে এমন অ্যাকাউন্টসমূহ",
