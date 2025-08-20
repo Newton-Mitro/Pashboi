@@ -115,8 +115,13 @@
 
   "loan_menu_my_loans_title": "আমার ঋণসমূহ",
   "loan_menu_my_loans_description": "আপনার সক্রিয় ঋণ ও বকেয়া পরিশোধের বিবরণ দেখুন",
-  "loan_menu_apply_for_a_loan_title": "ঋণের জন্য আবেদন",
-  "loan_menu_apply_for_a_loan_description": "নতুন ঋণ আবেদন জমা দিন এবং আপনার যোগ্যতা ও ঋণ বিকল্প যাচাই করুন",
+  "loan_menu_apply_for_product_loan_title": "পণ্য ঋণ অনুরোধ করুন",
+  "loan_menu_apply_for_product_loan_description": "এখান থেকে সহজেই পণ্য ঋণ অনুরোধ করুন",
+  "loan_menu_apply_for_instant_loan_title": "তাৎক্ষণিক ঋণ অনুরোধ করুন",
+  "loan_menu_apply_for_instant_loan_description": "এখান থেকে সহজেই তাৎক্ষণিক ঋণ অনুরোধ করুন",
+
+  "surety_menu_given_sureties_title": "প্রদত্ত জামিনসমূহ",
+  "surety_menu_given_sureties_description": "আপনার প্রদত্ত জামিনসমূহ দেখুন ও পরিচালনা করুন",
 
   "deposit_menu_deposit_now_title": "এখনই জমা দিন",
   "deposit_menu_deposit_now_description": "বিদ্যমান মাধ্যম ব্যবহার করে আপনার অ্যাকাউন্টে তাৎক্ষণিক জমা করুন",

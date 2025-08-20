@@ -15,6 +15,7 @@ import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/loans_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/payment_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/personnel_menus_view.dart';
+import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/surety_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/transfer_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/withdraw_menus_view.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/authenticated_bottom_sheet.dart';
@@ -197,7 +198,7 @@ class _AuthenticatedHomeState extends State<AuthenticatedHome> {
                     PaymentMenusView(authUser: user),
                     FamilyMenusView(authUser: user),
                     BeneficiaryMenusView(authUser: user),
-                    GivenSuretiesPage(),
+                    SuretyMenusView(authUser: user),
                     DependentsMenusView(authUser: user),
                     PersonnelMenusView(authUser: user),
                   ];

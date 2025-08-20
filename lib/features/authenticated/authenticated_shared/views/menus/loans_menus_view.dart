@@ -21,7 +21,7 @@ class _LoansMenusViewState extends State<LoansMenusView> {
     return [
       {
         "icon": Icon(
-          FontAwesomeIcons.fileInvoiceDollar,
+          FontAwesomeIcons.handHoldingDollar,
           color: color,
           size: 30,
         ),
@@ -33,15 +33,41 @@ class _LoansMenusViewState extends State<LoansMenusView> {
         ),
         "route": AuthRoutesName.myLoansPage,
       },
+      // {
+      //   "icon": Icon(FontAwesomeIcons.fileSignature, color: color, size: 30),
+      //   "menuName": Locales.string(context, "loan_menu_apply_for_a_loan_title"),
+      //   "controllerName": "Apply for Loan", // added controllerName
+      //   "menuDescription": Locales.string(
+      //     context,
+      //     "loan_menu_apply_for_a_loan_description",
+      //   ),
+      //   "route": AuthRoutesName.myLoansPage,
+      // },
       {
-        "icon": Icon(FontAwesomeIcons.fileSignature, color: color, size: 30),
-        "menuName": Locales.string(context, "loan_menu_apply_for_a_loan_title"),
-        "controllerName": "Apply for Loan", // added controllerName
+        "icon": Icon(FontAwesomeIcons.piggyBank, color: color, size: 30),
+        "menuName": Locales.string(
+          context,
+          "loan_menu_apply_for_product_loan_title",
+        ),
+        "controllerName": "Apply for Loan",
         "menuDescription": Locales.string(
           context,
-          "loan_menu_apply_for_a_loan_description",
+          "loan_menu_apply_for_product_loan_description",
         ),
-        "route": AuthRoutesName.myLoansPage,
+        "route": AuthRoutesName.productLoanTermsConditionPage,
+      },
+      {
+        "icon": Icon(FontAwesomeIcons.sackDollar, color: color, size: 30),
+        "menuName": Locales.string(
+          context,
+          "loan_menu_apply_for_instant_loan_title",
+        ),
+        "controllerName": "Apply for Loan",
+        "menuDescription": Locales.string(
+          context,
+          "loan_menu_apply_for_instant_loan_description",
+        ),
+        "route": AuthRoutesName.instantLoanTermsConditionPage,
       },
     ];
   }

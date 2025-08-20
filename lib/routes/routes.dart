@@ -34,6 +34,8 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/instant_loan_terms_condition_page/instant_loan_terms_condition_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/product_loan_terms_condition_page/apply_for_product_loan_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
@@ -199,7 +201,7 @@ class AppRoutes {
           ),
         );
 
-      case AuthRoutesName.suretiesPage:
+      case AuthRoutesName.givenSuretiesPage:
         return _materialRoute(GivenSuretiesPage());
 
       case AuthRoutesName.beneficiariesPage:
@@ -249,7 +251,7 @@ class AppRoutes {
           );
         }
 
-      case AuthRoutesName.accountStatement:
+      case AuthRoutesName.accountStatementPage:
         if (args is Map<String, dynamic> &&
             args['accountDetails'] is DepositAccountEntity) {
           return _materialRoute(
@@ -296,6 +298,12 @@ class AppRoutes {
             LoanDetailsPage(loanNumber: args['loanNumber'] ?? ''),
           );
         }
+
+      case AuthRoutesName.instantLoanTermsConditionPage:
+        return _materialRoute(InstantLoanTermsAndConditionPage());
+
+      case AuthRoutesName.productLoanTermsConditionPage:
+        return _materialRoute(ApplyForProductLoanPage());
 
       case AuthRoutesName.depositNowPage:
         return _materialRoute(
@@ -380,7 +388,7 @@ class AppRoutes {
           );
         }
 
-      case AuthRoutesName.loanStatement:
+      case AuthRoutesName.loanStatementPage:
         if (args is Map<String, String>) {
           return _materialRoute(
             BlocProvider(
