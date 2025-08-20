@@ -26,7 +26,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           "personnel_menu_employee_profile_title",
         ),
         "route": AuthRoutesName.employeeProfile,
-        "controllerName": "EmployeeProfile",
+        "controllerName": "My Info",
         "menuDescription": Locales.string(
           context,
           "personnel_menu_employee_profile_description",
@@ -39,7 +39,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           "personnel_menu_leave_application_title",
         ),
         "route": AuthRoutesName.leaveInformation,
-        "controllerName": "LeaveApplication",
+        "controllerName": "Leave Application",
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_application_description",

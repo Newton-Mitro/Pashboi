@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:pashboi/core/extensions/app_context.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/search_employee_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/submit_leave_application_bloc.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 import 'package:pashboi/shared/widgets/app_search_input.dart';
@@ -35,8 +37,6 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
   TimeOfDay? _startTimeController;
   TimeOfDay? _endTimeController;
 
-  // final TextEditingController _startTimeController = TextEditingController();
-  // final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _accountHolderController =
       TextEditingController();
   final TextEditingController _totalDaysController = TextEditingController();
@@ -158,7 +158,6 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
               onChanged: (value) => setState(() => selectedLeaveType = value),
             ),
             const SizedBox(height: 16),
-
             (selectedLeaveType != '02' &&
                     selectedLeaveType != '03' &&
                     selectedLeaveType != '07')
@@ -190,7 +189,6 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                             child: CircularProgressIndicator(),
                           );
                         }
-
                         if (state is SearchEmployeeError) {
                           return Text(
                             state.message,
@@ -199,18 +197,14 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                             ),
                           );
                         }
-
                         if (state is SearchEmployeeSuccess) {
                           final List<SearchEmployeeEntity> employees =
                               state.employees;
-
                           final String fallbackName =
                               employees.isNotEmpty
                                   ? employees.first.fullName
                                   : 'No Employee Found';
-
                           _accountHolderController.text = fallbackName;
-
                           return AppTextInput(
                             controller: _accountHolderController,
                             label: 'Fallback Employee Name',
@@ -222,7 +216,6 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                             errorText: '',
                           );
                         }
-
                         return AppTextInput(
                           controller: _accountHolderController,
                           label: 'Fallback Employee Name',
@@ -239,7 +232,6 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                   ],
                 )
                 : const SizedBox.shrink(),
-
             (selectedLeaveType == '03')
                 ? Column(
                   children: [
@@ -278,7 +270,6 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                   ],
                 )
                 : const SizedBox.shrink(),
-
             Row(
               children: [
                 Expanded(
@@ -298,9 +289,7 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                 ),
               ],
             ),
-
             const SizedBox(height: 16),
-
             (selectedLeaveType! != '03')
                 ? Column(
                   children: [
@@ -332,7 +321,6 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                   ],
                 )
                 : const SizedBox.shrink(),
-
             const SizedBox(height: 16),
             TextFormField(
               controller: _descriptionController,
@@ -352,11 +340,64 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
               },
             ),
             const SizedBox(height: 16),
-            AppPrimaryButton(
-              label: "Apply",
-              onPressed: () {
-                // Navigator.pushNamed(context, AuthRoutesName.leaveApplication);
+            BlocListener<
+              SubmitLeaveApplicationBloc,
+              SubmitLeaveApplicationState
+            >(
+              listener: (context, state) {
+                if (state is SubmitLeaveApplicationError) {
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Oops!',
+                      message: state.message!,
+                      contentType: ContentType.failure,
+                    ),
+                  );
+
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                }
+
+                if (state is SubmitLeaveApplicationSuccess) {
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Done!',
+                      message: state.message!,
+                      contentType: ContentType.success,
+                    ),
+                  );
+
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                }
               },
+              child: AppPrimaryButton(
+                label: "Apply",
+                onPressed: () {
+                  context.read<SubmitLeaveApplicationBloc>().add(
+                    SubmitLeaveApplicationSubmitted(
+                      remarks: _descriptionController.text.trim(),
+                      fallbackEmployeeCode:
+                          _accountSearchController.text.trim(),
+                      rejoiningDate: rejoinDate.toIso8601String(),
+                      toDate: endDate.toIso8601String(),
+                      fromDate: startDate.toIso8601String(),
+                      formTime: _startTimeController?.format(context) ?? '',
+                      toTime: _endTimeController?.format(context) ?? '',
+                      leaveTypeCode: selectedLeaveType!,
+                      leaveStageRemarks: '',
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

@@ -41,6 +41,7 @@ import 'package:pashboi/features/authenticated/payment/presentation/pages/paymen
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/submit_leave_application_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_balance_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/leave_information_page.dart';
@@ -352,6 +353,7 @@ class AppRoutes {
           return _materialRoute(
             MultiBlocProvider(
               providers: [
+                BlocProvider(create: (_) => sl<SubmitLeaveApplicationBloc>()),
                 BlocProvider(create: (_) => sl<LeaveTypeBloc>()),
                 BlocProvider(create: (_) => sl<SearchEmployeeBloc>()),
               ],

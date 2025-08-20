@@ -1,14 +1,12 @@
 import 'dart:io';
 
 import 'package:pashboi/core/constants/api_urls.dart';
+import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/data/model/submit_leave_application_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/submit_leave_application_usecase.dart';
 
 abstract class SubmitLeaveApplicationRemoteDataSource {
-  Future<SubmitLeaveApplicationModel> submitLeaveApplication(
-    SubmitLeaveApplicationProps props,
-  );
+  Future<String> submitLeaveApplication(SubmitLeaveApplicationProps props);
 }
 
 class SubmitLeaveApplicationRemoteDataSourceImpl
@@ -18,7 +16,7 @@ class SubmitLeaveApplicationRemoteDataSourceImpl
   SubmitLeaveApplicationRemoteDataSourceImpl({required this.apiService});
 
   @override
-  Future<SubmitLeaveApplicationModel> submitLeaveApplication(
+  Future<String> submitLeaveApplication(
     SubmitLeaveApplicationProps props,
   ) async {
     try {
@@ -34,10 +32,11 @@ class SubmitLeaveApplicationRemoteDataSourceImpl
           "MobileNumber": props.mobileNumber,
           "MobileNo": props.mobileNumber,
           "RequestFrom": "MobileApp",
-          "LeaveApplicationId": props.leaveApplicationId,
           "LeaveTypeCode": props.leaveTypeCode,
           "FromDate": props.fromDate,
           "ToDate": props.toDate,
+          "FormTime": props.formTime,
+          "ToTime": props.toTime,
           "RejoiningDate": props.rejoiningDate,
           "FallbackEmployeeCode": props.fallbackEmployeeCode,
           "Remarks": props.remarks,
@@ -46,20 +45,20 @@ class SubmitLeaveApplicationRemoteDataSourceImpl
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        final data = response.data;
+        final dataString = response.data?['Data'];
+        final errorMessage = response.data?['Message'];
+        final statusMessage = response.data?['Status'];
 
-        if (data == null || data['Data'] == null) {
-          throw Exception('Invalid response format');
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
+            throw ServerException(message: errorMessage);
+          } else {
+            return dataString;
+          }
         }
-
-        return SubmitLeaveApplicationModel(
-          data: data['Data'] ?? '',
-          status: data['Status'] ?? '',
-        );
+        throw ServerException(message: "Server Error");
       } else {
-        throw Exception(
-          'Submit leave failed with status ${response.statusCode}',
-        );
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;

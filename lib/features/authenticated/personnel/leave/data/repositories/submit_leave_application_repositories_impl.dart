@@ -3,24 +3,21 @@ import 'package:pashboi/core/services/network/network_info.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/utils/failure_mapper.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/datasource/submit_leave_application_remote_data_source.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/data/model/submit_leave_application_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/submit_leave_application_repository.dart';
 
-class SubmitLeaveApplicationRepositoriesImp
+class SubmitLeaveApplicationRepositoriesImpl
     implements SubmitLeaveApplicationRepository {
   final SubmitLeaveApplicationRemoteDataSource
   submitLeaveApplicationRemoteDataSource;
   final NetworkInfo networkInfo;
 
-  SubmitLeaveApplicationRepositoriesImp({
+  SubmitLeaveApplicationRepositoriesImpl({
     required this.submitLeaveApplicationRemoteDataSource,
     required this.networkInfo,
   });
 
   @override
-  ResultFuture<SubmitLeaveApplicationModel> submitLeaveApplication(
-    params,
-  ) async {
+  ResultFuture<String> submitLeaveApplication(params) async {
     try {
       final result = await submitLeaveApplicationRemoteDataSource
           .submitLeaveApplication(params);

@@ -1,7 +1,6 @@
 import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/submit_leave_application_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/submit_leave_application_repository.dart';
 
 class SubmitLeaveApplicationProps extends BaseRequestProps {
@@ -11,8 +10,10 @@ class SubmitLeaveApplicationProps extends BaseRequestProps {
   final String toDate;
   final String fromDate;
   final String leaveTypeCode;
-  final int leaveApplicationId;
-  final int leaveStageRemarks;
+  final String leaveStageRemarks;
+  final String formTime;
+  final String toTime;
+
   const SubmitLeaveApplicationProps({
     required this.remarks,
     required this.fallbackEmployeeCode,
@@ -20,7 +21,6 @@ class SubmitLeaveApplicationProps extends BaseRequestProps {
     required this.toDate,
     required this.fromDate,
     required this.leaveTypeCode,
-    required this.leaveApplicationId,
     required this.leaveStageRemarks,
     required super.email,
     required super.userId,
@@ -28,11 +28,13 @@ class SubmitLeaveApplicationProps extends BaseRequestProps {
     required super.personId,
     required super.employeeCode,
     required super.mobileNumber,
+    required this.formTime,
+    required this.toTime,
   });
 }
 
 class SubmitLeaveApplicationUseCase
-    extends UseCase<SubmitLeaveApplicationEntity, SubmitLeaveApplicationProps> {
+    extends UseCase<String, SubmitLeaveApplicationProps> {
   final SubmitLeaveApplicationRepository submitLeaveApplicationRepository;
 
   SubmitLeaveApplicationUseCase({
@@ -40,9 +42,7 @@ class SubmitLeaveApplicationUseCase
   });
 
   @override
-  ResultFuture<SubmitLeaveApplicationEntity> call(
-    SubmitLeaveApplicationProps props,
-  ) async {
+  ResultFuture<String> call(SubmitLeaveApplicationProps props) async {
     return submitLeaveApplicationRepository.submitLeaveApplication(props);
   }
 }
