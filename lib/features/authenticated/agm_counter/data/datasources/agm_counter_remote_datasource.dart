@@ -52,7 +52,7 @@ class AGMCounterRemoteDataSourceImpl implements AGMCounterRemoteDataSource {
               final firstItem = decoded.first;
               return AGMCounterModel.fromJson(firstItem);
             } else {
-              throw ServerException(message: 'Counter is empty or invalid');
+              throw ServerException(message: errorMessage);
             }
           }
         }
