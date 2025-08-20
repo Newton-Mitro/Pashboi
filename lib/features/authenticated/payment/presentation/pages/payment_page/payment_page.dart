@@ -331,13 +331,27 @@ class _PaymentPageState extends State<PaymentPage> {
       StepItem(
         icon: FontAwesomeIcons.bellConcierge,
         widget: PayToSection(
-          transferToMobile: '',
-          transferToMobileError: '',
-          onTransferToMobileChanged: (val) {},
-          selectedServiceId: '',
-          onServiceChanged: (val) {},
-          notifyPerson: '',
-          onNotifyPersonChanged: (val) {},
+          serviceError: '',
+
+          selectedServiceId: state.stepData[state.currentStep]?['serviceId'],
+          onServiceChanged: (val) {
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
+                step: state.currentStep,
+                data: {'serviceId': val},
+              ),
+            );
+          },
+          notifyPersonError: '',
+          notifyPerson: state.stepData[state.currentStep]?['notifyPersonId'],
+          onNotifyPersonChanged: (val) {
+            context.read<PaymentStepsBloc>().add(
+              PaymentUpdateStepData(
+                step: state.currentStep,
+                data: {'notifyPersonId': val},
+              ),
+            );
+          },
         ),
       ),
       StepItem(

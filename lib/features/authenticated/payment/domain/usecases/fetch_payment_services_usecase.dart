@@ -5,10 +5,7 @@ import 'package:pashboi/features/authenticated/payment/domain/entities/service_e
 import 'package:pashboi/features/authenticated/payment/domain/repositories/payment_repository.dart';
 
 class FetchPaymentServicesProps extends BaseRequestProps {
-  final String otherField;
-
   const FetchPaymentServicesProps({
-    required this.otherField,
     required super.email,
     required super.userId,
     required super.rolePermissionId,

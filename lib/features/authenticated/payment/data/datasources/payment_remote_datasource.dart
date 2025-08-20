@@ -53,7 +53,7 @@ class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
 
             final beneficiaries =
                 jsonResponse
-                    .map((json) => ServiceModel.fromJson(json))
+                    .map((json) => ServiceModel.fromJson(json) as ServiceEntity)
                     .toList();
 
             return beneficiaries;

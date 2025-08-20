@@ -89,6 +89,7 @@ class ApiUrls {
   // Others
   static const String getPolicy = 'others_v1/GetMfsPolicy';
   static const String getAppConfig = 'LoginApi/MFSAppConfig';
+  static const String getAgmCounterInfo = 'MFSAPI/GetAGMAttendenceReport';
 
   // API URLs for Others service
   static const String getDepositPolicies = 'GetAllProductByCategoryId';

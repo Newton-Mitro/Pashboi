@@ -54,7 +54,7 @@ class _InfoMenusViewState extends State<InfoMenusView> {
           context,
           "info_menu_agm_counter_description",
         ),
-        "route": AuthRoutesName.cardPage,
+        "route": AuthRoutesName.agmCounterInfoPage,
       },
     ];
   }

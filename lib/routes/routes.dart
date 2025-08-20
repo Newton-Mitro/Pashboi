@@ -6,6 +6,8 @@ import 'package:pashboi/features/auth/presentation/pages/registration_page.dart'
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:pashboi/features/authenticated/agm_counter/presentation/pages/agm_counter_info_page.dart';
+import 'package:pashboi/features/authenticated/agm_counter/presentation/pages/bloc/agm_counter_bloc.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_bloc/add_beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/entities/voucher_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
@@ -36,6 +38,7 @@ import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
+import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/bloc/payment_service_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
@@ -172,6 +175,14 @@ class AppRoutes {
       case AuthRoutesName.profilePage:
         return _materialRoute(
           BlocProvider(create: (_) => sl<ProfileBloc>(), child: ProfilePage()),
+        );
+
+      case AuthRoutesName.agmCounterInfoPage:
+        return _materialRoute(
+          BlocProvider(
+            create: (_) => sl<AgmCounterBloc>(),
+            child: AgmCounterInfoPage(),
+          ),
         );
 
       case AuthRoutesName.cardPage:
@@ -475,6 +486,7 @@ class AppRoutes {
           MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => sl<PaymentStepsBloc>()),
+              BlocProvider(create: (context) => sl<PaymentServiceBloc>()),
             ],
             child: PaymentPage(),
           ),

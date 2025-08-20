@@ -2,6 +2,7 @@ final class AuthRoutesName {
   static const String profilePage = '/profilePage';
   static const String suretiesPage = '/suretiesPage';
   static const String cardPage = '/cardPage';
+  static const String agmCounterInfoPage = '/agmCounterInfoPage';
 
   static const String myAccountsPage = '/myAccountsPage';
   static const String accountsDetailsPage = '/accountsDetailsPage';
