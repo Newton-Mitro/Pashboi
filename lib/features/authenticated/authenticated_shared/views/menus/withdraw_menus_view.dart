@@ -25,7 +25,7 @@ class _WithdrawMenusViewState extends State<WithdrawMenusView> {
           context,
           "withdraw_menu_withdraw_through_atm_title",
         ),
-        "controllerName": "WithdrawATM", // added controllerName
+        "controllerName": "Through ATM", // added controllerName
         "menuDescription": Locales.string(
           context,
           "withdraw_menu_withdraw_through_atm_description",

@@ -25,7 +25,7 @@ class _FamilyMenusViewState extends State<FamilyMenusView> {
           context,
           "family_menu_family_&_relatives_title",
         ),
-        "controllerName": "FamilyRelatives",
+        "controllerName": "List Family And Relatives",
         "menuDescription": Locales.string(
           context,
           "family_menu_family_&_relatives_description",
@@ -42,7 +42,7 @@ class _FamilyMenusViewState extends State<FamilyMenusView> {
           context,
           "family_menu_add_family_or_relatives_title",
         ),
-        "controllerName": "AddFamilyMember",
+        "controllerName": "Add Family And Relatives",
         "menuDescription": Locales.string(
           context,
           "family_menu_add_family_or_relatives_description",

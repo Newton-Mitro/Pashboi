@@ -49,7 +49,7 @@ class _InfoMenusViewState extends State<InfoMenusView> {
           size: 30,
         ),
         "menuName": Locales.string(context, "info_menu_agm_counter_title"),
-        "controllerName": "AGM Counter",
+        "controllerName": "Counter",
         "menuDescription": Locales.string(
           context,
           "info_menu_agm_counter_description",

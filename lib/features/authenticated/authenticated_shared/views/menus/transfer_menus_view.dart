@@ -26,7 +26,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_within_dhaka_cradit_title",
         ),
-        "controllerName": "InternalTransfer",
+        "controllerName": "Transfer Within Dhaka Credit",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_transfer_within_dhaka_cradit_description",
@@ -39,7 +39,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_to_bkash_title",
         ),
-        "controllerName": "TransferToBkash",
+        "controllerName": "Transfer To bKash",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_transfer_to_bkash_description",
@@ -52,7 +52,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_bank_to_dhaka_cradit_title",
         ),
-        "controllerName": "BankToDc",
+        "controllerName": "Bank To Dhaka Credit",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_bank_to_dhaka_cradit_description",
@@ -65,7 +65,7 @@ class _TransferMenusViewState extends State<TransferMenusView> {
           context,
           "transfer_menu_transfer_request_status_title",
         ),
-        "controllerName": "TransferStatus",
+        "controllerName": "Transfer Request Status",
         "menuDescription": Locales.string(
           context,
           "transfer_menu_transfer_request_status_description",

@@ -35,7 +35,7 @@ class _AccountsMenusViewState extends State<AccountsMenusView> {
           context,
           "accounts_menu_open_an_account_title",
         ),
-        "controllerName": "OpenAccount", // add controllerName
+        "controllerName": "Open an Account", // add controllerName
         "menuDescription": Locales.string(
           context,
           "accounts_menu_open_an_account_description",
