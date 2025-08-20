@@ -68,7 +68,7 @@ class _AgmCounterInfoPageState extends State<AgmCounterInfoPage> {
 
                     // Account No Input
                     AppTextInput(
-                      label: "Account No / Membership No",
+                      label: "Membership No",
                       controller: _accountNoController,
                     ),
                     const SizedBox(height: 12),
