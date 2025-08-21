@@ -279,7 +279,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                           onPressed: () {
                             Navigator.pushNamed(
                               context,
-                              AuthRoutesName.accountStatement,
+                              AuthRoutesName.accountStatementPage,
                               arguments: {
                                 // 'accountNumber': account.number.trim(),
                                 'accountDetails': account,

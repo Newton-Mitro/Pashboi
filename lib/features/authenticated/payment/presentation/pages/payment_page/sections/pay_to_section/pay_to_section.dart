@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/payment/domain/entities/service_entity.dart';
+import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/bloc/payment_service_bloc.dart';
 import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
 
 class PayToSection extends StatefulWidget {
-  final String? transferToMobile;
-  final String? transferToMobileError;
-  final void Function(String) onTransferToMobileChanged;
+  final String? serviceError;
+  final String? notifyPersonError;
 
   final String? selectedServiceId;
   final void Function(String?) onServiceChanged;
@@ -16,9 +18,8 @@ class PayToSection extends StatefulWidget {
 
   const PayToSection({
     super.key,
-    required this.transferToMobile,
-    required this.transferToMobileError,
-    required this.onTransferToMobileChanged,
+    required this.serviceError,
+    required this.notifyPersonError,
     required this.selectedServiceId,
     required this.onServiceChanged,
     required this.notifyPerson,
@@ -30,16 +31,13 @@ class PayToSection extends StatefulWidget {
 }
 
 class _PayToSectionState extends State<PayToSection> {
-  List<Map<String, String>> serviceList = [
-    {'id': '1', 'name': 'Electricity'},
-    {'id': '2', 'name': 'Gas'},
-    {'id': '3', 'name': 'Water'},
-    {'id': '4', 'name': 'Internet'},
-  ];
+  ServiceEntity? _selectedService;
 
   @override
   void initState() {
     super.initState();
+    // Load services when this section is built
+    context.read<PaymentServiceBloc>().add(FetchPaymentServicesEvent());
   }
 
   @override
@@ -81,48 +79,86 @@ class _PayToSectionState extends State<PayToSection> {
           // Form Body
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                const SizedBox(height: 5),
+            child: BlocBuilder<PaymentServiceBloc, PaymentServiceState>(
+              builder: (context, state) {
+                if (state is PaymentServiceLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                // ✅ Service Name Dropdown
-                AppDropdownSelect(
-                  label: 'Service Name',
-                  value: widget.selectedServiceId,
-                  items:
-                      serviceList
+                if (state is PaymentServiceError) {
+                  return Center(child: Text(state.message));
+                }
+
+                if (state is PaymentServiceLoaded) {
+                  final services = state.services;
+
+                  // map ServiceEntity → DropdownMenuItem
+                  final serviceItems =
+                      services
                           .map(
                             (service) => DropdownMenuItem<String>(
-                              value: service['id'],
-                              child: Text(service['name']!),
+                              value: service.id.toString(),
+                              child: Text(service.serviceName),
                             ),
                           )
-                          .toList(),
-                  onChanged: widget.onServiceChanged,
-                  prefixIcon: FontAwesomeIcons.briefcase,
-                ),
+                          .toList();
 
-                const SizedBox(height: 16),
+                  // pick current service
+                  _selectedService = services.firstWhere(
+                    (s) => s.id.toString() == widget.selectedServiceId,
+                    orElse: () => services.first,
+                  );
 
-                // ✅ Notify Person Input
-                AppDropdownSelect(
-                  label: 'Notify Person',
-                  value: widget.selectedServiceId,
-                  items:
-                      serviceList
+                  final notifyPersonItems =
+                      _selectedService?.notifyPersons
                           .map(
                             (service) => DropdownMenuItem<String>(
-                              value: service['id'],
-                              child: Text(service['name']!),
+                              value: service.id.toString(),
+                              child: Text(service.fullName),
                             ),
                           )
-                          .toList(),
-                  onChanged: widget.onServiceChanged,
-                  prefixIcon: FontAwesomeIcons.userCheck,
-                ),
+                          .toList() ??
+                      [];
 
-                const SizedBox(height: 16),
-              ],
+                  return Column(
+                    children: [
+                      const SizedBox(height: 5),
+
+                      // ✅ Service Name Dropdown
+                      AppDropdownSelect(
+                        label: 'Service Name',
+                        value: widget.selectedServiceId,
+                        items: serviceItems,
+                        onChanged: (val) {
+                          widget.onServiceChanged(val);
+                          setState(() {
+                            _selectedService = services.firstWhere(
+                              (s) => s.id.toString() == val,
+                              orElse: () => services.first,
+                            );
+                          });
+                        },
+                        prefixIcon: FontAwesomeIcons.briefcase,
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // ✅ Notify Person Dropdown
+                      AppDropdownSelect(
+                        label: 'Notify Person',
+                        value: widget.notifyPerson,
+                        items: notifyPersonItems,
+                        onChanged: widget.onNotifyPersonChanged,
+                        prefixIcon: FontAwesomeIcons.userCheck,
+                      ),
+
+                      const SizedBox(height: 16),
+                    ],
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
             ),
           ),
         ],

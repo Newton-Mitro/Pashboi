@@ -1,3 +1,4 @@
+import 'package:pashboi/features/authenticated/agm_counter/injection.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/injection.dart';
 import 'package:pashboi/features/authenticated/cards/injection.dart';
 import 'package:pashboi/features/authenticated/collection_ledgers/injection.dart';
@@ -57,4 +58,5 @@ Future<void> setupDependencies() async {
   registerPaymentModule();
   registerLeaveTypeModule();
   registerLeaveTypeBalanceModule();
+  registerAGMCounterModule();
 }

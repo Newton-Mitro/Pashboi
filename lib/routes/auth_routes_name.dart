@@ -1,11 +1,12 @@
 final class AuthRoutesName {
   static const String profilePage = '/profilePage';
-  static const String suretiesPage = '/suretiesPage';
+  static const String givenSuretiesPage = '/givenSuretiesPage';
   static const String cardPage = '/cardPage';
+  static const String agmCounterInfoPage = '/agmCounterInfoPage';
 
   static const String myAccountsPage = '/myAccountsPage';
   static const String accountsDetailsPage = '/accountsDetailsPage';
-  static const String accountStatement = '/accountStatement';
+  static const String accountStatementPage = '/accountStatementPage';
 
   static const String createNewAccountPage = '/createNewAccountPage';
   static const String openableAccountsPage = '/openableAccountsPage';
@@ -17,9 +18,13 @@ final class AuthRoutesName {
   static const String myLoansPage = '/myLoansPage';
   static const String loanDetailsPage = '/loanDetailsPage';
 
-  static const String loanStatement = '/loanStatement';
+  static const String loanStatementPage = '/loanStatementPage';
 
   static const String applyForLoanPage = '/applyForLoanPage';
+  static const String productLoanTermsConditionPage =
+      '/productLoanTermsConditionPage';
+  static const String instantLoanTermsConditionPage =
+      '/instantLoanTermsConditionPage';
 
   static const String depositNowPage = '/depositNowPage';
   static const String depositNowSuccessPage = '/depositNowSuccessPage';

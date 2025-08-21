@@ -326,7 +326,7 @@ class _LoanDetailsPageState extends State<LoanDetailsPage> {
                               onPressed: () {
                                 Navigator.pushNamed(
                                   context,
-                                  AuthRoutesName.loanStatement,
+                                  AuthRoutesName.loanStatementPage,
                                   arguments: {
                                     'loanNumber': widget.loanNumber.trim(),
                                   },

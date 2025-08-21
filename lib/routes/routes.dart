@@ -6,6 +6,8 @@ import 'package:pashboi/features/auth/presentation/pages/registration_page.dart'
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/mobile_verification_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:pashboi/features/authenticated/agm_counter/presentation/pages/agm_counter_info_page.dart';
+import 'package:pashboi/features/authenticated/agm_counter/presentation/pages/bloc/agm_counter_bloc.dart';
 import 'package:pashboi/features/authenticated/beneficiaries/presentation/pages/add_beneficiary_bloc/add_beneficiary_bloc.dart';
 import 'package:pashboi/features/authenticated/deposit/domain/entities/voucher_entity.dart';
 import 'package:pashboi/features/authenticated/deposit/presentation/pages/deposit_from_bkash_page/bloc/deposit_from_bkash_steps_bloc.dart';
@@ -32,6 +34,8 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/instant_loan_terms_condition_page/instant_loan_terms_condition_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/product_loan_terms_condition_page/apply_for_product_loan_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/bloc/employees_profile_bloc.dart';
@@ -39,7 +43,7 @@ import 'package:pashboi/features/authenticated/personnel/employee/presentation/p
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
 import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/leave_fallback_acceptance_page.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/wigets/leave_fallback_page.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/wigets/leave_fallback_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/submit_leave_application_bloc.dart';
@@ -47,6 +51,7 @@ import 'package:pashboi/features/authenticated/personnel/leave/presentation/page
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/leave_information_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leaveApplicationPage.dart';
+import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/bloc/payment_service_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
@@ -185,6 +190,14 @@ class AppRoutes {
           BlocProvider(create: (_) => sl<ProfileBloc>(), child: ProfilePage()),
         );
 
+      case AuthRoutesName.agmCounterInfoPage:
+        return _materialRoute(
+          BlocProvider(
+            create: (_) => sl<AgmCounterBloc>(),
+            child: AgmCounterInfoPage(),
+          ),
+        );
+
       case AuthRoutesName.cardPage:
         return _materialRoute(CardPage());
 
@@ -199,7 +212,7 @@ class AppRoutes {
           ),
         );
 
-      case AuthRoutesName.suretiesPage:
+      case AuthRoutesName.givenSuretiesPage:
         return _materialRoute(GivenSuretiesPage());
 
       case AuthRoutesName.beneficiariesPage:
@@ -249,7 +262,7 @@ class AppRoutes {
           );
         }
 
-      case AuthRoutesName.accountStatement:
+      case AuthRoutesName.accountStatementPage:
         if (args is Map<String, dynamic> &&
             args['accountDetails'] is DepositAccountEntity) {
           return _materialRoute(
@@ -296,6 +309,12 @@ class AppRoutes {
             LoanDetailsPage(loanNumber: args['loanNumber'] ?? ''),
           );
         }
+
+      case AuthRoutesName.instantLoanTermsConditionPage:
+        return _materialRoute(InstantLoanTermsAndConditionPage());
+
+      case AuthRoutesName.productLoanTermsConditionPage:
+        return _materialRoute(ApplyForProductLoanPage());
 
       case AuthRoutesName.depositNowPage:
         return _materialRoute(
@@ -427,7 +446,7 @@ class AppRoutes {
           );
         }
 
-      case AuthRoutesName.loanStatement:
+      case AuthRoutesName.loanStatementPage:
         if (args is Map<String, String>) {
           return _materialRoute(
             BlocProvider(
@@ -533,6 +552,7 @@ class AppRoutes {
           MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => sl<PaymentStepsBloc>()),
+              BlocProvider(create: (context) => sl<PaymentServiceBloc>()),
             ],
             child: PaymentPage(),
           ),
