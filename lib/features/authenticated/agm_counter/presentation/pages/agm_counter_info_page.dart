@@ -42,7 +42,7 @@ class _AgmCounterInfoPageState extends State<AgmCounterInfoPage> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: context.theme.colorScheme.surfaceVariant,
+                  color: context.theme.colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(

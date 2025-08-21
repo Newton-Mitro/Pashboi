@@ -57,7 +57,7 @@ class GivenSuretiesPage extends StatelessWidget {
                     );
                   }
 
-                  return Container(
+                  return SizedBox(
                     height: double.infinity,
                     child: Accordion(
                       headerBorderWidth: 3,

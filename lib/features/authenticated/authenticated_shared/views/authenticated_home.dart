@@ -21,7 +21,6 @@ import 'package:pashboi/features/authenticated/authenticated_shared/views/menus/
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/authenticated_bottom_sheet.dart';
 import 'package:pashboi/features/authenticated/authenticated_shared/widgets/base64_image_widget.dart';
 import 'package:pashboi/features/authenticated/cards/presentation/pages/bloc/debit_card_bloc.dart';
-import 'package:pashboi/features/authenticated/sureties/presentation/pages/given_sureties_page.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
 import 'package:pashboi/routes/public_routes_name.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
