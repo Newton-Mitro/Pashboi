@@ -115,4 +115,7 @@ class ApiUrls {
 
   static const String submitLeaveApplication =
       'professionals_v1/submitLeaveApplication';
+
+  static const String getFallbackRequest =
+      'professionals_v1/getFallbackLeaveApplications';
 }

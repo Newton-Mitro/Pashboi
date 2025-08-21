@@ -67,5 +67,9 @@ final class AuthRoutesName {
   static const String paymentPage = '/paymentPage';
   static const String paymentSuccessPage = '/paymentSuccessPage';
 
-  static const String leaveApplication = '/leaveApplication';
+  static const String leaveApplicationPage = '/leaveApplicationPage';
+
+  static const String fallbackAcceptancePage = '/fallbackAcceptancePage';
+
+  static const String fallbackAcceptedPage = '/fallbackAcceptedPage';
 }

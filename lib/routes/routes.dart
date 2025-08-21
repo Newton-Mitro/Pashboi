@@ -38,6 +38,8 @@ import 'package:pashboi/features/authenticated/personnel/employee/presentation/p
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/employees_profile_page.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/leave_fallback_acceptance_page.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/wigets/leave_fallback_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/submit_leave_application_bloc.dart';
@@ -346,7 +348,7 @@ class AppRoutes {
           ),
         );
 
-      case AuthRoutesName.leaveApplication:
+      case AuthRoutesName.leaveApplicationPage:
         if (args is Map<String, dynamic> &&
             args['leaveTypes'] is List<LeaveTypeEntity>) {
           return _materialRoute(
@@ -365,7 +367,12 @@ class AppRoutes {
           );
         }
 
-      ///
+      case AuthRoutesName.fallbackAcceptancePage:
+        return _materialRoute(LeaveFallbackAcceptancePage());
+
+      case AuthRoutesName.fallbackAcceptedPage:
+        return _materialRoute(LeaveFallbackPage());
+
       case AuthRoutesName.depositLaterSuccessPage:
         if (args is Map<String, String>) {
           return _materialRoute(

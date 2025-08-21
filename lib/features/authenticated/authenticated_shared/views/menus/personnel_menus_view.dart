@@ -51,8 +51,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           context,
           "personnel_menu_fallback_acceptance_title",
         ),
-        "route": '',
-        "controllerName": "FallbackAcceptance",
+        "route": AuthRoutesName.fallbackAcceptancePage,
+        "controllerName": "Fallback Acceptance",
         "menuDescription": Locales.string(
           context,
           "personnel_menu_fallback_acceptance_description",

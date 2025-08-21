@@ -65,7 +65,7 @@ class _LeaveInformationPageState extends State<LeaveInformationPage> {
                         ),
                         const SizedBox(height: 12),
 
-                        // Dropdown from Bloc
+                        /// Dropdown with Bloc
                         BlocBuilder<LeaveTypeBloc, LeaveTypeState>(
                           builder: (context, state) {
                             if (state is LeaveTypeLoading) {
@@ -120,6 +120,7 @@ class _LeaveInformationPageState extends State<LeaveInformationPage> {
 
                                   const SizedBox(height: 12),
 
+                                  /// Balance Info
                                   BlocBuilder<
                                     LeaveTypeBalanceBloc,
                                     LeaveTypeBalanceState
@@ -151,135 +152,42 @@ class _LeaveInformationPageState extends State<LeaveInformationPage> {
 
                                         return Column(
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    vertical: 12,
-                                                  ),
-                                              child: Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.calendar_today,
-                                                    size: 16,
-                                                  ),
-                                                  const SizedBox(width: 8),
-                                                  const Text(
-                                                    "Annual Entitlement",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  Text(
-                                                    data
-                                                        .leaveInfo
-                                                        .totalLeaveDays
-                                                        .toString(),
-                                                  ),
-                                                ],
-                                              ),
+                                            _buildInfoRow(
+                                              title: "Annual Entitlement",
+                                              value:
+                                                  data.leaveInfo.totalLeaveDays
+                                                      .toString(),
                                             ),
-                                            const Divider(thickness: 1.5),
-
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    vertical: 12,
-                                                  ),
-                                              child: Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.calendar_today,
-                                                    size: 16,
-                                                  ),
-                                                  const SizedBox(width: 8),
-                                                  const Text(
-                                                    "Total Approved Leave",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  Text(
-                                                    data
-                                                        .leaveInfo
-                                                        .totalLeaveApplied
-                                                        .toString(),
-                                                  ),
-                                                ],
-                                              ),
+                                            _buildInfoRow(
+                                              title: "Total Approved Leave",
+                                              value:
+                                                  data
+                                                      .leaveInfo
+                                                      .totalLeaveApplied
+                                                      .toString(),
                                             ),
-                                            const Divider(thickness: 1.5),
-
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    vertical: 12,
-                                                  ),
-                                              child: Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.calendar_today,
-                                                    size: 16,
-                                                  ),
-                                                  const SizedBox(width: 8),
-                                                  const Text(
-                                                    "Balance",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  Text(
-                                                    data.leaveInfo.balance
-                                                        .toString(),
-                                                  ),
-                                                ],
-                                              ),
+                                            _buildInfoRow(
+                                              title: "Balance",
+                                              value:
+                                                  data.leaveInfo.balance
+                                                      .toString(),
                                             ),
-                                            const Divider(thickness: 1.5),
-
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    vertical: 12,
-                                                  ),
-                                              child: Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.calendar_today,
-                                                    size: 16,
-                                                  ),
-                                                  const SizedBox(width: 8),
-                                                  const Text(
-                                                    "Last Application Date",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  Text(
-                                                    data
-                                                        .leaveInfo
-                                                        .lastApplicationDate
-                                                        .toString(),
-                                                  ),
-                                                ],
-                                              ),
+                                            _buildInfoRow(
+                                              title: "Last Application Date",
+                                              value:
+                                                  data
+                                                      .leaveInfo
+                                                      .lastApplicationDate
+                                                      .toString(),
                                             ),
-                                            const Divider(thickness: 1.5),
-
+                                            const SizedBox(height: 16),
                                             AppPrimaryButton(
                                               label: "Apply For Leave",
                                               onPressed: () {
                                                 Navigator.pushNamed(
                                                   context,
                                                   AuthRoutesName
-                                                      .leaveApplication,
+                                                      .leaveApplicationPage,
                                                   arguments: {
                                                     'selectedLeaveTypeId':
                                                         selectedLeaveType,
@@ -306,110 +214,95 @@ class _LeaveInformationPageState extends State<LeaveInformationPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                Card(
-                  color: context.theme.colorScheme.surface,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(
-                      color: context.theme.colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const ListTile(
-                          title: Text(
-                            "Leave Balance",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+
+                const SizedBox(height: 20),
+
+                /// Leave Summary Card
+                BlocBuilder<LeaveTypeBalanceBloc, LeaveTypeBalanceState>(
+                  builder: (context, state) {
+                    if (state is LeaveTypeBalanceSuccess) {
+                      final leaveSummaries =
+                          state.leaveTypeBalance.leaveSummary
+                              .where((summary) => summary.balance != 0.0)
+                              .toList();
+
+                      if (leaveSummaries.isEmpty) {
+                        return const Center(
+                          child: Text("No leave balance available."),
+                        );
+                      }
+
+                      return Card(
+                        color: context.theme.colorScheme.surface,
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: BorderSide(
+                            color: context.theme.colorScheme.primary,
+                            width: 2,
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            BlocBuilder<
-                              LeaveTypeBalanceBloc,
-                              LeaveTypeBalanceState
-                            >(
-                              builder: (context, state) {
-                                if (state is LeaveTypeBalanceSuccess) {
-                                  final leaveSummaries =
-                                      state.leaveTypeBalance.leaveSummary
-                                          .where(
-                                            (summary) => summary.balance != 0.0,
-                                          )
-                                          .toList();
-
-                                  if (leaveSummaries.isEmpty) {
-                                    return const Center(
-                                      child: Text(
-                                        "No leave balance available.",
-                                      ),
-                                    );
-                                  }
-
-                                  return Column(
-                                    children:
-                                        leaveSummaries.map((summary) {
-                                          return Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      vertical: 12,
-                                                    ),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.calendar_today,
-                                                      size: 16,
-                                                    ),
-                                                    const SizedBox(width: 8),
-                                                    Text(
-                                                      summary.leaveType,
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
-                                                    Text(
-                                                      summary.balance
-                                                          .toString(),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const Divider(thickness: 1.5),
-                                            ],
-                                          );
-                                        }).toList(),
-                                  );
-                                }
-
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const ListTile(
+                                title: Text(
+                                  "Leave Balance",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              ...leaveSummaries.map((summary) {
+                                return Column(
+                                  children: [
+                                    _buildInfoRow(
+                                      title: summary.leaveType,
+                                      value: summary.balance.toString(),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
+                      );
+                    }
+
+                    return const SizedBox.shrink();
+                  },
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  /// Reusable method for displaying info rows
+  Widget _buildInfoRow({required String title, required String value}) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Row(
+            children: [
+              const Icon(Icons.calendar_today, size: 16),
+              const SizedBox(width: 8),
+              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+              const Spacer(),
+              Text(value),
+            ],
+          ),
+        ),
+        const Divider(thickness: 1.5),
+      ],
     );
   }
 }

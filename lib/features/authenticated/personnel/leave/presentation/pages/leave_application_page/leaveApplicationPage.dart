@@ -245,6 +245,18 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                             onTimeChanged: (time) {
                               setState(() {
                                 _startTimeController = time;
+                                final startInMinutes =
+                                    time!.hour * 60 + time.minute;
+                                final endInMinutes =
+                                    startInMinutes +
+                                    150; // 2.5 hours = 150 minutes
+                                final endHour = (endInMinutes ~/ 60) % 24;
+                                final endMinute = endInMinutes % 60;
+
+                                _endTimeController = TimeOfDay(
+                                  hour: endHour,
+                                  minute: endMinute,
+                                );
                               });
                               // Handle start time change
                             },
@@ -254,6 +266,7 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
                         Expanded(
                           child: AppTimePicker(
                             label: "End Time",
+
                             selectedTime:
                                 _endTimeController, // Replace with a TimeOfDay variable if needed
                             onTimeChanged: (time) {

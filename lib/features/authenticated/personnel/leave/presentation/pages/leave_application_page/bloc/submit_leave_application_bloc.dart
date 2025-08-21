@@ -37,22 +37,7 @@ class SubmitLeaveApplicationBloc
     Emitter<SubmitLeaveApplicationState> emit,
   ) async {
     final errors = <String, String>{};
-
-    // if (event.beneficiaryName.trim().isEmpty) {
-    //   errors['beneficiaryName'] = 'Please enter beneficiary name';
-    // }
-
-    // if (event.accountNumber.trim().isEmpty) {
-    //   errors['accountNumber'] = 'Please enter account number';
-    // }
-
-    // if (errors.isNotEmpty) {
-    //   emit(SubmitLeaveApplicationError(errors));
-    //   return;
-    // }
-
     emit(const SubmitLeaveApplicationLoading());
-
     try {
       final user = await _getAuthenticatedUser(emit);
       if (user == null) return;
