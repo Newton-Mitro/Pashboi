@@ -7,18 +7,20 @@ import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/dat
 import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/repositories/fallback_request_repository.dart';
 
 class FallbackRequestRepositoryImpl implements FallbackRequestRepository {
-  final FallbackRequestRemoteDataSource datasourceVarName;
+  final FallbackRequestRemoteDataSource fallbackRequestRemoteDataSource;
   final NetworkInfo networkInfo;
 
   FallbackRequestRepositoryImpl({
-    required this.datasourceVarName,
+    required this.fallbackRequestRemoteDataSource,
     required this.networkInfo,
   });
 
   @override
   ResultFuture<List<FallbackRequestModel>> getFallbackRequest(params) async {
     try {
-      final result = await datasourceVarName.fetchFallbackRequest(params);
+      final result = await fallbackRequestRemoteDataSource.fetchFallbackRequest(
+        params,
+      );
       return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));

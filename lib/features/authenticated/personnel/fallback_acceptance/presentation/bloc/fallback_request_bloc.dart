@@ -41,7 +41,7 @@ class FallbackRequestBloc
           rolePermissionId: userEntity.roleId,
           personId: userEntity.personId,
           employeeCode: userEntity.employeeCode,
-          mobileNumber: event.mobileNumber,
+          mobileNumber: userEntity.regMobile,
         ),
       );
 

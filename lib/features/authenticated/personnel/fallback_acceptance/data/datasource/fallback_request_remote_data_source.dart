@@ -19,7 +19,7 @@ class FallbackRequestRemoteDataSourceImpl
   Future<List<FallbackRequestModel>> fetchFallbackRequest(props) async {
     try {
       final response = await apiService.post(
-        ApiUrls.getLeaveType,
+        ApiUrls.getFallbackRequest,
         data: {
           "UserName": props.email,
           "MobileNo": props.mobileNumber,

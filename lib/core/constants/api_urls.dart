@@ -119,4 +119,7 @@ class ApiUrls {
 
   static const String getFallbackRequest =
       'professionals_v1/getFallbackLeaveApplications';
+
+  static const String acceptedFallback =
+      'professionals_v1/acceptFallbackRequest';
 }

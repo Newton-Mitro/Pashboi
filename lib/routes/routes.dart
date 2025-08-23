@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pashboi/core/injection.dart';
+import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
 import 'package:pashboi/features/auth/presentation/pages/login_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/registration_page.dart';
 import 'package:pashboi/features/auth/presentation/pages/reset_password_page.dart';
@@ -42,7 +43,10 @@ import 'package:pashboi/features/authenticated/personnel/employee/presentation/p
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/employees_profile_page.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/usecase/accepted_fallback_request_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/bloc/fallback_request_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/leave_fallback_acceptance_page.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/wigets/bloc/accepted_fallback_request_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/wigets/leave_fallback_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
@@ -387,10 +391,29 @@ class AppRoutes {
         }
 
       case AuthRoutesName.fallbackAcceptancePage:
-        return _materialRoute(LeaveFallbackAcceptancePage());
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => sl<FallbackRequestBloc>(),
+            child: LeaveFallbackAcceptancePage(),
+          ),
+        );
 
       case AuthRoutesName.fallbackAcceptedPage:
-        return _materialRoute(LeaveFallbackPage());
+        final args = settings.arguments as Map<String, dynamic>;
+        return _materialRoute(
+          // BlocProvider(
+          //   create: (context) => AcceptedFallbackRequestBloc(),
+          //   child: LeaveFallbackPage(data: args['fallbackRequest']),
+          // ),
+          BlocProvider(
+            create:
+                (context) => AcceptedFallbackRequestBloc(
+                  acceptedFallbackRequestUseCase: sl<AcceptedFallbackUseCase>(),
+                  getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+                ),
+            child: LeaveFallbackPage(data: args['fallbackRequest']),
+          ),
+        );
 
       case AuthRoutesName.depositLaterSuccessPage:
         if (args is Map<String, String>) {

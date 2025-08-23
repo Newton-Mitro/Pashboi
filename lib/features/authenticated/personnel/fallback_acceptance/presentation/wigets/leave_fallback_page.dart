@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/data/model/fallback_request_model.dart';
+import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/wigets/bloc/accepted_fallback_request_bloc.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
-import 'package:pashboi/shared/widgets/app_dropdown_select.dart';
-import 'package:pashboi/shared/widgets/app_search_input.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
-import 'package:pashboi/shared/widgets/app_time_picker.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class LeaveFallbackPage extends StatefulWidget {
-  const LeaveFallbackPage({super.key});
+  final FallbackRequestModel data;
+
+  const LeaveFallbackPage({super.key, required this.data});
 
   @override
   State<LeaveFallbackPage> createState() => _LeaveFallbackPageState();
@@ -18,7 +20,7 @@ class LeaveFallbackPage extends StatefulWidget {
 
 class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
   // Controllers
-  final TextEditingController _employeeIdController = TextEditingController();
+  final TextEditingController _leaveTypeController = TextEditingController();
   final TextEditingController _employeeNameController = TextEditingController();
   final TextEditingController _totalDaysController = TextEditingController();
   final TextEditingController _reasonController = TextEditingController();
@@ -35,12 +37,27 @@ class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
 
   @override
   void dispose() {
-    _employeeIdController.dispose();
+    _leaveTypeController.dispose();
     _employeeNameController.dispose();
     _totalDaysController.dispose();
     _reasonController.dispose();
     _remarksController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _leaveTypeController.text = widget.data.leaveType ?? '';
+    _employeeNameController.text = widget.data.employeeName ?? '';
+    _totalDaysController.text = widget.data.totalLeaveDays.toString() ?? '';
+    _reasonController.text = widget.data.remarks ?? '';
+    _startDate = widget.data.fromDate;
+    _endDate = widget.data.toDate;
+    _rejoinDate =
+        widget.data.rejoiningDate.isNotEmpty
+            ? DateTime.tryParse(widget.data.rejoiningDate)
+            : null;
   }
 
   @override
@@ -80,13 +97,15 @@ class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
                     ),
                     const SizedBox(height: 10),
 
-                    AppDropdownSelect(
-                      label: "Leave Type",
-                      value: '',
+                    AppTextInput(
+                      controller: _leaveTypeController,
+                      label: 'Leave Type',
+                      prefixIcon: Icon(
+                        FontAwesomeIcons.addressBook,
+                        color: context.theme.colorScheme.onSurface,
+                      ),
                       enabled: false,
-                      items: [],
-                      prefixIcon: FontAwesomeIcons.addressBook,
-                      onChanged: (value) {},
+                      errorText: '',
                     ),
                     const SizedBox(height: 12),
 
@@ -176,12 +195,13 @@ class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
                     AppPrimaryButton(
                       label: "Submit",
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Fallback Accepted Successfully"),
+                        context.read<AcceptedFallbackRequestBloc>().add(
+                          AcceptedFallbackRequestSubmitted(
+                            leaveApplicationId:
+                                widget.data.leaveApplicationId ?? 0,
+                            remarks: _remarksController.text.trim(),
                           ),
                         );
-                        Navigator.pop(context);
                       },
                     ),
                   ],

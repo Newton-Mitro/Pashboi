@@ -10,7 +10,7 @@ class FallbackLeaveApplicationEntities extends Entity<String> {
   final String designationName;
   final String applicationDate;
   final String rejoiningDate;
-  final int totalLeaveDays;
+  final double totalLeaveDays;
   final String remarks;
   final String supervisorName;
   final String fullName;
