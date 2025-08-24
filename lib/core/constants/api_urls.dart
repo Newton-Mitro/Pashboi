@@ -103,4 +103,6 @@ class ApiUrls {
   static const String getPageByPageSlug = 'GetPageBySlug';
 
   static const String getDevTeams = 'getDevTeams';
+
+  static const String fetchTermAndCondition = 'others_v1/GetMfsPolicy';
 }
