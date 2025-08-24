@@ -77,4 +77,8 @@ final class AuthRoutesName {
   static const String fallbackAcceptancePage = '/fallbackAcceptancePage';
 
   static const String fallbackAcceptedPage = '/fallbackAcceptedPage';
+
+  static const String leaveApprovalPage = '/leaveApprovalPage';
+
+  static const String leaveApprovalDetailsPage = '/leaveApprovalDetailsPage';
 }

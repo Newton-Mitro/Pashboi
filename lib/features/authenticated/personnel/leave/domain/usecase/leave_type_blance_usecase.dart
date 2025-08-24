@@ -2,7 +2,7 @@ import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/get_leave_type_blance_dto.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_type_balance_repository.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_repository.dart';
 
 class LeaveTypeBalanceProps extends BaseRequestProps {
   final String leaveTypeCode;
@@ -20,12 +20,12 @@ class LeaveTypeBalanceProps extends BaseRequestProps {
 
 class LeaveTypeBalanceUseCase
     extends UseCase<LeaveTypeBalanceDto, LeaveTypeBalanceProps> {
-  final LeaveTypeBalanceRepository leaveTypeBalanceRepository;
+  final LeaveRepository leaveRepository;
 
-  LeaveTypeBalanceUseCase({required this.leaveTypeBalanceRepository});
+  LeaveTypeBalanceUseCase({required this.leaveRepository});
 
   @override
   ResultFuture<LeaveTypeBalanceDto> call(LeaveTypeBalanceProps props) async {
-    return leaveTypeBalanceRepository.getLeaveTypeBalance(props);
+    return leaveRepository.getLeaveTypeBalance(props);
   }
 }

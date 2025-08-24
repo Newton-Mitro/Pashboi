@@ -65,8 +65,8 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
           "personnel_menu_leave_approval_title",
         ),
 
-        "route": '',
-        "controllerName": "LeaveApproval",
+        "route": AuthRoutesName.leaveApprovalPage,
+        "controllerName": "Leave Approval",
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_approval_description",
@@ -80,7 +80,7 @@ class _PersonnelMenusViewState extends State<PersonnelMenusView> {
         ),
 
         "route": '',
-        "controllerName": "LeaveHistory",
+        "controllerName": "Leave History",
         "menuDescription": Locales.string(
           context,
           "personnel_menu_leave_history_description",

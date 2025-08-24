@@ -56,6 +56,8 @@ import 'package:pashboi/features/authenticated/personnel/leave/presentation/page
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/leave_information_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leaveApplicationPage.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/bloc/payment_service_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave_approval/presentation/leave_approval_page.dart';
+import 'package:pashboi/features/authenticated/personnel/leave_approval/presentation/widget/leave_approval_details_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/change_password/page/change_password_page.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/bloc/profile_bloc.dart';
 import 'package:pashboi/features/authenticated/profile/presentation/profile_page/page/profile_page.dart';
@@ -398,13 +400,15 @@ class AppRoutes {
           ),
         );
 
+      case AuthRoutesName.leaveApprovalPage:
+        return _materialRoute(LeaveApprovalPage());
+
+      case AuthRoutesName.leaveApprovalDetailsPage:
+        return _materialRoute(LeaveApprovalDetailsPage());
+
       case AuthRoutesName.fallbackAcceptedPage:
         final args = settings.arguments as Map<String, dynamic>;
         return _materialRoute(
-          // BlocProvider(
-          //   create: (context) => AcceptedFallbackRequestBloc(),
-          //   child: LeaveFallbackPage(data: args['fallbackRequest']),
-          // ),
           BlocProvider(
             create:
                 (context) => AcceptedFallbackRequestBloc(

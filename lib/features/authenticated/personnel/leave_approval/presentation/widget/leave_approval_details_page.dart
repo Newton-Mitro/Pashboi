@@ -1,26 +1,20 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/data/model/fallback_request_model.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/wigets/bloc/accepted_fallback_request_bloc.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
-class LeaveFallbackPage extends StatefulWidget {
-  final FallbackRequestModel data;
-
-  const LeaveFallbackPage({super.key, required this.data});
+class LeaveApprovalDetailsPage extends StatefulWidget {
+  const LeaveApprovalDetailsPage({super.key});
 
   @override
-  State<LeaveFallbackPage> createState() => _LeaveFallbackPageState();
+  State<LeaveApprovalDetailsPage> createState() =>
+      _LeaveApprovalDetailsPageState();
 }
 
-class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
-  // Controllers
+class _LeaveApprovalDetailsPageState extends State<LeaveApprovalDetailsPage> {
   final TextEditingController _leaveTypeController = TextEditingController();
   final TextEditingController _employeeNameController = TextEditingController();
   final TextEditingController _totalDaysController = TextEditingController();
@@ -37,34 +31,35 @@ class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
   DateTime? _rejoinDate;
 
   @override
-  void dispose() {
-    _leaveTypeController.dispose();
-    _employeeNameController.dispose();
-    _totalDaysController.dispose();
-    _reasonController.dispose();
-    _remarksController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _leaveTypeController.text = widget.data.leaveType ?? '';
-    _employeeNameController.text = widget.data.employeeName ?? '';
-    _totalDaysController.text = widget.data.totalLeaveDays.toString() ?? '';
-    _reasonController.text = widget.data.remarks ?? '';
-    _startDate = widget.data.fromDate;
-    _endDate = widget.data.toDate;
-    _rejoinDate =
-        widget.data.rejoiningDate.isNotEmpty
-            ? DateTime.tryParse(widget.data.rejoiningDate)
-            : null;
+  Widget _buildTextArea({
+    required TextEditingController controller,
+    required String label,
+    bool enabled = true,
+  }) {
+    return TextFormField(
+      enabled: enabled,
+      controller: controller,
+      maxLines: null,
+      minLines: 2,
+      keyboardType: TextInputType.multiline,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+        prefixIcon: const Icon(Icons.edit_note),
+      ),
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'Please enter a value';
+        }
+        return null;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Fallback Acceptance Details")),
+      appBar: AppBar(title: const Text("Leave Approval Details")),
       body: PageContainer(
         child: SingleChildScrollView(
           child: Padding(
@@ -88,7 +83,7 @@ class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: const Text(
-                          "Fallback Approval",
+                          " Leave Approval Details",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -187,64 +182,25 @@ class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
                     ),
                     const SizedBox(height: 12),
 
+                    AppTextInput(
+                      controller: _totalDaysController,
+                      label: 'Application Status',
+                      prefixIcon: Icon(
+                        FontAwesomeIcons.faceSmile,
+                        color: context.theme.colorScheme.onSurface,
+                      ),
+                      enabled: false,
+                      errorText: '',
+                    ),
+                    const SizedBox(height: 12),
+
                     _buildTextArea(
                       controller: _remarksController,
                       label: "Fallback Approval Remarks",
                     ),
                     const SizedBox(height: 16),
 
-                    BlocListener<
-                      AcceptedFallbackRequestBloc,
-                      AcceptedFallbackRequestState
-                    >(
-                      listener: (context, state) {
-                        if (state is AcceptedFallbackRequestError) {
-                          final snackBar = SnackBar(
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: 'Oops!',
-                              message: state.message!,
-                              contentType: ContentType.failure,
-                            ),
-                          );
-
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(snackBar);
-                        }
-
-                        if (state is AcceptedFallbackRequestSuccess) {
-                          final snackBar = SnackBar(
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: 'Done!',
-                              message: state.message!,
-                              contentType: ContentType.success,
-                            ),
-                          );
-
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(snackBar);
-                        }
-                      },
-                      child: AppPrimaryButton(
-                        label: "Submit",
-                        onPressed: () {
-                          context.read<AcceptedFallbackRequestBloc>().add(
-                            AcceptedFallbackRequestSubmitted(
-                              leaveApplicationId:
-                                  widget.data.leaveApplicationId ?? 0,
-                              remarks: _remarksController.text.trim(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    AppPrimaryButton(label: "Submit", onPressed: () {}),
                   ],
                 ),
               ),
@@ -252,31 +208,6 @@ class _LeaveFallbackPageState extends State<LeaveFallbackPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildTextArea({
-    required TextEditingController controller,
-    required String label,
-    bool enabled = true,
-  }) {
-    return TextFormField(
-      enabled: enabled,
-      controller: controller,
-      maxLines: null,
-      minLines: 2,
-      keyboardType: TextInputType.multiline,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-        prefixIcon: const Icon(Icons.edit_note),
-      ),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return 'Please enter a value';
-        }
-        return null;
-      },
     );
   }
 }

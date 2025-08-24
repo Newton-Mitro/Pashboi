@@ -1,7 +1,7 @@
 import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/submit_leave_application_repository.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_repository.dart';
 
 class SubmitLeaveApplicationProps extends BaseRequestProps {
   final String remarks;
@@ -35,14 +35,12 @@ class SubmitLeaveApplicationProps extends BaseRequestProps {
 
 class SubmitLeaveApplicationUseCase
     extends UseCase<String, SubmitLeaveApplicationProps> {
-  final SubmitLeaveApplicationRepository submitLeaveApplicationRepository;
+  final LeaveRepository leaveRepository;
 
-  SubmitLeaveApplicationUseCase({
-    required this.submitLeaveApplicationRepository,
-  });
+  SubmitLeaveApplicationUseCase({required this.leaveRepository});
 
   @override
   ResultFuture<String> call(SubmitLeaveApplicationProps props) async {
-    return submitLeaveApplicationRepository.submitLeaveApplication(props);
+    return leaveRepository.submitLeaveApplication(props);
   }
 }

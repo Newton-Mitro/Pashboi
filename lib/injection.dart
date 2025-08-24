@@ -10,7 +10,6 @@ import 'package:pashboi/features/authenticated/my_loans/injection.dart';
 import 'package:pashboi/features/authenticated/personnel/employee/injection.dart';
 import 'package:pashboi/features/authenticated/payment/injection.dart';
 import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/injection.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/injection.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/injection.dart';
 import 'package:pashboi/features/authenticated/profile/injection.dart';
 import 'package:pashboi/features/authenticated/sureties/injection.dart';
@@ -58,7 +57,6 @@ Future<void> setupDependencies() async {
   registerWithdrawlModule();
   registerPaymentModule();
   registerLeaveTypeModule();
-  registerLeaveTypeBalanceModule();
   registerAGMCounterModule();
   registerFallbackRequestModule();
 }
