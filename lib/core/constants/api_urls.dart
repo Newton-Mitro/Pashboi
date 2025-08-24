@@ -104,6 +104,7 @@ class ApiUrls {
 
   static const String getDevTeams = 'getDevTeams';
 
+<<<<<<< HEAD
   static const String getEmployeeDetails =
       'professionals_v1/getEmployeeDetails';
 
@@ -122,4 +123,7 @@ class ApiUrls {
 
   static const String acceptedFallback =
       'professionals_v1/acceptFallbackRequest';
+=======
+  static const String fetchTermAndCondition = 'others_v1/GetMfsPolicy';
+>>>>>>> a8cf2552f6fb549f1c3545a1991753a9bc1d15f0
 }

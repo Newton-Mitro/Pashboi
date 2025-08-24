@@ -35,12 +35,17 @@ import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/ac
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/account_statement_page/bloc/account_statement_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/bloc/openable_account_bloc.dart';
 import 'package:pashboi/features/authenticated/my_accounts/presentation/pages/openable_accounts_page/openable_accounts_page.dart';
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/instant_loan_application_page/instant_loan_application_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/instant_loan_terms_condition_page/instant_loan_terms_condition_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/product_loan_terms_condition_page/apply_for_product_loan_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/loan_statement_page.dart';
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/loan_statement_section/bloc/loan_statement_bloc.dart';
+<<<<<<< HEAD
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/bloc/employees_profile_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/employee/presentation/pages/employee_profile_page/employees_profile_page.dart';
+=======
+import 'package:pashboi/features/authenticated/my_loans/presentation/pages/product_loans_page/product_loans_page.dart';
+>>>>>>> a8cf2552f6fb549f1c3545a1991753a9bc1d15f0
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
 import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/usecase/accepted_fallback_request_usecase.dart';
@@ -315,9 +320,14 @@ class AppRoutes {
             LoanDetailsPage(loanNumber: args['loanNumber'] ?? ''),
           );
         }
+      case AuthRoutesName.productLoansPage:
+        return _materialRoute(ProductLoansPage());
 
       case AuthRoutesName.instantLoanTermsConditionPage:
         return _materialRoute(InstantLoanTermsAndConditionPage());
+
+      case AuthRoutesName.instantLoanApplicationPage:
+        return _materialRoute(InstantLoanApplicationPage());
 
       case AuthRoutesName.productLoanTermsConditionPage:
         return _materialRoute(ApplyForProductLoanPage());
