@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/entities/user_entity.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/usecase/accepted_fallback_request_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/accepted_fallback_request_usecase.dart';
 
 part 'accepted_fallback_request_event.dart';
 part 'accepted_fallback_request_state.dart';

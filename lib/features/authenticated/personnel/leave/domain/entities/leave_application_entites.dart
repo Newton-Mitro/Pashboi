@@ -1,6 +1,6 @@
 import 'package:pashboi/core/entities/entity.dart';
 
-class FallbackLeaveApplicationEntities extends Entity<String> {
+class LeaveApplicationEntities extends Entity<String> {
   final String leaveTypeCode;
   final String leaveType;
   final int leaveApplicationId;
@@ -23,7 +23,7 @@ class FallbackLeaveApplicationEntities extends Entity<String> {
   final DateTime toDate;
   final String employeeCode;
 
-  FallbackLeaveApplicationEntities({
+  LeaveApplicationEntities({
     required super.id,
     required this.leaveTypeCode,
     required this.leaveType,

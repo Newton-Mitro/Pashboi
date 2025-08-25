@@ -6,7 +6,10 @@ import 'package:pashboi/features/authenticated/personnel/leave/data/datasource/l
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/get_leave_type_blance_dto.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_type_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/search_employee_model.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_application_entites.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_repository.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/fallback_request_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/get_leave_approval_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_usecase.dart';
 
 class LeaveRepositoriesImpl implements LeaveRepository {
@@ -59,6 +62,53 @@ class LeaveRepositoriesImpl implements LeaveRepository {
       final result = await leaveApplicationRemoteDataSource
           .submitLeaveApplication(params);
       return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<List<LeaveApplicationEntities>> getFallbackRequest(
+    FallbackRequestUseCaseProps params,
+  ) async {
+    try {
+      final result = await leaveApplicationRemoteDataSource
+          .fetchFallbackRequest(params);
+
+      final fallbackApplications =
+          result.map((e) => e as LeaveApplicationEntities).toList();
+
+      return Right(fallbackApplications);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> getAcceptedFallbackRequest(params) async {
+    try {
+      final result = await leaveApplicationRemoteDataSource.acceptedFallback(
+        params,
+      );
+      return Right(result);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<List<LeaveApplicationEntities>> getLeaveApproval(
+    GetLeaveApprovalProps props,
+  ) async {
+    try {
+      final result = await leaveApplicationRemoteDataSource.fetchLeaveApproval(
+        props,
+      );
+
+      final leaveApplications =
+          result.map((e) => e as LeaveApplicationEntities).toList();
+
+      return Right(leaveApplications);
     } catch (e) {
       return Left(FailureMapper.fromException(e));
     }

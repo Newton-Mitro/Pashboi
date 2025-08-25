@@ -4,11 +4,13 @@ import 'package:pashboi/core/constants/api_urls.dart';
 import 'package:pashboi/core/errors/exceptions.dart';
 import 'package:pashboi/core/services/network/api_service.dart';
 import 'package:pashboi/core/utils/json_util.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/data/model/fallback_request_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/get_leave_type_blance_dto.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_info_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_summery_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_type_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/search_employee_model.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/get_leave_approval_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_blance_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/submit_leave_application_usecase.dart';
@@ -20,6 +22,11 @@ abstract class LeaveApplicationRemoteDataSource {
     LeaveTypeBalanceProps props,
   );
   Future<List<SearchEmployeeModel>> fetchEmployee(props);
+  Future<String> acceptedFallback(props);
+  Future<List<LeaveApplicationRequestModel>> fetchFallbackRequest(props);
+  Future<List<LeaveApplicationRequestModel>> fetchLeaveApproval(
+    GetLeaveApprovalProps props,
+  );
 }
 
 class LeaveApplicationRemoteDataSourceImpl
@@ -207,6 +214,125 @@ class LeaveApplicationRemoteDataSourceImpl
         throw ServerException(message: "Server Error");
       } else {
         throw ServerException(message: "Server Error");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> acceptedFallback(props) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.acceptedFallback,
+        data: {
+          "Remarks": props.remarks,
+          "LeaveApplicationId": props.leaveApplicationId,
+          "UserName": props.email,
+          "MobileNo": props.mobileNumber,
+          "MobileNumber": props.mobileNumber,
+          "RolePermissionId": props.rolePermissionId,
+          "ByUserId": props.userId,
+          "UID": props.userId,
+          "EmployeeCode": props.employeeCode,
+          "PersonId": props.personId,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        final errorMessage = response.data?['Message'];
+        final statusMessage = response.data?['Status'];
+
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
+            throw ServerException(message: errorMessage);
+          } else {
+            return dataString;
+          }
+        }
+        throw ServerException(message: "Server Error");
+      } else {
+        throw ServerException(message: "Server Error");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<LeaveApplicationRequestModel>> fetchFallbackRequest(props) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.getFallbackRequest,
+        data: {
+          "UserName": props.email,
+          "MobileNo": props.mobileNumber,
+          "MobileNumber": props.mobileNumber,
+          "RolePermissionId": props.rolePermissionId,
+          "ByUserId": props.userId,
+          "UID": props.userId,
+          "EmployeeCode": props.employeeCode,
+          "PersonId": props.personId,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        if (dataString == null) throw Exception('Invalid response format');
+        final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+        final fallbackRequest =
+            jsonResponse
+                .map<LeaveApplicationRequestModel>(
+                  (json) => LeaveApplicationRequestModel.fromJson(json),
+                )
+                .toList();
+        return fallbackRequest;
+      } else {
+        throw Exception('Login failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<LeaveApplicationRequestModel>> fetchLeaveApproval(props) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.getLeaveApproval,
+        data: {
+          "UserName": props.email,
+          "MobileNo": props.mobileNumber,
+          "MobileNumber": props.mobileNumber,
+          "RolePermissionId": props.rolePermissionId,
+          "ByUserId": props.userId,
+          "UID": props.userId,
+          "EmployeeCode": props.employeeCode,
+          "PersonId": props.personId,
+          "RequestFrom": "MobileApp",
+          "FromDate": props.formDate,
+          "ToDate": props.toDate,
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        if (dataString == null) throw Exception('Invalid response format');
+        final jsonResponse = JsonUtil.decodeModelList(dataString);
+
+        final fallbackRequest =
+            jsonResponse
+                .map<LeaveApplicationRequestModel>(
+                  (json) => LeaveApplicationRequestModel.fromJson(json),
+                )
+                .toList();
+        return fallbackRequest;
+      } else {
+        throw Exception('Login failed with status ${response.statusCode}');
       }
     } catch (e) {
       rethrow;

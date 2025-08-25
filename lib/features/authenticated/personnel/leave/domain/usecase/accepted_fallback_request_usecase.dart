@@ -1,7 +1,7 @@
 import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/repositories/accepted_fallback_request_repository.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_repository.dart';
 
 class AcceptedFallbackRequestParams extends BaseRequestProps {
   final String remarks;
@@ -21,12 +21,12 @@ class AcceptedFallbackRequestParams extends BaseRequestProps {
 
 class AcceptedFallbackUseCase
     extends UseCase<String, AcceptedFallbackRequestParams> {
-  final AcceptedFallbackRequestRepository repositoryInterface;
+  final LeaveRepository leaveRepository;
 
-  AcceptedFallbackUseCase({required this.repositoryInterface});
+  AcceptedFallbackUseCase({required this.leaveRepository});
 
   @override
   ResultFuture<String> call(AcceptedFallbackRequestParams props) async {
-    return repositoryInterface.getAcceptedFallbackRequest(props);
+    return leaveRepository.getAcceptedFallbackRequest(props);
   }
 }

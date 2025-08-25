@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/data/model/fallback_request_model.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/presentation/wigets/bloc/accepted_fallback_request_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/data/model/fallback_request_model.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_fallback_page/wigets/bloc/accepted_fallback_request_bloc.dart';
 import 'package:pashboi/shared/widgets/app_date_picker.dart';
 import 'package:pashboi/shared/widgets/app_text_input.dart';
 import 'package:pashboi/shared/widgets/buttons/app_primary_button.dart';
 import 'package:pashboi/shared/widgets/page_container.dart';
 
 class LeaveFallbackPage extends StatefulWidget {
-  final FallbackRequestModel data;
+  final LeaveApplicationRequestModel data;
 
   const LeaveFallbackPage({super.key, required this.data});
 

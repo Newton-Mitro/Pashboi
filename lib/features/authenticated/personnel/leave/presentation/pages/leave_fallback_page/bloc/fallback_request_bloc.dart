@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/entities/fallback_leave_application_entites.dart';
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/usecase/fallback_request_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_application_entites.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/fallback_request_usecase.dart';
 
 part 'fallback_request_event.dart';
 part 'fallback_request_state.dart';
@@ -11,7 +11,7 @@ part 'fallback_request_state.dart';
 class FallbackRequestBloc
     extends Bloc<FallbackRequestEvent, FallbackRequestState> {
   final GetAuthUserUseCase getAuthUserUseCase;
-  final FallbackRequestUseCaseUseCase fallbackRequestUseCase;
+  final FallbackRequestUseCase fallbackRequestUseCase;
 
   FallbackRequestBloc({
     required this.getAuthUserUseCase,
@@ -35,7 +35,7 @@ class FallbackRequestBloc
       if (userEntity == null) return;
 
       final result = await fallbackRequestUseCase.call(
-        FallbackRequestUseCase(
+        FallbackRequestUseCaseProps(
           email: userEntity.loginEmail,
           userId: userEntity.userId,
           rolePermissionId: userEntity.roleId,

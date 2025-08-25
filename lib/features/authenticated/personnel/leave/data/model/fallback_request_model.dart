@@ -1,7 +1,7 @@
-import 'package:pashboi/features/authenticated/personnel/fallback_acceptance/domain/entities/fallback_leave_application_entites.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_application_entites.dart';
 
-class FallbackRequestModel extends FallbackLeaveApplicationEntities {
-  FallbackRequestModel({
+class LeaveApplicationRequestModel extends LeaveApplicationEntities {
+  LeaveApplicationRequestModel({
     required String id,
     required String leaveTypeCode,
     required String leaveType,
@@ -49,8 +49,8 @@ class FallbackRequestModel extends FallbackLeaveApplicationEntities {
          employeeCode: employeeCode,
        );
 
-  factory FallbackRequestModel.fromJson(Map<String, dynamic> json) {
-    return FallbackRequestModel(
+  factory LeaveApplicationRequestModel.fromJson(Map<String, dynamic> json) {
+    return LeaveApplicationRequestModel(
       id: json['LeaveTypeCode'] ?? '',
       leaveTypeCode: json['LeaveTypeCode'] ?? '',
       leaveType: json['LeaveType'] ?? '',

@@ -16,7 +16,7 @@ final class FallbackRequestLoading extends FallbackRequestState {
 }
 
 final class FallbackRequestSuccess extends FallbackRequestState {
-  final List<FallbackLeaveApplicationEntities> requests;
+  final List<LeaveApplicationEntities> requests;
 
   const FallbackRequestSuccess(this.requests);
 

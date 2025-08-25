@@ -123,4 +123,7 @@ class ApiUrls {
   static const String acceptedFallback =
       'professionals_v1/acceptFallbackRequest';
   static const String fetchTermAndCondition = 'others_v1/GetMfsPolicy';
+
+  static const String getLeaveApproval =
+      'professionals_v1/GetSupervisorApprovalListForLeave';
 }
