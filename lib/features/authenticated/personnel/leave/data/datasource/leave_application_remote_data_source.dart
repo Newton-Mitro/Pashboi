@@ -10,7 +10,7 @@ import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_summery_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/leave_type_model.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/data/model/search_employee_model.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/get_leave_approval_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_approval_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_blance_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/submit_leave_application_usecase.dart';
@@ -25,8 +25,9 @@ abstract class LeaveApplicationRemoteDataSource {
   Future<String> acceptedFallback(props);
   Future<List<LeaveApplicationRequestModel>> fetchFallbackRequest(props);
   Future<List<LeaveApplicationRequestModel>> fetchLeaveApproval(
-    GetLeaveApprovalProps props,
+    LeaveApprovalProps props,
   );
+  Future<String> submitLeaveApproval(props);
 }
 
 class LeaveApplicationRemoteDataSourceImpl
@@ -333,6 +334,47 @@ class LeaveApplicationRemoteDataSourceImpl
         return fallbackRequest;
       } else {
         throw Exception('Login failed with status ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> submitLeaveApproval(props) async {
+    try {
+      final response = await apiService.post(
+        ApiUrls.submitLeaveApproval,
+        data: {
+          "LeaveApplicationId": props.leaveApplicationId,
+          "LeaveStageRemarks": props.leaveStageRemarks,
+          "UserName": props.email,
+          "MobileNo": props.mobileNumber,
+          "MobileNumber": props.mobileNumber,
+          "RolePermissionId": props.rolePermissionId,
+          "ByUserId": props.userId,
+          "UID": props.userId,
+          "EmployeeCode": props.employeeCode,
+          "PersonId": props.personId,
+          "RequestFrom": "MobileApp",
+        },
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final dataString = response.data?['Data'];
+        final errorMessage = response.data?['Message'];
+        final statusMessage = response.data?['Status'];
+
+        if (dataString == null || dataString.isNotEmpty) {
+          if (statusMessage != null && statusMessage == "failed") {
+            throw ServerException(message: errorMessage);
+          } else {
+            return dataString;
+          }
+        }
+        throw ServerException(message: "Server Error");
+      } else {
+        throw ServerException(message: "Server Error");
       }
     } catch (e) {
       rethrow;

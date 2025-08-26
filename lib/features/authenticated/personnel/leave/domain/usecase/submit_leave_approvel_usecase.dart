@@ -1,11 +1,15 @@
 import 'package:pashboi/core/requests/base_request_props.dart';
 import 'package:pashboi/core/types/typedef.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_repository.dart';
 
-class LeaveTypeProps extends BaseRequestProps {
-  const LeaveTypeProps({
+class SubmitLeaveApprovalProps extends BaseRequestProps {
+  final String leaveStageRemarks;
+  final int leaveApplicationId;
+
+  const SubmitLeaveApprovalProps({
+    required this.leaveStageRemarks,
+    required this.leaveApplicationId,
     required super.email,
     required super.userId,
     required super.rolePermissionId,
@@ -15,13 +19,14 @@ class LeaveTypeProps extends BaseRequestProps {
   });
 }
 
-class LeaveTypeUseCase extends UseCase<List<LeaveTypeEntity>, LeaveTypeProps> {
+class SubmitLeaveApprovalUseCase
+    extends UseCase<String, SubmitLeaveApprovalProps> {
   final LeaveRepository leaveRepository;
 
-  LeaveTypeUseCase({required this.leaveRepository});
+  SubmitLeaveApprovalUseCase({required this.leaveRepository});
 
   @override
-  ResultFuture<List<LeaveTypeEntity>> call(LeaveTypeProps props) async {
-    return leaveRepository.getLeaveType(props);
+  ResultFuture<String> call(SubmitLeaveApprovalProps props) async {
+    return leaveRepository.submitLeaveApproval(props);
   }
 }

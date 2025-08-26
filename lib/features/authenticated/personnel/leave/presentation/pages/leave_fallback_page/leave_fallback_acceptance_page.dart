@@ -21,7 +21,13 @@ class _LeaveFallbackAcceptancePageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Fallback Acceptance")),
-      body: PageContainer(child: SingleChildScrollView(child: _buildForm())),
+      body: PageContainer(
+        child: Container(
+          height: double.infinity,
+
+          child: SingleChildScrollView(child: _buildForm()),
+        ),
+      ),
     );
   }
 
@@ -43,10 +49,14 @@ class _LeaveFallbackAcceptancePageState
               }
 
               if (state is FallbackRequestError) {
-                return Center(
-                  child: Text(
-                    state.message ?? 'An error occurred',
-                    style: const TextStyle(color: Colors.red),
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  child: const Center(
+                    child: Text(
+                      'An error occurred',
+                      style: TextStyle(color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 );
               }
@@ -54,8 +64,26 @@ class _LeaveFallbackAcceptancePageState
               if (state is FallbackRequestSuccess) {
                 final requestList = state.requests;
                 if (requestList.isEmpty) {
-                  return const Center(
-                    child: Text('No fallback requests available.'),
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: const Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.boxOpen,
+                            size: 60,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            'There are currently no pending fallback requests',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 }
 

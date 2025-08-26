@@ -45,10 +45,13 @@ import 'package:pashboi/features/authenticated/personnel/employee/presentation/p
 import 'package:pashboi/features/authenticated/my_loans/presentation/pages/product_loans_page/product_loans_page.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/bloc/payment_steps_bloc.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/payment_page.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/accepted_fallback_request_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/submit_leave_approvel_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/submit_leave_application_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_approval_page/bloc/leave_approval_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_approval_page/widget/bloc/submit_leave_approval_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_fallback_page/bloc/fallback_request_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_fallback_page/leave_fallback_acceptance_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_fallback_page/wigets/bloc/accepted_fallback_request_bloc.dart';
@@ -56,7 +59,7 @@ import 'package:pashboi/features/authenticated/personnel/leave/presentation/page
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_balance_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/leave_information_page.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leaveApplicationPage.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/leave_application_page.dart';
 import 'package:pashboi/features/authenticated/payment/presentation/pages/payment_page/sections/pay_to_section/bloc/payment_service_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_approval_page/leave_approval_page.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_approval_page/widget/leave_approval_details_page.dart';
@@ -408,10 +411,25 @@ class AppRoutes {
         );
 
       case AuthRoutesName.leaveApprovalPage:
-        return _materialRoute(LeaveApprovalPage());
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => sl<LeaveApprovalBloc>(),
+            child: LeaveApprovalPage(),
+          ),
+        );
 
       case AuthRoutesName.leaveApprovalDetailsPage:
-        return _materialRoute(LeaveApprovalDetailsPage());
+        final args = settings.arguments as Map<String, dynamic>?;
+        return _materialRoute(
+          BlocProvider(
+            create:
+                (context) => SubmitLeaveApprovalBloc(
+                  getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+                  submitLeaveApprovalUseCase: sl<SubmitLeaveApprovalUseCase>(),
+                ),
+            child: LeaveApprovalDetailsPage(data: args?['leaveApproval']),
+          ),
+        );
 
       case AuthRoutesName.fallbackAcceptedPage:
         final args = settings.arguments as Map<String, dynamic>;

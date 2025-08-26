@@ -3,14 +3,14 @@ import 'package:pashboi/core/entities/entity.dart';
 class LeaveApplicationEntities extends Entity<String> {
   final String leaveTypeCode;
   final String leaveType;
-  final int leaveApplicationId;
   final int employeeId;
+  final double totalLeaveDays;
+  final int leaveApplicationId;
   final String employeeName;
   final String departmentName;
   final String designationName;
   final String applicationDate;
   final String rejoiningDate;
-  final double totalLeaveDays;
   final String remarks;
   final String supervisorName;
   final String fullName;

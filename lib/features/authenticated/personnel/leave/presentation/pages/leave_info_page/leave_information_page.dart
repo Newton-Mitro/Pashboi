@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
+import 'package:pashboi/core/utils/my_date_utils.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_balance_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_bloc.dart';
 import 'package:pashboi/routes/auth_routes_name.dart';
@@ -174,11 +175,13 @@ class _LeaveInformationPageState extends State<LeaveInformationPage> {
                                             ),
                                             _buildInfoRow(
                                               title: "Last Application Date",
-                                              value:
+                                              value: MyDateUtils.formatDate(
+                                                DateTime.tryParse(
                                                   data
                                                       .leaveInfo
-                                                      .lastApplicationDate
-                                                      .toString(),
+                                                      .lastApplicationDate!,
+                                                ),
+                                              ),
                                             ),
                                             const SizedBox(height: 16),
                                             AppPrimaryButton(

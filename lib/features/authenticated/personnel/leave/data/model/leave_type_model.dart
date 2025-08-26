@@ -1,4 +1,4 @@
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_type_entity.dart';
 
 class LeaveTypeModel extends LeaveTypeEntity {
   LeaveTypeModel({required super.id, required super.leaveType});

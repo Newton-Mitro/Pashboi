@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pashboi/core/usecases/usecase.dart';
 import 'package:pashboi/features/auth/domain/usecases/get_auth_user_usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_usecase.dart';
 
 part 'leave_type_event.dart';

@@ -132,4 +132,7 @@ class ApiUrls {
 
   static const String getLeaveApproval =
       'professionals_v1/GetSupervisorApprovalListForLeave';
+
+  static const String submitLeaveApproval =
+      'professionals_v1/UpdateSupervisorApprovalRequestForLeave';
 }

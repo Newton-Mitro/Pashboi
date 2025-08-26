@@ -1,4 +1,4 @@
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_summery_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_summery_entity.dart';
 
 class LeaveSummeryModel extends LeaveSummeryEntity {
   LeaveSummeryModel({

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pashboi/core/extensions/app_context.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/get_leave_type_entity.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_type_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/search_employee_entity.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/submit_leave_application_bloc.dart';
@@ -112,9 +112,12 @@ class _LeaveApplicationPageState extends State<LeaveApplicationPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Leave Application")),
       body: PageContainer(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(12),
-          child: _buildForm(),
+        child: Container(
+          height: double.infinity,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(12),
+            child: _buildForm(),
+          ),
         ),
       ),
     );

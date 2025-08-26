@@ -8,5 +8,11 @@ sealed class LeaveApprovalEvent extends Equatable {
 }
 
 final class FetchLeaveApprovals extends LeaveApprovalEvent {
-  const FetchLeaveApprovals();
+  final String fromDate;
+  final String toDate;
+
+  const FetchLeaveApprovals({required this.fromDate, required this.toDate});
+
+  @override
+  List<Object> get props => [fromDate, toDate];
 }

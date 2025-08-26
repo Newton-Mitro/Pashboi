@@ -7,12 +7,16 @@ import 'package:pashboi/features/authenticated/personnel/leave/data/repositories
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_repository.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/accepted_fallback_request_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/fallback_request_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_approval_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_blance_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/search_employee_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/submit_leave_application_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/submit_leave_approvel_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/search_employee_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_application_page/bloc/submit_leave_application_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_approval_page/bloc/leave_approval_bloc.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_approval_page/widget/bloc/submit_leave_approval_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_fallback_page/bloc/fallback_request_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_fallback_page/wigets/bloc/accepted_fallback_request_bloc.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/presentation/pages/leave_info_page/bloc/leave_type_balance_bloc.dart';
@@ -58,6 +62,14 @@ void registerLeaveTypeModule() {
     () => AcceptedFallbackUseCase(leaveRepository: sl<LeaveRepository>()),
   );
 
+  sl.registerLazySingleton<LeaveApprovalUseCase>(
+    () => LeaveApprovalUseCase(leaveRepository: sl<LeaveRepository>()),
+  );
+
+  sl.registerLazySingleton<SubmitLeaveApprovalUseCase>(
+    () => SubmitLeaveApprovalUseCase(leaveRepository: sl<LeaveRepository>()),
+  );
+
   // Register Bloc
   sl.registerFactory<LeaveTypeBloc>(
     () => LeaveTypeBloc(
@@ -98,6 +110,20 @@ void registerLeaveTypeModule() {
     () => AcceptedFallbackRequestBloc(
       getAuthUserUseCase: sl<GetAuthUserUseCase>(),
       acceptedFallbackRequestUseCase: sl<AcceptedFallbackUseCase>(),
+    ),
+  );
+
+  sl.registerFactory<LeaveApprovalBloc>(
+    () => LeaveApprovalBloc(
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+      getLeaveApprovalUseCase: sl<LeaveApprovalUseCase>(),
+    ),
+  );
+
+  sl.registerFactory<SubmitLeaveApprovalBloc>(
+    () => SubmitLeaveApprovalBloc(
+      getAuthUserUseCase: sl<GetAuthUserUseCase>(),
+      submitLeaveApprovalUseCase: sl<SubmitLeaveApprovalUseCase>(),
     ),
   );
 }

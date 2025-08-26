@@ -9,8 +9,9 @@ import 'package:pashboi/features/authenticated/personnel/leave/data/model/search
 import 'package:pashboi/features/authenticated/personnel/leave/domain/entities/leave_application_entites.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/repositories/leave_repository.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/fallback_request_usecase.dart';
-import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/get_leave_approval_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_approval_usecase.dart';
 import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/leave_type_usecase.dart';
+import 'package:pashboi/features/authenticated/personnel/leave/domain/usecase/submit_leave_approvel_usecase.dart';
 
 class LeaveRepositoriesImpl implements LeaveRepository {
   final LeaveApplicationRemoteDataSource leaveApplicationRemoteDataSource;
@@ -98,7 +99,7 @@ class LeaveRepositoriesImpl implements LeaveRepository {
 
   @override
   ResultFuture<List<LeaveApplicationEntities>> getLeaveApproval(
-    GetLeaveApprovalProps props,
+    LeaveApprovalProps props,
   ) async {
     try {
       final result = await leaveApplicationRemoteDataSource.fetchLeaveApproval(
@@ -109,6 +110,18 @@ class LeaveRepositoriesImpl implements LeaveRepository {
           result.map((e) => e as LeaveApplicationEntities).toList();
 
       return Right(leaveApplications);
+    } catch (e) {
+      return Left(FailureMapper.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<String> submitLeaveApproval(params) async {
+    try {
+      final result = await leaveApplicationRemoteDataSource.submitLeaveApproval(
+        params,
+      );
+      return Right(result);
     } catch (e) {
       return Left(FailureMapper.fromException(e));
     }
